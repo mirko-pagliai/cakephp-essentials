@@ -1,6 +1,6 @@
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {% set belongsToMany = Bake.aliasExtractor(modelObj, 'belongsToMany') %}
-{% set compact = ["'#{singularName}'"] %}
+{% set compact = ["'#{singularName|capitalize}'"] %}
     /**
      * Edit method.
      *
@@ -10,19 +10,20 @@
      */
     public function edit(int $id)
     {
-        ${{ singularName }} = $this->{{ currentModelName }}->get($id, contain: {{ Bake.exportArray(belongsToMany)|raw }});
+        ${{ singularName|capitalize }} = $this->{{ currentModelName }}->get($id, contain: {{ Bake.exportArray(belongsToMany)|raw }});
+
 {% if Bake.hasPlugin('Authorization') %}
-        $this->Authorization->authorize(${{ singularName }});
+        $this->Authorization->authorize(${{ singularName|capitalize }});
 {% endif %}
         if ($this->request->is(['patch', 'post', 'put'])) {
-            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->request->getData());
-            if ($this->{{ currentModelName }}->save(${{ singularName }})) {
-                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
+            ${{ singularName|capitalize }} = $this->{{ currentModelName }}->patchEntity(${{ singularName|capitalize }}, $this->request->getData());
+            if ($this->{{ currentModelName }}->save(${{ singularName|capitalize }})) {
+                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'));
+            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again'));
         }
 {% for assoc in belongsTo|merge(belongsToMany) %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}

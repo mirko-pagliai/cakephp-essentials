@@ -8,9 +8,9 @@
 {% if 'add' not in action %}
         echo $this->Form->postLink(
             title: __('Delete'),
-            url: ['action' => 'delete', ${{ singularVar }}->{{ primaryKey[0] }}],
+            url: ['action' => 'delete', ${{ singularVar|capitalize }}->{{ primaryKey[0] }}],
             options: [
-                'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar }}->{{ primaryKey[0] }}),
+                'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar|capitalize }}->{{ primaryKey[0] }}),
                 'class' => 'side-nav-item',
             ]
         );
@@ -27,7 +27,7 @@
 </aside>
 
 <div class="{{ pluralVar }} form content">
-    <?= $this->Form->create(context: ${{ singularVar }}) ?>
+    <?= $this->Form->create(context: ${{ singularVar|capitalize }}) ?>
     <fieldset>
         <legend><?= __('{{ action|humanize }} {{ singularHumanName }}') ?></legend>
         <?php

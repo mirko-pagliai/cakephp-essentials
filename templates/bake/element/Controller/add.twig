@@ -1,4 +1,4 @@
-{% set compact = ["'#{singularName}'"] %}
+{% set compact = ["'#{singularName|capitalize}'"] %}
     /**
      * Add method.
      *
@@ -6,19 +6,20 @@
      */
     public function add()
     {
-        ${{ singularName }} = $this->{{ currentModelName }}->newEmptyEntity();
+        ${{ singularName|capitalize }} = $this->{{ currentModelName }}->newEmptyEntity();
+
 {% if Bake.hasPlugin('Authorization') %}
-        $this->Authorization->authorize(${{ singularName }});
+        $this->Authorization->authorize(${{ singularName|capitalize }});
 {% endif %}
         if ($this->request->is('post')) {
-            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->request->getData());
-            if ($this->{{ currentModelName }}->save(${{ singularName }})) {
-                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
+            ${{ singularName|capitalize }} = $this->{{ currentModelName }}->patchEntity(${{ singularName|capitalize }}, $this->request->getData());
+            if ($this->{{ currentModelName }}->save(${{ singularName|capitalize }})) {
+                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'));
+            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again'));
         }
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {% set associations = associations|merge(Bake.aliasExtractor(modelObj, 'BelongsToMany')) %}

@@ -13,9 +13,9 @@
         $this->Authorization->authorize(${{ singularName }});
 {% endif %}
         if ($this->{{ currentModelName }}->delete(${{ singularName }})) {
-            $this->Flash->success(__('The {{ singularHumanName|lower }} has been deleted.'));
+            $this->Flash->success(__('The {{ singularHumanName|lower }} has been deleted'));
         } else {
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be deleted. Please, try again'));
         }
 
         return $this->redirect(['action' => 'index']);
