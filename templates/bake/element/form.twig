@@ -5,9 +5,14 @@
         <h4 class="heading"><?= __('Actions') ?></h4>
 
         <?php
+        echo $this->Html->link(
+            title: __('List {{ pluralHumanName }}'),
+            url: ['action' => 'index'],
+            options: ['class' => 'side-nav-item']
+        );
 {% if 'add' not in action %}
         echo $this->Form->postLink(
-            title: __('Delete'),
+            title: __('Delete {{ singularHumanName }}'),
             url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
             options: [
                 'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}),
@@ -15,11 +20,6 @@
             ]
         );
 {% endif %}
-        echo $this->Html->link(
-            title: __('List {{ pluralHumanName }}'),
-            url: ['action' => 'index'],
-            options: ['class' => 'side-nav-item']
-        );
         ?>
         {{- "\n" }}
 {%- set done = [] %}
