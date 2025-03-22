@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \{{ namespace }}\View\AppView $this
- * @var \{{ entityClass }} ${{ singularVar|capitalize }}
+ * @var \{{ entityClass }} ${{ singularVar[0:1]|upper ~ singularVar[1:] }}
         {{- "\n" }}
 {%- if associations.BelongsTo is defined %}
     {%- for assocName, assocData in associations.BelongsTo %}

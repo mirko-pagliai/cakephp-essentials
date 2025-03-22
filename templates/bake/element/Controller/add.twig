@@ -1,4 +1,4 @@
-{% set compact = ["'#{singularName|capitalize}'"] %}
+{% set compact = ["'#{singularName[0:1]|upper ~ singularName[1:]}'"] %}
     /**
      * Add method.
      *
@@ -6,14 +6,14 @@
      */
     public function add()
     {
-        ${{ singularName|capitalize }} = $this->{{ currentModelName }}->newEmptyEntity();
+        ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->newEmptyEntity();
 
 {% if Bake.hasPlugin('Authorization') %}
-        $this->Authorization->authorize(${{ singularName|capitalize }});
+        $this->Authorization->authorize(${{ singularName[0:1]|upper ~ singularName[1:] }});
 {% endif %}
         if ($this->request->is('post')) {
-            ${{ singularName|capitalize }} = $this->{{ currentModelName }}->patchEntity(${{ singularName|capitalize }}, $this->request->getData());
-            if ($this->{{ currentModelName }}->save(${{ singularName|capitalize }})) {
+            ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->patchEntity(${{ singularName[0:1]|upper ~ singularName[1:] }}, $this->request->getData());
+            if ($this->{{ currentModelName }}->save(${{ singularName[0:1]|upper ~ singularName[1:] }})) {
                 $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved'));
 
                 return $this->redirect(['action' => 'index']);

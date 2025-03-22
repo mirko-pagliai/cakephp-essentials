@@ -8,11 +8,12 @@
     public function delete(int $id): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        ${{ singularName }} = $this->{{ currentModelName }}->get($id);
+
+        ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->get(primaryKey: $id);
 {% if Bake.hasPlugin('Authorization') %}
-        $this->Authorization->authorize(${{ singularName }});
+        $this->Authorization->authorize(${{ singularName[0:1]|upper ~ singularName[1:] }});
 {% endif %}
-        if ($this->{{ currentModelName }}->delete(${{ singularName }})) {
+        if ($this->{{ currentModelName }}->delete(${{ singularName[0:1]|upper ~ singularName[1:] }})) {
             $this->Flash->success(__('The {{ singularHumanName|lower }} has been deleted'));
         } else {
             $this->Flash->error(__('The {{ singularHumanName|lower }} could not be deleted. Please, try again'));
