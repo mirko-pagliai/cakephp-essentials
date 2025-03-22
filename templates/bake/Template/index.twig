@@ -31,7 +31,7 @@ declare(strict_types=1);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach (${{ pluralVar }} as ${{ singularVar }}): ?>
+                <?php foreach (${{ pluralVar }} as ${{ singularVar[0:1]|upper ~ singularVar[1:] }}): ?>
                 <tr>
 {% for field in fields %}
 {% set isKey = false %}
@@ -39,7 +39,7 @@ declare(strict_types=1);
 {% for alias, details in associations.BelongsTo %}
 {% if field == details.foreignKey %}
 {% set isKey = true %}
-                    <td><?= ${{ singularVar }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
+                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -47,17 +47,17 @@ declare(strict_types=1);
 {% set columnData = Bake.columnData(field, schema) %}
 {% set supportsLabel = Bake.enumSupportsLabel(field, schema) %}
 {% if columnData.type starts with 'enum-' %}
-                    <td><?= ${{ singularVar }}->{{ field }} === null ? '' : h(${{ singularVar }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
 {% elseif columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger'] %}
-                    <td><?= h(${{ singularVar }}->{{ field }}) ?></td>
+                    <td><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% elseif columnData.null %}
-                    <td><?= ${{ singularVar }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar }}->{{ field }}) ?></td>
+                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% else %}
-                    <td><?= $this->Number->format(${{ singularVar }}->{{ field }}) ?></td>
+                    <td><?= $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% endif %}
 {% endif %}
 {% endfor %}
-{% set pk = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
+{% set pk = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
                     <td class="actions">
                         <?php
                         echo $this->Html->link(title: __('View'), url: ['action' => 'view', {{ pk|raw }}]);
