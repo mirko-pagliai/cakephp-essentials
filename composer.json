@@ -1,0 +1,40 @@
+{
+  "name": "mirko-pagliai/cakephp-essentials",
+  "homepage": "https://github.com/mirko-pagliai/cakephp-essentials",
+  "type": "cakephp-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "mirko",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.4",
+    "cakephp/cakephp": "^5.0",
+    "fortawesome/font-awesome": "^6.4",
+    "friendsofcake/bootstrap-ui": "^5.1.0",
+    "moment/moment": "^2.30",
+    "twbs/bootstrap": "~5.3"
+  },
+  "require-dev": {
+    "cakedc/cakephp-phpstan": "^4.0",
+    "jetbrains/phpstorm-attributes": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Cake\\Essentials\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cake\\Essentials\\": "plugins/Core/tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "oomphinc/composer-installers-extender": true
+    }
+  }
+}
