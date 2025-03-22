@@ -139,12 +139,12 @@
 {% endfor %}
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
-                <?php foreach (${{ singularVar|capitalize }}->{{ details.property }} as ${{ otherSingularVar }}) : ?>
+                <?php foreach (${{ singularVar|capitalize }}->{{ details.property }} as ${{ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] }}) : ?>
                 <tr>
 {% for field in details.fields %}
-                    <td><?= h(${{ otherSingularVar }}->{{ field }}) ?></td>
+                    <td><?= h(${{ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] }}->{{ field }}) ?></td>
 {% endfor %}
-{% set otherPk = '$' ~ otherSingularVar ~ '->' ~ details.primaryKey[0] %}
+{% set otherPk = '$' ~ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] ~ '->' ~ details.primaryKey[0] %}
                     <td class="actions">
                         <?php
                         echo $this->Html->link(
