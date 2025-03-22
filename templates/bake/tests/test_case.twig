@@ -1,0 +1,107 @@
+{% set isController = type|lower == 'controller' %}
+{% set isCommand = type|lower == 'command' %}
+{% if isController %}
+    {%- set traitName = 'IntegrationTestTrait' %}
+    {%- set uses = uses|merge(['Cake\\TestSuite\\IntegrationTestTrait', "PHPUnit\\Framework\\Attributes\\CoversClass"]) %}
+{% elseif isCommand %}
+    {%- set traitName = 'ConsoleIntegrationTestTrait' %}
+    {%- set uses = uses|merge(['Cake\\Console\\TestSuite\\ConsoleIntegrationTestTrait', "PHPUnit\\Framework\\Attributes\\CoversClass"]) %}
+{% endif %}
+{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase", "PHPUnit\\Framework\\Attributes\\Test"]) %}
+
+{{- element('Bake.file_header', {
+    namespace: "#{baseNamespace}\\Test\\TestCase\\#{subNamespace}",
+    classImports: uses,
+}) }}
+
+/**
+ * {{ fullClassName }} Test Case.
+ */
+{% if isController or isCommand %}
+#[CoversClass({{ className }}::class)]
+{% endif %}
+class {{ className }}Test extends TestCase
+{
+{% if traitName is defined %}
+    use {{ traitName }};
+{% if properties or fixtures or construction or methods %}
+
+{% endif %}
+{% endif %}
+{% if properties %}
+{% for propertyInfo in properties %}
+{% if loop.index > 1 %}
+
+{% endif %}
+    /**
+     * {{ propertyInfo.description }}
+     *
+     * @var {{ propertyInfo.type }}
+     */
+    protected ${{ propertyInfo.name }}{% if propertyInfo.value is defined and propertyInfo.value %} = {{ propertyInfo.value }}{% endif %};
+{% if loop.last and (fixtures or construction or methods) %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{%- if fixtures %}
+    /**
+     * @var list<string>
+     */
+    protected array $fixtures = {{ Bake.exportVar(fixtures|values, 1)|raw }};
+{% if construction or methods %}
+
+{% endif %}
+{% endif %}
+
+{%- if construction %}
+    /**
+     * @inheritDoc
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+{% if preConstruct %}
+        {{ preConstruct|raw }}
+{% endif %}
+{% if isCommand %}
+        {{ construction|raw }}
+{% else %}
+        $this->{{ (subject ~ ' = ' ~ construction)|raw }}
+{% endif %}
+{% if postConstruct %}
+        {{ postConstruct|raw }}
+{% endif %}
+    }
+{% if not isCommand %}
+
+    /**
+     * @inheritDoc
+     */
+    protected function tearDown(): void
+    {
+        unset($this->{{ subject }});
+
+        parent::tearDown();
+    }
+{% if methods %}
+
+{% endif %}
+{% endif %}
+{% endif %}
+
+{%- for method in methods %}
+{% if loop.index > 1 %}
+
+{% endif %}
+    /**
+     * @uses \{{ fullClassName }}::{{ method }}()
+     */
+    #[Test]
+    public function test{{ method|camelize }}(): void
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+{% endfor %}
+}
