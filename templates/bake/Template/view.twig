@@ -49,6 +49,7 @@ declare(strict_types=1);
 
 <div class="{{ pluralVar }} view content">
     <h3><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ displayField }}) ?></h3>
+
     <table>
 {% if groupedFields['string'] %}
 {% for field in groupedFields['string'] %}

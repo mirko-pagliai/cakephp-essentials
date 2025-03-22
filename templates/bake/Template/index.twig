@@ -77,6 +77,7 @@ declare(strict_types=1);
             </tbody>
         </table>
     </div>
+
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->first('<< ' . __('First')) ?>
@@ -85,6 +86,7 @@ declare(strict_types=1);
             <?= $this->Paginator->next(__('Next') . ' >') ?>
             <?= $this->Paginator->last(__('Last') . ' >>') ?>
         </ul>
+
         <p><?= $this->Paginator->counter(__('Page {{ '{{' }}page{{ '}}' }} of {{ '{{' }}pages{{ '}}' }}, showing {{ '{{' }}current{{ '}}' }} record(s) out of {{ '{{' }}count{{ '}}' }} total')) ?></p>
     </div>
 </div>
