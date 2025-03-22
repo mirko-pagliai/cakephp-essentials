@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fa0b2d481c03d3da51dd6a056af62cb",
+    "content-hash": "92ec76816d194be808873b2905a7be0e",
     "packages": [
+        {
+            "name": "axllent/jquery",
+            "version": "3.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/axllent/jquery.git",
+                "reference": "a7e0f33797bb8c87a2d18666dfd685da23b513e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/axllent/jquery/zipball/a7e0f33797bb8c87a2d18666dfd685da23b513e5",
+                "reference": "a7e0f33797bb8c87a2d18666dfd685da23b513e5",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js"
+                    ],
+                    "scripts": [
+                        "jquery.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JS Foundation and other contributors"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "support": {
+                "forum": "http://forum.jquery.com",
+                "irc": "irc://irc.freenode.org/jquery",
+                "issues": "https://github.com/jquery/jquery/issues",
+                "source": "https://github.com/jquery/jquery",
+                "wiki": "http://docs.jquery.com/"
+            },
+            "time": "2023-08-29T05:11:36+00:00"
+        },
         {
             "name": "cakephp/cakephp",
             "version": "5.1.6",

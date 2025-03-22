@@ -12,6 +12,7 @@
   "require": {
     "php": ">=8.4",
     "cakephp/cakephp": "^5.0",
+    "axllent/jquery": "~3.7",
     "fortawesome/font-awesome": "^6.7",
     "friendsofcake/bootstrap-ui": "^5.1.0",
     "moment/moment": "^2.30",
