@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \{{ namespace }}\View\AppView $this
- * @var \{{ entityClass }} ${{ singularVar }}
+ * @var \{{ entityClass }} ${{ singularVar|capitalize }}
  */
 ?>
 
@@ -9,7 +9,7 @@
 {% set fieldsData = Bake.getViewFieldsData(fields, schema, associations) %}
 {% set associationFields = fieldsData.associationFields %}
 {% set groupedFields = fieldsData.groupedFields %}
-{% set pK = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
+{% set pK = '$' ~ singularVar|capitalize ~ '->' ~ primaryKey[0] %}
 <aside class="column">
     <div class="side-nav">
         <h4 class="heading"><?= __('Actions') ?></h4>
@@ -44,7 +44,7 @@
 </aside>
 
 <div class="{{ pluralVar }} view content">
-    <h3><?= h(${{ singularVar }}->{{ displayField }}) ?></h3>
+    <h3><?= h(${{ singularVar|capitalize }}->{{ displayField }}) ?></h3>
     <table>
 {% if groupedFields['string'] %}
 {% for field in groupedFields['string'] %}
@@ -52,12 +52,12 @@
 {% set details = associationFields[field] %}
         <tr>
             <th><?= __('{{ details.property|humanize }}') ?></th>
-            <td><?= ${{ singularVar }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
+            <td><?= ${{ singularVar|capitalize }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar|capitalize }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar|capitalize }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
         </tr>
 {% else %}
         <tr>
             <th><?= __('{{ field|humanize }}') ?></th>
-            <td><?= h(${{ singularVar }}->{{ field }}) ?></td>
+            <td><?= h(${{ singularVar|capitalize }}->{{ field }}) ?></td>
         </tr>
 {% endif %}
 {% endfor %}
@@ -66,7 +66,7 @@
 {% for alias, details in associations.HasOne %}
         <tr>
             <th><?= __('{{ alias|underscore|singularize|humanize }}') ?></th>
-            <td><?= ${{ singularVar }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
+            <td><?= ${{ singularVar|capitalize }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar|capitalize }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar|capitalize }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
         </tr>
 {% endfor %}
 {% endif %}
@@ -76,9 +76,9 @@
             <th><?= __('{{ field|humanize }}') ?></th>
 {% set columnData = Bake.columnData(field, schema) %}
 {% if columnData.null %}
-            <td><?= ${{ singularVar }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar }}->{{ field }}) ?></td>
+            <td><?= ${{ singularVar|capitalize }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar|capitalize }}->{{ field }}) ?></td>
 {% else %}
-            <td><?= $this->Number->format(${{ singularVar }}->{{ field }}) ?></td>
+            <td><?= $this->Number->format(${{ singularVar|capitalize }}->{{ field }}) ?></td>
 {% endif %}
         </tr>
 {% endfor %}
@@ -90,9 +90,9 @@
 {% set columnData = Bake.columnData(field, schema) %}
 {% set supportsLabel = Bake.enumSupportsLabel(field, schema) %}
 {% if columnData.null %}
-            <td><?= ${{ singularVar }}->{{ field }} === null ? '' : h(${{ singularVar }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+            <td><?= ${{ singularVar|capitalize }}->{{ field }} === null ? '' : h(${{ singularVar|capitalize }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
 {% else %}
-            <td><?= h(${{ singularVar }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+            <td><?= h(${{ singularVar|capitalize }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
 {% endif %}
         </tr>
 {% endfor %}
@@ -101,7 +101,7 @@
 {% for field in groupedFields.date %}
         <tr>
             <th><?= __('{{ field|humanize }}') ?></th>
-            <td><?= h(${{ singularVar }}->{{ field }}) ?></td>
+            <td><?= h(${{ singularVar|capitalize }}->{{ field }}) ?></td>
         </tr>
 {% endfor %}
 {% endif %}
@@ -109,7 +109,7 @@
 {% for field in groupedFields.boolean %}
         <tr>
             <th><?= __('{{ field|humanize }}') ?></th>
-            <td><?= ${{ singularVar }}->{{ field }} ? __('Yes') : __('No'); ?></td>
+            <td><?= ${{ singularVar|capitalize }}->{{ field }} ? __('Yes') : __('No'); ?></td>
         </tr>
 {% endfor %}
 {% endif %}
@@ -119,7 +119,7 @@
     <div class="text">
         <strong><?= __('{{ field|humanize }}') ?></strong>
         <blockquote>
-            <?= $this->Text->autoParagraph(h(${{ singularVar }}->{{ field }})); ?>
+            <?= $this->Text->autoParagraph(h(${{ singularVar|capitalize }}->{{ field }})); ?>
         </blockquote>
     </div>
 {% endfor %}
@@ -130,7 +130,7 @@
 {% set otherPluralHumanName = details.controller|underscore|humanize %}
     <div class="related">
         <h4><?= __('Related {{ otherPluralHumanName }}') ?></h4>
-        <?php if (!empty(${{ singularVar }}->{{ details.property }})) : ?>
+        <?php if (!empty(${{ singularVar|capitalize }}->{{ details.property }})) : ?>
         <div class="table-responsive">
             <table>
                 <tr>
@@ -139,7 +139,7 @@
 {% endfor %}
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
-                <?php foreach (${{ singularVar }}->{{ details.property }} as ${{ otherSingularVar }}) : ?>
+                <?php foreach (${{ singularVar|capitalize }}->{{ details.property }} as ${{ otherSingularVar }}) : ?>
                 <tr>
 {% for field in details.fields %}
                     <td><?= h(${{ otherSingularVar }}->{{ field }}) ?></td>

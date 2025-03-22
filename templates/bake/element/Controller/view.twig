@@ -11,9 +11,10 @@
      */
     public function view(int $id): void
     {
-        ${{ singularName }} = $this->{{ currentModelName }}->get($id, contain: {{ Bake.exportArray(allAssociations)|raw }});
+        ${{ singularName|capitalize }} = $this->{{ currentModelName }}->get($id, contain: {{ Bake.exportArray(allAssociations)|raw }});
 {% if Bake.hasPlugin('Authorization') %}
-        $this->Authorization->authorize(${{ singularName }});
+        $this->Authorization->authorize(${{ singularName|capitalize }});
 {% endif %}
-        $this->set(compact('{{ singularName }}'));
+
+        $this->set(compact('{{ singularName|capitalize }}'));
     }
