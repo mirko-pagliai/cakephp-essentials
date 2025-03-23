@@ -31,8 +31,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Cake\\Essentials\\": "plugins/Core/tests/"
+      "Cake\\Essentials\\Test\\": "tests"
     }
+  },
+  "scripts": {
+    "test": "phpunit --colors=always"
   },
   "config": {
     "allow-plugins": {
