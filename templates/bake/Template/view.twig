@@ -155,12 +155,12 @@ declare(strict_types=1);
         <?php if (!empty(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }})) : ?>
 
         <div class="table-responsive">
-            <table>
+            <table class="table">
                 <tr>
 {% for field in details.fields %}
                     <th><?= __('{{ field|humanize }}') ?></th>
 {% endfor %}
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th></th>
                 </tr>
                 <?php foreach (${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }} as ${{ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] }}) : ?>
                 <tr>
