@@ -31,7 +31,7 @@ declare(strict_types=1);
 {% for field in fields %}
                 <th><?= $this->Paginator->sort('{{ field }}') ?></th>
 {% endfor %}
-                <th class="actions"><?= __('Actions') ?></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@ declare(strict_types=1);
 {% endif %}
 {% endfor %}
 {% set pk = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
-                <td class="actions">
+                <td class="hstack gap-2">
                     <?php
                     echo $this->Html->link(
                         title: __('View'),
