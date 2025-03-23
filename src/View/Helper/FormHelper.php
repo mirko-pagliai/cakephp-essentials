@@ -26,8 +26,7 @@ class FormHelper extends BootstrapUIFormHelper
      */
     public function postLink(string $title, array|string|null $url = null, array $options = []): string
     {
-        $title = $this->Html->addIconToTitle($title, $options);
-        unset($options['icon']);
+        [$title, $options] = $this->Html->addIconToTitle($title, $options);
 
         return parent::postLink($title, $url, $options);
     }

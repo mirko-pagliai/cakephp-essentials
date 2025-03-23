@@ -31,33 +31,46 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     /**
      * Adds icons to `$title`, starting from the options.
      *
+     * Then it manipulates the options, even removing values that are no longer needed (because they were tied to the
+     * icon). Finally, it returns an array with the title and the (manipulated) options.
+     *
+     * Example:
      * ```
-     * $title = $this->addIconToTitle($title, $options);
-     * unset($options['icon']);
+     * [$title, $options] = $this->addIconToTitle($title, $options);
      * ```
      *
      * @param string $title
      * @param array $options
-     * @return string
+     * @return array{string, array} Array with the title and the (manipulated) options
      * @throws \InvalidArgumentException On missing icon `name` value
      */
-    public function addIconToTitle(string $title, array $options = []): string
+    public function addIconToTitle(string $title, array $options = []): array
     {
-        if (empty($options['icon'])) {
-            return $title;
+        $icon = $options['icon'] ?? null;
+        unset($options['icon']);
+
+        if (!$icon) {
+            return [$title, $options];
         }
 
-        if (is_string($options['icon'])) {
-            return $this->icon(name: $options['icon']) . ' ' . $title;
+        if (is_string($icon)) {
+            [$name, $iconOptions] = [$icon, []];
+        } else {
+            $name = $icon['name'] ?? null;
+            if (!$name) {
+                throw new InvalidArgumentException('Missing icon `name` value');
+            }
+            unset($icon['name']);
+            //Remaining values, with `name` removed, are the options for the icon
+            $iconOptions = $icon;
         }
 
-        $name = $options['icon']['name'];
-        if (!$name) {
-            throw new InvalidArgumentException('Missing icon `name` value');
-        }
-        unset($options['icon']['name']);
+        $options = $this->addClass(options: $options, class: 'text-decoration-none');
 
-        return $this->icon(name: $name, options: $options['icon']) . ' ' . $title;
+        return [
+            $this->icon(name: $name, options: $iconOptions ?? []) . ' ' . $title,
+            $options,
+        ];
     }
 
     /**
@@ -75,8 +88,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             'escape' => false,
         ];
 
-        $title = $this->addIconToTitle(title: $title, options: $options);
-        unset($options['icon']);
+        [$title, $options] = $this->addIconToTitle(title: $title, options: $options);
 
         return parent::link(title: $title, url: $url, options: $options);
     }

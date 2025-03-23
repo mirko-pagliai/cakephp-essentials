@@ -31,14 +31,31 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['Title', ''])]
-    #[TestWith(['<i class="fas fa-home"></i> Title', 'home'])]
-    #[TestWith(['<i class="fas fa-home"></i> Title', ['name' => 'home']])]
-    #[TestWith(['<i class="fas fa-home fa-lg"></i> Title', ['name' => 'home', 'size' => 'lg']])]
-    public function testAddIconToTitle(string $expected, string|array $icon): void
+    #[TestWith(['<i class="fas fa-home"></i>', ['icon' => 'home']])]
+    #[TestWith(['<i class="fas fa-home"></i>', ['icon' => ['name' => 'home']]])]
+    #[TestWith(['<i class="fas fa-home fa-lg"></i>', ['icon' => ['name' => 'home', 'size' => 'lg']]])]
+    public function testAddIconToTitle(string $expectedIcon, array $options): void
     {
-        $result = $this->Html->addIconToTitle(title: 'Title', options: compact('icon'));
-        $this->assertSame($expected, $result);
+        [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
+        $this->assertSame($expectedIcon . ' Title', $resultTitle);
+        $this->assertSame(['class' => 'text-decoration-none'], $resultOptions);
+    }
+
+    /**
+     * `icon` is empty.
+     *
+     * Expects the title to be unchanged and the options array to be empty.
+     */
+    #[Test]
+    #[TestWith([[]])]
+    #[TestWith([['icon' => null]])]
+    #[TestWith([['icon' => false]])]
+    #[TestWith([['icon' => []]])]
+    public function testAddIconToTitleEmptyIcon(array $options): void
+    {
+        [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
+        $this->assertSame('Title', $resultTitle);
+        $this->assertSame([], $resultOptions);
     }
 
     #[Test]
