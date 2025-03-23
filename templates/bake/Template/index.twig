@@ -43,7 +43,16 @@ declare(strict_types=1);
 {% for alias, details in associations.BelongsTo %}
 {% if field == details.foreignKey %}
 {% set isKey = true %}
-                <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
+                <td>
+                    <?php
+                    if (${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}')) {
+                        echo $this->Html->link(
+                            title: ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }},
+                            url: ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]
+                        );
+                    }
+                    ?>
+                </td>
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -51,7 +60,13 @@ declare(strict_types=1);
 {% set columnData = Bake.columnData(field, schema) %}
 {% set supportsLabel = Bake.enumSupportsLabel(field, schema) %}
 {% if columnData.type starts with 'enum-' %}
-                <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+                <td>
+                    <?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?>
+                </td>
+{% elseif field == 'id' %}
+                <td>
+                    <code class="fw-bolder">#<?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} ?></code>
+                </td>
 {% elseif columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger'] %}
                 <td><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% elseif columnData.null %}
