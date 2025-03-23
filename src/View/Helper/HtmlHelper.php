@@ -20,8 +20,10 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             'icon' => null,
         ];
 
-        if ($options['icon']) {
-            $title = $this->icon($options['icon']) . ' ' . $title;
+        if (is_string($title) && $options['icon']) {
+            /** @var string $icon */
+            $icon = $options['icon'];
+            $title = $this->icon($icon) . ' ' . $title;
         }
         unset($options['icon']);
 

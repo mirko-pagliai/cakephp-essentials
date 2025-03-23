@@ -28,7 +28,9 @@ class FormHelper extends BootstrapUIFormHelper
         ];
 
         if ($options['icon']) {
-            $title = $this->Html->icon($options['icon']) . ' ' . $title;
+            /** @var string $icon */
+            $icon = $options['icon'];
+            $title = $this->Html->icon($icon) . ' ' . $title;
         }
         unset($options['icon']);
 
