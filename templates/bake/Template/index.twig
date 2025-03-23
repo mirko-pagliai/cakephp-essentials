@@ -11,38 +11,39 @@ declare(strict_types=1);
 
 <div class="{{ pluralVar }} index content">
 {% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
-    <?= $this->Html->link(
-        title: __('Add'),
-        url: ['action' => 'add'],
-        options: [
-            'class' => 'button float-right',
-            'icon' => 'plus',
-        ]
-    ) ?>
+    <div class="float-end">
+        <?= $this->Html->link(
+            title: __('Add'),
+            url: ['action' => 'add'],
+            options: [
+                'class' => 'button',
+                'icon' => 'plus',
+            ]
+        ) ?>
+    </div>
 {% set done = [] %}
 
     <h3><?= __('{{ pluralHumanName }}') ?></h3>
 
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
+    <table class="table">
+        <thead>
+            <tr>
 {% for field in fields %}
-                    <th><?= $this->Paginator->sort('{{ field }}') ?></th>
+                <th><?= $this->Paginator->sort('{{ field }}') ?></th>
 {% endfor %}
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach (${{ pluralVar }} as ${{ singularVar[0:1]|upper ~ singularVar[1:] }}): ?>
-                <tr>
+                <th class="actions"><?= __('Actions') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach (${{ pluralVar }} as ${{ singularVar[0:1]|upper ~ singularVar[1:] }}): ?>
+            <tr>
 {% for field in fields %}
 {% set isKey = false %}
 {% if associations.BelongsTo is defined %}
 {% for alias, details in associations.BelongsTo %}
 {% if field == details.foreignKey %}
 {% set isKey = true %}
-                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
+                <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}') ? $this->Html->link(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }}, ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]) : '' ?></td>
 {% endif %}
 {% endfor %}
 {% endif %}
@@ -50,46 +51,45 @@ declare(strict_types=1);
 {% set columnData = Bake.columnData(field, schema) %}
 {% set supportsLabel = Bake.enumSupportsLabel(field, schema) %}
 {% if columnData.type starts with 'enum-' %}
-                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
+                <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}->{% if supportsLabel %}label(){% else %}value{% endif %}) ?></td>
 {% elseif columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger'] %}
-                    <td><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
+                <td><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% elseif columnData.null %}
-                    <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
+                <td><?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} === null ? '' : $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% else %}
-                    <td><?= $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
+                <td><?= $this->Number->format(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
 {% endif %}
 {% endif %}
 {% endfor %}
 {% set pk = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
-                    <td class="actions">
-                        <?php
-                        echo $this->Html->link(
-                            title: __('View'),
-                            url: ['action' => 'view', {{ pk|raw }}],
-                            options: ['icon' => 'eye']
-                        );
-                        echo $this->Html->link(
-                            title: __('Edit'),
-                            url: ['action' => 'edit', {{ pk|raw }}],
-                            options: ['icon' => 'edit']
-                        );
-                        echo $this->Form->postLink(
-                            title: __('Delete'),
-                            url: ['action' => 'delete', {{ pk|raw }}],
-                            options: [
-                                'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
-                                'class' => 'link-danger',
-                                'icon' => 'trash',
-                                'method' => 'delete',
-                            ]
-                        );
-                        ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                <td class="actions">
+                    <?php
+                    echo $this->Html->link(
+                        title: __('View'),
+                        url: ['action' => 'view', {{ pk|raw }}],
+                        options: ['icon' => 'eye']
+                    );
+                    echo $this->Html->link(
+                        title: __('Edit'),
+                        url: ['action' => 'edit', {{ pk|raw }}],
+                        options: ['icon' => 'edit']
+                    );
+                    echo $this->Form->postLink(
+                        title: __('Delete'),
+                        url: ['action' => 'delete', {{ pk|raw }}],
+                        options: [
+                            'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
+                            'class' => 'link-danger',
+                            'icon' => 'trash',
+                            'method' => 'delete',
+                        ]
+                    );
+                    ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
     <div class="paginator">
         <ul class="pagination">
