@@ -22,7 +22,7 @@
             ]
         );
         {% endif %}
-        ?>
+?>
         {{- "\n" }}
         {%- set done = [] %}
     </div>
@@ -37,10 +37,15 @@
 {%- if keyFields[field] is defined %}
     {%- set fieldData = Bake.columnData(field, schema) %}
     {%- if fieldData.null %}
-            echo $this->Form->control(fieldName: '{{ field }}', options: ['options' => ${{ keyFields[field] }}, 'empty' => true]);
+            echo $this->Form->control(fieldName: '{{ field }}', options: [
+        'empty' => true,
+                'options' => ${{ keyFields[field] }},
+            ]);
             {{- "\n" }}
     {%- else %}
-            echo $this->Form->control(fieldName: '{{ field }}', options: ['options' => ${{ keyFields[field] }}]);
+            echo $this->Form->control(fieldName: '{{ field }}', options: [
+                'options' => ${{ keyFields[field] }},
+            ]);
             {{- "\n" }}
     {%- endif %}
 {%- elseif field not in ['created', 'modified', 'updated'] %}
