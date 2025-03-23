@@ -18,9 +18,12 @@ class View extends CakeView
      */
     public function initialize(): void
     {
-        $this->loadHelper('Cake/Essentials.Html', [
-            'iconDefaults' => ['namespace' => 'fas', 'prefix' => 'fa'],
+        $this->addHelper('Cake/Essentials.Html', [
+            'iconDefaults' => [
+                'namespace' => 'fas',
+                'prefix' => 'fa',
+            ],
         ]);
-        $this->loadHelper('Cake/Essentials.Form');
+        $this->addHelper('Cake/Essentials.Form');
     }
 }
