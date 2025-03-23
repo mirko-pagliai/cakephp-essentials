@@ -16,22 +16,17 @@ class FormHelper extends BootstrapUIFormHelper
     /**
      * @var array<string>
      */
-    protected array $helpers = ['Html', 'Url'];
+    protected array $helpers = [
+        'Cake/Essentials.Html',
+        'Url',
+    ];
 
     /**
      * @inheritDoc
      */
     public function postLink(string $title, array|string|null $url = null, array $options = []): string
     {
-        $options += [
-            'icon' => null,
-        ];
-
-        if ($options['icon']) {
-            /** @var string $icon */
-            $icon = $options['icon'];
-            $title = $this->Html->icon($icon) . ' ' . $title;
-        }
+        $title = $this->Html->addIconToTitle($title, $options);
         unset($options['icon']);
 
         return parent::postLink($title, $url, $options);
