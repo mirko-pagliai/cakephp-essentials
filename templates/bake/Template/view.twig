@@ -25,11 +25,6 @@ declare(strict_types=1);
             options: ['class' => 'side-nav-item']
         );
         echo $this->Html->link(
-            title: __('New {{ singularHumanName }}'),
-            url: ['action' => 'add'],
-            options: ['class' => 'side-nav-item']
-        );
-        echo $this->Html->link(
             title: __('Edit {{ singularHumanName }}'),
             url: ['action' => 'edit', {{ pK|raw }}],
             options: ['class' => 'side-nav-item']
