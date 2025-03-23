@@ -12,9 +12,12 @@ declare(strict_types=1);
 <div class="{{ pluralVar }} index content">
 {% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
     <?= $this->Html->link(
-        title: __('New {{ singularHumanName }}'),
+        title: __('Add'),
         url: ['action' => 'add'],
-        options: ['class' => 'button float-right']
+        options: [
+            'class' => 'button float-right',
+            'icon' => 'plus',
+        ]
     ) ?>
 {% set done = [] %}
 
@@ -60,14 +63,24 @@ declare(strict_types=1);
 {% set pk = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
                     <td class="actions">
                         <?php
-                        echo $this->Html->link(title: __('View'), url: ['action' => 'view', {{ pk|raw }}]);
-                        echo $this->Html->link(title: __('Edit'), url: ['action' => 'edit', {{ pk|raw }}]);
+                        echo $this->Html->link(
+                            title: __('View'),
+                            url: ['action' => 'view', {{ pk|raw }}],
+                            options: ['icon' => 'eye']
+                        );
+                        echo $this->Html->link(
+                            title: __('Edit'),
+                            url: ['action' => 'edit', {{ pk|raw }}],
+                            options: ['icon' => 'edit']
+                        );
                         echo $this->Form->postLink(
                             title: __('Delete'),
                             url: ['action' => 'delete', {{ pk|raw }}],
                             options: [
-                                'method' => 'delete',
                                 'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
+                                'class' => 'link-danger',
+                                'icon' => 'trash',
+                                'method' => 'delete',
                             ]
                         );
                         ?>
