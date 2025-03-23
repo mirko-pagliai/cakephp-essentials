@@ -16,12 +16,12 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     public function link(string|array $title, array|string|null $url = null, array $options = []): string
     {
         $options += [
-            'escape'  => false,
+            'escape' => false,
             'icon' => null,
         ];
 
         if ($options['icon']) {
-            $title =  $this->icon($options['icon']) . ' ' . $title;
+            $title = $this->icon($options['icon']) . ' ' . $title;
         }
         unset($options['icon']);
 

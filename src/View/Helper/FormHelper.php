@@ -14,7 +14,7 @@ use BootstrapUI\View\Helper\FormHelper as BootstrapUIFormHelper;
 class FormHelper extends BootstrapUIFormHelper
 {
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected array $helpers = ['Html', 'Url'];
 
@@ -28,7 +28,7 @@ class FormHelper extends BootstrapUIFormHelper
         ];
 
         if ($options['icon']) {
-            $title =  $this->Html->icon($options['icon']) . ' ' . $title;
+            $title = $this->Html->icon($options['icon']) . ' ' . $title;
         }
         unset($options['icon']);
 
