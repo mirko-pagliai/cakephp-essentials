@@ -16,7 +16,6 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(View::class)]
 class ViewTest extends TestCase
 {
-    #[CoversMethod(View::class, 'initialize')]
     #[Test]
     public function testInitialize(): void
     {
