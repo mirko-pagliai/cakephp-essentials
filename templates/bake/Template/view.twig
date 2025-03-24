@@ -7,6 +7,8 @@ declare(strict_types=1);
  * @var \{{ namespace }}\View\AppView $this
  * @var \{{ entityClass }} ${{ singularVar[0:1]|upper ~ singularVar[1:] }}
  */
+
+$this->assignTitle(h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ displayField }}));
 ?>
 
 {% set associations = {'BelongsTo': [], 'HasOne': [], 'HasMany': [], 'BelongsToMany': []}|merge(associations) %}
@@ -46,8 +48,6 @@ declare(strict_types=1);
         ?>
         {% set done = [] %}
     </div>
-
-    <h3><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ displayField }}) ?></h3>
 
     <table class="table">
 {% if groupedFields['string'] %}

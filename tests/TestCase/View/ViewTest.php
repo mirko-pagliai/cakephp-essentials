@@ -16,11 +16,23 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(View::class)]
 class ViewTest extends TestCase
 {
+    /**
+     * @var \Cake\Essentials\View\View
+     */
+    protected View $View;
+
+    /**
+     * @inheritDoc
+     */
+    protected function setUp(): void
+    {
+        $this->View = new View();
+    }
+
     #[Test]
     public function testInitialize(): void
     {
-        $View = new View();
-        $View->initialize();
+        $this->View->initialize();
 
         // `HtmlHelper`
         $expectedIconDefaultsConfig = [
@@ -29,12 +41,21 @@ class ViewTest extends TestCase
             'prefix' => 'fa',
             'size' => null,
         ];
-        $HtmlHelper = $View->helpers()->get('Html');
+        $HtmlHelper = $this->View->helpers()->get('Html');
         $this->assertInstanceOf(HtmlHelper::class, $HtmlHelper);
         $this->assertSame($expectedIconDefaultsConfig, $HtmlHelper->getConfig('iconDefaults'));
 
         // `FormHelper`
-        $FormHelper = $View->helpers()->get('Form');
+        $FormHelper = $this->View->helpers()->get('Form');
         $this->assertInstanceOf(FormHelper::class, $FormHelper);
+    }
+
+    #[Test]
+    public function testAssignTitle(): void
+    {
+        $title = 'My title';
+        $result = $this->View->assignTitle($title);
+        $this->assertEquals($this->View, $result);
+        $this->assertSame($title, $this->View->fetch('title'));
     }
 }

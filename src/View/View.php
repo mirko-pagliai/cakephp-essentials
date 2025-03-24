@@ -23,4 +23,24 @@ class View extends CakeView
         $this->addHelper('Cake/Essentials.Html');
         $this->addHelper('Cake/Essentials.Form');
     }
+
+    /**
+     * Assigns the title for the current view.
+     *
+     * You could assign title for single action/template and fetch it in layout.
+     *
+     * You can fetch it with:
+     * ```
+     * $this->fetch(name: 'title')
+     * ```
+     *
+     * @param string $title
+     * @return self
+     */
+    public function assignTitle(string $title): self
+    {
+        $this->assign(name: 'title', value: ucfirst($title));
+
+        return $this;
+    }
 }

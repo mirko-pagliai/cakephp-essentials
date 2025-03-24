@@ -7,6 +7,8 @@ declare(strict_types=1);
  * @var \{{ namespace }}\View\AppView $this
  * @var iterable<\{{ entityClass }}> ${{ pluralVar }}
  */
+
+$this->assignTitle(__('{{ pluralHumanName }}'));
 ?>
 
 <div class="{{ pluralVar }} index content">
@@ -22,8 +24,6 @@ declare(strict_types=1);
         ) ?>
     </div>
 {% set done = [] %}
-
-    <h3><?= __('{{ pluralHumanName }}') ?></h3>
 
     <table class="table">
         <thead>

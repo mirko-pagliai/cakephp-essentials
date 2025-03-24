@@ -12,7 +12,7 @@
             ]
         );
         {% if 'add' not in action %}
-        echo $this->Form->postLink(
+echo $this->Form->postLink(
             title: __('Delete'),
             url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
             options: [
@@ -26,8 +26,6 @@
         {{- "\n" }}
         {%- set done = [] %}
     </div>
-
-    <h3><?= __('{{ action|humanize }} {{ singularHumanName }}') ?></h3>
 
     <?= $this->Form->create(context: ${{ singularVar[0:1]|upper ~ singularVar[1:] }}) ?>
     <fieldset>
