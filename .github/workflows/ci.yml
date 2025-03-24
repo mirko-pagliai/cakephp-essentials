@@ -126,7 +126,7 @@ jobs:
 
       - name: Run psalm
         if: always()
-        run: tools/psalm --output-format=github
+        run: vendor/bin/psalm --output-format=github
 
       - name: Run phpstan
         if: always()
