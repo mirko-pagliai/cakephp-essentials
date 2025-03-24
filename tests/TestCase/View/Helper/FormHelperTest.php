@@ -7,6 +7,7 @@ use Cake\Essentials\View\Helper\FormHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * FormHelperTest.
