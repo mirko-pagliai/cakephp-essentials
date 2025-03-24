@@ -26,11 +26,13 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, intl
-          ini-values: apc.enable_cli = 1, zend.assertions = 1
+          ini-values: zend.assertions = 1
           coverage: pcov
 
       - name: Composer install
         uses: ramsey/composer-install@v3
+        with:
+          ignore-cache: "yes"
 
       - name: Composer show
         run: composer show
@@ -88,7 +90,7 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: ${{ env.EXTENSIONS }}
-          ini-values: apc.enable_cli = 1, zend.assertions = 1, extension = php_fileinfo.dll
+          ini-values: zend.assertions = 1, extension = php_fileinfo.dll
           coverage: none
 
       - name: Composer install
