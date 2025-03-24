@@ -26,6 +26,30 @@ class FormHelper extends BootstrapUIFormHelper
      * @inheritDoc
      */
     #[Override]
+    public function button(string $title, array $options = []): string
+    {
+        $options += [
+            'class' => isset($options['type']) && $options['type'] === 'submit' ? 'btn btn-success' : 'btn btn-primary',
+        ];
+
+        return parent::button(title: $title, options: $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
+    public function dateTime(string $fieldName, array $options = []): string
+    {
+        $options += ['step' => '60'];
+
+        return parent::dateTime(fieldName: $fieldName, options: $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
     public function postLink(string $title, array|string|null $url = null, array $options = []): string
     {
         [$title, $options] = $this->Html->addIconToTitle($title, $options);
