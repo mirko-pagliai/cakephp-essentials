@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
@@ -32,4 +33,12 @@ Configure::write('App', [
     'imageBaseUrl' => 'img/',
     'jsBaseUrl' => 'js/',
     'cssBaseUrl' => 'css/',
+]);
+
+Cache::setConfig([
+    '_cake_translations_' => [
+        'engine' => 'File',
+        'prefix' => 'cake_core_',
+        'serialize' => true,
+    ],
 ]);

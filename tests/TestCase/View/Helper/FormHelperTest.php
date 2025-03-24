@@ -56,4 +56,25 @@ class FormHelperTest extends TestCase
         $result = $this->Form->postLink(title: 'Title', url: '#url', options: ['icon' => 'home']);
         $this->assertStringEndsWith($expectedEnd, $result);
     }
+
+    #[Test]
+    public function testSelectContainsEmptyValue(): void
+    {
+        $result = $this->Form->select(fieldName: 'select', options: []);
+        $this->assertStringContainsString('<option value="">', $result);
+        $this->assertStringContainsString('select an option', $result);
+    }
+
+    #[Test]
+    #[TestWith([['default' => 'a']])]
+    #[TestWith([['value' => 'a']])]
+    #[TestWith([['multiple' => true]])]
+    #[TestWith([['empty' => false]])]
+    #[TestWith([['empty' => null]])]
+    public function testSelectNotContainsEmptyValue(array $options): void
+    {
+        $result = $this->Form->select(fieldName: 'select', attributes: $options);
+        $this->assertStringNotContainsString('<option value="">', $result);
+        $this->assertStringNotContainsString('select an option', $result);
+    }
 }

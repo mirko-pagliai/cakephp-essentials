@@ -5,6 +5,7 @@ namespace Cake\Essentials\View\Helper;
 
 use BootstrapUI\View\Helper\FormHelper as BootstrapUIFormHelper;
 use Override;
+use function Cake\I18n\__d as __d;
 
 /**
  * {@inheritDoc}
@@ -55,5 +56,22 @@ class FormHelper extends BootstrapUIFormHelper
         [$title, $options] = $this->Html->addIconToTitle($title, $options);
 
         return parent::postLink($title, $url, $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function select(string $fieldName, iterable $options = [], array $attributes = []): string
+    {
+        /**
+         * If the `default` and `value` attributes are empty, set the default `empty` attribute.
+         *
+         * Set `empty` to `false` or `null` to disable it.
+         */
+        if (empty($attributes['default']) && empty($attributes['value']) && empty($attributes['multiple'])) {
+            $attributes += ['empty' => '-- ' . __d('cakephp/essentials', 'select an option') . ' --'];
+        }
+
+        return parent::select(fieldName: $fieldName, options: $options, attributes: $attributes);
     }
 }
