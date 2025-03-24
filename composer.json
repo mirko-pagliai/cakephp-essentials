@@ -35,7 +35,8 @@
     }
   },
   "scripts": {
-    "test": "phpunit --colors=always"
+    "test": "phpunit --colors=always",
+    "coverage": "XDEBUG_MODE=coverage phpunit --coverage-html=coverage"
   },
   "config": {
     "allow-plugins": {
