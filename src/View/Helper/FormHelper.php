@@ -61,6 +61,7 @@ class FormHelper extends BootstrapUIFormHelper
     /**
      * @inheritDoc
      */
+    #[Override]
     public function select(string $fieldName, iterable $options = [], array $attributes = []): string
     {
         /**
