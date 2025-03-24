@@ -20,6 +20,8 @@ class View extends CakeView
     #[Override]
     public function initialize(): void
     {
+        parent::initialize();
+
         $this->addHelper('Cake/Essentials.Html');
         $this->addHelper('Cake/Essentials.Form');
     }

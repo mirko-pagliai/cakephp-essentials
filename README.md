@@ -32,6 +32,24 @@ class AppView extends View
 }
 ```
 
+If necessary, you can rewrite the default helpers by implementing the `initialize()` method and calling
+    `parent::initialize()` **before** adding your own helpers.
+
+```php
+class AppView extends View
+    public function initialize(): void
+    {
+        parent::initialize();
+    
+        /**
+         * These override any helpers defined by the parent.
+         */
+        $this->addHelper('Html');
+        $this->addHelper('Form');
+    }
+}
+```
+
 ## How to use Bake templates
 In your `config/bootstrap.php` file:
 ```php
