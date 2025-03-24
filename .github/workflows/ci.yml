@@ -35,6 +35,9 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: "${{ matrix.composer-options }}"
 
+      - name: Composer show
+        run: composer show
+
       - name: Run PHPUnit
         run: |
           if [[ ${{ matrix.php-version }} == '8.4' ]]; then
