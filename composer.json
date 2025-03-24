@@ -1,5 +1,6 @@
 {
   "name": "mirko-pagliai/cakephp-essentials",
+  "description": "cakephp-essentials",
   "homepage": "https://github.com/mirko-pagliai/cakephp-essentials",
   "type": "cakephp-plugin",
   "license": "MIT",
