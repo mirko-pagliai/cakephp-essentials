@@ -68,7 +68,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         $options = $this->addClass(options: $options, class: 'text-decoration-none');
 
         return [
-            $this->icon(name: $name, options: $iconOptions ?? []) . ' ' . $title,
+            $this->icon(name: $name, options: $iconOptions) . ' ' . $title,
             $options,
         ];
     }
