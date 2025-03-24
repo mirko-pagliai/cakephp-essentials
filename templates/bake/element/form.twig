@@ -35,25 +35,25 @@ echo $this->Form->postLink(
 {%- if keyFields[field] is defined %}
     {%- set fieldData = Bake.columnData(field, schema) %}
     {%- if fieldData.null %}
-            echo $this->Form->control(fieldName: '{{ field }}', options: [
-        'empty' => true,
-                'options' => ${{ keyFields[field] }},
-            ]);
-            {{- "\n" }}
+        echo $this->Form->control(fieldName: '{{ field }}', options: [
+    'empty' => true,
+            'options' => ${{ keyFields[field] }},
+        ]);
+        {{- "\n" }}
     {%- else %}
-            echo $this->Form->control(fieldName: '{{ field }}', options: [
-                'options' => ${{ keyFields[field] }},
-            ]);
-            {{- "\n" }}
+        echo $this->Form->control(fieldName: '{{ field }}', options: [
+            'options' => ${{ keyFields[field] }},
+        ]);
+        {{- "\n" }}
     {%- endif %}
 {%- elseif field not in ['created', 'modified', 'updated'] %}
     {%- set fieldData = Bake.columnData(field, schema) %}
     {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
-            echo $this->Form->control(fieldName: '{{ field }}', options: ['empty' => true]);
-            {{- "\n" }}
+        echo $this->Form->control(fieldName: '{{ field }}', options: ['empty' => true]);
+        {{- "\n" }}
     {%- else %}
-            echo $this->Form->control(fieldName: '{{ field }}');
-            {{- "\n" }}
+        echo $this->Form->control(fieldName: '{{ field }}');
+        {{- "\n" }}
     {%- endif %}
 {%- endif %}
 {%- endif %}
@@ -61,8 +61,8 @@ echo $this->Form->postLink(
 
 {%- if associations.BelongsToMany is defined %}
 {%- for assocName, assocData in associations.BelongsToMany %}
-            echo $this->Form->control(fieldName: '{{ assocData.property }}._ids', options: ['options' => ${{ assocData.variable }}]);
-            {{- "\n" }}
+        echo $this->Form->control(fieldName: '{{ assocData.property }}._ids', options: ['options' => ${{ assocData.variable }}]);
+        {{- "\n" }}
 {%- endfor %}
 {% endif %}
         ?>
