@@ -32,8 +32,7 @@ jobs:
       - name: Composer install
         uses: ramsey/composer-install@v3
         with:
-          dependency-versions: ${{ matrix.dependencies }}
-          composer-options: "${{ matrix.composer-options }}"
+          dependency-versions: "highest"
 
       - name: Composer show
         run: composer show
