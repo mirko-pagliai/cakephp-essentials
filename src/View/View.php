@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\View;
 
 use Cake\View\View as CakeView;
+use Override;
 
 /**
  * {@inheritDoc}
@@ -16,6 +17,7 @@ class View extends CakeView
     /**
      * @inheritDoc
      */
+    #[Override]
     public function initialize(): void
     {
         $this->addHelper('Cake/Essentials.Html', [

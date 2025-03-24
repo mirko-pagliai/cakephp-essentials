@@ -7,6 +7,7 @@ use BadMethodCallException;
 use BootstrapUI\View\Helper\HtmlHelper as BootstrapUIHtmlHelper;
 use Cake\View\View;
 use InvalidArgumentException;
+use Override;
 
 /**
  * @inheritDoc
@@ -78,6 +79,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      *
      * @throws \BadMethodCallException With `$title` as array
      */
+    #[Override]
     public function link(string|array $title, array|string|null $url = null, array $options = []): string
     {
         if (is_array($title)) {

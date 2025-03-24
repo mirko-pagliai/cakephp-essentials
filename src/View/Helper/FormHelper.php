@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\View\Helper;
 
 use BootstrapUI\View\Helper\FormHelper as BootstrapUIFormHelper;
+use Override;
 
 /**
  * {@inheritDoc}
@@ -24,6 +25,7 @@ class FormHelper extends BootstrapUIFormHelper
     /**
      * @inheritDoc
      */
+    #[Override]
     public function postLink(string $title, array|string|null $url = null, array $options = []): string
     {
         [$title, $options] = $this->Html->addIconToTitle($title, $options);
