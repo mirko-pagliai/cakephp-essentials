@@ -1,32 +1,32 @@
 {% set fields = Bake.filterFields(fields, schema, modelObject) %}
 
-<div class="{{ pluralVar }} form content">
-    <div class="float-end">
-        <?php
-        echo $this->Html->link(
-            title: __('List'),
-            url: ['action' => 'index'],
-            options: [
-                'class' => 'btn btn-outline-primary',
-                'icon' => 'bars',
-            ]
-        );
-        {% if 'add' not in action %}
+<div>
+    <?php
+    echo $this->Html->link(
+        title: __('List'),
+        url: ['action' => 'index'],
+        options: [
+            'class' => 'btn btn-outline-primary',
+            'icon' => 'bars',
+        ]
+    );
+    {% if 'add' not in action %}
 echo $this->Form->postLink(
-            title: __('Delete'),
-            url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
-            options: [
-                'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}),
-                'class' => 'btn btn-outline-danger',
-                'icon' => 'trash',
-            ]
-        );
-        {% endif %}
+        title: __('Delete'),
+        url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
+        options: [
+            'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}),
+            'class' => 'btn btn-outline-danger',
+            'icon' => 'trash',
+        ]
+    );
+    {% endif %}
 ?>
-        {{- "\n" }}
-        {%- set done = [] %}
-    </div>
+    {{- "\n" }}
+    {%- set done = [] %}
+</div>
 
+<div class="{{ pluralVar }} form content">
     <?= $this->Form->create(context: ${{ singularVar[0:1]|upper ~ singularVar[1:] }}) ?>
     <fieldset>
         <?php

@@ -17,38 +17,38 @@ $this->assignTitle(h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ display
 {% set groupedFields = fieldsData.groupedFields %}
 {% set pK = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
 
-<div class="{{ pluralVar }} view content">
-    <div class="float-end">
-        <?php
-        echo $this->Html->link(
-            title: __('List'),
-            url: ['action' => 'index'],
-            options: [
-                'class' => 'btn btn-outline-primary',
-                'icon' => 'bars',
-            ]
-        );
-        echo $this->Html->link(
-            title: __('Edit'),
-            url: ['action' => 'edit', {{ pK|raw }}],
-            options: [
-                'class' => 'btn btn-outline-primary',
-                'icon' => 'edit',
-            ]
-        );
-        echo $this->Form->postLink(
-            title: __('Delete'),
-            url: ['action' => 'delete', {{ pK|raw }}],
-            options: [
-                'class' => 'btn btn-outline-danger',
-                'confirm' => __('Are you sure you want to delete # {0}?', {{ pK|raw }}),
-                'icon' => 'trash',
-            ]
-        );
-        ?>
-        {% set done = [] %}
-    </div>
+<div>
+    <?php
+    echo $this->Html->link(
+        title: __('List'),
+        url: ['action' => 'index'],
+        options: [
+            'class' => 'btn btn-outline-primary',
+            'icon' => 'bars',
+        ]
+    );
+    echo $this->Html->link(
+        title: __('Edit'),
+        url: ['action' => 'edit', {{ pK|raw }}],
+        options: [
+            'class' => 'btn btn-outline-primary',
+            'icon' => 'edit',
+        ]
+    );
+    echo $this->Form->postLink(
+        title: __('Delete'),
+        url: ['action' => 'delete', {{ pK|raw }}],
+        options: [
+            'class' => 'btn btn-outline-danger',
+            'confirm' => __('Are you sure you want to delete # {0}?', {{ pK|raw }}),
+            'icon' => 'trash',
+        ]
+    );
+    ?>
+    {% set done = [] %}
+</div>
 
+<div class="{{ pluralVar }} view content">
     <table class="table">
 {% if groupedFields['string'] %}
 {% for field in groupedFields['string'] %}
