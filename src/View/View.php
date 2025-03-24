@@ -39,8 +39,36 @@ class View extends CakeView
      */
     public function assignTitle(string $title): self
     {
-        $this->assign(name: 'title', value: ucfirst($title));
+        $this->assign(name: 'title', value: $title);
 
         return $this;
+    }
+
+    /**
+     * Start capturing output for the `main_links` block, i.e. the links related to the current view.
+     *
+     * Remember to call the `end()` method when finished.
+     *
+     * Example:
+     * ```
+     * $this->startMainLinks();
+     * echo $this->Html->link(
+     *    title: __('Add'),
+     *    url: ['action' => 'add'],
+     *    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'plus']
+     * );
+     * $this->end();
+     * ```
+     *
+     *  You can fetch it with:
+     *  ```
+     *  $this->fetch(name: 'main_links')
+     *  ```
+     *
+     * @return self
+     */
+    public function startMainLinks(): self
+    {
+        return $this->start('main_links');
     }
 }

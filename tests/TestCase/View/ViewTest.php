@@ -27,13 +27,12 @@ class ViewTest extends TestCase
     protected function setUp(): void
     {
         $this->View = new View();
+        $this->View->initialize();
     }
 
     #[Test]
     public function testInitialize(): void
     {
-        $this->View->initialize();
-
         // `HtmlHelper`
         $expectedIconDefaultsConfig = [
             'tag' => 'i',
@@ -57,5 +56,18 @@ class ViewTest extends TestCase
         $result = $this->View->assignTitle($title);
         $this->assertEquals($this->View, $result);
         $this->assertSame($title, $this->View->fetch('title'));
+    }
+
+    #[Test]
+    public function testStartMainLinks(): void
+    {
+        $expected = '<a href="/my-link">My link</a>';
+
+        $result = $this->View->startMainLinks();
+        echo $this->View->Html->link('My link', '/my-link');
+        $this->View->end();
+
+        $this->assertEquals($this->View, $result);
+        $this->assertSame($expected, $this->View->fetch('main_links'));
     }
 }

@@ -9,20 +9,17 @@ declare(strict_types=1);
  */
 
 $this->assignTitle(__('{{ pluralHumanName }}'));
-?>
 
 {% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
-<div>
-    <?= $this->Html->link(
-        title: __('Add'),
-        url: ['action' => 'add'],
-        options: [
-            'class' => 'btn btn-outline-primary',
-            'icon' => 'plus',
-        ]
-    ) ?>
-</div>
+$this->startMainLinks();
+echo $this->Html->link(
+    title: __('Add'),
+    url: ['action' => 'add'],
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'plus']
+);
+$this->end();
 {% set done = [] %}
+?>
 
 <div class="{{ pluralVar }} index content">
     <table class="table">
