@@ -9,6 +9,7 @@ use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
 /**
