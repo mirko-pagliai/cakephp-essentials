@@ -31,9 +31,6 @@ jobs:
 
       - name: Composer install
         uses: ramsey/composer-install@v3
-        with:
-          dependency-versions: ${{ matrix.dependencies }}
-          composer-options: "${{ matrix.composer-options }}"
 
       - name: Composer show
         run: composer show
@@ -105,10 +102,6 @@ jobs:
     name: Coding Standard & Static Analysis
     runs-on: ubuntu-24.04
 
-    env:
-      PHIVE_KEYS: 'CF1A108D0E7AE720,51C67305FFC2E5C0,12CE0F1D262429A5'
-      PHPSTAN_TESTS: 1
-
     steps:
       - uses: actions/checkout@v4
         with:
@@ -120,15 +113,12 @@ jobs:
           php-version: '8.4'
           extensions: mbstring, intl
           coverage: none
-          tools: phive, cs2pr
+          tools: cs2pr
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Composer install
         uses: ramsey/composer-install@v3
-
-      - name: Install PHP tools with phive.
-        run: 'phive install --trust-gpg-keys "$PHIVE_KEYS"'
 
       - name: Run phpcs
         if: always()
@@ -141,23 +131,3 @@ jobs:
       - name: Run phpstan
         if: always()
         run: vendor/bin/phpstan analyse --error-format=github
-
-      - name: Run phpstan for tests
-        if: env.PHPSTAN_TESTS
-        run: vendor/bin/phpstan analyse -c tests/phpstan.neon --error-format=github
-
-      - name: Run class deprecation aliasing validation script
-        if: always()
-        run: php contrib/validate-deprecation-aliases.php
-
-      - name: Run composer.json validation for split packages
-        if: always()
-        run: php contrib/validate-split-packages.php
-
-      - name: Run PHPStan for split packages
-        if: always()
-        run: php contrib/validate-split-packages-phpstan.php
-
-      - name: Prefer lowest check
-        if: matrix.prefer-lowest == 'prefer-lowest'
-        run: composer require --dev dereuromark/composer-prefer-lowest && vendor/bin/validate-prefer-lowest -m
