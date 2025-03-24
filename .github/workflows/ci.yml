@@ -32,9 +32,6 @@ jobs:
       - name: Composer install
         uses: ramsey/composer-install@v3
 
-      - name: Composer show
-        run: composer show
-
       - name: Run PHPUnit
         run: |
           if [[ ${{ matrix.php-version }} == '8.4' ]]; then
