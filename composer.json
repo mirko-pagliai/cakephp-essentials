@@ -32,8 +32,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Cake\\Essentials\\Test\\": "tests",
-      "Cake\\Test\\" : "vendor/cakephp/cakephp/test"
+      "Cake\\Essentials\\Test\\": "tests"
     }
   },
   "scripts": {
