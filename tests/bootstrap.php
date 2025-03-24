@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use Cake\Core\Configure;
 
+require dirname(__DIR__) . '/vendor/autoload.php';
+
 date_default_timezone_set('UTC');
 mb_internal_encoding('UTF-8');
 ini_set('intl.default_locale', 'en_US');
@@ -12,8 +14,6 @@ const CORE_PATH = ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS;
 const APP = ROOT . 'tests' . DS . 'test_app' . DS;
 const APP_DIR = 'test_app' . DS;
 const WWW_ROOT = APP . 'webroot' . DS;
-
-require dirname(__DIR__) . '/vendor/autoload.php';
 
 putenv('APP_DEFAULT_LOCALE=en_US');
 
