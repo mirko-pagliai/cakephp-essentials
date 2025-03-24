@@ -57,7 +57,14 @@ echo $this->Form->postLink(
         {{- "\n" }}
     {%- elseif fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
         echo $this->Form->control(fieldName: '{{ field }}', options: [
+            'class' => 'w-auto',
             'empty' => true,
+        ]);
+        {{- "\n" }}
+    {%- elseif fieldData.type in ['date', 'datetime', 'time'] and fieldData %}
+        echo $this->Form->control(fieldName: '{{ field }}', options: [
+        'class' => 'w-auto',
+        'empty' => true,
         ]);
         {{- "\n" }}
     {%- else %}
