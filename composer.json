@@ -13,6 +13,7 @@
   "require": {
     "php": ">=8.4",
     "cakephp/cakephp": "^5.0",
+    "cakephp/plugin-installer": "^2.0",
     "axllent/jquery": "~3.7",
     "fortawesome/font-awesome": "^6.7",
     "friendsofcake/bootstrap-ui": "^5.1",
@@ -27,12 +28,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Cake\\Essentials\\": "src/"
+      "Cake\\Essentials\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Cake\\Essentials\\Test\\": "tests"
+      "Cake\\Essentials\\Test\\": "tests",
+      "Cake\\Test\\" : "vendor/cakephp/cakephp/test"
     }
   },
   "scripts": {
@@ -41,9 +43,10 @@
   },
   "config": {
     "allow-plugins": {
+      "cakephp/plugin-installer": true,
       "composer/installers": true,
-      "oomphinc/composer-installers-extender": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "oomphinc/composer-installers-extender": true
     }
   }
 }
