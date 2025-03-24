@@ -36,20 +36,29 @@ echo $this->Form->postLink(
     {%- set fieldData = Bake.columnData(field, schema) %}
     {%- if fieldData.null %}
         echo $this->Form->control(fieldName: '{{ field }}', options: [
-    'empty' => true,
+            'class' => 'w-auto',
+            'empty' => true,
             'options' => ${{ keyFields[field] }},
         ]);
         {{- "\n" }}
     {%- else %}
         echo $this->Form->control(fieldName: '{{ field }}', options: [
+            'class' => 'w-auto',
             'options' => ${{ keyFields[field] }},
         ]);
         {{- "\n" }}
     {%- endif %}
 {%- elseif field not in ['created', 'modified', 'updated'] %}
     {%- set fieldData = Bake.columnData(field, schema) %}
-    {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
-        echo $this->Form->control(fieldName: '{{ field }}', options: ['empty' => true]);
+    {%- if fieldData.type starts with 'enum-' %}
+        echo $this->Form->control(fieldName: '{{ field }}', options: [
+            'class' => 'w-auto',
+        ]);
+        {{- "\n" }}
+    {%- elseif fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
+        echo $this->Form->control(fieldName: '{{ field }}', options: [
+            'empty' => true,
+        ]);
         {{- "\n" }}
     {%- else %}
         echo $this->Form->control(fieldName: '{{ field }}');
