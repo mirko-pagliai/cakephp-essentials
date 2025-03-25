@@ -11,6 +11,7 @@ use Override;
  *
  * @property \Cake\Essentials\View\Helper\FormHelper $Form
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
+ * @property \BootstrapUI\View\Helper\PaginatorHelper $Paginator
  */
 class View extends CakeView
 {
@@ -24,6 +25,15 @@ class View extends CakeView
 
         $this->addHelper('Cake/Essentials.Html');
         $this->addHelper('Cake/Essentials.Form');
+        $this->addHelper('BootstrapUI.Paginator', [
+            'templates' => [
+                'sort' => '<a href="{{url}}" class="text-decoration-none">{{text}}</a>',
+                'sortAsc' => '<a class="asc text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-up-short-wide"></i></a>',
+                'sortDesc' => '<a class="desc text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-down-wide-short"></i></a>',
+                'sortAscLocked' => '<a class="asc locked text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-up-short-wide"></i></a>',
+                'sortDescLocked' => '<a class="desc locked text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-down-wide-short"></i></a>',
+            ],
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase;
 
+use BootstrapUI\View\Helper\PaginatorHelper;
 use Cake\Essentials\View\Helper\FormHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
@@ -47,6 +48,10 @@ class ViewTest extends TestCase
         // `FormHelper`
         $FormHelper = $this->View->helpers()->get('Form');
         $this->assertInstanceOf(FormHelper::class, $FormHelper);
+
+        // `PaginatorHelper`
+        $PaginatorHelper = $this->View->helpers()->get('Paginator');
+        $this->assertInstanceOf(PaginatorHelper::class, $PaginatorHelper);
     }
 
     #[Test]
