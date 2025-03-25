@@ -50,6 +50,7 @@ class View extends CakeView
      *
      * @param string $title
      * @return self
+     *
      * @see \Cake\View\View::renderLayout()
      */
     public function assignTitle(string $title): self
