@@ -61,9 +61,12 @@ class FormHelper extends BootstrapUIFormHelper
          * This allows the `help` option to be an array
          */
         if (!empty($options['help']) && is_array($options['help'])) {
+            /** @var string[] $help */
+            $help = $options['help'];
+
             $options['help'] = implode(separator: '', array: array_map(
                 callback: fn (string $help): string => '<div>' . $help . '</div>',
-                array: $options['help']
+                array: $help
             ));
         }
 

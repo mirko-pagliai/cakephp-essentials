@@ -184,7 +184,7 @@ class HtmlHelperTest extends TestCase
 
     #[Test]
     #[TestWith(['<button type="button" class="btn">My text</button>'])]
-    #[TestWith(['<button type="button" class="btn">My text</button>'], '')]
+    #[TestWith(['<button type="button" class="btn"></button>', ''])]
     #[TestWith(['<button class="btn" type="button">My text</button>', 'My text', ['class' => 'btn']])]
     #[TestWith(['<button class="btn btn-primary" type="button">My text</button>', 'My text', ['class' => 'btn btn-primary']])]
     #[TestWith(['<button class="btn-primary btn" type="button">My text</button>', 'My text', ['class' => 'btn-primary']])]
