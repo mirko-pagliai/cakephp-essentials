@@ -137,7 +137,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * @link https://getbootstrap.com/docs/5.3/components/tooltips
      */
     public function addTooltip(array $options): array
-    {        
+    {
         if (empty($options['tooltip'])) {
             return $options;
         }
