@@ -60,9 +60,18 @@ class FormHelperTest extends TestCase
     #[Test]
     public function testPostLink(): void
     {
-        $expectedEnd = '<i class="fas fa-home"></i> Title</a>';
+        $expected = [
+            'form' => ['name', 'method' => 'post', 'style' => 'display:none;', 'action' => '#url'],
+            'input' => ['type' => 'hidden', 'name' => '_method', 'value' => 'POST'],
+            '/form',
+            'a' => ['href' => '#', 'onclick', 'class' => 'text-decoration-none', 'title' => 'Title'],
+            'i' => ['class' => 'fas fa-home'],
+            '/i',
+            'Title',
+            '/a',
+        ];
         $result = $this->Form->postLink(title: 'Title', url: '#url', options: ['icon' => 'home']);
-        $this->assertStringEndsWith($expectedEnd, $result);
+        $this->assertHtml($expected, $result);
     }
 
     #[Test]
