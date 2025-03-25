@@ -17,7 +17,7 @@ try {
     $hasPages = false;
 }
 
-if (!$hasPages) {
+if (!$hasPages || $this->Paginator->total() < 2) {
     return;
 }
 ?>
