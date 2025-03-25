@@ -53,6 +53,10 @@ class HtmlHelperTest extends TestCase
         //Only `optional` is named
         $result = $this->Html->{$tag}('My text', options: $options);
         $this->assertSame($expected, $result);
+
+        $expected = sprintf('<%s><i style="color: red" class="bi bi-home"></i> My text</%s>', $tag, $tag);
+        $result = $this->Html->{$tag}('My text', options: ['icon' => ['name' => 'home', 'style' => 'color: red']]);
+        $this->assertSame($expected, $result);
     }
 
     #[Test]
@@ -96,6 +100,7 @@ class HtmlHelperTest extends TestCase
     #[TestWith(['<i class="bi bi-home"></i>', ['icon' => 'home']])]
     #[TestWith(['<i class="bi bi-home"></i>', ['icon' => ['name' => 'home']]])]
     #[TestWith(['<i class="bi bi-home bi-lg"></i>', ['icon' => ['name' => 'home', 'size' => 'lg']]])]
+    #[TestWith(['<i style="color: red;" class="bi bi-home"></i>', ['icon' => ['name' => 'home', 'style' => 'color: red;']]])]
     public function testAddIconToTitle(string $expectedIcon, array $options): void
     {
         [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);

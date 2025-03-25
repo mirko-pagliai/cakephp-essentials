@@ -55,13 +55,14 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             throw new ArgumentCountError(sprintf('Too many arguments for `%s::%s()`, %s passed and at most 2 expected', $this::class, $tag, $counter));
         }
 
+        $tag = match ($tag) {
+            'underline' => 'u',
+            default => $tag,
+        };
         $text = $arguments['text'] ?? ($arguments[0] ?? '');
         $options = $arguments['options'] ?? ($arguments[1] ?? []);
 
-        return $this->tag(name: match ($tag) {
-            'underline' => 'u',
-            default => $tag,
-        }, text: $text, options: $options);
+        return $this->tag(name: $tag, text: $text, options: $options);
     }
 
     /**
