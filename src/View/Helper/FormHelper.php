@@ -92,4 +92,15 @@ class FormHelper extends BootstrapUIFormHelper
 
         return parent::select(fieldName: $fieldName, options: $options, attributes: $attributes);
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
+    public function submit(?string $caption = null, array $options = []): string
+    {
+        $options += ['class' => 'btn btn-success'];
+
+        return parent::submit($caption, $options);
+    }
 }

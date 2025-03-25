@@ -102,4 +102,15 @@ class FormHelperTest extends TestCase
         $this->assertStringNotContainsString('<option value="">', $result);
         $this->assertStringNotContainsString('select an option', $result);
     }
+
+    #[Test]
+    #[TestWith(['<input type="submit" class="btn btn-success" value="">'])]
+    #[TestWith(['<input type="submit" class="btn btn-primary" value="">', ['class' => 'btn btn-primary']])]
+    #[TestWith(['<input type="submit" class="custom-class btn btn-secondary" value="">', ['class' => 'custom-class']])]
+    public function testSubmit(string $expectedButton, array $options = []): void
+    {
+        $expectedButton = '<div class="submit">' . $expectedButton . '</div>';
+        $result = $this->Form->submit(caption: '', options: $options);
+        $this->assertSame($expectedButton, $result);
+    }
 }
