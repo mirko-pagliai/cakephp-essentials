@@ -5,6 +5,7 @@ namespace Cake\Essentials\View;
 
 use Cake\View\View as CakeView;
 use Override;
+use function Cake\I18n\__d as __d;
 
 /**
  * {@inheritDoc}
@@ -26,6 +27,10 @@ class View extends CakeView
         $this->addHelper('Cake/Essentials.Html');
         $this->addHelper('Cake/Essentials.Form');
         $this->addHelper('BootstrapUI.Paginator', [
+            'labels' => [
+                'prev' => ['label' => __d('cakephp/essentials', 'Previous')],
+                'next' => ['label' => __d('cakephp/essentials', 'Next')],
+            ],
             'templates' => [
                 'sort' => '<a href="{{url}}" class="text-decoration-none">{{text}}</a>',
                 'sortAsc' => '<a class="asc text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-up-short-wide"></i></a>',
