@@ -129,6 +129,30 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
+    #[TestWith([['popover' => 'My popover']])]
+    #[TestWith([['data-bs-content' => 'something-else', 'popover' => 'My popover', 'data-bs-toggle' => 'something-else']])]
+    public function testAddPopover(array $options): void
+    {
+        $expected = [
+            'data-bs-content' => 'My popover',
+            'data-bs-toggle' => 'popover',
+            'data-bs-trigger' => 'focus',
+            'role' => 'button',
+            'tabindex' => 0,
+        ];
+        $result = $this->Html->addPopover(options: $options);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testAddPopoverWithNoTooltipOption(): void
+    {
+        $options = ['class' => 'custom-class'];
+        $result = $this->Html->addPopover($options);
+        $this->assertSame($options, $result);
+    }
+
+    #[Test]
     #[TestWith([['tooltip' => 'First<br />Second']])]
     #[TestWith([['tooltip' => ['First', 'Second']]])]
     #[TestWith([['data-bs-html' => 'false', 'tooltip' => 'First<br />Second', 'data-bs-toggle' => 'something-else']])]
@@ -139,7 +163,7 @@ class HtmlHelperTest extends TestCase
             'data-bs-title' => 'First<br />Second',
             'data-bs-toggle' => 'tooltip',
         ];
-        $result = $this->Html->addTooltip($options);
+        $result = $this->Html->addTooltip(options: $options);
         $this->assertSame($expected, $result);
     }
 

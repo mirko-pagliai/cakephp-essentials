@@ -126,7 +126,38 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     }
 
     /**
-     * Adds tooltip, starting from the options.
+     * Adds a popover, starting from the options.
+     *
+     * Takes the options and, if the `popover` option is present, constructs all the options needed for
+     *  the popover, then returns the options.
+     *
+     * We suggest you set the `onclick` option as `event.preventDefault();` when it's not about a real link.
+     *
+     * @param array $options
+     * @return array
+     *
+     * @link https://getbootstrap.com/docs/5.3/components/popovers
+     */
+    public function addPopover(array $options): array
+    {
+        if (empty($options['popover'])) {
+            return $options;
+        }
+
+        $popover = $options['popover'];
+        unset($options['popover']);
+
+        return [
+            'data-bs-content' => $popover,
+            'data-bs-toggle' => 'popover',
+            'data-bs-trigger' => 'focus',
+            'role' => 'button',
+            'tabindex' => 0,
+        ] + $options;
+    }
+
+    /**
+     * Adds a tooltip, starting from the options.
      *
      * Takes the options and, if the `tooltip` option is present (as a string or array of strings),
      *  constructs all the options needed for the tooltip, then returns the options.
