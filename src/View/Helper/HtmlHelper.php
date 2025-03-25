@@ -47,12 +47,11 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         parent::__construct(View: $View, config: $config);
     }
 
-
     /**
      * Magic "call" method.
      *
      * It provides the methods in the class description, for example:
-     * 
+     *
      * ```
      * $this->Html->h1('My text');
      * ```
@@ -128,7 +127,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
     /**
      * Adds tooltip, starting from the options.
-     * 
+     *
      * Takes the options and, if the `tooltip` option is present (as a string or array of strings),
      *  constructs all the options needed for the tooltip, then returns the options.
      *
