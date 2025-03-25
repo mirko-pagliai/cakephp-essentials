@@ -100,7 +100,7 @@ class HtmlHelperTest extends TestCase
     {
         [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
         $this->assertSame($expectedIcon . ' Title', $resultTitle);
-        $this->assertSame(['class' => 'text-decoration-none'], $resultOptions);
+        $this->assertEmpty($resultOptions);
     }
 
     #[Test]
@@ -292,7 +292,7 @@ class HtmlHelperTest extends TestCase
 
     #[Test]
     #[TestWith(['<span>My text</span>'])]
-    #[TestWith(['<span class="text-decoration-none"><i class="fas fa-home"></i> My text</span>', ['icon' => 'home']])]
+    #[TestWith(['<span><i class="fas fa-home"></i> My text</span>', ['icon' => 'home']])]
     #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip">My text</span>', ['tooltip' => 'My tooltip']])]
     public function testTag(string $expectedTag, array $options = []): void
     {

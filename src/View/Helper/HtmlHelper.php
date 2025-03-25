@@ -117,8 +117,6 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             $iconOptions = $icon;
         }
 
-        $options = $this->addClass(options: $options, class: 'text-decoration-none');
-
         return [
             $this->icon(name: $name, options: $iconOptions) . ' ' . $title,
             $options,
@@ -309,6 +307,9 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             'title' => trim(strip_tags($title)),
         ];
 
+        if (!empty($options['icon'])) {
+            $options = $this->addClass(options: $options, class: 'text-decoration-none');
+        }
         [$title, $options] = $this->addIconToTitle(title: $title, options: $options);
         $options = $this->addPopover($options);
         $options = $this->addTooltip($options);

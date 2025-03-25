@@ -70,7 +70,7 @@ class ViewTest extends TestCase
     #[Test]
     public function testStartMainLinks(): void
     {
-        $expected = '<a href="/my-link">My link</a>';
+        $expected = '<a href="/my-link" title="My link">My link</a>';
 
         $result = $this->View->startMainLinks();
         echo $this->View->Html->link('My link', '/my-link');
