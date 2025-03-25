@@ -183,6 +183,19 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['<button type="button" class="btn">My text</button>'])]
+    #[TestWith(['<button type="button" class="btn">My text</button>'], '')]
+    #[TestWith(['<button class="btn" type="button">My text</button>', 'My text', ['class' => 'btn']])]
+    #[TestWith(['<button class="btn btn-primary" type="button">My text</button>', 'My text', ['class' => 'btn btn-primary']])]
+    #[TestWith(['<button class="btn-primary btn" type="button">My text</button>', 'My text', ['class' => 'btn-primary']])]
+    #[TestWith(['<button type="reset" class="btn">My text</button>', 'My text', ['type' => 'reset']])]
+    public function testButton(string $expectedButton, string $text = 'My text', array $options = []): void
+    {
+        $result = $this->Html->button(text: $text, options: $options);
+        $this->assertSame($expectedButton, $result);
+    }
+
+    #[Test]
     public function testFlushDiv(): void
     {
         $list = [
@@ -243,11 +256,30 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    public function testLink(): void
+    #[TestWith(['<a href="#url" title="Title">Title</a>', 'Title'])]
+    #[TestWith(['<a href="#url" title="Title"><span>Title</span></a>', '<span>Title</span>'])]
+    #[TestWith(['<a href="#url" title="Title" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>', 'Title', ['icon' => 'home']])]
+    #[TestWith(['<a href="#url" title="Attribute title">Title</a>', 'Title', ['title' => 'Attribute title']])]
+    public function testLink(string $expectedLink, string $title, array $options = []): void
     {
-        $expected = '<a href="#url" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>';
-        $result = $this->Html->link(title: 'Title', url: '#url', options: ['icon' => 'home']);
-        $this->assertSame($expected, $result);
+        $result = $this->Html->link(title: $title, url: '#url', options: $options);
+        $this->assertSame($expectedLink, $result);
+    }
+
+    #[Test]
+    public function testLinkWithPopover(): void
+    {
+        $expected = 'data-bs-content="My popover" data-bs-toggle="popover" data-bs-trigger="focus" role="button" tabindex="0"';
+        $result = $this->Html->link(title: 'Title', url: '#url', options: ['popover' => 'My popover']);
+        $this->assertStringContainsString($expected, $result);
+    }
+
+    #[Test]
+    public function testLinkWithTooltip(): void
+    {
+        $expected = 'data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip"';
+        $result = $this->Html->link(title: 'Title', url: '#url', options: ['tooltip' => 'My tooltip']);
+        $this->assertStringContainsString($expected, $result);
     }
 
     #[Test]

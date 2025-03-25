@@ -207,6 +207,26 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     }
 
     /**
+     * Creates a `button` tag.
+     *
+     * @param string $text
+     * @param array $options
+     * @return string
+     *
+     * @see \Cake\Essentials\View\Helper\HtmlHelper::tag() for all options
+     */
+    public function button(string $text = '', array $options = []): string
+    {
+        $options += [
+            'type' => 'button',
+        ];
+
+        $options = $this->injectClasses(classes: 'btn', options: $options);
+
+        return $this->tag(name: 'button', text: $text, options: $options);
+    }
+
+    /**
      * Creates a "flush" list using `div` elements (for the wrapper and for each item), instead of the `ol/ul`
      *  and the `li` tags.
      *
@@ -286,9 +306,12 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
         $options += [
             'escape' => false,
+            'title' => trim(strip_tags($title)),
         ];
 
         [$title, $options] = $this->addIconToTitle(title: $title, options: $options);
+        $options = $this->addPopover($options);
+        $options = $this->addTooltip($options);
 
         return parent::link(title: $title, url: $url, options: $options);
     }
