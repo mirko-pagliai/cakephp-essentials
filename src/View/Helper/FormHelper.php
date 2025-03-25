@@ -43,6 +43,37 @@ class FormHelper extends BootstrapUIFormHelper
      * @inheritDoc
      */
     #[Override]
+    public function control(string $fieldName, array $options = []): string
+    {
+        $options += ['type' => null];
+
+        /**
+         * Support for "switch" type.
+         *
+         * @see https://github.com/FriendsOfCake/bootstrap-ui?tab=readme-ov-file#switches
+         * @see https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
+         */
+        if ($options['type'] === 'switch') {
+            $options = ['type' => 'checkbox', 'switch' => true] + $options;
+        }
+
+        /**
+         * This allows the `help` option to be an array
+         */
+        if (is_array($options['help'])) {
+            $options['help'] = implode(separator: '', array: array_map(
+                callback: fn (string $help): string => '<div>' . $help . '</div>',
+                array: $options['help']
+            ));
+        }
+
+        return parent::control(fieldName: $fieldName, options: $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
     public function dateTime(string $fieldName, array $options = []): string
     {
         $options += ['step' => '60'];

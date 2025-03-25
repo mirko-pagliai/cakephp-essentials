@@ -49,6 +49,31 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['<div id="myfield-help" class="form-text">A help text</div>', 'A help text'])]
+    #[TestWith(['<div id="myfield-help" class="form-text"><div>First</div><div>Second</div></div>', ['First', 'Second']])]
+    public function testControlWithHelp(string $expectedContains, string|array $help): void
+    {
+        $result = $this->Form->control(fieldName: 'myField', options: compact('help'));
+        $this->assertStringContainsString($expectedContains, $result);
+    }
+
+    #[Test]
+    public function testControlSwitchType(): void
+    {
+        $expected = [
+            'div' => ['class' => 'form-check form-switch checkbox'],
+            ['input' => ['type' => 'hidden', 'name' => 'myField', 'value' => '0']],
+            ['input' => ['type' => 'checkbox', 'name' => 'myField', 'value' => '1', 'id' => 'myfield', 'class' => 'form-check-input']],
+            'label' => ['class' => 'form-check-label', 'for' => 'myfield'],
+            'My Field',
+            '/label',
+            '/div',
+        ];
+        $result = $this->Form->control(fieldName: 'myField', options: ['type' => 'switch']);
+        $this->assertHtml($expected, $result);
+    }
+
+    #[Test]
     #[TestWith(['<input type="datetime-local" name="datetime" step="60" class="form-control" value="">'])]
     #[TestWith(['<input type="datetime-local" name="datetime" class="form-control" value="">', ['step' => null]])]
     public function testDatetime(string $expectedDatetime, array $options = []): void
