@@ -11,7 +11,7 @@ echo $this->Form->postLink(
     title: __('Delete'),
     url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
     options: [
-        'confirm' => __('Are you sure you want to delete # {0}?', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}),
+        'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
         'class' => 'btn btn-sm btn-outline-danger',
         'icon' => 'trash',
     ]

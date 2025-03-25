@@ -90,7 +90,7 @@ $this->end();
                         title: __('Delete'),
                         url: ['action' => 'delete', {{ pk|raw }}],
                         options: [
-                            'confirm' => __('Are you sure you want to delete # {0}?', {{ pk|raw }}),
+                            'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
                             'class' => 'link-danger',
                             'icon' => 'trash',
                             'method' => 'delete',
