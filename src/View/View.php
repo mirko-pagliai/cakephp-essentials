@@ -27,21 +27,24 @@ class View extends CakeView
     }
 
     /**
-     * Assigns the title for the current view.
+     * Assigns the main title for the current view.
      *
-     * You could assign title for single action/template and fetch it in layout.
+     * You could assign the main title in your action/template and fetch it in layout.
      *
      * You can fetch it with:
      * ```
-     * $this->fetch(name: 'title')
+     * $this->fetch(name: 'main_title')
      * ```
+     *
+     * It is recommended not to use the `title` block, because this is always set automatically by `Cake\View\View::renderLayout()`.
      *
      * @param string $title
      * @return self
+     * @see \Cake\View\View::renderLayout()
      */
     public function assignTitle(string $title): self
     {
-        $this->assign(name: 'title', value: $title);
+        $this->assign(name: 'main_title', value: $title);
 
         return $this;
     }

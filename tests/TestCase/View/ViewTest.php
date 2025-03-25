@@ -55,7 +55,7 @@ class ViewTest extends TestCase
         $title = 'My title';
         $result = $this->View->assignTitle($title);
         $this->assertEquals($this->View, $result);
-        $this->assertSame($title, $this->View->fetch('title'));
+        $this->assertSame($title, $this->View->fetch('main_title'));
     }
 
     #[Test]
