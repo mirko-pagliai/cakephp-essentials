@@ -30,11 +30,19 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
+    public function testButton(): void
+    {
+        $expected = '<button class="btn btn-primary" type="submit"><i class="fas fa-home"></i> My button</button>';
+        $result = $this->Form->button(title: 'My button', options: ['icon' => 'home']);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
     #[TestWith(['btn btn-primary'])]
     #[TestWith(['btn btn-success', ['type' => 'submit']])]
     #[TestWith(['btn btn-primary', ['type' => 'reset']])]
     #[TestWith(['custom-class btn btn-secondary', ['class' => 'custom-class', 'type' => 'submit']])]
-    public function testButton(string $expectedClass, array $options = []): void
+    public function testButtonClassesAndType(string $expectedClass, array $options = []): void
     {
         $result = $this->Form->button(title: 'My button', options: $options);
         $this->assertStringContainsString('class="' . $expectedClass . '"', $result);
@@ -55,6 +63,14 @@ class FormHelperTest extends TestCase
         $expectedEnd = '<i class="fas fa-home"></i> Title</a>';
         $result = $this->Form->postLink(title: 'Title', url: '#url', options: ['icon' => 'home']);
         $this->assertStringEndsWith($expectedEnd, $result);
+    }
+
+    #[Test]
+    public function testRadio(): void
+    {
+        $result = $this->Form->radio(fieldName: 'myField', options: ['first' => '<em>First</em>', 'second' => '<strong>Second</strong>']);
+        $this->assertStringContainsString('<label class="form-check-label" for="myfield-first"><em>First</em></label>', $result);
+        $this->assertStringContainsString('<label class="form-check-label" for="myfield-second"><strong>Second</strong></label>', $result);
     }
 
     #[Test]

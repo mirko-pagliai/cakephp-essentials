@@ -31,7 +31,10 @@ class FormHelper extends BootstrapUIFormHelper
     {
         $options += [
             'class' => isset($options['type']) && $options['type'] === 'submit' ? 'btn btn-success' : 'btn btn-primary',
+            'escapeTitle' => false,
         ];
+
+        [$title, $options] = $this->Html->addIconToTitle(title: $title, options: $options);
 
         return parent::button(title: $title, options: $options);
     }
@@ -56,6 +59,17 @@ class FormHelper extends BootstrapUIFormHelper
         [$title, $options] = $this->Html->addIconToTitle($title, $options);
 
         return parent::postLink($title, $url, $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
+    public function radio(string $fieldName, iterable $options = [], array $attributes = []): string
+    {
+        $attributes += ['escape' => false];
+
+        return parent::radio(fieldName: $fieldName, options: $options, attributes: $attributes);
     }
 
     /**
