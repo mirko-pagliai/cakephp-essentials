@@ -164,14 +164,6 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    public function testLink(): void
-    {
-        $expected = '<a href="#url" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>';
-        $result = $this->Html->link(title: 'Title', url: '#url', options: ['icon' => 'home']);
-        $this->assertSame($expected, $result);
-    }
-
-    #[Test]
     public function testFlushDiv(): void
     {
         $list = [
@@ -229,6 +221,14 @@ class HtmlHelperTest extends TestCase
     {
         $result = $this->Html->image($path, $options);
         $this->assertSame($expectedImage, $result);
+    }
+
+    #[Test]
+    public function testLink(): void
+    {
+        $expected = '<a href="#url" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>';
+        $result = $this->Html->link(title: 'Title', url: '#url', options: ['icon' => 'home']);
+        $this->assertSame($expected, $result);
     }
 
     #[Test]
