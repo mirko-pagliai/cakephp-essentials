@@ -6,7 +6,6 @@ namespace Cake\Essentials\View\Helper;
 use ArgumentCountError;
 use BadMethodCallException;
 use BootstrapUI\View\Helper\HtmlHelper as BootstrapUIHtmlHelper;
-use Cake\View\View;
 use InvalidArgumentException;
 use Override;
 
@@ -32,21 +31,6 @@ use Override;
  */
 class HtmlHelper extends BootstrapUIHtmlHelper
 {
-    /**
-     * @inheritDoc
-     */
-    public function __construct(View $View, array $config = [])
-    {
-        if (!isset($config['iconDefaults'])) {
-            $config['iconDefaults'] = [
-                'namespace' => 'fas',
-                'prefix' => 'fa',
-            ];
-        }
-
-        parent::__construct(View: $View, config: $config);
-    }
-
     /**
      * Magic "call" method.
      *

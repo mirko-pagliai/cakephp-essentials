@@ -5,6 +5,7 @@ namespace Cake\Essentials\Test\TestCase;
 
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -23,6 +24,7 @@ class ViewTest extends TestCase
     /**
      * @inheritDoc
      */
+    #[Override]
     protected function setUp(): void
     {
         $this->View = new View();
@@ -42,20 +44,6 @@ class ViewTest extends TestCase
     {
         $HelperRegistry = $this->View->helpers();
         $this->assertInstanceOf($expectedClass, $HelperRegistry->get($helper));
-    }
-
-    #[Test]
-    public function testInitializeHtmlHelperConfig(): void
-    {
-        // `HtmlHelper`
-        $expectedIconDefaultsConfig = [
-            'tag' => 'i',
-            'namespace' => 'fas',
-            'prefix' => 'fa',
-            'size' => null,
-        ];
-        $config = $this->View->helpers()->get('Html')->getConfig('iconDefaults');
-        $this->assertSame($expectedIconDefaultsConfig, $config);
     }
 
     #[Test]

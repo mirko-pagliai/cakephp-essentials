@@ -32,7 +32,7 @@ class FormHelperTest extends TestCase
     #[Test]
     public function testButton(): void
     {
-        $expected = '<button class="btn btn-primary" type="submit"><i class="fas fa-home"></i> My button</button>';
+        $expected = '<button class="btn btn-primary" type="submit"><i class="bi bi-home"></i> My button</button>';
         $result = $this->Form->button(title: 'My button', options: ['icon' => 'home']);
         $this->assertSame($expected, $result);
     }
@@ -90,7 +90,7 @@ class FormHelperTest extends TestCase
             'input' => ['type' => 'hidden', 'name' => '_method', 'value' => 'POST'],
             '/form',
             'a' => ['href' => '#', 'onclick', 'class' => 'text-decoration-none', 'title' => 'Title'],
-            'i' => ['class' => 'fas fa-home'],
+            'i' => ['class' => 'bi bi-home'],
             '/i',
             'Title',
             '/a',

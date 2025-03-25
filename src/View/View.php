@@ -33,10 +33,10 @@ class View extends CakeView
             ],
             'templates' => [
                 'sort' => '<a href="{{url}}" class="text-decoration-none">{{text}}</a>',
-                'sortAsc' => '<a class="asc text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-up-short-wide"></i></a>',
-                'sortDesc' => '<a class="desc text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-down-wide-short"></i></a>',
-                'sortAscLocked' => '<a class="asc locked text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-up-short-wide"></i></a>',
-                'sortDescLocked' => '<a class="desc locked text-decoration-none" href="{{url}}">{{text}} <i class="fas fa-arrow-down-wide-short"></i></a>',
+                'sortAsc' => '<a class="asc text-decoration-none" href="{{url}}">{{text}} <i class="bi bi-sort-down"></i></a>',
+                'sortDesc' => '<a class="desc text-decoration-none" href="{{url}}">{{text}} <i class="bi bi-sort-down-alt"></i></a>',
+                'sortAscLocked' => '<a class="asc locked text-decoration-none" href="{{url}}">{{text}} <i class="bi bi-sort-down"></i></a>',
+                'sortDescLocked' => '<a class="desc locked text-decoration-none" href="{{url}}">{{text}} <i class="bi bi-sort-down-alt"></i></a>',
             ],
         ]);
     }

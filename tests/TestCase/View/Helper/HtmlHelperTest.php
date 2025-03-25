@@ -93,9 +93,9 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['<i class="fas fa-home"></i>', ['icon' => 'home']])]
-    #[TestWith(['<i class="fas fa-home"></i>', ['icon' => ['name' => 'home']]])]
-    #[TestWith(['<i class="fas fa-home fa-lg"></i>', ['icon' => ['name' => 'home', 'size' => 'lg']]])]
+    #[TestWith(['<i class="bi bi-home"></i>', ['icon' => 'home']])]
+    #[TestWith(['<i class="bi bi-home"></i>', ['icon' => ['name' => 'home']]])]
+    #[TestWith(['<i class="bi bi-home bi-lg"></i>', ['icon' => ['name' => 'home', 'size' => 'lg']]])]
     public function testAddIconToTitle(string $expectedIcon, array $options): void
     {
         [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
@@ -258,7 +258,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     #[TestWith(['<a href="#url" title="Title">Title</a>', 'Title'])]
     #[TestWith(['<a href="#url" title="Title"><span>Title</span></a>', '<span>Title</span>'])]
-    #[TestWith(['<a href="#url" title="Title" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>', 'Title', ['icon' => 'home']])]
+    #[TestWith(['<a href="#url" title="Title" class="text-decoration-none"><i class="bi bi-home"></i> Title</a>', 'Title', ['icon' => 'home']])]
     #[TestWith(['<a href="#url" title="Attribute title">Title</a>', 'Title', ['title' => 'Attribute title']])]
     public function testLink(string $expectedLink, string $title, array $options = []): void
     {
@@ -292,7 +292,7 @@ class HtmlHelperTest extends TestCase
 
     #[Test]
     #[TestWith(['<span>My text</span>'])]
-    #[TestWith(['<span><i class="fas fa-home"></i> My text</span>', ['icon' => 'home']])]
+    #[TestWith(['<span><i class="bi bi-home"></i> My text</span>', ['icon' => 'home']])]
     #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip">My text</span>', ['tooltip' => 'My tooltip']])]
     public function testTag(string $expectedTag, array $options = []): void
     {

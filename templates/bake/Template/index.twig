@@ -15,7 +15,10 @@ $this->startMainLinks();
 echo $this->Html->link(
     title: __('Add'),
     url: ['action' => 'add'],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'plus']
+    options: [
+        'class' => 'btn btn-sm btn-outline-primary',
+        'icon' => 'plus-lg',
+    ]
 );
 $this->end();
 {% set done = [] %}
@@ -79,12 +82,12 @@ $this->end();
                     echo $this->Html->link(
                         title: __('View'),
                         url: ['action' => 'view', {{ pk|raw }}],
-                        options: ['icon' => 'eye']
+                        options: ['icon' => 'eye-fill']
                     );
                     echo $this->Html->link(
                         title: __('Edit'),
                         url: ['action' => 'edit', {{ pk|raw }}],
-                        options: ['icon' => 'edit']
+                        options: ['icon' => 'pencil-square']
                     );
                     echo $this->Form->postLink(
                         title: __('Delete'),
@@ -92,7 +95,7 @@ $this->end();
                         options: [
                             'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
                             'class' => 'link-danger',
-                            'icon' => 'trash',
+                            'icon' => 'trash-fill',
                             'method' => 'delete',
                         ]
                     );
