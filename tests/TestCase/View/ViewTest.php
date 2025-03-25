@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase;
 
-use BootstrapUI\View\Helper\PaginatorHelper;
-use Cake\Essentials\View\Helper\FormHelper;
-use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 
 /**
  * ViewTest.
@@ -31,8 +29,23 @@ class ViewTest extends TestCase
         $this->View->initialize();
     }
 
+    /**
+     * @param class-string $expectedClass
+     * @param string $helper
+     * @return void
+     */
     #[Test]
-    public function testInitialize(): void
+    #[TestWith(['Cake\Essentials\View\Helper\HtmlHelper', 'Html'])]
+    #[TestWith(['Cake\Essentials\View\Helper\FormHelper', 'Form'])]
+    #[TestWith(['BootstrapUI\View\Helper\PaginatorHelper', 'Paginator'])]
+    public function testInitializeLoadedHelpers(string $expectedClass, string $helper): void
+    {
+        $HelperRegistry = $this->View->helpers();
+        $this->assertInstanceOf($expectedClass, $HelperRegistry->get($helper));
+    }
+
+    #[Test]
+    public function testInitializeHtmlHelperConfig(): void
     {
         // `HtmlHelper`
         $expectedIconDefaultsConfig = [
@@ -41,17 +54,8 @@ class ViewTest extends TestCase
             'prefix' => 'fa',
             'size' => null,
         ];
-        $HtmlHelper = $this->View->helpers()->get('Html');
-        $this->assertInstanceOf(HtmlHelper::class, $HtmlHelper);
-        $this->assertSame($expectedIconDefaultsConfig, $HtmlHelper->getConfig('iconDefaults'));
-
-        // `FormHelper`
-        $FormHelper = $this->View->helpers()->get('Form');
-        $this->assertInstanceOf(FormHelper::class, $FormHelper);
-
-        // `PaginatorHelper`
-        $PaginatorHelper = $this->View->helpers()->get('Paginator');
-        $this->assertInstanceOf(PaginatorHelper::class, $PaginatorHelper);
+        $config = $this->View->helpers()->get('Html')->getConfig('iconDefaults');
+        $this->assertSame($expectedIconDefaultsConfig, $config);
     }
 
     #[Test]
