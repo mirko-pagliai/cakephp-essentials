@@ -56,7 +56,7 @@ class TextHelper extends CakeTextHelper
      * Highlights a given phrase in a text.
      *
      * @param string $text Text to search the phrase in
-     * @param string|string[] $phrase The phrase or phrases that will be searched
+     * @param array<string>|string $phrase The phrase or phrases that will be searched
      * @param array<string, mixed> $options An array of HTML attributes and options
      * @return string The highlighted text
      *
