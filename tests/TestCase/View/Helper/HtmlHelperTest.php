@@ -103,11 +103,6 @@ class HtmlHelperTest extends TestCase
         $this->assertSame(['class' => 'text-decoration-none'], $resultOptions);
     }
 
-    /**
-     * `icon` is empty.
-     *
-     * Expects the title to be unchanged and the options array to be empty.
-     */
     #[Test]
     #[TestWith([[]])]
     #[TestWith([['icon' => null]])]
