@@ -7,8 +7,10 @@ use BadMethodCallException;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
@@ -29,6 +31,64 @@ class HtmlHelperTest extends TestCase
     protected function setUp(): void
     {
         $this->Html = new HtmlHelper(new View());
+    }
+
+    #[Test]
+    #[TestWith(['h1'])]
+    #[TestWith(['span'])]
+    public function testCallMagicMethodPositionalAndNamedArguments(string $tag): void
+    {
+        $expected = sprintf('<%s class="custom-class">My text</%s>', $tag, $tag);
+        $options = ['class' => 'custom-class'];
+
+        //Both positionals
+        $result = $this->Html->{$tag}('My text', $options);
+        $this->assertSame($expected, $result);
+
+        //Both named
+        $result = $this->Html->{$tag}(text: 'My text', options: $options);
+        $this->assertSame($expected, $result);
+
+        //Only `optional` is named
+        $result = $this->Html->{$tag}('My text', options: $options);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    #[TestWith(['code', '<code>My text</code>'])]
+    #[TestWith(['em', '<em>My text</em>'])]
+    #[TestWith(['kbd', '<kbd>My text</kbd>'])]
+    #[TestWith(['h1', '<h1>My text</h1>'])]
+    #[TestWith(['h2', '<h2>My text</h2>'])]
+    #[TestWith(['h3', '<h3>My text</h3>'])]
+    #[TestWith(['h4', '<h4>My text</h4>'])]
+    #[TestWith(['h5', '<h5>My text</h5>'])]
+    #[TestWith(['h6', '<h6>My text</h6>'])]
+    #[TestWith(['pre', '<pre>My text</pre>'])]
+    #[TestWith(['small', '<small>My text</small>'])]
+    #[TestWith(['span', '<span>My text</span>'])]
+    #[TestWith(['strong', '<strong>My text</strong>'])]
+    #[TestWith(['title', '<title>My text</title>'])]
+    #[TestWith(['underline', '<u>My text</u>'])]
+    public function testCallMagicMethodWithAllDefinedTags(string $tag, string $expected): void
+    {
+        $result = $this->Html->{$tag}('My text');
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testCallMagicMethodTooFewArguments(): void
+    {
+        $this->expectExceptionMessage('Too few arguments for `' . $this->Html::class . '::h1()`, 0 passed and at least 1 expected');
+        $this->Html->h1();
+    }
+
+    #[Test]
+    public function testCallMagicMethodTooManyArguments(): void
+    {
+        $this->expectExceptionMessage('Too many arguments for `' . $this->Html::class . '::h1()`, 3 passed and at most 2 expected');
+        // @phpstan-ignore-next-line
+        $this->Html->h1('My text', [], 'noExistingArgument');
     }
 
     #[Test]
@@ -65,6 +125,29 @@ class HtmlHelperTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing icon `name` value');
         $this->Html->addIconToTitle(title: 'Title', options: ['icon' => ['size' => 'lg']]);
+    }
+
+    #[Test]
+    #[TestWith([['tooltip' => 'First<br />Second']])]
+    #[TestWith([['tooltip' => ['First', 'Second']]])]
+    #[TestWith([['data-bs-html' => 'false', 'tooltip' => 'First<br />Second', 'data-bs-toggle' => 'something-else']])]
+    public function testAddTooltip(array $options): void
+    {
+        $expected = [
+            'data-bs-html' => 'true',
+            'data-bs-title' => 'First<br />Second',
+            'data-bs-toggle' => 'tooltip',
+        ];
+        $result = $this->Html->addTooltip($options);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testAddTooltipWithNoTooltipOption(): void
+    {
+        $options = ['class' => 'custom-class'];
+        $result = $this->Html->addTooltip($options);
+        $this->assertSame($options, $result);
     }
 
     #[Test]
