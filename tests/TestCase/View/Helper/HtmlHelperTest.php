@@ -75,6 +75,7 @@ class HtmlHelperTest extends TestCase
     #[TestWith(['strong', '<strong>My text</strong>'])]
     #[TestWith(['title', '<title>My text</title>'])]
     #[TestWith(['underline', '<u>My text</u>'])]
+    #[TestWith(['var', '<var>My text</var>'])]
     public function testCallMagicMethodWithAllDefinedTags(string $tag, string $expected): void
     {
         $result = $this->Html->{$tag}('My text');

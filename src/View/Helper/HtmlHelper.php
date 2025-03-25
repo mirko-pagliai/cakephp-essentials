@@ -28,6 +28,7 @@ use Override;
  * @method string time(string $text = '', array $options = [])
  * @method string title(string $text = '', array $options = [])
  * @method string underline(string $text = '', array $options = [])
+ * @method string var(string $text = '', array $options = [])
  */
 class HtmlHelper extends BootstrapUIHtmlHelper
 {
