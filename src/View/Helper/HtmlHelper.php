@@ -133,11 +133,12 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      *
      * @param array $options
      * @return array
+     *
      * @link https://getbootstrap.com/docs/5.3/components/tooltips
      */
     public function addTooltip(array $options): array
-    {
-        if (!isset($options['tooltip'])) {
+    {        
+        if (empty($options['tooltip'])) {
             return $options;
         }
 
@@ -149,6 +150,95 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             'data-bs-title' => $tooltip,
             'data-bs-toggle' => 'tooltip',
         ] + $options;
+    }
+
+    /**
+     * Creates a formatted ABBR element.
+     *
+     * @param string $text Text
+     * @param string $title Title
+     * @param array<string, mixed> $options Array of HTML attributes
+     * @return string
+     *
+     * @see https://getbootstrap.com/docs/5.3/content/typography/#abbreviations
+     */
+    public function abbr(string $text, string $title = '', array $options = []): string
+    {
+        $options += [
+            'class' => 'initialism',
+        ];
+
+        if ($title) {
+            $options['title'] = $title;
+        }
+
+        return $this->tag(name: 'abbr', text: $text, options: $options);
+    }
+
+    /**
+     * Creates a "flush" list using `div` elements (for the wrapper and for each item), instead of the `ol/ul`
+     *  and the `li` tags.
+     *
+     * For example:
+     * ```
+     * $this->Html->flushDiv(list: [
+     *    'First string',
+     *    'Second string',
+     * ]);
+     * ```
+     * will return:
+     * ```
+     * <div class="list-group list-group-flush">
+     *    <div class="list-group-item">First string</div>
+     *    <div class="list-group-item">Second string</div>
+     * </div>
+     * ```
+     *
+     * @param iterable<string> $list List items (each item will be wrapped in a `div` and `$itemOptions` will be applied)
+     * @param array<string, mixed> $options Options and additional HTML attributes for the wrapper
+     * @param array<string, mixed> $itemOptions Options and additional HTML attributes for each item
+     * @return string
+     *
+     * @see https://getbootstrap.com/docs/5.3/components/list-group/#flush
+     */
+    public function flushDiv(iterable $list, array $options = [], array $itemOptions = []): string
+    {
+        $out = '';
+        $itemOptions = $this->addClass(options: $itemOptions, class: 'list-group-item');
+        foreach ($list as $item) {
+            $out .= $this->div(text: $item, options: $itemOptions);
+        }
+
+        $options = $this->addClass(options: $options, class: 'list-group list-group-flush');
+
+        return $this->div(text: $out, options: $options);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Unlike the original method, it sets some default options and supports tooltips.
+     *
+     * Unlike other methods, the `img-fluid` class here is not appended to other possible existing classes,
+     *  but only used as a default class.
+     *
+     * The `alt` attribute is, by default, auto-determined from `$path`. Set it to `false` to disable it.
+     */
+    #[Override]
+    public function image(array|string $path, array $options = []): string
+    {
+        $options += [
+            'class' => 'img-fluid',
+        ];
+
+        if (!isset($options['alt']) && is_string($path)) {
+            $parseUrl = parse_url($path);
+            $options['alt'] = isset($parseUrl['path']) ? basename($parseUrl['path']) : false;
+        }
+
+        $options = $this->addTooltip($options);
+
+        return parent::image(path: $path, options: $options);
     }
 
     /**

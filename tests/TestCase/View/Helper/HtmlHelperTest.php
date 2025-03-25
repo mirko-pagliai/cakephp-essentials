@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
+use ArrayObject;
 use BadMethodCallException;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use Generator;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
@@ -149,11 +152,83 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['<abbr class="initialism">My text</abbr>', 'My text', ''])]
+    #[TestWith(['<abbr class="initialism" title="A title">My text</abbr>', 'My text', 'A title'])]
+    #[TestWith(['<abbr class="my-custom-class">My text</abbr>', 'My text', '', ['class' => 'my-custom-class']])]
+    #[TestWith(['<abbr title="Good title" class="initialism">My text</abbr>', 'My text', 'Good title', ['title' => 'Bad title']])]
+    #[TestWith(['<abbr title="Good title" class="initialism">My text</abbr>', 'My text', '', ['title' => 'Good title']])]
+    public function testAbbr(string $expectedAbbr, string $text, string $title, array $options = []): void
+    {
+        $result = $this->Html->abbr(text: $text, title: $title, options: $options);
+        $this->assertSame($expectedAbbr, $result);
+    }
+
+    #[Test]
     public function testLink(): void
     {
         $expected = '<a href="#url" class="text-decoration-none"><i class="fas fa-home"></i> Title</a>';
         $result = $this->Html->link(title: 'Title', url: '#url', options: ['icon' => 'home']);
         $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testFlushDiv(): void
+    {
+        $list = [
+            'First string',
+            'Second string',
+        ];
+
+        $expected = '<div class="list-group list-group-flush">' .
+            '<div class="list-group-item">First string</div>' .
+            '<div class="list-group-item">Second string</div>' .
+            '</div>';
+        $result = $this->Html->flushDiv(list: $list);
+        $this->assertSame($expected, $result);
+
+        //Same result with a Traversable
+        $result = $this->Html->flushDiv(list: new ArrayObject($list));
+        $this->assertSame($expected, $result);
+
+        //With custom classes (for wrapper and items)
+        $expected = '<div class="custom-wrapper-class list-group list-group-flush">' .
+            '<div class="custom-item-class list-group-item">First string</div>' .
+            '<div class="custom-item-class list-group-item">Second string</div>' .
+            '</div>';
+        $result = $this->Html->flushDiv(
+            list: $list,
+            options: ['class' => 'custom-wrapper-class'],
+            itemOptions: ['class' => 'custom-item-class']
+        );
+        $this->assertSame($expected, $result);
+    }
+
+    public static function imageProvider(): Generator
+    {
+        yield [
+            '<img src="/img/path/to/image.png?k=v" class="img-fluid" alt="image.png">',
+            'path/to/image.png?k=v',
+        ];
+
+        yield [
+            '<img src="/img/path/to/image.png?k=v" alt="my-custom-alt" class="my-custom-class">',
+            'path/to/image.png?k=v',
+            ['alt' => 'my-custom-alt', 'class' => 'my-custom-class'],
+        ];
+
+        yield [
+            '<img src="/img/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip" class="img-fluid">',
+            'path/to/image.png?k=v',
+            ['tooltip' => 'My tooltip', 'alt' => false],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('imageProvider')]
+    public function testImage(string $expectedImage, string $path, array $options = []): void
+    {
+        $result = $this->Html->image($path, $options);
+        $this->assertSame($expectedImage, $result);
     }
 
     #[Test]
