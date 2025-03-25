@@ -291,10 +291,12 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    public function testTag(): void
+    #[TestWith(['<span>My text</span>'])]
+    #[TestWith(['<span class="text-decoration-none"><i class="fas fa-home"></i> My text</span>', ['icon' => 'home']])]
+    #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip">My text</span>', ['tooltip' => 'My tooltip']])]
+    public function testTag(string $expectedTag, array $options = []): void
     {
-        $expected = '<span class="text-decoration-none"><i class="fas fa-home"></i> My text</span>';
-        $result = $this->Html->tag(name: 'span', text: 'My text', options: ['icon' => 'home']);
-        $this->assertSame($expected, $result);
+        $result = $this->Html->tag(name: 'span', text: 'My text', options: $options);
+        $this->assertSame($expectedTag, $result);
     }
 }

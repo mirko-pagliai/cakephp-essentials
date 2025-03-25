@@ -323,6 +323,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     public function tag(string $name, ?string $text = null, array $options = []): string
     {
         [$text, $options] = $this->addIconToTitle(title: $text ?: '', options: $options);
+        $options = $this->addTooltip(options: $options);
 
         return parent::tag($name, $text, $options);
     }
