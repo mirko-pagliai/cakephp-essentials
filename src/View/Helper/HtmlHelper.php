@@ -261,4 +261,15 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
         return parent::link(title: $title, url: $url, options: $options);
     }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
+    public function tag(string $name, ?string $text = null, array $options = []): string
+    {
+        [$text, $options] = $this->addIconToTitle(title: $text ?: '', options: $options);
+
+        return parent::tag($name, $text, $options);
+    }
 }

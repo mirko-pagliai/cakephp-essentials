@@ -238,4 +238,12 @@ class HtmlHelperTest extends TestCase
         $this->expectExceptionMessage('`$title` as array is not supported');
         $this->Html->link(['controller' => 'Pages', 'action' => 'index']);
     }
+
+    #[Test]
+    public function testTag(): void
+    {
+        $expected = '<span class="text-decoration-none"><i class="fas fa-home"></i> My text</span>';
+        $result = $this->Html->tag(name: 'span', text: 'My text', options: ['icon' => 'home']);
+        $this->assertSame($expected, $result);
+    }
 }
