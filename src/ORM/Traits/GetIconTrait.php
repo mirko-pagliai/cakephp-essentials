@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Cake\Essentials\ORM\Traits;
 
 /**
- * This trait automatically implements the `getIcon()` method, which returns the `icon` property or `getStaticIcon()`.
+ * This trait automatically implements the `getIcon()` method, which returns the `icon` property, if exists and is
+ *  valid, otherwise returns `getStaticIcon()`.
  *
  * @property string|null $icon
  * @psalm-require-extends \Cake\ORM\Entity
@@ -13,16 +14,16 @@ namespace Cake\Essentials\ORM\Traits;
 trait GetIconTrait
 {
     /**
-     * Returns the static icon for this entity type.
+     * Returns the icon for this instantiated entity.
      *
-     * Returns the `icon` property, if exists for this entity and is a string. Otherwise, returns `getStaticIcon()`.
+     * Returns the `icon` property, if exists for this entity and is valid, otherwise returns `getStaticIcon()`.
      *
-     * @return string
+     * @return non-empty-string
      */
     public function getIcon(): string
     {
         $icon = $this->get('icon');
 
-        return is_string($icon) ? $icon : $this->getStaticIcon();
+        return $icon && is_string($icon) ? $icon : $this->getStaticIcon();
     }
 }
