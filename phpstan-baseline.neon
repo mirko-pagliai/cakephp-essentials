@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Binary operation "\+\=" between mixed and array\{inputGroupContainer\: ''\<div\{\{attrs\}\}\>\<div…''\} results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/View/Helper/FormHelper.php
+
+		-
+			message: '#^Cannot access offset ''inputGroupContainer'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/View/Helper/FormHelper.php
+
+		-
+			message: '#^Parameter \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(string\)\: non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/View/Helper/FormHelper.php

@@ -48,13 +48,14 @@ class FormHelper extends BootstrapUIFormHelper
      *
      * - adds support for the `datetime` type with the `default` option as the `now` string;
      * - adds `switch` type.
-     * - adds support for the `date`/`datetime` types with the appendNowButton` boolean option;
+     * - adds support for the `date`/`datetime` types with the `appendNowButton` boolean option;
      * - adds support for `help` option (also) as string array.
      */
     #[Override]
     public function control(string $fieldName, array $options = []): string
     {
         $options += [
+            'append' => null,
             'appendNowButton' => false,
             'default' => null,
             'templates' => [],
@@ -100,11 +101,6 @@ class FormHelper extends BootstrapUIFormHelper
                 'icon' => 'clock',
                 'onclick' => 'javascript:event.preventDefault(); $(this).prev(\'input\').val(moment(new Date()).format(\'' . $format . '\'))',
             ]);
-
-            /** @phpstan-ignore assignOp.invalid */
-            $options['templates'] += [
-                'inputGroupContainer' => '<div{{attrs}}><div class="d-flex gap-2">{{prepend}}{{content}}{{append}}</div></div>',
-            ];
         }
         unset($options['appendNowButton']);
 
@@ -113,10 +109,23 @@ class FormHelper extends BootstrapUIFormHelper
          */
         if (!empty($options['help']) && is_array($options['help'])) {
             $options['help'] = implode(separator: '', array: array_map(
-                /** @phpstan-ignore argument.type */
                 callback: fn (string $help): string => '<div>' . $help . '</div>',
                 array: $options['help']
             ));
+        }
+
+        /**
+         * If the `append` option is present and if it is a string, if `append` contains a button and if the
+         *  `inputGroupContainer` template has not been set, it automatically sets this template.
+         */
+        if (
+            is_string($options['append']) &&
+            str_starts_with(haystack: $options['append'], needle: '<button') &&
+            !isset($options['templates']['inputGroupContainer'])
+        ) {
+            $options['templates'] += [
+                'inputGroupContainer' => '<div{{attrs}}><div class="d-flex gap-2">{{prepend}}{{content}}{{append}}</div></div>',
+            ];
         }
 
         return parent::control(fieldName: $fieldName, options: $options);
