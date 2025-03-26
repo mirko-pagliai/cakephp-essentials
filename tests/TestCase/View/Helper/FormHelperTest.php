@@ -58,6 +58,13 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
+    public function testControlDatetimeWithDefaultAsNow(): void
+    {
+        $result = $this->Form->control(fieldName: 'myField', options: ['default' => 'now', 'type' => 'datetime']);
+        $this->assertMatchesRegularExpression('/value="\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:00"/', $result);
+    }
+
+    #[Test]
     public function testControlSwitchType(): void
     {
         $expected = [

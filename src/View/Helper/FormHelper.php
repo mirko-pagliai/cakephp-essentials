@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\View\Helper;
 
 use BootstrapUI\View\Helper\FormHelper as BootstrapUIFormHelper;
+use Cake\I18n\DateTime;
 use Override;
 use function Cake\I18n\__d as __d;
 
@@ -43,26 +44,37 @@ class FormHelper extends BootstrapUIFormHelper
      * {@inheritDoc}
      *
      * Compared to the original method, this:
-     * - Adds `switch` type.
-     * - Adds support for `appendNowButton` boolean option.
-     * - Adds support for `help` option (also) as string array.
+     *
+     * - adds support for the `datetime` type with the `default` option as the `now` string;
+     * - adds `switch` type.
+     * - adds support for `appendNowButton` boolean option.
+     * - adds support for `help` option (also) as string array.
      */
     #[Override]
     public function control(string $fieldName, array $options = []): string
     {
         $options += [
             'appendNowButton' => false,
+            'default' => null,
             'templates' => [],
             'type' => null,
         ];
 
-        /**
-         * Support for "switch" type.
-         *
-         * @see https://github.com/FriendsOfCake/bootstrap-ui?tab=readme-ov-file#switches
-         * @see https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
-         */
-        if ($options['type'] === 'switch') {
+        $type = $options['type'] ?: $this->_inputType(fieldName: $fieldName, options: $options);
+
+        if ($type === 'datetime' && $options['default'] === 'now') {
+            /**
+             * If type is `datetime` and if `default` is `now` string, correctly set to the current
+             *  datetime, adjusting the seconds.
+             */
+            $options['default'] = DateTime::now()->second(0);
+        } elseif ($type === 'switch') {
+            /**
+             * Support for "switch" type.
+             *
+             * @see https://github.com/FriendsOfCake/bootstrap-ui?tab=readme-ov-file#switches
+             * @see https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
+             */
             $options = ['type' => 'checkbox', 'switch' => true] + $options;
         }
 
