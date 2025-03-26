@@ -40,12 +40,21 @@ class FormHelper extends BootstrapUIFormHelper
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
+     * Compared to the original method, this:
+     * - Adds `switch` type.
+     * - Adds support for `appendNowButton` boolean option.
+     * - Adds support for `help` option (also) as string array.
      */
     #[Override]
     public function control(string $fieldName, array $options = []): string
     {
-        $options += ['type' => null];
+        $options += [
+            'appendNowButton' => false,
+            'templates' => [],
+            'type' => null,
+        ];
 
         /**
          * Support for "switch" type.
@@ -58,15 +67,35 @@ class FormHelper extends BootstrapUIFormHelper
         }
 
         /**
+         * Support for "appendNowButton" option.
+         *
+         * When the `appendNowButton` option is `true`, appends a "now" button that automatically sets the input value to the
+         *  current date and time.
+         *
+         * It requires the `Moment.js` library.
+         */
+        if ($options['appendNowButton']) {
+            $options['append'] = $this->Html->button(text: __d('cakephp/essentials', 'Now'), options: [
+                'class' => 'btn btn-primary btn-sm text-nowrap',
+                'icon' => 'clock',
+                'onclick' => 'javascript:event.preventDefault(); $(this).prev(\'input\').val(moment(new Date()).format(\'YYYY-MM-DDTHH:mm\'))',
+            ]);
+
+            /** @phpstan-ignore assignOp.invalid */
+            $options['templates'] += [
+                'inputGroupContainer' => '<div{{attrs}}><div class="d-flex gap-2">{{prepend}}{{content}}{{append}}</div></div>',
+            ];
+        }
+        unset($options['appendNowButton']);
+
+        /**
          * This allows the `help` option to be an array
          */
         if (!empty($options['help']) && is_array($options['help'])) {
-            /** @var array<string> $help */
-            $help = $options['help'];
-
             $options['help'] = implode(separator: '', array: array_map(
+                /** @phpstan-ignore argument.type */
                 callback: fn (string $help): string => '<div>' . $help . '</div>',
-                array: $help
+                array: $options['help']
             ));
         }
 

@@ -74,6 +74,30 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
+    public function testControlWithAppendNowButton(): void
+    {
+        $expected = [
+            ['div' => ['class']],
+            'label' => ['class', 'for'],
+            'My Field',
+            '/label',
+            ['div' => ['class' => 'input-group']],
+            ['div' => ['class' => 'd-flex gap-2']],
+            'input' => ['type', 'name', 'id', 'class'],
+            'button' => ['class' => 'btn btn-primary btn-sm text-nowrap', 'onclick', 'type' => 'button'],
+            'i' => ['class' => 'bi bi-clock'],
+            '/i',
+            'Now',
+            '/button',
+            '/div',
+            '/div',
+            '/div',
+        ];
+        $result = $this->Form->control(fieldName: 'myField', options: ['appendNowButton' => true]);
+        $this->assertHtml($expected, $result);
+    }
+
+    #[Test]
     #[TestWith(['<input type="datetime-local" name="datetime" step="60" class="form-control" value="">'])]
     #[TestWith(['<input type="datetime-local" name="datetime" class="form-control" value="">', ['step' => null]])]
     public function testDatetime(string $expectedDatetime, array $options = []): void

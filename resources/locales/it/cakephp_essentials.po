@@ -15,6 +15,9 @@ msgstr ""
 "Language: it_IT\n"
 "X-Generator: Lokalize 22.12.3\n"
 
+msgid "Now"
+msgstr "Adesso"
+
 msgid "Are you sure you want to delete this?"
 msgstr "Sei sicuro di volerlo cancellare?"
 
