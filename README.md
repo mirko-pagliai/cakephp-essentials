@@ -3,11 +3,12 @@ In your `composer.json`, add the `post-update-cmd` command event:
 ```
   "scripts": {
     "post-update-cmd": [
-      "mkdir webroot/vendor/ -p",
-      "ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f",
-      "ln -s ../../vendor/fortawesome/font-awesome/ webroot/vendor/font-awesome -f",
-      "ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f",
-      "ln -s ../../vendor/moment/moment/min/ webroot/vendor/moment -f"
+        "bin/cake plugin assets symlink -q --overwrite",
+        "mkdir webroot/vendor/ -p",
+        "ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f",
+        "ln -s ../../vendor/twbs/bootstrap-icons/font/ webroot/vendor/bootstrap-icons -f",
+        "ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f",
+        "ln -s ../../vendor/moment/moment/min/ webroot/vendor/moment -f"
     ]
   },
 ```
@@ -16,9 +17,10 @@ See [Composer documentation](https://getcomposer.org/doc/articles/scripts.md#com
 
 Or run the commands directly in the shell:
 ```bash
+bin/cake plugin assets symlink -q --overwrite
 mkdir webroot/vendor/ -p
 ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f
-ln -s ../../vendor/fortawesome/font-awesome/ webroot/vendor/font-awesome -f
+ln -s ../../vendor/twbs/bootstrap-icons/font/ webroot/vendor/bootstrap-icons -f
 ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f
 ln -s ../../vendor/moment/moment/min/ webroot/vendor/moment -f
 ```
