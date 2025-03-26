@@ -58,6 +58,13 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
+    public function testControlDateWithDefaultAsNow(): void
+    {
+        $result = $this->Form->control(fieldName: 'myField', options: ['default' => 'now', 'type' => 'date']);
+        $this->assertMatchesRegularExpression('/value="\d{4}\-\d{2}\-\d{2}"/', $result);
+    }
+
+    #[Test]
     public function testControlDatetimeWithDefaultAsNow(): void
     {
         $result = $this->Form->control(fieldName: 'myField', options: ['default' => 'now', 'type' => 'datetime']);
@@ -81,27 +88,25 @@ class FormHelperTest extends TestCase
     }
 
     #[Test]
-    public function testControlWithAppendNowButton(): void
+    public function testControlDateWithAppendNowButton(): void
     {
-        $expected = [
-            ['div' => ['class']],
-            'label' => ['class', 'for'],
-            'My Field',
-            '/label',
-            ['div' => ['class' => 'input-group']],
-            ['div' => ['class' => 'd-flex gap-2']],
-            'input' => ['type', 'name', 'id', 'class'],
-            'button' => ['class' => 'btn btn-primary btn-sm text-nowrap', 'onclick', 'type' => 'button'],
-            'i' => ['class' => 'bi bi-clock'],
-            '/i',
-            'Now',
-            '/button',
-            '/div',
-            '/div',
-            '/div',
-        ];
-        $result = $this->Form->control(fieldName: 'myField', options: ['appendNowButton' => true]);
-        $this->assertHtml($expected, $result);
+        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DD&#039;))" type="button"><i class="bi bi-clock"></i> Today</button>';
+        $result = $this->Form->control(fieldName: 'myField', options: [
+            'appendNowButton' => true,
+            'type' => 'date',
+        ]);
+        $this->assertStringContainsString($expected, $result);
+    }
+
+    #[Test]
+    public function testControlDatetimeWithAppendNowButton(): void
+    {
+        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DDTHH:mm&#039;))" type="button"><i class="bi bi-clock"></i> Now</button>';
+        $result = $this->Form->control(fieldName: 'myField', options: [
+            'appendNowButton' => true,
+            'type' => 'datetime',
+        ]);
+        $this->assertStringContainsString($expected, $result);
     }
 
     #[Test]

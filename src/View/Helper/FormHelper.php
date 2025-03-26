@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\View\Helper;
 
 use BootstrapUI\View\Helper\FormHelper as BootstrapUIFormHelper;
+use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Override;
 use function Cake\I18n\__d as __d;
@@ -47,7 +48,7 @@ class FormHelper extends BootstrapUIFormHelper
      *
      * - adds support for the `datetime` type with the `default` option as the `now` string;
      * - adds `switch` type.
-     * - adds support for `appendNowButton` boolean option.
+     * - adds support for the `date`/`datetime` types with the appendNowButton` boolean option;
      * - adds support for `help` option (also) as string array.
      */
     #[Override]
@@ -62,12 +63,12 @@ class FormHelper extends BootstrapUIFormHelper
 
         $type = $options['type'] ?: $this->_inputType(fieldName: $fieldName, options: $options);
 
-        if ($type === 'datetime' && $options['default'] === 'now') {
+        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['default'] === 'now') {
             /**
-             * If type is `datetime` and if `default` is `now` string, correctly set to the current
-             *  datetime, adjusting the seconds.
+             * If type is `date`/`datetime` and if `default` is `now` string, correctly set to the current
+             *  date or (adjusting the seconds) datetime.
              */
-            $options['default'] = DateTime::now()->second(0);
+            $options['default'] = $type === 'datetime' ? DateTime::now()->second(0) : Date::today();
         } elseif ($type === 'switch') {
             /**
              * Support for "switch" type.
@@ -81,16 +82,23 @@ class FormHelper extends BootstrapUIFormHelper
         /**
          * Support for "appendNowButton" option.
          *
-         * When the `appendNowButton` option is `true`, appends a "now" button that automatically sets the input value to the
-         *  current date and time.
+         * When the `appendNowButton` option is `true`, appends a "now" button that automatically sets the input value
+         *  to the current date and time for `datetime` type and to the current date for `date` type.
          *
          * It requires the `Moment.js` library.
          */
-        if ($options['appendNowButton']) {
-            $options['append'] = $this->Html->button(text: __d('cakephp/essentials', 'Now'), options: [
+        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
+            $format = 'YYYY-MM-DDTHH:mm';
+            $text = __d('cakephp/essentials', 'Now');
+            if ($type === 'date') {
+                $format = 'YYYY-MM-DD';
+                $text = __d('cakephp/essentials', 'Today');
+            }
+
+            $options['append'] = $this->Html->button(text: $text, options: [
                 'class' => 'btn btn-primary btn-sm text-nowrap',
                 'icon' => 'clock',
-                'onclick' => 'javascript:event.preventDefault(); $(this).prev(\'input\').val(moment(new Date()).format(\'YYYY-MM-DDTHH:mm\'))',
+                'onclick' => 'javascript:event.preventDefault(); $(this).prev(\'input\').val(moment(new Date()).format(\'' . $format . '\'))',
             ]);
 
             /** @phpstan-ignore assignOp.invalid */
