@@ -136,7 +136,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
         return [
             'data-bs-content' => $popover,
-            'data-bs-html'=> 'true',
+            'data-bs-html' => 'true',
             'data-bs-trigger' => 'focus',
             'data-bs-toggle' => 'popover',
             'role' => 'button',
