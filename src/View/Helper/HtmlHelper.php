@@ -104,7 +104,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         }
 
         return [
-            $this->icon(name: $name, options: $iconOptions) . ' ' . $title,
+            $this->icon(name: $name, options: $iconOptions) . ($title ? ' ' . $title : ''),
             $options,
         ];
     }
@@ -294,7 +294,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
         $options += [
             'escape' => false,
-            'title' => trim(strip_tags($title)),
+            'title' => trim(strip_tags($title)) ?: null,
         ];
 
         if (!empty($options['icon'])) {

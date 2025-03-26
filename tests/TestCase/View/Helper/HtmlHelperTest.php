@@ -238,19 +238,19 @@ class HtmlHelperTest extends TestCase
     public static function imageProvider(): Generator
     {
         yield [
-            '<img src="img/path/to/image.png?k=v" class="img-fluid" alt="image.png">',
-            'path/to/image.png?k=v',
+            '<img src="/path/to/image.png?k=v" class="img-fluid" alt="image.png">',
+            '/path/to/image.png?k=v',
         ];
 
         yield [
-            '<img src="img/path/to/image.png?k=v" alt="my-custom-alt" class="my-custom-class">',
-            'path/to/image.png?k=v',
+            '<img src="/path/to/image.png?k=v" alt="my-custom-alt" class="my-custom-class">',
+            '/path/to/image.png?k=v',
             ['alt' => 'my-custom-alt', 'class' => 'my-custom-class'],
         ];
 
         yield [
-            '<img src="img/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip" class="img-fluid">',
-            'path/to/image.png?k=v',
+            '<img src="/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip" class="img-fluid">',
+            '/path/to/image.png?k=v',
             ['tooltip' => 'My tooltip', 'alt' => false],
         ];
     }
