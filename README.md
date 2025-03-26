@@ -52,6 +52,21 @@ class AppView extends View
 }
 ```
 
+## Using Tooltips and Popovers
+
+Several helper methods support tooltips and popovers and can generate them automatically.
+
+Please refer to the Bootstrap documentation before using them ([here](https://getbootstrap.com/docs/5.3/components/popovers) and [here](https://getbootstrap.com/docs/5.3/components/tooltips)).
+
+Keep in mind that:
+1) both depend on the third-party library _Popper_, which you need to include, or you can use `bootstrap.bundle.min.js` which contains _Popper_;
+2) you will need to initialize both, as indicated in the documentation.  
+You can include `webroot/js/enable-popovers.min.js` and `webroot/js/enable-tooltips.min.js` files in yourt layout, which will do it automatically:
+```php
+echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
+echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
+```
+
 ## How to use Bake templates
 In your `config/bootstrap.php` file:
 ```php
