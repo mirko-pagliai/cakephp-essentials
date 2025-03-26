@@ -130,14 +130,16 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    #[TestWith([['popover' => 'My popover']])]
-    #[TestWith([['data-bs-content' => 'something-else', 'popover' => 'My popover', 'data-bs-toggle' => 'something-else']])]
+    #[TestWith([['popover' => 'First<br />Second']])]
+    #[TestWith([['popover' => ['First', 'Second']]])]
+    #[TestWith([['data-bs-content' => 'something-else', 'popover' => 'First<br />Second', 'data-bs-toggle' => 'something-else']])]
     public function testAddPopover(array $options): void
     {
         $expected = [
-            'data-bs-content' => 'My popover',
-            'data-bs-toggle' => 'popover',
+            'data-bs-content' => 'First<br />Second',
+            'data-bs-html' => 'true',
             'data-bs-trigger' => 'focus',
+            'data-bs-toggle' => 'popover',
             'role' => 'button',
             'tabindex' => 0,
         ];
@@ -146,7 +148,7 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    public function testAddPopoverWithNoTooltipOption(): void
+    public function testAddPopoverWithNoPopoverOption(): void
     {
         $options = ['class' => 'custom-class'];
         $result = $this->Html->addPopover($options);
@@ -275,7 +277,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testLinkWithPopover(): void
     {
-        $expected = 'data-bs-content="My popover" data-bs-toggle="popover" data-bs-trigger="focus" role="button" tabindex="0"';
+        $expected = 'data-bs-content="My popover" data-bs-html="true" data-bs-trigger="focus" data-bs-toggle="popover" role="button" tabindex="0"';
         $result = $this->Html->link(title: 'Title', url: '#url', options: ['popover' => 'My popover']);
         $this->assertStringContainsString($expected, $result);
     }

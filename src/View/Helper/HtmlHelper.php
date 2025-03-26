@@ -115,7 +115,10 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * Takes the options and, if the `popover` option is present, constructs all the options needed for
      *  the popover, then returns the options.
      *
-     * We suggest you set the `onclick` option as `event.preventDefault();` when it's not about a real link.
+     * HTML is enabled for popover content.
+     *
+     * We suggest you set the `onclick` option as `event.preventDefault();` if you use it on a link tag
+     *  that doesn't work properly as a link.
      *
      * @param array $options
      * @return array
@@ -128,13 +131,14 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             return $options;
         }
 
-        $popover = $options['popover'];
+        $popover = implode('<br />', (array)$options['popover']);
         unset($options['popover']);
 
         return [
             'data-bs-content' => $popover,
-            'data-bs-toggle' => 'popover',
+            'data-bs-html'=> 'true',
             'data-bs-trigger' => 'focus',
+            'data-bs-toggle' => 'popover',
             'role' => 'button',
             'tabindex' => 0,
         ] + $options;
@@ -310,6 +314,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     public function tag(string $name, ?string $text = null, array $options = []): string
     {
         [$text, $options] = $this->addIconToTitle(title: $text ?: '', options: $options);
+        $options = $this->addPopover(options: $options);
         $options = $this->addTooltip(options: $options);
 
         return parent::tag($name, $text, $options);
