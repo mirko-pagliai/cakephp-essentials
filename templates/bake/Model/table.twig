@@ -2,11 +2,11 @@
 {% set generatedFunctions = ['initialize'] %}
 {{ element('Bake.file_header', {
     namespace: fileBuilder.namespace,
-    classImports: fileBuilder.classImports(['Cake\\ORM\\RulesChecker', 'Cake\\ORM\\Table', 'Cake\\Validation\\Validator']),
+    classImports: fileBuilder.classImports(['Cake\\ORM\\RulesChecker', 'Cake\\Validation\\Validator']),
 }) }}
 
 {{ DocBlock.classDescription(name, 'Model', annotations)|raw }}
-class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' implements ' ~ fileBuilder.classBuilder.implements|join(', ') : '' }}
+class {{ name }}Table extends AppTable{{ fileBuilder.classBuilder.implements ? ' implements ' ~ fileBuilder.classBuilder.implements|join(', ') : '' }}
 {
 {% set userConstants = fileBuilder.classBuilder.userConstants([]) %}
 {% if userConstants %}

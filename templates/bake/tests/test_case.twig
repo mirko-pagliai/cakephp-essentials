@@ -7,7 +7,7 @@
     {%- set traitName = 'ConsoleIntegrationTestTrait' %}
     {%- set uses = uses|merge(['Cake\\Console\\TestSuite\\ConsoleIntegrationTestTrait']) %}
 {% endif %}
-{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase", "PHPUnit\\Framework\\Attributes\\CoversClass", "PHPUnit\\Framework\\Attributes\\Test"]) %}
+{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase", "Override", "PHPUnit\\Framework\\Attributes\\CoversClass", "PHPUnit\\Framework\\Attributes\\Test"]) %}
 
 {{- element('Bake.file_header', {
     namespace: "#{baseNamespace}\\Test\\TestCase\\#{subNamespace}",
@@ -15,7 +15,7 @@
 }) }}
 
 /**
- * {{ fullClassName }} Test Case.
+ * {{ className }}.
  */
 #[CoversClass({{ className }}::class)]
 class {{ className }}Test extends TestCase
@@ -57,6 +57,7 @@ class {{ className }}Test extends TestCase
     /**
      * @inheritDoc
      */
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -84,9 +85,6 @@ class {{ className }}Test extends TestCase
 {% if loop.index > 1 %}
 
 {% endif %}
-    /**
-     * @uses \{{ fullClassName }}::{{ method }}()
-     */
     #[Test]
     public function test{{ method|camelize }}(): void
     {
