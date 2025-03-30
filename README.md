@@ -1,3 +1,9 @@
+# cakephp-essentials
+
+[![codecov](https://codecov.io/gh/mirko-pagliai/cakephp-essentials/branch/master/graph/badge.svg?token=EG4qYNZrgi)](https://codecov.io/gh/mirko-pagliai/cakephp-essentials)
+
+Various classes and utilities useful for various CakePHP projects.
+
 ## Creates links to assets
 In your `composer.json`, add the `post-update-cmd` command event:
 ```
