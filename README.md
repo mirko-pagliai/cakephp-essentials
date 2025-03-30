@@ -10,7 +10,7 @@ In your `composer.json`, add the `post-update-cmd` command event:
   "scripts": {
     "post-update-cmd": [
         "bin/cake plugin assets symlink -q --overwrite",
-        "mkdir webroot/vendor/ -p",
+        "rm -rf webroot/vendor/ && mkdir webroot/vendor/ -p",
         "ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f",
         "ln -s ../../vendor/twbs/bootstrap-icons/font/ webroot/vendor/bootstrap-icons -f",
         "ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f",
