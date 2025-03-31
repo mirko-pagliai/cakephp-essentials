@@ -28,7 +28,10 @@
   "autoload": {
     "psr-4": {
       "Cake\\Essentials\\": "src"
-    }
+    },
+    "files": [
+      "src/request_detectors.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
