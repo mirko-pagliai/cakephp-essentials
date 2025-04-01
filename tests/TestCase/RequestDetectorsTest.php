@@ -30,27 +30,21 @@ class RequestDetectorsTest extends TestCase
 
     public static function providerTestOtherActionDetectors(): Generator
     {
-        foreach (['add', 'edit', 'delete'] as $action) {
-            yield [$action, true, $action];
-            yield [$action, true, $action, 'index'];
-            yield [$action, false, 'view'];
-            yield [$action, false, 'view', 'index'];
+        foreach (['add', 'edit', 'delete', 'index'] as $action) {
+            yield [true, $action, $action];
+            yield [false, $action, 'view'];
         }
 
-        foreach (['index', 'view'] as $action) {
-            yield [$action, true, $action];
-            yield [$action, true, $action, 'add'];
-            yield [$action, false, 'add'];
-            yield [$action, false, 'add', 'edit'];
-        }
+        yield [true, 'view', 'view'];
+        yield [false, 'view', 'add'];
     }
 
     #[Test]
     #[DataProvider('providerTestOtherActionDetectors')]
-    public function testOtherActionDetectors(string $expectedAction, bool $expectedIsDetector, string ...$actions): void
+    public function testOtherActionDetectors(bool $expectedIsDetector, string $currentAction, string $detectorAction): void
     {
-        $Request = new ServerRequest(['params' => ['action' => $expectedAction]]);
-        $this->assertSame($expectedIsDetector, $Request->is('action', ...$actions));
+        $Request = new ServerRequest(['params' => ['action' => $currentAction]]);
+        $this->assertSame($expectedIsDetector, $Request->is($detectorAction));
     }
 
     /**
