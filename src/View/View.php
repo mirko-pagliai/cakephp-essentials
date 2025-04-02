@@ -10,6 +10,8 @@ use function Cake\I18n\__d as __d;
 /**
  * {@inheritDoc}
  *
+ * @property \Cake\Essentials\View\Helper\AlertHelper $Alert
+ * @property \Cake\View\Helper\FlashHelper $Flash
  * @property \Cake\Essentials\View\Helper\FormHelper $Form
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
  * @property \BootstrapUI\View\Helper\PaginatorHelper $Paginator
@@ -26,6 +28,8 @@ class View extends CakeView
 
         $this->addHelper('Cake/Essentials.Html');
         $this->addHelper('Cake/Essentials.Form');
+        $this->addHelper('Cake/Essentials.Alert');
+        $this->addHelper('Cake/Essentials.Flash');
         $this->addHelper('BootstrapUI.Paginator', [
             'labels' => [
                 'prev' => ['label' => __d('cakephp/essentials', 'Previous')],
