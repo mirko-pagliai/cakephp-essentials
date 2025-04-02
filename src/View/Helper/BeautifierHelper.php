@@ -13,12 +13,12 @@ use Cake\View\Helper;
 class BeautifierHelper extends Helper
 {
     /**
-     * @var array<string>
+     * @var array
      */
     protected array $helpers = ['Html'];
 
     /**
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     protected function _questionPopoverAndTooltip(array $options = []): string
@@ -37,7 +37,7 @@ class BeautifierHelper extends Helper
      * Returns a sort of badge based on the `question-circle-fill` icon ("?"), complete with popover.
      *
      * @param array<string>|string $popover Popover text, as string or array of string
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     public function questionPopover(string|array $popover, array $options = []): string
@@ -49,7 +49,7 @@ class BeautifierHelper extends Helper
      * Returns a sort of badge based on the `question-circle-fill` icon ("?"), complete with tooltip.
      *
      * @param array<string>|string $tooltip Tooltip text, as string or array of string
-     * @param array $options
+     * @param array<string, mixed> $options
      * @return string
      */
     public function questionTooltip(string|array $tooltip, array $options = []): string
