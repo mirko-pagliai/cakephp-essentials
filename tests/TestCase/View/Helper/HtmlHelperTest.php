@@ -98,35 +98,46 @@ class HtmlHelperTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['<i class="bi bi-home"></i>', ['icon' => 'home']])]
-    #[TestWith(['<i class="bi bi-home"></i>', ['icon' => ['name' => 'home']]])]
-    #[TestWith(['<i class="bi bi-home bi-lg"></i>', ['icon' => ['name' => 'home', 'size' => 'lg']]])]
-    #[TestWith(['<i style="color: red;" class="bi bi-home"></i>', ['icon' => ['name' => 'home', 'style' => 'color: red;']]])]
-    public function testAddIconToTitle(string $expectedIcon, array $options): void
+    #[TestWith(['', []])]
+    #[TestWith(['<i class="bi bi-house"></i>', ['icon' => 'house']])]
+    #[TestWith(['<i class="bi bi-house"></i>', ['icon' => ['name' => 'house']]])]
+    #[TestWith(['<i class="fs-5 bi bi-house"></i>', ['icon' => ['name' => 'house', 'class' => 'fs-5']]])]
+    #[TestWith(['', ['icon' => null]])]
+    #[TestWith(['', ['icon' => false]])]
+    #[TestWith(['', ['icon' => []]])]
+    public function testBuildIcon(string $expectedIcon, array $options): void
     {
-        [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
-        $this->assertSame($expectedIcon . ' Title', $resultTitle);
-        $this->assertEmpty($resultOptions);
+        $result = $this->Html->buildIcon($options);
+        $this->assertSame($expectedIcon, $result);
     }
 
     #[Test]
-    #[TestWith([[]])]
-    #[TestWith([['icon' => null]])]
-    #[TestWith([['icon' => false]])]
-    #[TestWith([['icon' => []]])]
-    public function testAddIconToTitleEmptyIcon(array $options): void
-    {
-        [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: 'Title', options: $options);
-        $this->assertSame('Title', $resultTitle);
-        $this->assertSame([], $resultOptions);
-    }
-
-    #[Test]
-    public function testAddIconToTitleMissingName(): void
+    public function testBuildIconWithMissingName(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing icon `name` value');
-        $this->Html->addIconToTitle(title: 'Title', options: ['icon' => ['size' => 'lg']]);
+        $this->Html->buildIcon(['icon' => ['size' => 'lg']]);
+    }
+
+    #[Test]
+    #[TestWith(['Title', 'Title'])]
+    #[TestWith(['Title', 'Title', ['icon' => null]])]
+    #[TestWith(['Title', 'Title', ['icon' => false]])]
+    #[TestWith(['Title', 'Title', ['icon' => []]])]
+    #[TestWith(['<i class="bi bi-home"></i> Title', 'Title', ['icon' => 'home']])]
+    #[TestWith(['<i class="bi bi-home"></i> Title', 'Title', ['icon' => ['name' => 'home']]])]
+    #[TestWith(['<i class="fs-5 bi bi-home"></i> Title', 'Title', ['icon' => ['name' => 'home', 'class' => 'fs-5']]])]
+    #[TestWith(['<i class="bi bi-home"></i>', '', ['icon' => 'home']])]
+    #[TestWith(['<i class="fs-5 bi bi-home"></i>', '', ['icon' => ['name' => 'home', 'class' => 'fs-5']]])]
+    public function testAddIconToTitle(string $expectedTitle, string $title, array $options = []): void
+    {
+        [$resultTitle, $resultOptions] = $this->Html->addIconToTitle(title: $title, options: $options);
+
+        $this->assertSame($expectedTitle, $resultTitle);
+
+        //The `icon` option has been consumed
+        unset($options['icon']);
+        $this->assertSame($options, $resultOptions);
     }
 
     #[Test]
