@@ -35,7 +35,7 @@ class TextHelper extends CakeTextHelper
     #[Override]
     public function autoParagraph(?string $text): string
     {
-        if (!$text) {
+        if (is_null($text) || !trim($text)) {
             return '';
         }
         if (!str_contains($text, PHP_EOL)) {

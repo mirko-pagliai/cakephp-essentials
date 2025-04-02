@@ -18,7 +18,7 @@ use function Cake\I18n\__d as __d;
 class FormHelper extends BootstrapUIFormHelper
 {
     /**
-     * @var array<string>
+     * @var array
      */
     protected array $helpers = [
         'Cake/Essentials.Html',
@@ -55,7 +55,6 @@ class FormHelper extends BootstrapUIFormHelper
     public function control(string $fieldName, array $options = []): string
     {
         $options += [
-            'append' => null,
             'appendNowButton' => false,
             'default' => null,
             'templates' => [],
@@ -119,6 +118,7 @@ class FormHelper extends BootstrapUIFormHelper
          *  `inputGroupContainer` template has not been set, it automatically sets this template.
          */
         if (
+            isset($options['append']) &&
             is_string($options['append']) &&
             str_starts_with(haystack: $options['append'], needle: '<button') &&
             !isset($options['templates']['inputGroupContainer'])
