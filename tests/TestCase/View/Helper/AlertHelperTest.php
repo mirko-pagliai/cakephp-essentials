@@ -8,9 +8,12 @@ use Cake\Essentials\TestSuite\TestCase;
 use Cake\Essentials\View\Helper\AlertHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\View\View;
+use Generator;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 
 /**
  * AlertHelperTest.
@@ -36,9 +39,14 @@ class AlertHelperTest extends TestCase
     #[Override]
     public function setUp(): void
     {
-        $this->Html = $this->createPartialMock(HtmlHelper::class, ['link']);
+        $View = new View();
 
-        $this->Alert = new AlertHelper(new View());
+        $this->Html = $this->getMockBuilder(HtmlHelper::class)
+            ->setConstructorArgs([$View])
+            ->onlyMethods(['link'])
+            ->getMock();
+
+        $this->Alert = new AlertHelper($View);
         $this->Alert->getView()->helpers()->set('Html', $this->Html);
     }
 
@@ -49,6 +57,77 @@ class AlertHelperTest extends TestCase
         $this->expectExceptionMessage('Method `' . $this->Alert::class . '::noExistingMethod()` does not exist.');
         // @phpstan-ignore-next-line
         $this->Alert->noExistingMethod();
+    }
+
+    #[Test]
+    #[TestWith(['<div role="alert" class="alert alert-dark border-0">Text</div>', 'Text'])]
+    #[TestWith(['<div role="alert" class="alert alert-dark border-0">First<br />Second</div>', ['First', 'Second']])]
+    #[TestWith(['<div class="custom-class alert alert-dark border-0" role="alert">Text</div>', 'Text', ['class' => 'custom-class']])]
+    public function testAlert(string $expectedAlert, string|array $text, array $options = []): void
+    {
+        $result = $this->Alert->alert(type: 'dark', text: $text, options: $options);
+        $this->assertSame($expectedAlert, $result);
+    }
+
+    #[Test]
+    #[TestWith(['<i class="bi bi-house"></i>', 'house'])]
+    #[TestWith(['<i class="fs-4 bi bi-house"></i>', ['name' => 'house', ['class' => 'fs-4']]])]
+    public function testAlertWithCustomIcons(string $expectedIcon, string|array $icon): void
+    {
+        $expected = '<div role="alert" class="alert alert-dark border-0 d-flex align-items-baseline">' .
+            '<div class="alert-icon me-2">' . $expectedIcon . '</div>' .
+            '<div class="alert-text">Text</div>' .
+            '</div>';
+        $result = $this->Alert->alert(type: 'dark', text: 'Text', options: compact('icon'));
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    #[TestWith(['<i class="bi bi-exclamation-triangle"></i>', 'danger'])]
+    #[TestWith(['<i class="bi bi-check-circle-fill"></i>', 'success'])]
+    #[TestWith(['<i class="bi bi-exclamation-triangle"></i>', 'warning'])]
+    public function testAlertWithDefaultIcons(string $expectedIcon, string $alertType): void
+    {
+        $expected = '<div role="alert" class="alert alert-' . $alertType . ' border-0 d-flex align-items-baseline">' .
+            '<div class="alert-icon me-2">' . $expectedIcon . '</div>' .
+            '<div class="alert-text">Text</div>' .
+            '</div>';
+
+        $result = $this->Alert->alert(type: $alertType, text: 'Text');
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testAlertWithDisabledIcon(): void
+    {
+        $result = $this->Alert->alert(type: 'warning', text: 'Text', options: ['icon' => false]);
+        $this->assertStringNotContainsString('<i class=', $result);
+    }
+
+    public static function providerTestAlertRewritesDefaultIcons(): Generator
+    {
+        $Alert = new AlertHelper(new View());
+
+        foreach (array_keys($Alert->getConfigOrFail('icon')) as $alertTypeWithDefaultIcon) {
+            yield [$alertTypeWithDefaultIcon];
+        }
+    }
+
+    #[Test]
+    #[DataProvider('providerTestAlertRewritesDefaultIcons')]
+    public function testAlertRewritesDefaultIcons(string $alertType): void
+    {
+        $expected = '<i class="bi bi-house"></i>';
+
+        //Rewrites the icon using the `icon` option
+        $result = $this->Alert->alert(type: $alertType, text: 'Text', options: ['icon' => 'house']);
+        $this->assertStringContainsString($expected, $result);
+
+        //Rewrites the icon using `setConfig()`
+        $result = $this->Alert
+            ->setConfig('icon.' . $alertType, 'house')
+            ->alert(type: $alertType, text: 'My text');
+        $this->assertStringContainsString($expected, $result);
     }
 
     #[Test]

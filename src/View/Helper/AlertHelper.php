@@ -5,6 +5,7 @@ namespace Cake\Essentials\View\Helper;
 
 use BadMethodCallException;
 use Cake\View\Helper;
+use Cake\View\StringTemplateTrait;
 
 /**
  * AlertHelper.
@@ -22,6 +23,24 @@ use Cake\View\Helper;
  */
 class AlertHelper extends Helper
 {
+    use StringTemplateTrait;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $_defaultConfig = [
+        //Default icons for some alert types
+        'icon' => [
+            'danger' => 'exclamation-triangle',
+            'success' => 'check-circle-fill',
+            'warning' => 'exclamation-triangle',
+        ],
+        'templates' => [
+            //Wrappers used when an icon is also used, to separate it from the text
+            'wrapperIconAndText' => '<div class="alert-icon me-2">{{icon}}</div><div class="alert-text">{{text}}</div>',
+        ],
+    ];
+
     /**
      * @var array<string>
      */
@@ -34,6 +53,41 @@ class AlertHelper extends Helper
         }
 
         throw new BadMethodCallException('Method `' . $this::class . '::' . $name . '()` does not exist.');
+    }
+
+    /**
+     * Creates an alert.
+     *
+     * @param string $type Alert type (`primary`, `secondary` and so on)
+     * @param string|string[] $text Alert text, as string or array of strings
+     * @param array<string, mixed> $options Array of options and HTML attributes
+     * @return string
+     */
+    public function alert(string $type, string|array $text, array $options = []): string
+    {
+        $options += [
+            'icon' => $this->getConfig('icon.' . $type),
+            'role' => 'alert',
+        ];
+
+        if (is_array($text)) {
+            $text = implode('<br />', $text);
+        }
+
+        //Adds some classes to wrapper
+        $options = $this->addClass(options: $options, class: 'alert alert-' . $type . ' border-0');
+
+        if ($options['icon']) {
+            //Adds other some classes to wrapper
+            $options = $this->addClass(options: $options, class: 'd-flex align-items-baseline');
+
+            $icon = $this->Html->icon(...array_values((array)$options['icon']));
+
+            $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('icon', 'text'));
+        }
+        unset($options['icon']);
+
+        return $this->Html->div(text: $text, options: $options);
     }
 
     /**
