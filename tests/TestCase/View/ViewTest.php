@@ -37,8 +37,10 @@ class ViewTest extends TestCase
      * @return void
      */
     #[Test]
-    #[TestWith(['Cake\Essentials\View\Helper\HtmlHelper', 'Html'])]
+    #[TestWith(['Cake\Essentials\View\Helper\AlertHelper', 'Alert'])]
+    #[TestWith(['Cake\Essentials\View\Helper\FlashHelper', 'Flash'])]
     #[TestWith(['Cake\Essentials\View\Helper\FormHelper', 'Form'])]
+    #[TestWith(['Cake\Essentials\View\Helper\HtmlHelper', 'Html'])]
     #[TestWith(['BootstrapUI\View\Helper\PaginatorHelper', 'Paginator'])]
     public function testInitializeLoadedHelpers(string $expectedClass, string $helper): void
     {
