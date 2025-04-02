@@ -61,6 +61,12 @@ class FlashHelperTest extends TestCase
     }
 
     #[Test]
+    public function testRenderOnEmptyFlashMessages(): void
+    {
+        $this->assertNull($this->Flash->render());
+    }
+
+    #[Test]
     #[TestWith(['alert-primary', 'default'])]
     #[TestWith(['alert-dark', 'dark'])]
     #[TestWith(['alert-danger', 'error'])]
