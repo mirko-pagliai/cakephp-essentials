@@ -67,7 +67,53 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     }
 
     /**
-     * Adds icons to `$title`, starting from the options.
+     * Builds and returns an icon, starting from `$options`.
+     *
+     * For example:
+     * ```
+     * $this->Html->buildIcon(['icon' => 'house'])
+     * ```
+     * will return:
+     * ```
+     * <i class="bi bi-house"></i>
+     * ```
+     *
+     * and:
+     * ```
+     * $this->Html->buildIcon(['icon' => ['name' => 'house', 'class' => 'fs-5']])
+     * ```
+     * will return:
+     * ```
+     * <i class="fs-5 bi bi-house"></i>
+     * ```
+     *
+     * @param array $options
+     * @return string
+     * @throws \InvalidArgumentException On missing icon `name` value
+     */
+    public function buildIcon(array $options): string
+    {
+        if (empty($options['icon'])) {
+            return '';
+        }
+
+        if (is_string($options['icon'])) {
+            return $this->icon(name: $options['icon']);
+        }
+
+        if (!isset($options['icon']['name'])) {
+            throw new InvalidArgumentException('Missing icon `name` value');
+        }
+
+        //Remaining values, with `name` removed, are the options for the icon
+        $name = $options['icon']['name'];
+        unset($options['icon']['name']);
+
+        return $this->icon(name: $name, options: $options['icon']);
+    }
+
+    /**
+     * Builds and adds icon to `$title`, starting from `$options`.
      *
      * Then it manipulates the options, even removing values that are no longer needed (because they were tied to the
      * icon). Finally, it returns an array with the title and the (manipulated) options.
@@ -79,34 +125,18 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      *
      * @param string $title
      * @param array $options
-     * @return array{string, array} Array with the title and the (manipulated) options
-     * @throws \InvalidArgumentException On missing icon `name` value
+     * @return array{string, array} Array with title and icon as string and the (manipulated) options
      */
-    public function addIconToTitle(string $title, array $options = []): array
+    public function addIconToTitle(string $title = '', array $options = []): array
     {
-        $icon = $options['icon'] ?? null;
+        $icon = $this->buildIcon($options);
         unset($options['icon']);
 
-        if (!$icon) {
-            return [$title, $options];
+        if (!$title) {
+            return [$icon, $options];
         }
 
-        if (is_string($icon)) {
-            [$name, $iconOptions] = [$icon, []];
-        } else {
-            $name = $icon['name'] ?? null;
-            if (!$name) {
-                throw new InvalidArgumentException('Missing icon `name` value');
-            }
-            unset($icon['name']);
-            //Remaining values, with `name` removed, are the options for the icon
-            $iconOptions = $icon;
-        }
-
-        return [
-            $this->icon(name: $name, options: $iconOptions) . ($title ? ' ' . $title : ''),
-            $options,
-        ];
+        return [$icon ? $icon . ' ' . $title : $title, $options];
     }
 
     /**

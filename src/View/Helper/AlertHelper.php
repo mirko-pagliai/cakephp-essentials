@@ -107,10 +107,9 @@ class AlertHelper extends Helper
             //Adds other some classes to wrapper
             $options = $this->addClass(options: $options, class: 'd-flex align-items-baseline');
 
-            /** @phpstan-ignore argument.type */
-            $icon = $this->Html->icon(...array_values((array)$options['icon']));
-
-            $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('icon', 'text'));
+            $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('text') + [
+                'icon' => $this->Html->buildIcon($options),
+            ]);
         }
         unset($options['icon']);
 

@@ -107,7 +107,7 @@ class AlertHelperTest extends TestCase
 
     #[Test]
     #[TestWith(['<i class="bi bi-house"></i>', 'house'])]
-    #[TestWith(['<i class="fs-4 bi bi-house"></i>', ['name' => 'house', ['class' => 'fs-4']]])]
+    #[TestWith(['<i class="fs-4 bi bi-house"></i>', ['name' => 'house', 'class' => 'fs-4']])]
     public function testAlertWithCustomIcons(string $expectedIcon, string|array $icon): void
     {
         $expected = '<div role="alert" class="alert alert-dark border-0 d-flex align-items-baseline">' .
