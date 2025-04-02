@@ -39,10 +39,9 @@ ServerRequest::addDetector(
  * </code>
  * returns `true` if the current action is `delete`, otherwise `false`.
  */
-$actions = ['add', 'delete', 'edit', 'index', 'view'];
-array_walk(array: $actions, callback: function (string $name): void {
-    ServerRequest::addDetector($name, fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: $name));
-});
+foreach (['add', 'delete', 'edit', 'index', 'view'] as $action) {
+    ServerRequest::addDetector($action, fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: $action));
+}
 
 /**
  * `is('localhost')` detector.
