@@ -8,8 +8,10 @@ use Cake\Essentials\View\Helper\FlashHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use Generator;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use UnexpectedValueException;
@@ -87,10 +89,22 @@ class FlashHelperTest extends TestCase
         $this->assertStringContainsString($expectedClass, $result);
     }
 
+    public static function providerTestRenderDefaultIcons(): Generator
+    {
+        $View = new View();
+        $View->helpers()->set('Html', new HtmlHelper($View));
+        $Alert = new AlertHelper($View);
+
+        /** @var array<string, string> $defaultIcons */
+        $defaultIcons = $Alert->getConfigOrFail('icon');
+
+        yield [$Alert->Html->icon($defaultIcons['success']), 'success'];
+        yield [$Alert->Html->icon($defaultIcons['danger']), 'error'];
+        yield [$Alert->Html->icon($defaultIcons['warning']), 'warning'];
+    }
+
     #[Test]
-    #[TestWith(['<i class="bi bi-check-circle-fill"></i>', 'success'])]
-    #[TestWith(['<i class="bi bi-exclamation-triangle"></i>', 'error'])]
-    #[TestWith(['<i class="bi bi-exclamation-triangle"></i>', 'warning'])]
+    #[DataProvider('providerTestRenderDefaultIcons')]
     public function testRenderDefaultIcons(string $expectedIconClasses, string $type): void
     {
         $this->Flash->getView()->getRequest()->getSession()->write('Flash', [
