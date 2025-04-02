@@ -5,9 +5,9 @@ namespace Cake\Essentials\Test\TestCase\View\Helper;
 
 use ArgumentCountError;
 use BadMethodCallException;
-use Cake\Essentials\TestSuite\TestCase;
 use Cake\Essentials\View\Helper\AlertHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
+use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Generator;
 use Override;
