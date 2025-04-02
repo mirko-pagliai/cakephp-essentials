@@ -3,12 +3,19 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\View\Helper;
 
+use ArgumentCountError;
 use BadMethodCallException;
 use Cake\View\Helper;
 use Cake\View\StringTemplateTrait;
 
 /**
  * AlertHelper.
+ *
+ * Allows you to create alerts and supports icon alerts.
+ *
+ * Provides generic `alert()` method and `link()` and `linkPath()` methods to generate alert-compatible links.
+ *
+ * Using the `__call()` method, provides all supported alert types as methods (`success()`, `danger()`, and so on).
  *
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
  *
@@ -20,6 +27,8 @@ use Cake\View\StringTemplateTrait;
  * @method string secondary(string|array $text, array $options = [])
  * @method string success(string|array $text, array $options = [])
  * @method string warning(string|array $text, array $options = [])
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/alerts
  */
 class AlertHelper extends Helper
 {
@@ -42,14 +51,31 @@ class AlertHelper extends Helper
     ];
 
     /**
-     * @var array<string>
+     * @var array
      */
     protected array $helpers = ['Html'];
 
+    /**
+     * Magic method
+     *
+     * Provides all supported alert types as methods (`success()`, `danger()`, and so on).
+     *
+     * @param string $name Method name, will be the `$type` argument
+     * @param array $arguments Params, other arguments
+     * @return string
+     * @throws \ArgumentCountError with too many or too few arguments
+     * @throws \BadMethodCallException with a no existing method
+     */
     public function __call(string $name, array $arguments): string
     {
         if (in_array(needle: $name, haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'])) {
-            return '';
+            if (count($arguments) > 2) {
+                throw new ArgumentCountError(
+                    sprintf('Too many arguments for `%s::%s()`, %s passed and at most 2 expected.', $this::class, $name, count($arguments))
+                );
+            }
+
+            return $this->alert($name, ...$arguments);
         }
 
         throw new BadMethodCallException('Method `' . $this::class . '::' . $name . '()` does not exist.');
@@ -59,7 +85,7 @@ class AlertHelper extends Helper
      * Creates an alert.
      *
      * @param string $type Alert type (`primary`, `secondary` and so on)
-     * @param string|string[] $text Alert text, as string or array of strings
+     * @param array<string>|string $text Alert text, as string or array of strings
      * @param array<string, mixed> $options Array of options and HTML attributes
      * @return string
      */
@@ -81,6 +107,7 @@ class AlertHelper extends Helper
             //Adds other some classes to wrapper
             $options = $this->addClass(options: $options, class: 'd-flex align-items-baseline');
 
+            /** @phpstan-ignore argument.type */
             $icon = $this->Html->icon(...array_values((array)$options['icon']));
 
             $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('icon', 'text'));

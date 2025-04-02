@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
+use ArgumentCountError;
 use BadMethodCallException;
 use Cake\Essentials\TestSuite\TestCase;
 use Cake\Essentials\View\Helper\AlertHelper;
@@ -48,6 +49,41 @@ class AlertHelperTest extends TestCase
 
         $this->Alert = new AlertHelper($View);
         $this->Alert->getView()->helpers()->set('Html', $this->Html);
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    #[Test]
+    #[TestWith(['Text'])]
+    #[TestWith(['Text', ['class' => 'custom-class']])]
+    public function testMagicCallMethod(string $text, array $options = []): void
+    {
+        $Alert = $this->createPartialMock(AlertHelper::class, ['alert']);
+        $Alert
+            ->expects($this->exactly(2))
+            ->method('alert')
+            ->with('success', $text, $options);
+
+        $Alert->success($text, $options);
+        $Alert->success(text: $text, options: $options);
+    }
+
+    #[Test]
+    public function testMagicCallMethodTooFewArguments(): void
+    {
+        $this->expectException(ArgumentCountError::class);
+        // @phpstan-ignore-next-line
+        $this->Alert->success();
+    }
+
+    #[Test]
+    public function testMagicCallMethodTooManyArguments(): void
+    {
+        $this->expectException(ArgumentCountError::class);
+        $this->expectExceptionMessage('Too many arguments for `' . $this->Alert::class . '::success()`, 3 passed and at most 2 expected.');
+        // @phpstan-ignore-next-line
+        $this->Alert->success('Text', [], 'Third');
     }
 
     #[Test]
@@ -107,8 +143,10 @@ class AlertHelperTest extends TestCase
     public static function providerTestAlertRewritesDefaultIcons(): Generator
     {
         $Alert = new AlertHelper(new View());
+        /** @var array<string, string> $defaultIconConfig */
+        $defaultIconConfig = $Alert->getConfigOrFail('icon');
 
-        foreach (array_keys($Alert->getConfigOrFail('icon')) as $alertTypeWithDefaultIcon) {
+        foreach (array_keys($defaultIconConfig) as $alertTypeWithDefaultIcon) {
             yield [$alertTypeWithDefaultIcon];
         }
     }
