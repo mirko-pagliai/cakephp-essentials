@@ -4,16 +4,19 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
 use Cake\Essentials\View\Helper\FormHelper;
+use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * FormHelperTest.
  */
 #[CoversClass(FormHelper::class)]
+#[UsesClass(HtmlHelper::class)]
 class FormHelperTest extends TestCase
 {
     /**
