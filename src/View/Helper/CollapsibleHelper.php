@@ -60,9 +60,7 @@ class CollapsibleHelper extends Helper
         ];
 
         /**
-         * Builds open and close icons.
-         *
-         * These will then be handled via the `onclick` attribute that will use javascript to replace the icon.
+         * Sets toggle icons.
          */
         $openIconArgs = $this->getConfig('toggleIcon.open');
         $closeIconArgs = $this->getConfig('toggleIcon.close');

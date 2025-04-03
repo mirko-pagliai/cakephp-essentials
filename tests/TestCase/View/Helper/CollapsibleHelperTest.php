@@ -31,9 +31,7 @@ class CollapsibleHelperTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $View = new View();
-
-        $this->Collapsible = new CollapsibleHelper($View);
+        $this->Collapsible = new CollapsibleHelper(new View());
     }
 
     public static function providerTestLink(): Generator
