@@ -5,7 +5,6 @@ namespace Cake\Essentials\Test\TestCase\View\Helper;
 
 use BadMethodCallException;
 use Cake\Essentials\View\Helper\CollapsibleHelper;
-use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
 use Generator;
@@ -89,7 +88,7 @@ class CollapsibleHelperTest extends TestCase
     }
 
     #[Test]
-    public function testLinkWithCustomToggleableIcons(): void
+    public function testLinkWithCustomToggleIcons(): void
     {
         $this->Collapsible->setConfig(key: 'toggleIcon.open', value: '1-circle');
         $this->Collapsible->setConfig(key: 'toggleIcon.close', value: '2-circle');
@@ -104,7 +103,7 @@ class CollapsibleHelperTest extends TestCase
     #[TestWith([''])]
     #[TestWith([null])]
     #[TestWith([false])]
-    public function testLinkWithDisabledToggleableIcons(mixed $iconValue): void
+    public function testLinkWithDisabledToggleIcons(mixed $iconValue): void
     {
         $this->Collapsible->setConfig(key: 'toggleIcon', value: $iconValue);
 

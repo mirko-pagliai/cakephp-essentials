@@ -22,7 +22,7 @@ class CollapsibleHelper extends Helper
      */
     protected array $_defaultConfig = [
         /**
-         * "Toggleable" icons, that will be appended to the link and allow to open/close the collapsible.
+         * "Toggle" icons, that will be appended to the link and allow to open/close the collapsible.
          *
          * Not to be confused with the link icon set using the `$options` argument.
          */
@@ -55,10 +55,9 @@ class CollapsibleHelper extends Helper
         $this->collapsibleId = $collapsibleId ?: uniqid('collapsible-');
 
         $options += [
+            'icon' => null,
             'role' => 'button',
         ];
-
-        $options = $this->addClass(options: $options, class: 'text-decoration-none');
 
         /**
          * Builds open and close icons.
@@ -74,6 +73,11 @@ class CollapsibleHelper extends Helper
             // Updates title and adds the `onclick` attribute
             $title .= $this->alreadyOpen ? $openIcon : $closeIcon;
             $options['onclick'] = 'javascript:$(\'i\', this).replaceWith($(this).hasClass(\'collapsed\') ? \'' . htmlentities($closeIcon) . '\' : \'' . htmlentities($openIcon) . '\')';
+        }
+
+        // Adds some classes if an icon is present (or toggle icons)
+        if ($options['icon'] || ($openIconArgs && $closeIconArgs)) {
+            $options = $this->addClass(options: $options, class: 'text-decoration-none');
         }
 
         return $this->Html->link(
