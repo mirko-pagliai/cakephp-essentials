@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
 use ArrayObject;
-use BadMethodCallException;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
@@ -304,7 +303,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testLinkWithTitleAsArray(): void
     {
-        $this->expectException(BadMethodCallException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('`$title` as array is not supported');
         $this->Html->link(['controller' => 'Pages', 'action' => 'index']);
     }

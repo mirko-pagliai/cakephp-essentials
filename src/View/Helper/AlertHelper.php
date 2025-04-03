@@ -38,14 +38,14 @@ class AlertHelper extends Helper
      * @var array<string, mixed>
      */
     protected array $_defaultConfig = [
-        //Default icons for some alert types
+        // Default icons for some alert types
         'icon' => [
             'danger' => 'exclamation-triangle-fill',
             'success' => 'check-circle-fill',
             'warning' => 'exclamation-triangle-fill',
         ],
         'templates' => [
-            //Wrappers used when an icon is also used, to separate it from the text
+            // Wrappers used when an icon is also used, to separate it from the text
             'wrapperIconAndText' => '<div class="alert-icon me-2">{{icon}}</div><div class="alert-text">{{text}}</div>',
         ],
     ];
@@ -100,11 +100,11 @@ class AlertHelper extends Helper
             $text = implode('<br />', $text);
         }
 
-        //Adds some classes to wrapper
+        // Adds some classes to wrapper
         $options = $this->addClass(options: $options, class: 'alert alert-' . $type . ' border-0');
 
         if ($options['icon']) {
-            //Adds other some classes to wrapper
+            // Adds other some classes to wrapper
             $options = $this->addClass(options: $options, class: 'd-flex align-items-baseline');
 
             $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('text') + [
@@ -139,7 +139,7 @@ class AlertHelper extends Helper
      *
      * @param string $title
      * @param string $path
-     * @param array $params
+     * @param array<string, mixed> $params
      * @param array<string, mixed> $options
      * @return string
      *
