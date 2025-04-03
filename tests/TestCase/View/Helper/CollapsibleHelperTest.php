@@ -8,8 +8,10 @@ use Cake\Essentials\View\Helper\CollapsibleHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
+use Generator;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
@@ -27,7 +29,7 @@ class CollapsibleHelperTest extends TestCase
     /**
      * @var \Cake\Essentials\View\Helper\HtmlHelper&\PHPUnit\Framework\MockObject\MockObject
      */
-    protected HtmlHelper $HtmlHelper;
+    protected HtmlHelper $Html;
 
     /**
      * @inheritDoc
@@ -37,23 +39,85 @@ class CollapsibleHelperTest extends TestCase
     {
         $View = new View();
 
-        $this->HtmlHelper = $this->getMockBuilder(HtmlHelper::class)
-            ->setConstructorArgs([$View])
-            ->onlyMethods(['link'])
-            ->getMock();
-
         $this->Collapsible = new CollapsibleHelper($View);
-        $this->Collapsible->getView()->set('Html', $this->HtmlHelper);
     }
 
-    public function testLink(): void
+    public static function providerTestLink(): Generator
     {
-        $this->HtmlHelper
-            ->expects($this->once())
-            ->method('link')
-            ->with('Title');
+        $defaultExpected = [
+            'a' => [
+                'href' => '#my-id',
+                'aria-controls' => 'my-id',
+                'aria-expanded' => 'false',
+                'data-bs-toggle' => 'collapse',
+                'onclick' => 'preg:/(?:[^"]+)/',
+                'role' => 'button',
+                'class' => 'text-decoration-none',
+                'title' => 'Title',
+            ],
+            'Title',
+            'i' => ['class' => 'ms-1 bi bi-chevron-down'],
+            '/i',
+            '/a',
+        ];
 
-        $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: [], alreadyOpen: false);
+        /**
+         * With default arguments.
+         */
+
+        yield [$defaultExpected];
+
+        /**
+         * With `$alreadyOpen` as `true`
+         */
+        $expectedWithAlreadyOpen = $defaultExpected;
+        $expectedWithAlreadyOpen['a']['aria-expanded'] = 'true';
+        $expectedWithAlreadyOpen['i']['class'] = 'ms-1 bi bi-chevron-up';
+
+        yield [$expectedWithAlreadyOpen, [], true];
+
+        /**
+         * With a custom class
+         */
+        $expectedWithCustomClass = $defaultExpected;
+        $expectedWithCustomClass['a']['class'] = 'custom-class text-decoration-none';
+
+        yield [$expectedWithCustomClass, ['class' => 'custom-class']];
+    }
+
+    #[Test]
+    #[DataProvider('providerTestLink')]
+    public function testLink(array $expectedHtml, array $options = [], bool $alreadyOpen = false): void
+    {
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: $options, alreadyOpen: $alreadyOpen);
+        $this->assertHtml($expectedHtml, $result);
+    }
+
+    #[Test]
+    public function testLinkWithCustomToggleableIcons(): void
+    {
+        $this->Collapsible->setConfig(key: 'toggleIcon.open', value: '1-circle');
+        $this->Collapsible->setConfig(key: 'toggleIcon.close', value: '2-circle');
+
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
+        $this->assertStringContainsString('bi bi-1-circle', $result);
+        $this->assertStringContainsString('bi bi-2-circle', $result);
+        $this->assertStringContainsString('onclick=', $result);
+    }
+
+    #[Test]
+    #[TestWith([''])]
+    #[TestWith([null])]
+    #[TestWith([false])]
+    public function testLinkWithDisabledToggleableIcons(mixed $iconValue): void
+    {
+        $this->Collapsible->setConfig(key: 'toggleIcon', value: $iconValue);
+
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
+
+        // Title does not contain icons. `onclick` attribute is not present
+        $this->assertStringContainsString('>Title</a>', $result);
+        $this->assertStringNotContainsString('onclick=', $result);
     }
 
     #[Test]
