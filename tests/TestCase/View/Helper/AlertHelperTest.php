@@ -15,11 +15,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * AlertHelperTest.
  */
 #[CoversClass(AlertHelper::class)]
+#[UsesClass(HtmlHelper::class)]
 class AlertHelperTest extends TestCase
 {
     /**

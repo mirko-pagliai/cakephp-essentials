@@ -11,11 +11,13 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * BeautifierHelperTest.
  */
 #[CoversClass(BeautifierHelper::class)]
+#[UsesClass(HtmlHelper::class)]
 class BeautifierHelperTest extends TestCase
 {
     /**

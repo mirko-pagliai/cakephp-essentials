@@ -14,12 +14,15 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\UsesClass;
 use UnexpectedValueException;
 
 /**
  * FlashHelperTest.
  */
 #[CoversClass(FlashHelper::class)]
+#[UsesClass(AlertHelper::class)]
+#[UsesClass(HtmlHelper::class)]
 class FlashHelperTest extends TestCase
 {
     /**
