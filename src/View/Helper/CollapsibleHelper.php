@@ -13,9 +13,9 @@ use Cake\View\Helper;
  */
 class CollapsibleHelper extends Helper
 {
-    public bool $alreadyOpen;
+    public ?bool $alreadyOpen = null;
 
-    public string $collapsibleId;
+    public ?string $collapsibleId = null;
 
     /**
      * @var array<string, mixed>
@@ -33,7 +33,7 @@ class CollapsibleHelper extends Helper
     ];
 
     /**
-     * @var array<string>
+     * @var array
      */
     protected array $helpers = ['Html'];
 
