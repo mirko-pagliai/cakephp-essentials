@@ -27,11 +27,6 @@ class CollapsibleHelperTest extends TestCase
     protected CollapsibleHelper $Collapsible;
 
     /**
-     * @var \Cake\Essentials\View\Helper\HtmlHelper&\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected HtmlHelper $Html;
-
-    /**
      * @inheritDoc
      */
     #[Override]
