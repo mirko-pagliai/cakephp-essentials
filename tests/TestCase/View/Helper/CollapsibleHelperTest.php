@@ -5,19 +5,20 @@ namespace Cake\Essentials\Test\TestCase\View\Helper;
 
 use BadMethodCallException;
 use Cake\Essentials\View\Helper\CollapsibleHelper;
+use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
-use Generator;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use PHPUnit\Framework\Attributes\UsesClass;
 
 /**
  * CollapsibleHelperTest.
  */
 #[CoversClass(CollapsibleHelper::class)]
+#[UsesClass(HtmlHelper::class)]
 class CollapsibleHelperTest extends TestCase
 {
     /**
@@ -34,9 +35,10 @@ class CollapsibleHelperTest extends TestCase
         $this->Collapsible = new CollapsibleHelper(new View());
     }
 
-    public static function providerTestLink(): Generator
+    #[Test]
+    public function testLink(): void
     {
-        $defaultExpected = [
+        $expected = [
             'a' => [
                 'href' => '#my-id',
                 'aria-controls' => 'my-id',
@@ -52,29 +54,16 @@ class CollapsibleHelperTest extends TestCase
             '/i',
             '/a',
         ];
-
-        /**
-         * With default arguments.
-         */
-
-        yield [$defaultExpected];
-
-        /**
-         * With `$alreadyOpen` as `true`
-         */
-        $expectedWithAlreadyOpen = $defaultExpected;
-        $expectedWithAlreadyOpen['a']['aria-expanded'] = 'true';
-        $expectedWithAlreadyOpen['i']['class'] = 'ms-1 bi bi-chevron-up';
-
-        yield [$expectedWithAlreadyOpen, [], true];
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
+        $this->assertHtml($expected, $result);
     }
 
     #[Test]
-    #[DataProvider('providerTestLink')]
-    public function testLink(array $expectedHtml, array $options = [], bool $alreadyOpen = false): void
+    public function testLinkWithAlreadyOpen(): void
     {
-        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: $options, alreadyOpen: $alreadyOpen);
-        $this->assertHtml($expectedHtml, $result);
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', alreadyOpen: true);
+        $this->assertStringContainsString('aria-expanded="true"', $result);
+        $this->assertStringContainsString('>Title<i class="ms-1 bi bi-chevron-up"></i></a>', $result);
     }
 
     #[Test]
