@@ -67,14 +67,6 @@ class CollapsibleHelperTest extends TestCase
         $expectedWithAlreadyOpen['i']['class'] = 'ms-1 bi bi-chevron-up';
 
         yield [$expectedWithAlreadyOpen, [], true];
-
-        /**
-         * With a custom class
-         */
-        $expectedWithCustomClass = $defaultExpected;
-        $expectedWithCustomClass['a']['class'] = 'custom-class text-decoration-none';
-
-        yield [$expectedWithCustomClass, ['class' => 'custom-class']];
     }
 
     #[Test]
@@ -83,6 +75,20 @@ class CollapsibleHelperTest extends TestCase
     {
         $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: $options, alreadyOpen: $alreadyOpen);
         $this->assertHtml($expectedHtml, $result);
+    }
+
+    #[Test]
+    public function testLinkCustomClass(): void
+    {
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: ['class' => 'custom-class']);
+        $this->assertStringContainsString('class="custom-class text-decoration-none"', $result);
+    }
+
+    #[Test]
+    public function testLinkWithIcon(): void
+    {
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: ['icon' => 'house']);
+        $this->assertStringContainsString('<i class="bi bi-house"></i> Title<i class="ms-1 bi bi-chevron-down"></i>', $result);
     }
 
     #[Test]
@@ -105,11 +111,25 @@ class CollapsibleHelperTest extends TestCase
     {
         $this->Collapsible->setConfig(key: 'toggleIcon', value: $iconValue);
 
+        /**
+         * Title does not contain toggle icons.
+         * `onclick` attribute is not present.
+         * There is no `text-decoration-none` class.
+         */
         $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
-
-        // Title does not contain icons. `onclick` attribute is not present
         $this->assertStringContainsString('>Title</a>', $result);
         $this->assertStringNotContainsString('onclick=', $result);
+        $this->assertStringNotContainsString('text-decoration-none', $result);
+
+        /**
+         * Title does not contain toggle icons, only normal icon.
+         * `onclick` attribute is not present.
+         * There is the `text-decoration-none` class (because of the normal icon).
+         */
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', options: ['icon' => 'house']);
+        $this->assertStringContainsString('><i class="bi bi-house"></i> Title</a>', $result);
+        $this->assertStringNotContainsString('onclick=', $result);
+        $this->assertStringContainsString('class="text-decoration-none"', $result);
     }
 
     #[Test]
