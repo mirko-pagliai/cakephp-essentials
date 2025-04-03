@@ -327,7 +327,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             'title' => trim(strip_tags($title)) ?: null,
         ];
 
-        if (!empty($options['icon'])) {
+        if (!empty($options['icon']) && !$this->hasAnyClass(classes: 'text-decoration-none', options: $options)) {
             $options = $this->addClass(options: $options, class: 'text-decoration-none');
         }
         [$title, $options] = $this->addIconToTitle(title: $title, options: $options);
