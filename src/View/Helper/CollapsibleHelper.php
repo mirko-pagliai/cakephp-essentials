@@ -105,6 +105,11 @@ class CollapsibleHelper extends Helper
 
         $options = $this->addClass(options: $options, class: $this->alreadyOpen ? 'collapse show' : 'collapse');
 
-        return $this->Html->div(text: $content, options: ['id' => $this->collapsibleId] + $options);
+        $result = $this->Html->div(text: $content, options: ['id' => $this->collapsibleId] + $options);
+
+        // Reset properties. This prevents consecutive method calls
+        $this->alreadyOpen = $this->collapsibleId = null;
+
+        return $result;
     }
 }

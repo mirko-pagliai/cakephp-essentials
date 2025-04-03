@@ -152,4 +152,15 @@ class CollapsibleHelperTest extends TestCase
         $this->expectExceptionMessage('Seems that the link to open the collapsible was not set, perhaps the `link()` method was not called?');
         $this->Collapsible->content('Text');
     }
+
+    #[Test]
+    public function testContentConsecutiveMethodCalls(): void
+    {
+        $this->Collapsible->link(title: 'Title');
+        $result = $this->Collapsible->content('Text');
+        $this->assertNotEmpty($result);
+
+        $this->expectException(BadMethodCallException::class);
+        $this->Collapsible->content('Text');
+    }
 }
