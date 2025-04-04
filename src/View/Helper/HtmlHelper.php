@@ -343,10 +343,6 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     #[Override]
     public function tag(string $name, ?string $text = null, array $options = []): string
     {
-        $options += [
-            'escape' => false,
-        ];
-
         [$text, $options] = $this->addIconToTitle(title: is_null($text) ? '' : $text, options: $options);
         $options = $this->addPopover(options: $options);
         $options = $this->addTooltip(options: $options);
