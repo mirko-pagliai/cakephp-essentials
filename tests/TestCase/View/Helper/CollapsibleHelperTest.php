@@ -58,7 +58,7 @@ class CollapsibleHelperTest extends TestCase
             '/a',
         ];
 
-        // With `$alreadyOpen` as `false`
+        // With defaults
         yield [$expected];
 
         // With `$alreadyOpen` as `true`
