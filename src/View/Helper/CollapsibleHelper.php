@@ -9,14 +9,25 @@ use Cake\View\Helper;
 /**
  * CollapsibleHelper.
  *
+ * This helper allows you to create "collapsible" blocks.
+ *
+ * It provides two methods, `link()` and `content()` that allow you to create custom blocks.
+ * You need to be careful to call these methods consecutively and then, if you want it, to
+ * bundle the output in a wrapper.
+ *
+ * Remember that to use "toggle" icon you need `webroot/js/collapsible-toggle-icon.min.js`,
+ * in addition to jQuery.
+ *
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.js');
+ * ```
+ *
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
+ *
+ * @uses webroot/js/collapsible-toggle-icon.min.js
  */
 class CollapsibleHelper extends Helper
 {
-    public ?bool $alreadyOpen = null;
-
-    public ?string $collapsibleId = null;
-
     /**
      * @var array<string, mixed>
      */
@@ -25,12 +36,21 @@ class CollapsibleHelper extends Helper
          * "Toggle" icons, that will be appended to the link and allow to open/close the collapsible.
          *
          * Not to be confused with the link icon set using the `$options` argument.
+         *
+         * If you want to disable toggle icons completely:
+         * ```
+         * $this->Collapsible->setConfig('toggleIcon', false);
+         * ```
          */
         'toggleIcon' => [
             'open' => ['name' => 'chevron-up', 'class' => 'ms-1'],
             'close' => ['name' => 'chevron-down', 'class' => 'ms-1'],
         ],
     ];
+
+    public ?bool $alreadyOpen = null;
+
+    public ?string $collapsibleId = null;
 
     /**
      * @var array
@@ -68,9 +88,11 @@ class CollapsibleHelper extends Helper
             $closeIcon = $this->Html->buildIcon(['icon' => $closeIconArgs]);
 
             // Updates title, added some classes and adds the `onclick` attribute
-            $title .= $this->alreadyOpen ? $openIcon : $closeIcon;
+            $title .= '<span class="toggle-icon">' . ($this->alreadyOpen ? $openIcon : $closeIcon) . '</span>';
             $options = $this->addClass(options: $options, class: 'text-decoration-none');
-            $options['onclick'] = 'javascript:$(\'i\', this).replaceWith($(this).hasClass(\'collapsed\') ? \'' . htmlentities($closeIcon) . '\' : \'' . htmlentities($openIcon) . '\')';
+
+            $options['data-open-icon'] = htmlentities($openIcon);
+            $options['data-close-icon'] = htmlentities($closeIcon);
         }
 
         return $this->Html->link(
@@ -92,11 +114,14 @@ class CollapsibleHelper extends Helper
      * @param array<string>|string $content
      * @param array $options
      * @return string
+     * @throws \BadMethodCallException if the `link()` method has not been called previously
      */
     public function content(string|array $content, array $options = []): string
     {
         if (!isset($this->alreadyOpen) || !isset($this->collapsibleId)) {
-            throw new BadMethodCallException('Seems that the link to open the collapsible was not set, perhaps the `link()` method was not called?');
+            throw new BadMethodCallException(
+                'Seems that the link to open the collapsible was not set, perhaps the `link()` method was not called?'
+            );
         }
 
         if (is_array($content)) {
