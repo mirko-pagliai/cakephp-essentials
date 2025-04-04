@@ -39,9 +39,11 @@ ServerRequest::addDetector(
  * </code>
  * returns `true` if the current action is `delete`, otherwise `false`.
  */
-foreach (['add', 'delete', 'edit', 'index', 'view'] as $action) {
-    ServerRequest::addDetector($action, fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: $action));
-}
+ServerRequest::addDetector('add', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'add'));
+ServerRequest::addDetector('delete', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'delete'));
+ServerRequest::addDetector('edit', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'edit'));
+ServerRequest::addDetector('index', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'index'));
+ServerRequest::addDetector('view', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'view'));
 
 /**
  * `is('localhost')` detector.
