@@ -310,6 +310,10 @@ class HtmlHelperTest extends TestCase
 
     #[Test]
     #[TestWith(['<span>My text</span>'])]
+    #[TestWith([
+        '<span data-icon="&lt;i class=&quot;bi bi-house&quot;&gt;&lt;/i&gt;">My text</span>',
+        ['data-icon' => '&lt;i class=&quot;bi bi-house&quot;&gt;&lt;/i&gt;']
+    ])]
     #[TestWith(['<span><i class="bi bi-home"></i> My text</span>', ['icon' => 'home']])]
     #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip">My text</span>', ['tooltip' => 'My tooltip']])]
     public function testTag(string $expectedTag, array $options = []): void
