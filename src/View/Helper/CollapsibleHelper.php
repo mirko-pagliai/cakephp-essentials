@@ -95,7 +95,10 @@ class CollapsibleHelper extends Helper
                 'data-close-icon' => $closeIcon,
             ]);
 
-            // Adds some options to the link.
+            // Adds some options to the link
+            if (!$this->alreadyOpen) {
+                $options = $this->addClass(options: $options, class: 'collapsed');
+            }
             $options = $this->addClass(options: $options, class: 'text-decoration-none');
         }
 

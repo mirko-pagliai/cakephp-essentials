@@ -8,8 +8,10 @@ use Cake\Essentials\View\Helper\CollapsibleHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
+use Generator;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -35,61 +37,70 @@ class CollapsibleHelperTest extends TestCase
         $this->Collapsible = new CollapsibleHelper(new View());
     }
 
-    #[Test]
-    public function testLink(): void
+    public static function providerTestLink(): Generator
     {
+        // Default
         $expected = [
             'a' => [
                 'href' => '#my-id',
                 'aria-controls' => 'my-id',
                 'aria-expanded' => 'false',
                 'data-bs-toggle' => 'collapse',
-                'onclick' => 'preg:/(?:[^"]+)/',
                 'role' => 'button',
-                'class' => 'text-decoration-none',
+                'class' => 'collapsed text-decoration-none',
                 'title' => 'Title',
             ],
             'Title',
+            'span' => ['class' => 'toggle-icon', 'data-open-icon', 'data-close-icon'],
             'i' => ['class' => 'ms-1 bi bi-chevron-down'],
             '/i',
+            '/span',
             '/a',
         ];
-        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
-        $this->assertHtml($expected, $result);
+
+        // With `$alreadyOpen` as `false`
+        yield [$expected];
+
+        // With `$alreadyOpen` as `true`
+        $expected['a']['aria-expanded'] = 'true';
+        $expected['a']['class'] = 'text-decoration-none';
+        $expected['i']['class'] = 'ms-1 bi bi-chevron-up';
+        yield [$expected, true];
     }
 
     #[Test]
-    public function testLinkWithAlreadyOpen(): void
+    #[DataProvider('providerTestLink')]
+    public function testLink(array $expectedHtml, bool $alreadyOpen = false): void
     {
-        $result = $this->Collapsible->link(title: 'Title', alreadyOpen: true);
-        $this->assertStringContainsString('aria-expanded="true"', $result);
-        $this->assertStringContainsString('>Title<i class="ms-1 bi bi-chevron-up"></i></a>', $result);
+        $result = $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', alreadyOpen: $alreadyOpen);
+        $this->assertHtml($expectedHtml, $result);
     }
 
     #[Test]
-    public function testLinkCustomClass(): void
+    #[TestWith(['class="custom-class collapsed text-decoration-none"'])]
+    #[TestWith(['class="custom-class text-decoration-none"', true])]
+    public function testLinkCustomClass(string $expected, bool $alreadyOpen = false): void
     {
-        $result = $this->Collapsible->link(title: 'Title', options: ['class' => 'custom-class']);
-        $this->assertStringContainsString('class="custom-class text-decoration-none"', $result);
+        $result = $this->Collapsible->link(title: 'Title', options: ['class' => 'custom-class'], alreadyOpen: $alreadyOpen);
+        $this->assertStringContainsString($expected, $result);
     }
 
     #[Test]
     public function testLinkWithIcon(): void
     {
         $result = $this->Collapsible->link(title: 'Title', options: ['icon' => 'house']);
-        $this->assertStringContainsString('><i class="bi bi-house"></i> Title<i class="ms-1 bi bi-chevron-down"></i></a>', $result);
+        $this->assertStringContainsString('<i class="bi bi-house"></i> Title', $result);
     }
 
     #[Test]
     public function testLinkWithCustomToggleIcons(): void
     {
-        $this->Collapsible->setConfig(key: 'toggleIcon.open', value: '1-circle');
-        $this->Collapsible->setConfig(key: 'toggleIcon.close', value: '2-circle');
+        $this->Collapsible->setConfig(key: 'toggleIcon', value: ['open' => '1-circle', 'close' => '2-circle']);
 
         $result = $this->Collapsible->link(title: 'Title');
+        $this->assertStringContainsString('<span class="toggle-icon"', $result);
         $this->assertStringContainsString('bi bi-1-circle', $result);
         $this->assertStringContainsString('bi bi-2-circle', $result);
-        $this->assertStringContainsString('onclick=', $result);
     }
 
     #[Test]
@@ -101,23 +112,23 @@ class CollapsibleHelperTest extends TestCase
         $this->Collapsible->setConfig(key: 'toggleIcon', value: $iconValue);
 
         /**
-         * Title does not contain toggle icons.
-         * `onclick` attribute is not present.
+         * Title does not contain icons.
+         * `span` with `toggle-icon` class is not present.
          * There is no `text-decoration-none` class.
          */
         $result = $this->Collapsible->link(title: 'Title');
         $this->assertStringContainsString('>Title</a>', $result);
-        $this->assertStringNotContainsString('onclick=', $result);
+        $this->assertStringNotContainsString('<span class="toggle-icon"', $result);
         $this->assertStringNotContainsString('text-decoration-none', $result);
 
         /**
          * Title does not contain toggle icons, only normal icon.
-         * `onclick` attribute is not present.
+         * `span` with `toggle-icon` class is not present.
          * There is the `text-decoration-none` class (because of the normal icon).
          */
         $result = $this->Collapsible->link(title: 'Title', options: ['icon' => 'house']);
         $this->assertStringContainsString('><i class="bi bi-house"></i> Title</a>', $result);
-        $this->assertStringNotContainsString('onclick=', $result);
+        $this->assertStringNotContainsString('<span class="toggle-icon"', $result);
         $this->assertStringContainsString('class="text-decoration-none"', $result);
     }
 
