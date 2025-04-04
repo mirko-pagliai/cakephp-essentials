@@ -3,11 +3,12 @@
  */
 $(function () {
     $('a[data-bs-toggle="collapse"]').click(function () {
-        if (!$(this).data('open-icon') || !$(this).data('close-icon')) {
+        let replacement = $('span.toggle-icon', $(this)).data($(this).hasClass('collapsed') ? 'close-icon' : 'open-icon');
+
+        if (!replacement) {
             return;
         }
 
-        let replacement = $(this).hasClass('collapsed') ? $(this).data('close-icon') : $(this).data('open-icon');
         $('span.toggle-icon i', $(this)).replaceWith(replacement);
     });
 });

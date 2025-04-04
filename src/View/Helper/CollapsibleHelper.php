@@ -84,15 +84,19 @@ class CollapsibleHelper extends Helper
         $openIconArgs = $this->getConfig('toggleIcon.open');
         $closeIconArgs = $this->getConfig('toggleIcon.close');
         if ($openIconArgs && $closeIconArgs) {
+            // Builds open/close toggle icons
             $openIcon = $this->Html->buildIcon(['icon' => $openIconArgs]);
             $closeIcon = $this->Html->buildIcon(['icon' => $closeIconArgs]);
 
-            // Updates title, added some classes and adds the `onclick` attribute
-            $title .= '<span class="toggle-icon">' . ($this->alreadyOpen ? $openIcon : $closeIcon) . '</span>';
-            $options = $this->addClass(options: $options, class: 'text-decoration-none');
+            // Updates title, appending a span that will contain the toggle icons and attributes for replacing them
+            $title .= $this->Html->span(text: $this->alreadyOpen ? $openIcon : $closeIcon, options: [
+                'class' => 'toggle-icon',
+                'data-open-icon' => htmlentities($openIcon),
+                'data-close-icon' => htmlentities($closeIcon),
+            ]);
 
-            $options['data-open-icon'] = htmlentities($openIcon);
-            $options['data-close-icon'] = htmlentities($closeIcon);
+            // Adds some options to the link.
+            $options = $this->addClass(options: $options, class: 'text-decoration-none');
         }
 
         return $this->Html->link(
