@@ -51,7 +51,7 @@ class CollapsibleHelperTest extends TestCase
                 'title' => 'Title',
             ],
             'Title',
-            'span' => ['class' => 'toggle-icon', 'data-open-icon', 'data-close-icon'],
+            'span' => ['class' => 'd-print-none toggle-icon', 'data-open-icon', 'data-close-icon'],
             'i' => ['class' => 'ms-1 bi bi-chevron-down'],
             '/i',
             '/span',
@@ -98,7 +98,7 @@ class CollapsibleHelperTest extends TestCase
         $this->Collapsible->setConfig(key: 'toggleIcon', value: ['open' => '1-circle', 'close' => '2-circle']);
 
         $result = $this->Collapsible->link(title: 'Title');
-        $this->assertStringContainsString('<span class="toggle-icon"', $result);
+        $this->assertStringContainsString('toggle-icon', $result);
         $this->assertStringContainsString('bi bi-1-circle', $result);
         $this->assertStringContainsString('bi bi-2-circle', $result);
     }
@@ -118,7 +118,7 @@ class CollapsibleHelperTest extends TestCase
          */
         $result = $this->Collapsible->link(title: 'Title');
         $this->assertStringContainsString('>Title</a>', $result);
-        $this->assertStringNotContainsString('<span class="toggle-icon"', $result);
+        $this->assertStringNotContainsString('toggle-icon', $result);
         $this->assertStringNotContainsString('text-decoration-none', $result);
 
         /**
@@ -128,7 +128,7 @@ class CollapsibleHelperTest extends TestCase
          */
         $result = $this->Collapsible->link(title: 'Title', options: ['icon' => 'house']);
         $this->assertStringContainsString('><i class="bi bi-house"></i> Title</a>', $result);
-        $this->assertStringNotContainsString('<span class="toggle-icon"', $result);
+        $this->assertStringNotContainsString('toggle-icon', $result);
         $this->assertStringContainsString('class="text-decoration-none"', $result);
     }
 

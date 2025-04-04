@@ -90,7 +90,7 @@ class CollapsibleHelper extends Helper
 
             // Updates title, appending a span that will contain the toggle icons and attributes for replacing them
             $title .= $this->Html->span(text: $this->alreadyOpen ? $openIcon : $closeIcon, options: [
-                'class' => 'toggle-icon',
+                'class' => 'd-print-none toggle-icon',
                 'data-open-icon' => $openIcon,
                 'data-close-icon' => $closeIcon,
             ]);
