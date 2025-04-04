@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Cake\Essentials\View\Helper;
 
 use ArgumentCountError;
-use BadMethodCallException;
 use BootstrapUI\View\Helper\HtmlHelper as BootstrapUIHtmlHelper;
 use InvalidArgumentException;
 use Override;
@@ -97,19 +96,20 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             return '';
         }
 
-        if (is_string($options['icon'])) {
-            return $this->icon(name: $options['icon']);
+        $options = $options['icon'];
+
+        if (is_string($options)) {
+            return $this->icon(name: $options);
         }
 
-        if (!isset($options['icon']['name'])) {
+        if (!isset($options['name'])) {
             throw new InvalidArgumentException('Missing icon `name` value');
         }
 
-        //Remaining values, with `name` removed, are the options for the icon
-        $name = $options['icon']['name'];
-        unset($options['icon']['name']);
+        $name = $options['name'];
+        unset($options['name']);
 
-        return $this->icon(name: $name, options: $options['icon']);
+        return $this->icon(name: $name, options: $options);
     }
 
     /**
@@ -313,13 +313,13 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     /**
      * {@inheritDoc}
      *
-     * @throws \BadMethodCallException With `$title` as array
+     * @throws \InvalidArgumentException With `$title` as array
      */
     #[Override]
     public function link(string|array $title, array|string|null $url = null, array $options = []): string
     {
         if (is_array($title)) {
-            throw new BadMethodCallException('`$title` as array is not supported');
+            throw new InvalidArgumentException('`$title` as array is not supported');
         }
 
         $options += [
