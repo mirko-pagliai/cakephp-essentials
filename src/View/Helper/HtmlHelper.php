@@ -31,6 +31,14 @@ use Override;
  */
 class HtmlHelper extends BootstrapUIHtmlHelper
 {
+    public const string SUCCESS_ICON = 'check-circle';
+
+    public const string SUCCESS_ICON_FILL = 'check-circle-fill';
+
+    public const string WARNING_ICON = 'exclamation-triangle';
+
+    public const string WARNING_ICON_FILL = 'exclamation-triangle-fill';
+
     /**
      * Magic "call" method.
      *
