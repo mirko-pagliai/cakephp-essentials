@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\UsesClass;
  * DropdownHelperTest
  */
 #[CoversClass(DropdownHelper::class)]
+#[UsesClass(FormHelper::class)]
 #[UsesClass(HtmlHelper::class)]
 class DropdownHelperTest extends TestCase
 {
@@ -26,19 +27,37 @@ class DropdownHelperTest extends TestCase
     protected DropdownHelper $Dropdown;
 
     /**
-     * @inheritDoc
+     * @var \Cake\Essentials\View\Helper\FormHelper&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected FormHelper $Form;
+
+    /**
+     * @var \Cake\Essentials\View\Helper\HtmlHelper&\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected HtmlHelper $Html;
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     #[Override]
     protected function setUp(): void
     {
-        $this->Dropdown = new DropdownHelper(new View());
+        $this->Form = $this->createPartialMock(FormHelper::class, ['postLink']);
+        $this->Html = $this->createPartialMock(HtmlHelper::class, ['link']);
+
+        $View = new View();
+        $View->helpers()->set('Html', $this->Html);
+        $View->helpers()->set('Form', $this->Form);
+
+        $this->Dropdown = new DropdownHelper($View);
     }
 
     #[Test]
     public function testCreate(): void
     {
-        $HtmlHelper = $this->createPartialMock(HtmlHelper::class, ['link']);
-        $HtmlHelper
+        $this->Html
             ->expects($this->once())
             ->method('link')
             ->with('My dropdown main link', '#', [
@@ -48,16 +67,13 @@ class DropdownHelperTest extends TestCase
                 'role' => 'button',
             ]);
 
-        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
-
         $this->Dropdown->create(title: 'My dropdown main link', options: ['class' => 'my-custom-class']);
     }
 
     #[Test]
     public function testLink(): void
     {
-        $HtmlHelper = $this->createPartialMock(HtmlHelper::class, ['link']);
-        $HtmlHelper
+        $this->Html
             ->expects($this->once())
             ->method('link')
             ->with(
@@ -65,8 +81,6 @@ class DropdownHelperTest extends TestCase
                 '#',
                 ['class' => 'my-custom-class dropdown-item']
             );
-
-        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
 
         $this->Dropdown->link(
             title: 'My link',
@@ -78,8 +92,7 @@ class DropdownHelperTest extends TestCase
     #[Test]
     public function testLinkFromPath(): void
     {
-        $HtmlHelper = $this->createPartialMock(HtmlHelper::class, ['link']);
-        $HtmlHelper
+        $this->Html
             ->expects($this->once())
             ->method('link')
             ->with(
@@ -87,8 +100,6 @@ class DropdownHelperTest extends TestCase
                 ['_path' => 'Users::index', '?' => ['k' => 'v']],
                 ['class' => 'my-custom-class dropdown-item']
             );
-
-        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
 
         $this->Dropdown->linkFromPath(
             title: 'My link from path',
@@ -101,8 +112,7 @@ class DropdownHelperTest extends TestCase
     #[Test]
     public function testPostLink(): void
     {
-        $FormHelper = $this->createPartialMock(FormHelper::class, ['postLink']);
-        $FormHelper
+        $this->Form
             ->expects($this->once())
             ->method('postLink')
             ->with(
@@ -110,8 +120,6 @@ class DropdownHelperTest extends TestCase
                 '#',
                 ['class' => 'my-custom-class dropdown-item']
             );
-
-        $this->Dropdown->getView()->helpers()->set('Form', $FormHelper);
 
         $this->Dropdown->postLink(
             title: 'My post link',
