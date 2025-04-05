@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
+use BadMethodCallException;
 use Cake\Essentials\View\Helper\DropdownHelper;
 use Cake\Essentials\View\Helper\FormHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
@@ -126,5 +127,43 @@ class DropdownHelperTest extends TestCase
             url: '#',
             options: ['class' => 'my-custom-class']
         );
+    }
+
+    #[Test]
+    public function testRenderWithoutHavingCalledTheCreateMethod(): void
+    {
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('The opening link has not been set, probably the `create()` method was not called previously.');
+        $this->Dropdown->render();
+    }
+
+    #[Test]
+    public function testRenderWithoutHavingCalledLinkMethods(): void
+    {
+        $this->Html
+            ->expects($this->once())
+            ->method('link')
+            ->willReturnArgument(0);
+
+        $this->Dropdown->create(title: 'My dropdown');
+
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Dropdown links have not been set');
+        $this->Dropdown->render();
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    #[Test]
+    public function testMagicToString(): void
+    {
+        $Dropdown = $this->createPartialMock(DropdownHelper::class, ['render']);
+        $Dropdown
+            ->expects($this->once())
+            ->method('render')
+            ->with([]);
+
+        (string)$Dropdown;
     }
 }

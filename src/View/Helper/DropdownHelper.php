@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\View\Helper;
 
+use BadMethodCallException;
 use Cake\View\Helper;
+use Override;
+use Stringable;
 
 /**
  * DropdownHelper.
@@ -11,11 +14,11 @@ use Cake\View\Helper;
  * @property \Cake\Essentials\View\Helper\FormHelper $Form
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
  */
-class DropdownHelper extends Helper
+class DropdownHelper extends Helper implements Stringable
 {
     protected array $_links = [];
 
-    protected string $_opening = '';
+    protected ?string $_opening = null;
 
     /**
      * @var array
@@ -97,5 +100,50 @@ class DropdownHelper extends Helper
         $this->_links[] = $this->Form->postLink(title: $title, url: $url, options: $options);
 
         return $this;
+    }
+
+    /**
+     * Builds and returns the entire dropdown, encapsulating the opening link and the links submenu in a wrapper.
+     *
+     * @param array $options Additional HTML attributes for the wrapper
+     * @return string
+     * @throws \BadMethodCallException if the `create()` method or if no link methods have been called
+     */
+    public function render(array $options = []): string
+    {
+        if (empty($this->_opening)) {
+            throw new BadMethodCallException(
+                'The opening link has not been set, probably the `create()` method was not called previously.'
+            );
+        }
+        if (empty($this->_links)) {
+            throw new BadMethodCallException('Dropdown links have not been set');
+        }
+
+        // Builds the submenu
+        $submenu = $this->Html->nestedList(list: $this->_links, options: ['class' => 'dropdown-menu']);
+
+        // Builds the result
+        $options = $this->addClass(options: $options, class: 'dropdown');
+        $result = $this->Html->div(text: $this->_opening . $submenu, options: $options);
+
+        // Resets properties
+        $this->_opening = null;
+        $this->_links = [];
+
+        return $result;
+    }
+
+    /**
+     * Magic method, returns the instance as a string and makes the dropdown "stringable".
+     *
+     * If you need to set some options for the wrapper, you need to call the `render()` method.
+     *
+     * @return string
+     */
+    #[Override]
+    public function __toString(): string
+    {
+        return $this->render();
     }
 }
