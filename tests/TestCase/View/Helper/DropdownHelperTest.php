@@ -130,6 +130,29 @@ class DropdownHelperTest extends TestCase
     }
 
     #[Test]
+    public function testRender(): void
+    {
+        $expected = '<div class="dropdown">' .
+            '<a href="#" aria-expanded="false" data-bs-toggle="dropdown" role="button" class="dropdown-toggle" title="My dropdown">' .
+            'My dropdown' .
+            '</a>' .
+            '<ul class="dropdown-menu">' .
+            '<li><a href="#first" class="dropdown-item" title="First link">First link</a></li>' .
+            '<li><a href="#second" class="dropdown-item" title="Second link">Second link</a></li>' .
+            '</ul>' .
+            '</div>';
+
+        $Dropdown = new DropdownHelper(new View());
+
+        $result = $Dropdown->create('My dropdown')
+            ->link('First link', '#first')
+            ->link('Second link', '#second')
+            ->render();
+
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
     public function testRenderWithoutHavingCalledTheCreateMethod(): void
     {
         $this->expectException(BadMethodCallException::class);
@@ -140,16 +163,13 @@ class DropdownHelperTest extends TestCase
     #[Test]
     public function testRenderWithoutHavingCalledLinkMethods(): void
     {
-        $this->Html
-            ->expects($this->once())
-            ->method('link')
-            ->willReturnArgument(0);
+        $Dropdown = new DropdownHelper(new View());
 
-        $this->Dropdown->create(title: 'My dropdown');
+        $Dropdown->create(title: 'My dropdown');
 
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Dropdown links have not been set');
-        $this->Dropdown->render();
+        $Dropdown->render();
     }
 
     /**

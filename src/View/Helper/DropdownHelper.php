@@ -11,8 +11,33 @@ use Stringable;
 /**
  * DropdownHelper.
  *
+ * This helper allows you to quickly and easily create dropdowns.
+ *
+ * It first provides the `create()` method to set the opening link of the dropdown.
+ *
+ * After calling this method, you should consecutively call one or more of `link()`, `linkPath()` and `postLink()`
+ *  methods to build the dropdown submenu links.
+ *
+ * Finally, you will have to call the `render()` method, which builds and returns the entire dropdown. Along with this
+ *  method, it also provides the magic `__toString()` method, which makes the instance stringable (but it can't take
+ *  arguments, in that case you have to use the `render()` method).
+ *
+ * Except these last two methods, all the other methods return the instance itself and are therefore chainable.
+ *
+ * Example:
+ *
+ * ```
+ * echo $this->Dropdown->create(title: 'My opening link')
+ *    ->link(title: 'First sub-link', url: '/example-1')
+ *    ->link(title: 'Second sub-link', url: '/example-2')
+ *    ->linkFromPath(title: 'Third sub-link', path: 'Users::index')
+ *    ->render(options: ['class' => 'my-custom-wrapper-class']);
+ * ```
+ *
  * @property \Cake\Essentials\View\Helper\FormHelper $Form
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
+ *
+ * @see https://getbootstrap.com/docs/5.3/components/dropdowns/
  */
 class DropdownHelper extends Helper implements Stringable
 {
@@ -55,7 +80,7 @@ class DropdownHelper extends Helper implements Stringable
      * @param array<string, mixed> $options
      * @return self
      *
-     * @see \App\View\Helper\HtmlHelper::link() for more information about the method arguments
+     * @see \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
      */
     public function link(string $title, array|string $url, array $options = []): self
     {
@@ -75,7 +100,7 @@ class DropdownHelper extends Helper implements Stringable
      * @param array<string, mixed> $options
      * @return self
      *
-     * @see \App\View\Helper\HtmlHelper::linkPath() for more information about the method arguments
+     * @see \Cake\View\Helper\HtmlHelper::linkPath() for more information about the method arguments
      */
     public function linkFromPath(string $title, string $path, array $params = [], array $options = []): self
     {
