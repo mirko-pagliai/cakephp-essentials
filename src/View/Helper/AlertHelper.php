@@ -124,7 +124,7 @@ class AlertHelper extends Helper
      * @param array<string, mixed> $options
      * @return string
      *
-     * @see \Cake\Essentials\View\Helper\HtmlHelper::link() for more information about the method arguments
+     * @see \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
      * @see https://getbootstrap.com/docs/5.3/components/alerts/#link-color
      */
     public function link(array|string $title, array|string|null $url = null, array $options = []): string
@@ -143,7 +143,7 @@ class AlertHelper extends Helper
      * @param array<string, mixed> $options
      * @return string
      *
-     * @see \Cake\Essentials\View\Helper\HtmlHelper::linkFromPath() for more information about the method arguments
+     * @see \Cake\View\Helper\HtmlHelper::linkFromPath() for more information about the method arguments
      * @see https://getbootstrap.com/docs/5.3/components/alerts/#link-color
      */
     public function linkFromPath(string $title, string $path, array $params = [], array $options = []): string
