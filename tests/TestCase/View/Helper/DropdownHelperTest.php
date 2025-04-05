@@ -130,6 +130,18 @@ class DropdownHelperTest extends TestCase
     }
 
     #[Test]
+    public function testHasLinks(): void
+    {
+        $Dropdown = new DropdownHelper(new View());
+
+        $this->assertFalse($Dropdown->hasLinks());
+
+        $Dropdown->link('My link', '#');
+
+        $this->assertTrue($Dropdown->hasLinks());
+    }
+
+    #[Test]
     public function testRender(): void
     {
         $expected = '<div class="dropdown">' .

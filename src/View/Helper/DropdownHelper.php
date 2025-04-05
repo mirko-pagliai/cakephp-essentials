@@ -22,7 +22,7 @@ use Stringable;
  *  method, it also provides the magic `__toString()` method, which makes the instance stringable (but it can't take
  *  arguments, in that case you have to use the `render()` method).
  *
- * Except these last two methods, all the other methods return the instance itself and are therefore chainable.
+ * The `create()` method and all link methods return the instance itself and are therefore chainable.
  *
  * Example:
  *
@@ -125,6 +125,18 @@ class DropdownHelper extends Helper implements Stringable
         $this->_links[] = $this->Form->postLink(title: $title, url: $url, options: $options);
 
         return $this;
+    }
+
+    /**
+     * Returns `true` if links have already been added to the dropdown submenu.
+     *
+     * Useful for conditional controls.
+     *
+     * @return bool
+     */
+    public function hasLinks(): bool
+    {
+        return !empty($this->_links);
     }
 
     /**
