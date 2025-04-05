@@ -23,6 +23,28 @@ class DropdownHelper extends Helper
     protected array $helpers = ['Html', 'Form'];
 
     /**
+     * Creates the main link that allows you to open the dropdown.
+     *
+     * @param string $title
+     * @param array $options
+     * @return self
+     */
+    public function create(string $title = '', array $options = []): self
+    {
+        $options += [
+            'aria-expanded' => 'false',
+            'data-bs-toggle' => 'dropdown',
+            'role' => 'button',
+        ];
+
+        $options = $this->addClass(options: $options, class: 'dropdown-toggle');
+
+        $this->_opening = $this->Html->link(title: $title, url: '#', options: $options);
+
+        return $this;
+    }
+
+    /**
      * Creates an HTML link, compatible with the dropdown submenu.
      *
      * @param string $title

@@ -35,6 +35,25 @@ class DropdownHelperTest extends TestCase
     }
 
     #[Test]
+    public function testCreate(): void
+    {
+        $HtmlHelper = $this->createPartialMock(HtmlHelper::class, ['link']);
+        $HtmlHelper
+            ->expects($this->once())
+            ->method('link')
+            ->with('My dropdown main link', '#', [
+                'class' => 'my-custom-class dropdown-toggle',
+                'aria-expanded' => 'false',
+                'data-bs-toggle' => 'dropdown',
+                'role' => 'button',
+            ]);
+
+        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
+
+        $this->Dropdown->create(title: 'My dropdown main link', options: ['class' => 'my-custom-class']);
+    }
+
+    #[Test]
     public function testLink(): void
     {
         $HtmlHelper = $this->createPartialMock(HtmlHelper::class, ['link']);
