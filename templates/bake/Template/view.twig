@@ -23,20 +23,19 @@ $this->startMainLinks();
 echo $this->Html->link(
     title: __('List'),
     url: ['action' => 'index'],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'bars']
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::INDEX_ICON]
 );
 echo $this->Html->link(
     title: __('Edit'),
     url: ['action' => 'edit', {{ pK|raw }}],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'edit']
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::EDIT_ICON]
 );
-echo $this->Form->postLink(
+echo $this->Form->deleteLink(
     title: __('Delete'),
     url: ['action' => 'delete', {{ pK|raw }}],
     options: [
         'class' => 'btn btn-sm btn-outline-danger',
-        'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
-        'icon' => 'trash',
+        'icon' => $this->Html::DELETE_ICON,
     ]
 );
 $this->end();
@@ -168,22 +167,17 @@ $this->end();
                         echo $this->Html->link(
                             title: __('View'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'view', {{ otherPk|raw }}],
-                            options: ['icon' => 'eye']
+                            options: ['icon' => $this->Html::VIEW_ICON']
                         );
                         echo $this->Html->link(
                             title: __('Edit'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'edit', {{ otherPk|raw }}],
-                            options: ['icon' => 'edit']
+                            options: ['icon' => $this->Html::EDIT_ICON]
                         );
-                        echo $this->Form->postLink(
+                        echo $this->Form->deleteLink(
                             title: __('Delete'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'delete', {{ otherPk|raw }}],
-                            options: [
-                                'class' => 'link-danger',
-                                'confirm' => __('Are you sure you want to delete # {0}?', {{ otherPk|raw }}),
-                                'icon' => 'trash',
-                                'method' => 'delete',
-                            ]
+                            options: ['class' => 'link-danger', 'icon' => $this->Html::DELETE_ICON]
                         );
                         ?>
                     </td>

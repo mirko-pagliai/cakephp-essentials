@@ -31,6 +31,24 @@ use Override;
  */
 class HtmlHelper extends BootstrapUIHtmlHelper
 {
+    public const string ADD_ICON = 'plus-lg';
+
+    public const string DELETE_ICON = 'trash-fill';
+
+    public const string EDIT_ICON = 'pencil-fill';
+
+    public const string ERROR_ICON = 'x-circle-fill';
+
+    public const string INDEX_ICON = 'list';
+
+    public const string SUCCESS_ICON = 'check-circle-fill';
+
+    public const string WARNING_ICON = 'exclamation-triangle';
+
+    public const string WARNING_ICON_FILL = 'exclamation-triangle-fill';
+
+    public const string VIEW_ICON = 'eye-fill';
+
     /**
      * Magic "call" method.
      *

@@ -15,8 +15,8 @@ use Stringable;
  *
  * It first provides the `create()` method to set the opening link of the dropdown.
  *
- * After calling this method, you should consecutively call one or more of `link()`, `linkPath()` and `postLink()`
- *  methods to build the dropdown submenu links.
+ * After calling this method, you should consecutively call one or more of the "links methods" (`link()`, `linkPath()`,
+ *  `deleteLink()` and `postLink()`) to build the dropdown submenu links.
  *
  * Finally, you will have to call the `render()` method, which builds and returns the entire dropdown. Along with this
  *  method, it also provides the magic `__toString()` method, which makes the instance stringable (but it can't take
@@ -68,6 +68,26 @@ class DropdownHelper extends Helper implements Stringable
         $options = $this->addClass(options: $options, class: 'dropdown-toggle');
 
         $this->_opening = $this->Html->link(title: $title, url: '#', options: $options);
+
+        return $this;
+    }
+
+    /**
+     * Creates an HTML link, that submits a form to the given URL using the DELETE method, compatible with the dropdown
+     *  submenu.
+     *
+     * @param string $title
+     * @param array|string|null $url
+     * @param array $options
+     * @return self
+     *
+     * @see \Cake\View\Helper\FormHelper::deleteLink() for more information about the method arguments
+     */
+    public function deleteLink(string $title, array|string|null $url = null, array $options = []): self
+    {
+        $options = $this->addClass(options: $options, class: 'dropdown-item');
+
+        $this->_links[] = $this->Form->deleteLink(title: $title, url: $url, options: $options);
 
         return $this;
     }
