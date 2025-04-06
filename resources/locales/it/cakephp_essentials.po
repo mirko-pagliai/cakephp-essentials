@@ -15,6 +15,18 @@ msgstr ""
 "Language: it_IT\n"
 "X-Generator: Lokalize 22.12.3\n"
 
+msgid "Active"
+msgstr "Attivo"
+
+msgid "Disabled"
+msgstr "Disattivo"
+
+msgid "Requires user activation"
+msgstr "Richiede attivazione dell'utente"
+
+msgid "Requires administrator activation"
+msgstr "Richiede attivazione di un amministratore"
+
 msgid "Today"
 msgstr "Oggi"
 
