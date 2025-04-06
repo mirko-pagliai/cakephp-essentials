@@ -7,11 +7,10 @@ echo $this->Html->link(
     options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'bars']
 );
 {% if 'add' not in action %}
-echo $this->Form->postLink(
+echo $this->Form->deleteLink(
     title: __('Delete'),
     url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
     options: [
-        'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
         'class' => 'btn btn-sm btn-outline-danger',
         'icon' => 'trash',
     ]

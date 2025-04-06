@@ -89,14 +89,12 @@ $this->end();
                         url: ['action' => 'edit', {{ pk|raw }}],
                         options: ['icon' => 'pencil-square']
                     );
-                    echo $this->Form->postLink(
+                    echo $this->Form->deleteLink(
                         title: __('Delete'),
                         url: ['action' => 'delete', {{ pk|raw }}],
                         options: [
-                            'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this?'),
                             'class' => 'link-danger',
                             'icon' => 'trash-fill',
-                            'method' => 'delete',
                         ]
                     );
                     ?>
