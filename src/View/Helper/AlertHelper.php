@@ -41,7 +41,7 @@ class AlertHelper extends Helper
         // Default icons for some alert types
         'icon' => [
             'danger' => HtmlHelper::WARNING_ICON_FILL,
-            'success' => HtmlHelper::SUCCESS_ICON_FILL,
+            'success' => HtmlHelper::SUCCESS_ICON,
             'warning' => HtmlHelper::WARNING_ICON_FILL,
         ],
         'templates' => [

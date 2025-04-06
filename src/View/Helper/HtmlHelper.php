@@ -37,15 +37,11 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 
     public const string EDIT_ICON = 'pencil-fill';
 
-    public const string ERROR_ICON = 'x-circle';
-
-    public const string ERROR_ICON_FILL = 'x-circle-fill';
+    public const string ERROR_ICON = 'x-circle-fill';
 
     public const string INDEX_ICON = 'list';
 
-    public const string SUCCESS_ICON = 'check-circle';
-
-    public const string SUCCESS_ICON_FILL = 'check-circle-fill';
+    public const string SUCCESS_ICON = 'check-circle-fill';
 
     public const string WARNING_ICON = 'exclamation-triangle';
 
