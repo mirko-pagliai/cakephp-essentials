@@ -4,7 +4,10 @@ $this->startMainLinks();
 echo $this->Html->link(
     title: __('List'),
     url: ['action' => 'index'],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'bars']
+    options: [
+        'class' => 'btn btn-sm btn-outline-primary',
+        'icon' => $this->Html::INDEX_ICON,
+    ]
 );
 {% if 'add' not in action %}
 echo $this->Form->deleteLink(
@@ -12,7 +15,7 @@ echo $this->Form->deleteLink(
     url: ['action' => 'delete', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ primaryKey[0] }}],
     options: [
         'class' => 'btn btn-sm btn-outline-danger',
-        'icon' => 'trash',
+        'icon' => $this->Html::DELETE_ICON,
     ]
 );
 {% endif %}

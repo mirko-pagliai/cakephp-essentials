@@ -17,7 +17,7 @@ echo $this->Html->link(
     url: ['action' => 'add'],
     options: [
         'class' => 'btn btn-sm btn-outline-primary',
-        'icon' => 'plus-lg',
+        'icon' => $this->Html::ADD_ICON,
     ]
 );
 $this->end();
@@ -82,20 +82,17 @@ $this->end();
                     echo $this->Html->link(
                         title: __('View'),
                         url: ['action' => 'view', {{ pk|raw }}],
-                        options: ['icon' => 'eye-fill']
+                        options: ['icon' => $this->Html::VIEW_ICON]
                     );
                     echo $this->Html->link(
                         title: __('Edit'),
                         url: ['action' => 'edit', {{ pk|raw }}],
-                        options: ['icon' => 'pencil-square']
+                        options: ['icon' => $this->Html::EDIT_ICON]
                     );
                     echo $this->Form->deleteLink(
                         title: __('Delete'),
                         url: ['action' => 'delete', {{ pk|raw }}],
-                        options: [
-                            'class' => 'link-danger',
-                            'icon' => 'trash-fill',
-                        ]
+                        options: ['class' => 'link-danger', 'icon' => $this->Html::DELETE_ICON]
                     );
                     ?>
                 </td>
