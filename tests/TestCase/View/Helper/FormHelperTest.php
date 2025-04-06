@@ -133,7 +133,7 @@ class FormHelperTest extends TestCase
             ->expects($this->once())
             ->method('postLink')
             ->with('My link', '#', [
-                'confirm' => 'Are you sure you want to delete this?',
+                'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'delete',
             ]);
 
