@@ -21,8 +21,8 @@ msgstr "Oggi"
 msgid "Now"
 msgstr "Adesso"
 
-msgid "Are you sure you want to delete this?"
-msgstr "Sei sicuro di volerlo cancellare?"
+msgid "Are you sure you want to delete this item?"
+msgstr "Sei sicuro di volerlo cancellare questo elemento?"
 
 msgid "Page {{page}} of {{pages}}"
 msgstr "Pagina {{page}} di {{pages}}"

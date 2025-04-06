@@ -135,6 +135,19 @@ class FormHelper extends BootstrapUIFormHelper
      * @inheritDoc
      */
     #[Override]
+    public function deleteLink(string $title, array|string|null $url = null, array $options = []): string
+    {
+        $options += [
+            'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this item?'),
+        ];
+
+        return parent::deleteLink(title: $title, url: $url, options: $options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
     public function dateTime(string $fieldName, array $options = []): string
     {
         $options += ['step' => '60'];

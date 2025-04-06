@@ -121,6 +121,25 @@ class FormHelperTest extends TestCase
         $this->assertSame($expectedDatetime, $result);
     }
 
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    #[Test]
+    public function testDeleteLink(): void
+    {
+        $Form = $this->createPartialMock(FormHelper::class, ['postLink']);
+
+        $Form
+            ->expects($this->once())
+            ->method('postLink')
+            ->with('My link', '#', [
+                'confirm' => 'Are you sure you want to delete this?',
+                'method' => 'delete',
+            ]);
+
+        $Form->deleteLink('My link', '#');
+    }
+
     #[Test]
     public function testPostLink(): void
     {
