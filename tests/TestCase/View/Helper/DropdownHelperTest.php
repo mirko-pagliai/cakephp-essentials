@@ -111,6 +111,25 @@ class DropdownHelperTest extends TestCase
     }
 
     #[Test]
+    public function testDeleteLink(): void
+    {
+        $this->Form
+            ->expects($this->once())
+            ->method('postLink')
+            ->with('My post link', '#', [
+                'class' => 'my-custom-class dropdown-item',
+                'method' => 'delete',
+                'confirm' => 'Are you sure you want to delete this item?',
+            ]);
+
+        $this->Dropdown->deleteLink(
+            title: 'My post link',
+            url: '#',
+            options: ['class' => 'my-custom-class']
+        );
+    }
+
+    #[Test]
     public function testPostLink(): void
     {
         $this->Form

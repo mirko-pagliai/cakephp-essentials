@@ -73,6 +73,26 @@ class DropdownHelper extends Helper implements Stringable
     }
 
     /**
+     * Creates an HTML link, that submits a form to the given URL using the DELETE method, compatible with the dropdown
+     *  submenu.
+     *
+     * @param string $title
+     * @param array|string|null $url
+     * @param array $options
+     * @return self
+     *
+     * @see \Cake\View\Helper\FormHelper::deleteLink() for more information about the method arguments
+     */
+    public function deleteLink(string $title, array|string|null $url = null, array $options = []): self
+    {
+        $options = $this->addClass(options: $options, class: 'dropdown-item');
+
+        $this->_links[] = $this->Form->deleteLink(title: $title, url: $url, options: $options);
+
+        return $this;
+    }
+
+    /**
      * Creates an HTML link, compatible with the dropdown submenu.
      *
      * @param string $title
