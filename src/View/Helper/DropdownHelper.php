@@ -15,8 +15,8 @@ use Stringable;
  *
  * It first provides the `create()` method to set the opening link of the dropdown.
  *
- * After calling this method, you should consecutively call one or more of `link()`, `linkPath()` and `postLink()`
- *  methods to build the dropdown submenu links.
+ * After calling this method, you should consecutively call one or more of the "links methods" (`link()`, `linkPath()`,
+ *  `deleteLink()` and `postLink()`) to build the dropdown submenu links.
  *
  * Finally, you will have to call the `render()` method, which builds and returns the entire dropdown. Along with this
  *  method, it also provides the magic `__toString()` method, which makes the instance stringable (but it can't take
