@@ -15,12 +15,12 @@
         if ($this->request->is('post')) {
             ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->patchEntity(${{ singularName[0:1]|upper ~ singularName[1:] }}, $this->request->getData());
             if ($this->{{ currentModelName }}->save(${{ singularName[0:1]|upper ~ singularName[1:] }})) {
-                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved'));
+                $this->Flash->success(__('The operation has been performed correctly'));
 
                 return $this->redirect(['action' => 'index']);
             }
 
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again'));
+            $this->Flash->error(__('The operation has not been performed correctly'));
         }
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {% set associations = associations|merge(Bake.aliasExtractor(modelObj, 'BelongsToMany')) %}
