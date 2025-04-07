@@ -1,0 +1,19 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * @uses \App\Controller\UsersController::login()
+ *
+ * @var \{{ namespace }}\View\AppView $this
+ */
+?>
+
+<div class="{{ pluralVar }} form content">
+    <?= $this->Form->create() ?>
+    <fieldset>
+        <?= $this->Form->control('username') ?>
+        <?= $this->Form->control('password') ?>
+    </fieldset>
+    <?= $this->Form->button(__('Login')); ?>
+    <?= $this->Form->end() ?>
+</div>
