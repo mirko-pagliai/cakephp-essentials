@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\Test\TestCase\ORM\Traits;
+namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
 use App\Model\Entity\EntityWithSomeVirtualFields;
 use BadMethodCallException;
 use Cake\Datasource\Exception\MissingPropertyException;
-use Cake\Essentials\ORM\Traits\GetSetTrait;
+use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\TestSuite\TestCase;
 use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
@@ -55,6 +55,7 @@ class GetSetTraitTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method `' . $this->Entity::class . '::noExistingMethod()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.');
+        // @phpstan-ignore-next-line
         $this->Entity->noExistingMethod();
     }
 

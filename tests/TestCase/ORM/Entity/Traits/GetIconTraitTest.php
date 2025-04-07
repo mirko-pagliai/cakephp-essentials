@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\Test\TestCase\ORM\Traits;
+namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
 use App\Model\Entity\EntityWithGetIconTrait;
-use Cake\Essentials\ORM\Traits\GetIconTrait;
+use Cake\Essentials\ORM\Entity\Traits\GetIconTrait;
 use Cake\TestSuite\TestCase;
 use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
