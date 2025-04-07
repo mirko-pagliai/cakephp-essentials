@@ -19,7 +19,7 @@ msgid "Active"
 msgstr "Attivo"
 
 msgid "Disabled"
-msgstr "Disattivo"
+msgstr "Disabilitato"
 
 msgid "Requires user activation"
 msgstr "Richiede attivazione dell'utente"
