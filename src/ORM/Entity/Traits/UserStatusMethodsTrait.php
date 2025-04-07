@@ -10,6 +10,7 @@ use Cake\Essentials\ORM\Enum\UserStatus;
  *
  * Provides some methods for the `User` entity based on the `status` field and hence the `UserStatus` enum.
  *
+ * @psalm-require-extends \Cake\ORM\Entity
  * @see \Cake\Essentials\ORM\Enum\UserStatus
  */
 trait UserStatusMethodsTrait
@@ -37,12 +38,32 @@ trait UserStatusMethodsTrait
     /**
      * Returns `true` if the user is pending.
      *
-     * This matches `RequiresAdminActivation` and `RequiresUserActivation` cases.
+     * This matches with (and functions as an alias for) `RequiresAdminActivation` or `RequiresUserActivation` case.
      *
      * @return bool
      */
     public function isPending(): bool
     {
-        return in_array(needle: $this->getStatus(), haystack: [UserStatus::RequiresAdminActivation, UserStatus::RequiresUserActivation]);
+        return $this->requiresAdminActivation() || $this->requiresUserActivation();
+    }
+
+    /**
+     * Returns `true` if the user account requires administrator activation.
+     *
+     * @return bool
+     */
+    public function requiresAdminActivation(): bool
+    {
+        return $this->getStatus() == UserStatus::RequiresAdminActivation;
+    }
+
+    /**
+     * Returns `true` if the user account requires user activation.
+     *
+     * @return bool
+     */
+    public function requiresUserActivation(): bool
+    {
+        return $this->getStatus() == UserStatus::RequiresUserActivation;
     }
 }

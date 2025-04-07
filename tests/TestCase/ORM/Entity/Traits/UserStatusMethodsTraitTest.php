@@ -108,4 +108,50 @@ class UserStatusMethodsTraitTest extends TestCase
 
         $this->assertSame($expectedIsPending, $this->User->isPending());
     }
+
+    public static function providerTestRequiresAdminActivation(): Generator
+    {
+        yield [true, UserStatus::RequiresAdminActivation];
+
+        // All other cases except `Disabled`
+        $otherCases = array_filter(
+            array: UserStatus::cases(),
+            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresAdminActivation
+        );
+        foreach ($otherCases as $UserStatus) {
+            yield [false, $UserStatus];
+        }
+    }
+
+    #[Test]
+    #[DataProvider('providerTestRequiresAdminActivation')]
+    public function testRequiresAdminActivation(bool $expectedRequiresAdminActivation, UserStatus $UserStatus): void
+    {
+        $this->User->status = $UserStatus;
+
+        $this->assertSame($expectedRequiresAdminActivation, $this->User->requiresAdminActivation());
+    }
+
+    public static function providerTestRequiresUserActivation(): Generator
+    {
+        yield [true, UserStatus::RequiresUserActivation];
+
+        // All other cases except `Disabled`
+        $otherCases = array_filter(
+            array: UserStatus::cases(),
+            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresUserActivation
+        );
+        foreach ($otherCases as $UserStatus) {
+            yield [false, $UserStatus];
+        }
+    }
+
+    #[Test]
+    #[DataProvider('providerTestRequiresUserActivation')]
+    public function testRequiresUserActivation(bool $expectedRequiresUserActivation, UserStatus $UserStatus): void
+    {
+        $this->User->status = $UserStatus;
+
+        $this->assertSame($expectedRequiresUserActivation, $this->User->requiresUserActivation());
+    }
 }

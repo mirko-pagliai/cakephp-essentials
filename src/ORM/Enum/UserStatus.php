@@ -21,7 +21,7 @@ use function Cake\I18n\__d as __d;
  * - `RequiresAdminActivation`: similar to the previous, but requires an administrator to activate the account (always
  *  requires code implementation). Again, until that time he will not be able to log in, and therefore no other operations.
  *
- * The `status` field of the `users` table must be a 24-character varchar.
+ * The `status` field of the `users` table must be a 25-character varchar.
  *
  * In your `UsersTable::initialize()` method:
  * ```
