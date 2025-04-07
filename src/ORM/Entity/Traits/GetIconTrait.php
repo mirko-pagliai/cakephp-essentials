@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\ORM\Traits;
+namespace Cake\Essentials\ORM\Entity\Traits;
 
 /**
  * This trait automatically implements the `getIcon()` method, which returns the `icon` property, if exists and is
@@ -9,7 +9,7 @@ namespace Cake\Essentials\ORM\Traits;
  *
  * @property string|null $icon
  * @psalm-require-extends \Cake\ORM\Entity
- * @psalm-require-implements \Cake\Essentials\ORM\EntityWithIconsInterface
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
  */
 trait GetIconTrait
 {

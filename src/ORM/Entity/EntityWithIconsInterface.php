@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\ORM;
+namespace Cake\Essentials\ORM\Entity;
 
 /**
  * This interface can be implemented by entities that want to provide their own icon.
@@ -18,18 +18,18 @@ namespace Cake\Essentials\ORM;
  *
  * Example, implementing both methods:
  * ```
- *  class Articles extends Entity implements EntityWithIconsInterface
- *  {
- *      public function getIcon(): string
- *      {
- *         return $this->isPublished() ? 'hand-thumbs-up' : 'hand-thumbs-down';
- *      }
+ * class Articles extends Entity implements EntityWithIconsInterface
+ * {
+ *    public function getIcon(): string
+ *    {
+ *       return $this->isPublished() ? 'hand-thumbs-up' : 'hand-thumbs-down';
+ *    }
  *
- *     public static function getStaticIcon(): string
- *     {
- *        return 'book';
- *     }
- *  }
+ *    public static function getStaticIcon(): string
+ *    {
+ *       return 'book';
+ *    }
+ * }
  * ```
  *
  * Example, implementing only `getStaticIcon()` and using `GetIconTrait` that provides `getIcon()`.
@@ -46,7 +46,7 @@ namespace Cake\Essentials\ORM;
  * ```
  *
  * @psalm-require-extends \Cake\ORM\Entity
- * @see \Cake\Essentials\ORM\Traits\GetIconTrait
+ * @see \Cake\Essentials\ORM\Entity\Traits\GetIconTrait
  */
 interface EntityWithIconsInterface
 {
