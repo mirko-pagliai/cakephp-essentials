@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\ORM\Traits;
+namespace Cake\Essentials\ORM\Entity\Traits;
 
 use BadMethodCallException;
 use Cake\Datasource\Exception\MissingPropertyException;

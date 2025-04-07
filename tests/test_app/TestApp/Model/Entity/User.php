@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait;
-use Cake\Essentials\ORM\Traits\GetSetTrait;
 use Cake\ORM\Entity;
 
 /**
