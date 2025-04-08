@@ -167,17 +167,17 @@ $this->end();
                         echo $this->Html->link(
                             title: __('View'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'view', {{ otherPk|raw }}],
-                            options: ['icon' => $this->Html::VIEW_ICON]
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON]
                         );
                         echo $this->Html->link(
                             title: __('Edit'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'edit', {{ otherPk|raw }}],
-                            options: ['icon' => $this->Html::EDIT_ICON]
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON]
                         );
                         echo $this->Form->deleteLink(
                             title: __('Delete'),
                             url: ['controller' => '{{ details.controller }}', 'action' => 'delete', {{ otherPk|raw }}],
-                            options: ['class' => 'link-danger', 'icon' => $this->Html::DELETE_ICON]
+                            options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON]
                         );
                         ?>
                     </td>
