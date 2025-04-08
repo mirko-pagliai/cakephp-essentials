@@ -162,7 +162,7 @@ $this->end();
                     <td><?= h(${{ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] }}->{{ field }}) ?></td>
 {% endfor %}
 {% set otherPk = '$' ~ otherSingularVar[0:1]|upper ~ otherSingularVar[1:] ~ '->' ~ details.primaryKey[0] %}
-                    <td class="actions">
+                    <td class="hstack gap-2">
                         <?php
                         echo $this->Html->link(
                             title: __('View'),

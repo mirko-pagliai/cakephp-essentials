@@ -33,7 +33,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
 {
     public const string ADD_ICON = 'plus-lg';
 
-    public const string DELETE_ICON = 'trash-fill';
+    public const string DELETE_ICON = 'trash';
 
     public const string EDIT_ICON = 'pencil-fill';
 

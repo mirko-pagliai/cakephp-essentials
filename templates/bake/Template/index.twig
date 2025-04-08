@@ -29,7 +29,11 @@ $this->end();
         <thead>
             <tr>
 {% for field in fields %}
+{% if field == 'id' %}
+                <th><?= $this->Paginator->sort('{{ field }}', 'ID') ?></th>
+{% else %}
                 <th><?= $this->Paginator->sort('{{ field }}') ?></th>
+{% endif %}
 {% endfor %}
                 <th></th>
             </tr>

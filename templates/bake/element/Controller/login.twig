@@ -1,0 +1,28 @@
+    /**
+     * Login.
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful login, renders view otherwise
+     * @uses templates/Users/login.php
+     */
+    public function login()
+    {
+{% if Bake.hasPlugin('Authorization') %}
+        $this->Authorization->skipAuthorization();
+
+{% endif %}
+        $this->getRequest()->allowMethod(['get', 'post']);
+
+        $result = $this->Authentication->getResult();
+
+        if ($result->isValid()) {
+            $redirect = $this->Authentication->getLoginRedirect();
+
+            if ($redirect) {
+                return $this->redirect($redirect);
+            }
+        }
+
+        if ($this->getRequest()->is('post')) {
+            $this->Flash->error(__('Invalid authentication credentials'));
+        }
+    }
