@@ -89,10 +89,10 @@ class FormHelper extends BootstrapUIFormHelper
          */
         if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
             $format = 'YYYY-MM-DDTHH:mm';
-            $text = __d('cakephp/essentials', 'Now');
+            $text = __d('cake/essentials', 'Now');
             if ($type === 'date') {
                 $format = 'YYYY-MM-DD';
-                $text = __d('cakephp/essentials', 'Today');
+                $text = __d('cake/essentials', 'Today');
             }
 
             $options['append'] = $this->Html->button(text: $text, options: [
@@ -138,7 +138,7 @@ class FormHelper extends BootstrapUIFormHelper
     public function deleteLink(string $title, array|string|null $url = null, array $options = []): string
     {
         $options += [
-            'confirm' => __d('cakephp/essentials', 'Are you sure you want to delete this item?'),
+            'confirm' => __d('cake/essentials', 'Are you sure you want to delete this item?'),
         ];
 
         return parent::deleteLink(title: $title, url: $url, options: $options);
@@ -192,7 +192,7 @@ class FormHelper extends BootstrapUIFormHelper
          * Set `empty` to `false` or `null` to disable it.
          */
         if (empty($attributes['default']) && empty($attributes['value']) && empty($attributes['multiple'])) {
-            $attributes += ['empty' => '-- ' . __d('cakephp/essentials', 'select an option') . ' --'];
+            $attributes += ['empty' => '-- ' . __d('cake/essentials', 'select an option') . ' --'];
         }
 
         return parent::select(fieldName: $fieldName, options: $options, attributes: $attributes);

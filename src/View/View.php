@@ -32,8 +32,8 @@ class View extends CakeView
         $this->addHelper('Cake/Essentials.Flash');
         $this->addHelper('BootstrapUI.Paginator', [
             'labels' => [
-                'prev' => ['label' => __d('cakephp/essentials', 'Previous')],
-                'next' => ['label' => __d('cakephp/essentials', 'Next')],
+                'prev' => ['label' => __d('cake/essentials', 'Previous')],
+                'next' => ['label' => __d('cake/essentials', 'Next')],
             ],
             'templates' => [
                 'sort' => '<a href="{{url}}" class="text-decoration-none">{{text}}</a>',

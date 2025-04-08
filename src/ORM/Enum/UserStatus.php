@@ -52,10 +52,10 @@ enum UserStatus: string implements EnumLabelInterface
     public function label(): string
     {
         return match ($this) {
-            self::Active => __d('cakephp/essentials', 'Active'),
-            self::Disabled => __d('cakephp/essentials', 'Disabled'),
-            self::RequiresUserActivation => __d('cakephp/essentials', 'Requires user activation'),
-            self::RequiresAdminActivation =>__d('cakephp/essentials', 'Requires administrator activation'),
+            self::Active => __d('cake/essentials', 'Active'),
+            self::Disabled => __d('cake/essentials', 'Disabled'),
+            self::RequiresUserActivation => __d('cake/essentials', 'Requires user activation'),
+            self::RequiresAdminActivation =>__d('cake/essentials', 'Requires administrator activation'),
         };
     }
 }

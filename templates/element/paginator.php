@@ -34,7 +34,7 @@ if (!$hasPages || $this->Paginator->total() < 2) {
         echo $this->Html->tag(
             name: 'li',
             text: $this->Html->span(
-                text: $this->Paginator->counter(__d('cakephp/essentials', 'Page {{page}} of {{pages}}')),
+                text: $this->Paginator->counter(__d('cake/essentials', 'Page {{page}} of {{pages}}')),
                 options: ['class' => 'bg-transparent page-link']
             ),
             options: ['class' => 'page-item disabled']
@@ -48,6 +48,6 @@ if (!$hasPages || $this->Paginator->total() < 2) {
 
 <div class="mt-3 small text-center text-secondary">
     <?= $this->Paginator->counter(
-        __d('cakephp/essentials', 'Page {{page}} of {{pages}}, showing {{current}} items out of {{count}} total')
+        __d('cake/essentials', 'Page {{page}} of {{pages}}, showing {{current}} items out of {{count}} total')
     ) ?>
 </div>
