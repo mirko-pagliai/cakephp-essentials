@@ -1,0 +1,18 @@
+/**
+ * When you modify this file, remember to re-run minification and update the related minified file
+ */
+
+/**
+ * Labels
+ */
+form .col-form-label,
+form .form-label {
+    font-weight: bold;
+}
+
+/* Labels for required inputs */
+form .required .form-label:after,
+form .required .col-form-label:after {
+    color: #e32;
+    content: ' *';
+}
