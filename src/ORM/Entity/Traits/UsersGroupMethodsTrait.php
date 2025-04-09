@@ -9,7 +9,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  * Expected that the `User` entity has the `users_group` property and that this has the `name` property, it implements
  *  the `isGroup()` method and some other methods which are quick aliases of it.
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait UsersGroupMethodsTrait
 {
