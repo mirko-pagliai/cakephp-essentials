@@ -14,8 +14,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
 trait UsersGroupMethodsTrait
 {
     /**
-     * Returns `true` if the user belongs to the group or (if more than one group is specified) to at least one of the
-     *  groups.
+     * Returns `true` if the user belongs to the users group (even just one, if more than one has passed).
      *
      * @param string ...$name Group names
      * @return bool
