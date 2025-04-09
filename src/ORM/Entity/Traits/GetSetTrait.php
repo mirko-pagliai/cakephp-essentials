@@ -13,7 +13,6 @@ use Cake\Utility\Inflector;
  * These methods allow you to return the value of the entity's properties, throwing an exception when the property does
  *  not exist or is `null`.
  *
- * @psalm-require-extends \Cake\ORM\Entity
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait GetSetTrait

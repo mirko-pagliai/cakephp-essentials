@@ -11,6 +11,7 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
  *
  * @psalm-require-extends \Cake\ORM\Entity
  * @psalm-require-implements \Authentication\IdentityInterface
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait UserMethodsTrait
 {

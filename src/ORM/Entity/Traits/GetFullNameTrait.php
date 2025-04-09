@@ -9,7 +9,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  *
  * @property-read string|null $full_name
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait GetFullNameTrait
 {
