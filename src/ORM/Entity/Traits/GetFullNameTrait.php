@@ -7,7 +7,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  * This trait, expecting an entity to naturally provide `last_name` and `first_name` fields, implements the `full_name`
  *  virtual field and the `getFullName()` method.
  *
- * @property string|null $full_name
+ * @property-read string|null $full_name
  *
  * @psalm-require-extends \Cake\ORM\Entity
  */
