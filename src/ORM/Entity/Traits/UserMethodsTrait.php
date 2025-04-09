@@ -7,9 +7,30 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  * This trait implements some generic methods for the `User` entity.
  *
  * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Authentication\IdentityInterface
  */
 trait UserMethodsTrait
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
+     */
+    public function getIdentifier(): int
+    {
+        return $this->getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
+     */
+    public function getOriginalData(): self
+    {
+        return $this;
+    }
+
     /**
      * Returns `true` if the user ID matches `$id` (even just one, if more than one has passed).
      *
