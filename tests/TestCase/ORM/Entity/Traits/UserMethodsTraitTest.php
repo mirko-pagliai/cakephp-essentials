@@ -16,6 +16,16 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversTrait(UserMethodsTrait::class)]
 class UserMethodsTraitTest extends TestCase
 {
+    #[Test]
+    public function testSetPassword(): void
+    {
+        $password = 'myPassword';
+        $User = new User(compact('password'));
+        $this->assertNotEmpty($User->password);
+        $this->assertNotEquals($password, $User->password);
+        debug($User->password);
+    }
+
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
