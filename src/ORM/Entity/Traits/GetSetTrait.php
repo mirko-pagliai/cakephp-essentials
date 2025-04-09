@@ -14,6 +14,7 @@ use Cake\Utility\Inflector;
  *  not exist or is `null`.
  *
  * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait GetSetTrait
 {

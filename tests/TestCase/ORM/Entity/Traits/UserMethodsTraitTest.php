@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
+use App\Model\Entity\Article;
 use App\Model\Entity\User;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
 use Cake\TestSuite\TestCase;
@@ -23,7 +24,6 @@ class UserMethodsTraitTest extends TestCase
         $User = new User(compact('password'));
         $this->assertNotEmpty($User->password);
         $this->assertNotEquals($password, $User->password);
-        debug($User->password);
     }
 
     /**
@@ -75,5 +75,15 @@ class UserMethodsTraitTest extends TestCase
             ->with(1);
 
         $User->isFounder();
+    }
+
+    #[Test]
+    #[TestWith([true, 4])]
+    #[TestWith([false, 3])]
+    public function testIsOwnerOf(bool $expectedIsOwner, int $userId): void
+    {
+        $Article = new Article(['user_id' => 4]);
+        $User = new User(['id' => $userId]);
+        $this->assertSame($expectedIsOwner, $User->isOwnerOf($Article));
     }
 }

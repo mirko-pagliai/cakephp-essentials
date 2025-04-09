@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\ORM\Entity\Traits;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 
 /**
  * This trait implements some generic methods for the `User` entity.
@@ -72,5 +73,21 @@ trait UserMethodsTrait
     public function isFounder(): bool
     {
         return $this->isId(1);
+    }
+
+    /**
+     * Returns `true` if the user is the owner of `$Entity`.
+     *
+     * `$Entity` must have the `user_id` field.
+     *
+     * @param \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $Entity
+     * @return bool
+     */
+    public function isOwnerOf(EntityWithGetSetInterface $Entity): bool
+    {
+        /** @var int $ownerId */
+        $ownerId = $Entity->getOrFail('user_id');
+
+        return $this->isId($ownerId);
     }
 }
