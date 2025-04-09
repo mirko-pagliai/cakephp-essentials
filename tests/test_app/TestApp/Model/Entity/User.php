@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * User Entity.
  *
  * @property int $id
+ * @property string $password
  * @property \Cake\Essentials\ORM\Enum\UserStatus $status
  * @property \App\Model\Entity\UsersGroup $users_group
  *

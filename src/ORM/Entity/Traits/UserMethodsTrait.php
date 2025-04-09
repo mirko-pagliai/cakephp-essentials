@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\ORM\Entity\Traits;
 
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+
 /**
  * This trait implements some generic methods for the `User` entity.
  *
@@ -11,6 +13,19 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  */
 trait UserMethodsTrait
 {
+    /**
+     * Password hasher.
+     *
+     * @param string $password
+     * @return string
+     *
+     * @see https://book.cakephp.org/authentication/3/en/index.html#adding-password-hashing
+     */
+    protected function _setPassword(string $password): string
+    {
+        return new DefaultPasswordHasher()->hash($password);
+    }
+
     /**
      * {@inheritDoc}
      *
