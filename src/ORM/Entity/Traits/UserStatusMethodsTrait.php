@@ -11,6 +11,7 @@ use Cake\Essentials\ORM\Enum\UserStatus;
  * Provides some methods for the `User` entity based on the `status` field and hence the `UserStatus` enum.
  *
  * @psalm-require-extends \Cake\ORM\Entity
+ *
  * @see \Cake\Essentials\ORM\Enum\UserStatus
  */
 trait UserStatusMethodsTrait
