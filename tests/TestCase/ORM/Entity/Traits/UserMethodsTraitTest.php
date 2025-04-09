@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Cake\Essentials\Test\test_app\TestApp\Model\Entity;
+namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
 use App\Model\Entity\User;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
