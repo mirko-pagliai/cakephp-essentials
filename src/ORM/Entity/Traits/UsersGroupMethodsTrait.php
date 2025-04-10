@@ -21,7 +21,10 @@ trait UsersGroupMethodsTrait
      */
     public function isGroup(string ...$name): bool
     {
-        return in_array($this->getUsersGroup()->getName(), $name);
+        /** @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $UsersGroup */
+        $UsersGroup = $this->getOrFail('users_group');
+
+        return in_array($UsersGroup->getOrFail('name'), $name);
     }
 
     /**

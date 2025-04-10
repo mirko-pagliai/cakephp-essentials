@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
 use App\Model\Entity\User;
-use App\Model\Entity\UsersGroup;
+use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
+use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UsersGroupMethodsTrait;
+use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,7 +26,10 @@ class UsersGroupMethodsTraitTest extends TestCase
     #[TestWith([false, 'guest'])]
     public function testIsGroup(bool $expectedIsGroup, string ...$groups): void
     {
-        $User = new User(['users_group' => new UsersGroup(['name' => 'admin'])]);
+        $UsersGroup = new class (['name' => 'admin']) extends Entity implements EntityWithGetSetInterface {
+            use GetSetTrait;
+        };
+        $User = new User(['users_group' => $UsersGroup]);
 
         $this->assertSame($expectedIsGroup, $User->isGroup(...$groups));
     }
