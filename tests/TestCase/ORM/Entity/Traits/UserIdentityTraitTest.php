@@ -28,9 +28,9 @@ class UserIdentityTraitTest extends TestCase
     protected AuthorizationServiceInterface $AuthorizationService;
 
     /**
-     * @var \Authentication\IdentityInterface&\Authorization\IdentityInterface
+     * @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface&\Authentication\IdentityInterface&\Authorization\IdentityInterface
      */
-    protected AuthorizationIdentityInterface $Identity;
+    protected EntityWithGetSetInterface&AuthorizationIdentityInterface $Identity;
 
     /**
      * {@inheritDoc}
