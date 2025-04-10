@@ -5,8 +5,9 @@
      * @param \{{ classname }} ${{ name }}
      * @return bool
      */
-    public function canAdd(IdentityInterface $Identity, {{ name }} ${{ name }})
+    public function canAdd(IdentityInterface $Identity, {{ name }} ${{ name }}): bool
     {
+        return true;
     }
 
     /**
@@ -16,8 +17,9 @@
      * @param \{{ classname }} ${{ name }}
      * @return bool
      */
-    public function canEdit(IdentityInterface $Identity, {{ name }} ${{ name }})
+    public function canEdit(IdentityInterface $Identity, {{ name }} ${{ name }}): bool
     {
+        return true;
     }
 
     /**
@@ -27,8 +29,9 @@
      * @param \{{ classname }} ${{ name }}
      * @return bool
      */
-    public function canDelete(IdentityInterface $Identity, {{ name }} ${{ name }})
+    public function canDelete(IdentityInterface $Identity, {{ name }} ${{ name }}): bool
     {
+        return true;
     }
 
     /**
@@ -38,6 +41,7 @@
      * @param \{{ classname }} ${{ name }}
      * @return bool
      */
-    public function canView(IdentityInterface $Identity, {{ name }} ${{ name }})
+    public function canView(IdentityInterface $Identity, {{ name }} ${{ name }}): bool
     {
+        return true;
     }
