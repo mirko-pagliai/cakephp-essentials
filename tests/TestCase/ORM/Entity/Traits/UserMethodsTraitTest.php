@@ -26,30 +26,6 @@ class UserMethodsTraitTest extends TestCase
         $this->assertNotEquals($password, $User->password);
     }
 
-    /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
-    #[Test]
-    public function testGetIdentifier(): void
-    {
-        $User = $this->createPartialMock(User::class, ['getOrFail']);
-        $User
-            ->expects($this->once())
-            ->method('getOrFail')
-            ->with('id')
-            ->willReturn(2);
-
-        $this->assertSame(2, $User->getIdentifier());
-    }
-
-    #[Test]
-    public function testGetOriginalData(): void
-    {
-        $User = new User();
-
-        $this->assertSame($User, $User->getOriginalData());
-    }
-
     #[Test]
     #[TestWith([true, 2])]
     #[TestWith([true, 2, 3])]

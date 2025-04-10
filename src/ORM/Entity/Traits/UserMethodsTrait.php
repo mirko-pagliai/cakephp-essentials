@@ -10,7 +10,6 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
  * This trait implements some generic methods for the `User` entity.
  *
  * @psalm-require-extends \Cake\ORM\Entity
- * @psalm-require-implements \Authentication\IdentityInterface
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait UserMethodsTrait
@@ -26,26 +25,6 @@ trait UserMethodsTrait
     protected function _setPassword(string $password): string
     {
         return new DefaultPasswordHasher()->hash($password);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
-     */
-    public function getIdentifier(): int
-    {
-        return $this->getId();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
-     */
-    public function getOriginalData(): self
-    {
-        return $this;
     }
 
     /**

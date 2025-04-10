@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Authentication\IdentityInterface;
 use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
@@ -23,7 +22,7 @@ use Cake\ORM\Entity;
  * @method \Cake\Essentials\ORM\Enum\UserStatus getStatus()
  * @method \App\Model\Entity\UsersGroup getUsersGroup()
  */
-class User extends Entity implements EntityWithGetSetInterface, IdentityInterface
+class User extends Entity implements EntityWithGetSetInterface
 {
     use GetSetTrait;
     use UserMethodsTrait;
