@@ -9,7 +9,7 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 /**
  * This trait implements some generic methods for the `User` entity.
  *
- * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\UserInterface
  */
 trait UserMethodsTrait
 {
@@ -64,9 +64,9 @@ trait UserMethodsTrait
      */
     public function isOwnerOf(EntityWithGetSetInterface $Entity): bool
     {
-        /** @var int $ownerId */
-        $ownerId = $Entity->getOrFail('user_id');
+        /** @var int $entityOwnerId */
+        $entityOwnerId = $Entity->getOrFail('user_id');
 
-        return $this->isId($ownerId);
+        return $this->isId($entityOwnerId);
     }
 }
