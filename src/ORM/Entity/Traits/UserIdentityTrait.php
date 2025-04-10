@@ -13,15 +13,13 @@ use Authorization\Policy\ResultInterface;
  * Remember to update your middleware setup:
  * ```
  * $middlewareQueue->add(new AuthorizationMiddleware($this, [
- *    'identityDecorator' => function (AuthorizationService $Auth, $User) {
+ *    'identityDecorator' => function (AuthorizationService $Auth, UserIdentityInterface $User): UserIdentityInterface {
  *       return $User->setAuthorization($Auth);
  *    },
  * ]));
  * ```
  *
- * @psalm-require-implements \Authentication\IdentityInterface
- * @psalm-require-implements \Authorization\IdentityInterface
- * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\UserIdentityInterface
  *
  * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
  * @see https://book.cakephp.org/authorization/3/en/middleware.html#using-your-user-class-as-the-identity

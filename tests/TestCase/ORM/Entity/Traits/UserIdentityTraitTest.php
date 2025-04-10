@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
-use Authentication\IdentityInterface as AuthenticationIdentityInterface;
 use Authorization\AuthorizationServiceInterface;
-use Authorization\IdentityInterface as AuthorizationIdentityInterface;
 use Cake\Datasource\EntityInterface;
-use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait;
+use Cake\Essentials\ORM\Entity\UserIdentityInterface;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use Override;
@@ -28,9 +26,9 @@ class UserIdentityTraitTest extends TestCase
     protected AuthorizationServiceInterface $AuthorizationService;
 
     /**
-     * @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface&\Authentication\IdentityInterface&\Authorization\IdentityInterface
+     * @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface&\Cake\Essentials\ORM\Entity\UserIdentityInterface
      */
-    protected EntityWithGetSetInterface&AuthorizationIdentityInterface $Identity;
+    protected UserIdentityInterface $Identity;
 
     /**
      * {@inheritDoc}
@@ -42,7 +40,7 @@ class UserIdentityTraitTest extends TestCase
     {
         $this->AuthorizationService = $this->createMock(AuthorizationServiceInterface::class);
 
-        $this->Identity = new class extends Entity implements AuthenticationIdentityInterface, AuthorizationIdentityInterface, EntityWithGetSetInterface {
+        $this->Identity = new class extends Entity implements UserIdentityInterface {
             use GetSetTrait;
             use UserIdentityTrait;
         };
@@ -114,7 +112,7 @@ class UserIdentityTraitTest extends TestCase
     #[Test]
     public function testSetAuthorization(): void
     {
-        $Identity = new class extends Entity implements AuthenticationIdentityInterface, AuthorizationIdentityInterface, EntityWithGetSetInterface {
+        $Identity = new class extends Entity implements UserIdentityInterface {
             use GetSetTrait;
             use UserIdentityTrait;
         };
