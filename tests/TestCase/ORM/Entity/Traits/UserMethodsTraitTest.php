@@ -40,6 +40,51 @@ class UserMethodsTraitTest extends TestCase
         $this->assertSame($expectedIsId, $User->isId(...$id));
     }
 
+    #[Test]
+    #[TestWith([true, 'admin'])]
+    #[TestWith([true, 'admin', 'manager'])]
+    #[TestWith([false, 'manager'])]
+    #[TestWith([false, 'guest'])]
+    public function testIsGroup(bool $expectedIsGroup, string ...$groups): void
+    {
+        $UsersGroup = new class (['name' => 'admin']) extends Entity implements EntityWithGetSetInterface {
+            use GetSetTrait;
+        };
+        $User = new User(['users_group' => $UsersGroup]);
+
+        $this->assertSame($expectedIsGroup, $User->isGroup(...$groups));
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    #[Test]
+    public function testIsAdmin(): void
+    {
+        $User = $this->createPartialMock(User::class, ['isGroup']);
+        $User
+            ->expects($this->any())
+            ->method('isGroup')
+            ->with('admin');
+
+        $User->isAdmin();
+    }
+
+    /**
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     */
+    #[Test]
+    public function testIsManager(): void
+    {
+        $User = $this->createPartialMock(User::class, ['isGroup']);
+        $User
+            ->expects($this->any())
+            ->method('isGroup')
+            ->with('admin', 'manager');
+
+        $User->isManager();
+    }
+
     /**
      * @throws \PHPUnit\Framework\MockObject\Exception
      */

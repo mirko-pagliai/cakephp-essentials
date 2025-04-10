@@ -5,7 +5,6 @@ namespace App\Model\Entity;
 
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
-use Cake\Essentials\ORM\Entity\Traits\UsersGroupMethodsTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait;
 use Cake\Essentials\ORM\Entity\UserInterface;
 use Cake\ORM\Entity;
@@ -22,6 +21,5 @@ class User extends Entity implements UserInterface
 {
     use GetSetTrait;
     use UserMethodsTrait;
-    use UsersGroupMethodsTrait;
     use UserStatusMethodsTrait;
 }

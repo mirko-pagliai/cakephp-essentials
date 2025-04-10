@@ -28,6 +28,28 @@ interface UserInterface extends EntityWithGetSetInterface
     public function isFounder(): bool;
 
     /**
+     * Returns `true` if the user belongs to the users group (even just one, if more than one has passed).
+     *
+     * @param string ...$name Group names
+     * @return bool
+     */
+    public function isGroup(string ...$name): bool;
+
+    /**
+     * Returns `true` if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool;
+
+    /**
+     * Returns `true` if the user is an admin or a manager.
+     *
+     * @return bool
+     */
+    public function isManager(): bool;
+
+    /**
      * Returns `true` if the user is the owner of `$Entity`.
      *
      * `$Entity` must have the `user_id` field.
