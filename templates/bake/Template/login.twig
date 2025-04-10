@@ -11,9 +11,11 @@ declare(strict_types=1);
 <div class="{{ pluralVar }} form content">
     <?= $this->Form->create() ?>
     <fieldset>
-        <?= $this->Form->control('username') ?>
-        <?= $this->Form->control('password') ?>
+        <?php
+        echo $this->Form->control(fieldName: 'username');
+        echo $this->Form->control(fieldName: 'password');
+        ?>
     </fieldset>
-    <?= $this->Form->button(__('Login')); ?>
+    <?= $this->Form->button(title: __('Login')); ?>
     <?= $this->Form->end() ?>
 </div>

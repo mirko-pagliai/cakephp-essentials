@@ -8,7 +8,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  *  valid, otherwise returns `getStaticIcon()`.
  *
  * @property string|null $icon
- * @psalm-require-extends \Cake\ORM\Entity
+ *
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
  */
 trait GetIconTrait
