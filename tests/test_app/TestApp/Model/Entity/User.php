@@ -13,14 +13,10 @@ use Cake\ORM\Entity;
 /**
  * User Entity.
  *
- * @property int $id
  * @property string $password
  * @property \Cake\Essentials\ORM\Enum\UserStatus $status
- * @property \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $users_group
  *
- * @method int getId()
  * @method \Cake\Essentials\ORM\Enum\UserStatus getStatus()
- * @method \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface getUsersGroup()
  */
 class User extends Entity implements EntityWithGetSetInterface
 {
