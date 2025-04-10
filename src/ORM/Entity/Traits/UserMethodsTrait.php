@@ -9,7 +9,6 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 /**
  * This trait implements some generic methods for the `User` entity.
  *
- * @psalm-require-extends \Cake\ORM\Entity
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait UserMethodsTrait
@@ -42,7 +41,7 @@ trait UserMethodsTrait
      */
     public function isId(int ...$id): bool
     {
-        return in_array(needle: $this->getId(), haystack: $id);
+        return in_array(needle: $this->getOrFail('id'), haystack: $id);
     }
 
     /**

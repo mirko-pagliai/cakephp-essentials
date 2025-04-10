@@ -7,15 +7,24 @@ use Authorization\AuthorizationServiceInterface;
 use Authorization\Policy\ResultInterface;
 
 /**
- * This trait allow you to use your User class as the identity, providing all the necessary methods.
+ * This trait allow you to use your `User` class as the identity, providing all the necessary methods and so you
+ *  can quickly use authentication and authorization plugins.
  *
- * @link https://book.cakephp.org/authorization/3/en/middleware.html#using-your-user-class-as-the-identity Remember to update your middleware setup
- *
- * @method ($property is 'id' ? int : mixed) getOrFail(string $property)
+ * Remember to update your middleware setup:
+ * ```
+ * $middlewareQueue->add(new AuthorizationMiddleware($this, [
+ *    'identityDecorator' => function (AuthorizationService $Auth, $User) {
+ *       return $User->setAuthorization($Auth);
+ *    },
+ * ]));
+ * ```
  *
  * @psalm-require-implements \Authentication\IdentityInterface
  * @psalm-require-implements \Authorization\IdentityInterface
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
+ *
+ * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
+ * @see https://book.cakephp.org/authorization/3/en/middleware.html#using-your-user-class-as-the-identity
  */
 trait UserIdentityTrait
 {
@@ -66,15 +75,20 @@ trait UserIdentityTrait
     }
 
     /**
-     * @inheritDoc
+     * Get the primary `id` field for the identity.
+     *
+     * @return int
      */
     public function getIdentifier(): int
     {
+        /** @var int */
         return $this->getOrFail('id');
     }
 
     /**
-     * @inheritDoc
+     * Get the decorated identity.
+     *
+     * @return self
      */
     public function getOriginalData(): self
     {
