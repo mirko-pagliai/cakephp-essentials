@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
-use App\Model\Entity\Article;
 use App\Model\Entity\User;
+use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
+use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
+use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
@@ -58,7 +60,9 @@ class UserMethodsTraitTest extends TestCase
     #[TestWith([false, 3])]
     public function testIsOwnerOf(bool $expectedIsOwner, int $userId): void
     {
-        $Article = new Article(['user_id' => 4]);
+        $Article = new class (['user_id' => 4]) extends Entity implements EntityWithGetSetInterface {
+            use GetSetTrait;
+        };
         $User = new User(['id' => $userId]);
         $this->assertSame($expectedIsOwner, $User->isOwnerOf($Article));
     }
