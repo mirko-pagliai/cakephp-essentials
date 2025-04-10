@@ -23,7 +23,7 @@ trait UserStatusMethodsTrait
      */
     public function isActive(): bool
     {
-        return $this->getStatus() == UserStatus::Active;
+        return $this->getOrFail('status') == UserStatus::Active;
     }
 
     /**
@@ -33,7 +33,7 @@ trait UserStatusMethodsTrait
      */
     public function isDisabled(): bool
     {
-        return $this->getStatus() == UserStatus::Disabled;
+        return $this->getOrFail('status') == UserStatus::Disabled;
     }
 
     /**
@@ -55,7 +55,7 @@ trait UserStatusMethodsTrait
      */
     public function requiresAdminActivation(): bool
     {
-        return $this->getStatus() == UserStatus::RequiresAdminActivation;
+        return $this->getOrFail('status') == UserStatus::RequiresAdminActivation;
     }
 
     /**
@@ -65,6 +65,6 @@ trait UserStatusMethodsTrait
      */
     public function requiresUserActivation(): bool
     {
-        return $this->getStatus() == UserStatus::RequiresUserActivation;
+        return $this->getOrFail('status') == UserStatus::RequiresUserActivation;
     }
 }
