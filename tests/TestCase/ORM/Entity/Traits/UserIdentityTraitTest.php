@@ -98,6 +98,13 @@ class UserIdentityTraitTest extends TestCase
     }
 
     #[Test]
+    public function testGetIdentifier(): void
+    {
+        $this->Identity->set('id', 2);
+        $this->assertSame(2, $this->Identity->getIdentifier());
+    }
+
+    #[Test]
     public function testGetOriginalData(): void
     {
         $result = $this->Identity->getOriginalData();
