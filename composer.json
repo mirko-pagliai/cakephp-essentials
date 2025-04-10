@@ -21,6 +21,7 @@
   },
   "require-dev": {
     "cakephp/authentication": "^3.2",
+    "cakephp/authorization": "^3.0",
     "cakephp/cakephp-codesniffer": "^5.0",
     "cakedc/cakephp-phpstan": "^4.0",
     "phpunit/phpunit": "^11.1.3",
