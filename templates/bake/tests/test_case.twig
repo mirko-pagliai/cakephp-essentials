@@ -7,7 +7,7 @@
     {%- set traitName = 'ConsoleIntegrationTestTrait' %}
     {%- set uses = uses|merge(['Cake\\Console\\TestSuite\\ConsoleIntegrationTestTrait']) %}
 {% endif %}
-{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase", "Override", "PHPUnit\\Framework\\Attributes\\CoversClass", "PHPUnit\\Framework\\Attributes\\Test"]) %}
+{%- set uses = uses|merge(["Cake\\TestSuite\\TestCase", "PHPUnit\\Framework\\Attributes\\CoversClass", "PHPUnit\\Framework\\Attributes\\Test"]) %}
 
 {{- element('Bake.file_header', {
     namespace: "#{baseNamespace}\\Test\\TestCase\\#{subNamespace}",
