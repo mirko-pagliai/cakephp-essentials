@@ -9,6 +9,11 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 /**
  * This trait implements some generic methods for the `User` entity.
  *
+ * - `_setPassword()` ensures password hashing;
+ * - `isId()` (and the `isFounder()` alias) and `isOwnerOf()` provide controls based on the user's ID;
+ * - `isGroup()` (and the `isAdmin()` and `isManager()` aliases) provides checks based on the ID of the user group the
+ *  user belongs to.
+ *
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\UserInterface
  */
 trait UserMethodsTrait
@@ -52,6 +57,40 @@ trait UserMethodsTrait
     public function isFounder(): bool
     {
         return $this->isId(1);
+    }
+
+    /**
+     * Returns `true` if the user belongs to the users group (even just one, if more than one has passed).
+     *
+     * @param string ...$name Group names
+     * @return bool
+     */
+    public function isGroup(string ...$name): bool
+    {
+        /** @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $UsersGroup */
+        $UsersGroup = $this->getOrFail('users_group');
+
+        return in_array($UsersGroup->getOrFail('name'), $name);
+    }
+
+    /**
+     * Returns `true` if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->isGroup('admin');
+    }
+
+    /**
+     * Returns `true` if the user is an admin or a manager.
+     *
+     * @return bool
+     */
+    public function isManager(): bool
+    {
+        return $this->isGroup('admin', 'manager');
     }
 
     /**
