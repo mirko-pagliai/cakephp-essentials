@@ -9,8 +9,6 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 /**
  * This trait implements some generic methods for the `User` entity.
  *
- * @psalm-require-extends \Cake\ORM\Entity
- * @psalm-require-implements \Authentication\IdentityInterface
  * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait UserMethodsTrait
@@ -29,26 +27,6 @@ trait UserMethodsTrait
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
-     */
-    public function getIdentifier(): int
-    {
-        return $this->getId();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
-     */
-    public function getOriginalData(): self
-    {
-        return $this;
-    }
-
-    /**
      * Returns `true` if the user ID matches `$id` (even just one, if more than one has passed).
      *
      * This method can be useful to verify an identity in policies.
@@ -63,7 +41,7 @@ trait UserMethodsTrait
      */
     public function isId(int ...$id): bool
     {
-        return in_array(needle: $this->getId(), haystack: $id);
+        return in_array(needle: $this->getOrFail('id'), haystack: $id);
     }
 
     /**
