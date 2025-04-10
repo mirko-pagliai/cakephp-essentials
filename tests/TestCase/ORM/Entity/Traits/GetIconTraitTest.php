@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
-use App\Model\Entity\EntityWithGetIconTrait;
+use Cake\Essentials\ORM\Entity\EntityWithIconsInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetIconTrait;
+use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
@@ -18,9 +19,9 @@ use PHPUnit\Framework\Attributes\TestWith;
 class GetIconTraitTest extends TestCase
 {
     /**
-     * @var \App\Model\Entity\EntityWithGetIconTrait
+     * @var \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
      */
-    protected EntityWithGetIconTrait $Entity;
+    protected EntityWithIconsInterface $Entity;
 
     /**
      * @inheritDoc
@@ -28,7 +29,14 @@ class GetIconTraitTest extends TestCase
     #[Override]
     protected function setUp(): void
     {
-        $this->Entity = new EntityWithGetIconTrait();
+        $this->Entity = new class extends Entity implements EntityWithIconsInterface {
+            use GetIconTrait;
+
+            public static function getStaticIcon(): string
+            {
+                return 'house';
+            }
+        };
     }
 
     #[Test]
