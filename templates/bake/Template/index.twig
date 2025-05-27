@@ -81,24 +81,26 @@ $this->end();
 {% endif %}
 {% endfor %}
 {% set pk = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
-                <td class="hstack gap-2">
-                    <?php
-                    echo $this->Html->link(
-                        title: __('View'),
-                        url: ['action' => 'view', {{ pk|raw }}],
-                        options: ['icon' => $this->Html::VIEW_ICON]
-                    );
-                    echo $this->Html->link(
-                        title: __('Edit'),
-                        url: ['action' => 'edit', {{ pk|raw }}],
-                        options: ['icon' => $this->Html::EDIT_ICON]
-                    );
-                    echo $this->Form->deleteLink(
-                        title: __('Delete'),
-                        url: ['action' => 'delete', {{ pk|raw }}],
-                        options: ['class' => 'link-danger', 'icon' => $this->Html::DELETE_ICON]
-                    );
-                    ?>
+                <td>
+                    <div class="hstack gap-2">
+                        <?php
+                        echo $this->Html->link(
+                            title: __('View'),
+                            url: ['action' => 'view', {{ pk|raw }}],
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON]
+                        );
+                        echo $this->Html->link(
+                            title: __('Edit'),
+                            url: ['action' => 'edit', {{ pk|raw }}],
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON]
+                        );
+                        echo $this->Form->deleteLink(
+                            title: __('Delete'),
+                            url: ['action' => 'delete', {{ pk|raw }}],
+                            options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON]
+                        );
+                        ?>
+                    </div>
                 </td>
             </tr>
             <?php endforeach; ?>

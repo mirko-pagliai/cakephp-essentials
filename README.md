@@ -58,6 +58,24 @@ class AppView extends View
 }
 ```
 
+## Add some basic assets to layout
+You can consider adding some key assets to your layout, depending on your needs:
+
+Css:
+```php
+echo $this->fetch('css');
+echo $this->Html->css('/vendor/bootstrap/css/bootstrap.min.css');
+echo $this->Html->css('/vendor/bootstrap-icons/bootstrap-icons.min.css');
+```
+
+Scripts:
+```php
+echo $this->fetch('script');
+echo $this->Html->script('/vendor/jquery/jquery.min.js');
+echo $this->Html->script('/vendor/bootstrap/js/bootstrap.min.js');
+echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.min.js');
+```
+
 ## Using Tooltips and Popovers
 
 Several helper methods support tooltips and popovers and can generate them automatically.

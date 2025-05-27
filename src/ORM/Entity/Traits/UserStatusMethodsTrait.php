@@ -10,7 +10,8 @@ use Cake\Essentials\ORM\Enum\UserStatus;
  *
  * Provides some methods for the `User` entity based on the `status` field and hence the `UserStatus` enum.
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
+ *
  * @see \Cake\Essentials\ORM\Enum\UserStatus
  */
 trait UserStatusMethodsTrait
@@ -22,7 +23,7 @@ trait UserStatusMethodsTrait
      */
     public function isActive(): bool
     {
-        return $this->getStatus() == UserStatus::Active;
+        return $this->getOrFail('status') == UserStatus::Active;
     }
 
     /**
@@ -32,7 +33,7 @@ trait UserStatusMethodsTrait
      */
     public function isDisabled(): bool
     {
-        return $this->getStatus() == UserStatus::Disabled;
+        return $this->getOrFail('status') == UserStatus::Disabled;
     }
 
     /**
@@ -54,7 +55,7 @@ trait UserStatusMethodsTrait
      */
     public function requiresAdminActivation(): bool
     {
-        return $this->getStatus() == UserStatus::RequiresAdminActivation;
+        return $this->getOrFail('status') == UserStatus::RequiresAdminActivation;
     }
 
     /**
@@ -64,6 +65,6 @@ trait UserStatusMethodsTrait
      */
     public function requiresUserActivation(): bool
     {
-        return $this->getStatus() == UserStatus::RequiresUserActivation;
+        return $this->getOrFail('status') == UserStatus::RequiresUserActivation;
     }
 }

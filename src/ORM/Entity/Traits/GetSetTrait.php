@@ -13,7 +13,7 @@ use Cake\Utility\Inflector;
  * These methods allow you to return the value of the entity's properties, throwing an exception when the property does
  *  not exist or is `null`.
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
  */
 trait GetSetTrait
 {
@@ -48,13 +48,7 @@ trait GetSetTrait
     }
 
     /**
-     * Returns the value of a field by name.
-     *
-     * Unlike the `get()` method, it throws an exception if the property does not exist or is `null`.
-     *
-     * @param string $property Property name
-     * @return mixed
-     * @throws \Cake\Datasource\Exception\MissingPropertyException When the property does not exist or is `null`
+     * @inheritDoc
      */
     public function getOrFail(string $property): mixed
     {
@@ -66,11 +60,7 @@ trait GetSetTrait
     }
 
     /**
-     * Returns the value of a field by name as boolean.
-     *
-     * @param string $property Property name
-     * @return bool
-     * @throws \Cake\Datasource\Exception\MissingPropertyException When the property does not exist or is `null`
+     * @inheritDoc
      */
     public function isOrFail(string $property): bool
     {
