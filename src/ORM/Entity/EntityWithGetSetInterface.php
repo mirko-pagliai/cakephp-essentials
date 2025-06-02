@@ -11,7 +11,7 @@ namespace Cake\Essentials\ORM\Entity;
  *
  * The fastest and most effective strategy to implement these methods is to use the `GetSetTrait` trait.
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @phpstan-require-extends \Cake\ORM\Entity
  *
  * @see \Cake\Essentials\ORM\Entity\Traits\GetSetTrait
  */

@@ -45,7 +45,7 @@ namespace Cake\Essentials\ORM\Entity;
  * }
  * ```
  *
- * @psalm-require-extends \Cake\ORM\Entity
+ * @phpstan-require-extends \Cake\ORM\Entity
  *
  * @see \Cake\Essentials\ORM\Entity\Traits\GetIconTrait
  */

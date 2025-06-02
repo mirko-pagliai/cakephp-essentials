@@ -10,7 +10,7 @@ use Cake\Database\Type\EnumLabelInterface;
  *
  * It actually provides the `getLabels()` method.
  *
- * @psalm-require-implements \Cake\Database\Type\EnumLabelInterface
+ * @phpstan-require-implements \Cake\Database\Type\EnumLabelInterface
  */
 trait EnumWithGetLabelsTrait
 {

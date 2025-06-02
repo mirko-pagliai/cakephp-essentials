@@ -14,7 +14,7 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
  * - `isGroup()` (and the `isAdmin()` and `isManager()` aliases) provides checks based on the ID of the user group the
  *  user belongs to.
  *
- * @psalm-require-implements \Cake\Essentials\ORM\Entity\UserInterface
+ * @phpstan-require-implements \Cake\Essentials\ORM\Entity\UserInterface
  */
 trait UserMethodsTrait
 {
