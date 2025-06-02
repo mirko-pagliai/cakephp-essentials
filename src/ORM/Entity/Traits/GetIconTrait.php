@@ -9,7 +9,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  *
  * @property non-empty-string|null $icon
  *
- * @psalm-require-implements \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
+ * @phpstan-require-implements \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
  */
 trait GetIconTrait
 {
