@@ -19,7 +19,7 @@ use Authorization\Policy\ResultInterface;
  * ]));
  * ```
  *
- * @psalm-require-implements \Cake\Essentials\ORM\Entity\UserIdentityInterface
+ * @phpstan-require-implements \Cake\Essentials\ORM\Entity\UserIdentityInterface
  *
  * @see https://book.cakephp.org/authentication/3/en/identity-object.html#implementing-the-identityinterface-on-your-user-class
  * @see https://book.cakephp.org/authorization/3/en/middleware.html#using-your-user-class-as-the-identity

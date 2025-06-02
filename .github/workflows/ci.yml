@@ -6,20 +6,22 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read # to fetch code (actions/checkout)
+  contents: read
 
 jobs:
   testsuite:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
         php-version: ['8.4']
+        dependencies: ['highest']
+        include:
+          - php-version: '8.4'
+            dependencies: 'lowest'
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -31,22 +33,23 @@ jobs:
 
       - name: Composer install
         uses: ramsey/composer-install@v3
+        with:
+          dependency-versions: ${{ matrix.dependencies }}
 
       - name: Run PHPUnit
         run: |
-          if [[ ${{ matrix.php-version }} == '8.4' ]]; then
-            export XDEBUG_MODE=coverage
-            vendor/bin/phpunit --display-warnings --display-incomplete --coverage-clover=coverage.xml
+          if [[ ${{ matrix.dependencies }} == 'highest' ]]; then
+            export XDEBUG_MODE=coverage;
+            vendor/bin/phpunit --display-skipped --display-deprecations --display-warnings --coverage-clover=coverage.xml
           else
-            vendor/bin/phpunit --display-phpunit-deprecations --display-deprecations --display-warnings
+            vendor/bin/phpunit --display-deprecations --display-warnings
           fi
 
       - name: Submit code coverage
-        if: matrix.php-version == '8.4'
+        if: success() && matrix.dependencies == 'highest'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: mirko-pagliai/cakephp-essentials
 
   testsuite-windows:
     runs-on: windows-2022
@@ -123,10 +126,6 @@ jobs:
 
       - name: Show phpcs results in PR
         run: cs2pr ./phpcs-report.xml
-
-      - name: Run psalm
-        if: always()
-        run: vendor/bin/psalm --output-format=github
 
       - name: Run phpstan
         if: always()
