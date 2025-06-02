@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6faed4a3c4f4d432610f70fb05caa795",
+    "content-hash": "ba28fcd8e300adb029cd2506dd769d58",
     "packages": [
         {
             "name": "axllent/jquery",
