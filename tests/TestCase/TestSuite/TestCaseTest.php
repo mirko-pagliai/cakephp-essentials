@@ -12,9 +12,9 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
- * TableTestCaseTest.
+ * TestCaseTest.
  *
- * This class, for testing, extends `PHPUnit\Framework\TestCase`, to avoid conflicts.
+ * This class extends `PHPUnit\Framework\TestCase`, to avoid conflicts.
  */
 #[CoversClass(TestCase::class)]
 class TestCaseTest extends PHPUnitTestCase
