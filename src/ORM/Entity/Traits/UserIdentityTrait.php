@@ -7,7 +7,7 @@ use Authorization\AuthorizationServiceInterface;
 use Authorization\Policy\ResultInterface;
 
 /**
- * This trait allow you to use your `User` class as the identity, providing all the necessary methods and so you
+ * This trait allows you to use your `User` class as the identity, providing all the necessary methods and so you
  *  can quickly use authentication and authorization plugins.
  *
  * Remember to update your middleware setup:
@@ -59,7 +59,7 @@ trait UserIdentityTrait
      * Applies authorization scope conditions/restrictions.
      *
      * This method is intended for applying authorization to objects that are then used to access authorized collections
-     *  of objects. The typical use case for scopes are restricting a query to only return records visible to the current
+     *  of objects. The typical use case for scopes is restricting a query to only return records visible to the current
      *  user.
      *
      * @param string $action The action/operation being performed
