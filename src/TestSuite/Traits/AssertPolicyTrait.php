@@ -64,4 +64,46 @@ trait AssertPolicyTrait
 
         $this->assertSame($expectedResult, $result, $message);
     }
+
+    /**
+     * Asserts that the policy result is `false` based on the provided parameters.
+     *
+     * This method is an alias for `assertPolicyResult()`, where the first argument `$expectedResult` is assumed to be `false`.
+     *
+     * @param object|string $Policy The policy object or the class name of the policy to execute.
+     * @param string $method The method name to call on the policy object.
+     * @param \Authentication\IdentityInterface&\Cake\Datasource\EntityInterface $Identity The identity object used when invoking the policy method.
+     * @param \Cake\Datasource\EntityInterface|null $Entity Optional entity object passed to the policy method. Defaults to null.
+     *
+     * @return void
+     */
+    public function assertPolicyResultFalse(
+        object|string $Policy,
+        string $method,
+        IdentityInterface&EntityInterface $Identity,
+        ?EntityInterface $Entity = null,
+    ): void {
+        $this->assertPolicyResult(false, $Policy, $method, $Identity, $Entity);
+    }
+
+    /**
+     * Asserts that the policy result is `true` based on the provided parameters.
+     *
+     * This method is an alias for `assertPolicyResult()`, where the first argument `$expectedResult` is assumed to be `true`.
+     *
+     * @param object|string $Policy The policy object or the class name of the policy to execute.
+     * @param string $method The method name to call on the policy object.
+     * @param \Authentication\IdentityInterface&\Cake\Datasource\EntityInterface $Identity The identity object used when invoking the policy method.
+     * @param \Cake\Datasource\EntityInterface|null $Entity Optional entity object passed to the policy method. Defaults to null.
+     *
+     * @return void
+     */
+    public function assertPolicyResultTrue(
+        object|string $Policy,
+        string $method,
+        IdentityInterface&EntityInterface $Identity,
+        ?EntityInterface $Entity = null,
+    ): void {
+        $this->assertPolicyResult(true, $Policy, $method, $Identity, $Entity);
+    }
 }
