@@ -50,19 +50,12 @@ trait AssertPolicyTrait
         //Runs the policy and gets `$result`
         $result = $Policy->{$method}($Identity, $Entity ?: new Entity());
 
-        $message = sprintf(
+        $this->assertSame($expectedResult, $result, sprintf(
             '`%s::%s()` method has returned `%s`',
             $Policy::class,
             $method,
             $result ? 'true' : 'false'
-        );
-        /** @var \Cake\Datasource\EntityInterface|null $UsersGroup */
-        $UsersGroup = $Identity->get('users_group');
-        if ($UsersGroup && is_string($UsersGroup->get('name'))) {
-            $message .= ' for group `' . $UsersGroup->get('name') . '`';
-        }
-
-        $this->assertSame($expectedResult, $result, $message);
+        ));
     }
 
     /**

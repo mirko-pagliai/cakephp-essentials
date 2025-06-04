@@ -62,20 +62,6 @@ class AssertPolicyTraitTest extends TestCase
     }
 
     #[Test]
-    public function testAssertPolicyOnFailureWithUsersGroup(): void
-    {
-        $TestCase = new class ('Test') extends TestCase {
-            use AssertPolicyTrait;
-        };
-
-        $User = new User(['users_group' => new Entity(['name' => 'admin'])]);
-
-        $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessage('`App\Policy\ExamplePolicy::canEdit()` method has returned `false` for group `admin`');
-        $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canEdit', $User);
-    }
-
-    #[Test]
     public function testAssertPolicyWithNoExistingPolicyMethod(): void
     {
         $TestCase = new class ('Test') extends TestCase {
