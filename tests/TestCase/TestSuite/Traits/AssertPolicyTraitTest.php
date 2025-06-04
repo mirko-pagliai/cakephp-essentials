@@ -86,4 +86,24 @@ class AssertPolicyTraitTest extends TestCase
         $this->expectExceptionMessage('Policy `App\Policy\ExamplePolicy` does not have a `canDoSomethingDoesNotExist()` method');
         $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canDoSomethingDoesNotExist', new User());
     }
+
+    #[Test]
+    public function testAssertPolicyResultFalse(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertPolicyTrait;
+        };
+
+        $TestCase->assertPolicyResultFalse(Policy: ExamplePolicy::class, method: 'canAdd', Identity: new User(['id' => 2]));
+    }
+
+    #[Test]
+    public function testAssertPolicyResultTrue(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertPolicyTrait;
+        };
+
+        $TestCase->assertPolicyResultTrue(Policy: ExamplePolicy::class, method: 'canAdd', Identity: new User(['id' => 1]));
+    }
 }
