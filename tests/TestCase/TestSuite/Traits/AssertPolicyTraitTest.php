@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 class AssertPolicyTraitTest extends TestCase
 {
     #[Test]
-    public function testAssertPolicy(): void
+    public function testAssertPolicyResult(): void
     {
         $TestCase = new class ('Test') extends TestCase {
             use AssertPolicyTrait;
