@@ -5,8 +5,10 @@ namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 
 use App\Model\Entity\Article;
 use App\Model\Entity\User;
+use Authorization\AuthorizationServiceInterface;
 use Authorization\Policy\Exception\MissingMethodException;
 use Cake\Essentials\TestSuite\Traits\AssertPolicyTrait;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -82,6 +84,27 @@ class AssertPolicyTraitTest extends TestCase
         $this->expectException(MissingMethodException::class);
         $this->expectExceptionMessage('Method `canNotExist` for invoking action `notExist` has not been defined in `App\Policy\ArticlePolicy`.');
         $TestCase->assertPolicyResult(expectedResult: true, method: 'notExist', Identity: new User(), Entity: $this->Article);
+    }
+
+    #[Test]
+    public function testAssertPolicyWithCustomAuthorization(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertPolicyTrait;
+        };
+
+        $User = new User(['id' => 1]);
+
+        /** @var \Authorization\AuthorizationServiceInterface&\Mockery\MockInterface $Authorization */
+        $Authorization = Mockery::mock(AuthorizationServiceInterface::class);
+        $Authorization->shouldReceive('can')
+            ->once()
+            ->with($User, 'add', $this->Article)
+            ->andReturn(true);
+
+        $User->setAuthorization($Authorization);
+
+        $TestCase->assertPolicyResult(expectedResult: true, method: 'canAdd', Identity: $User, Entity: $this->Article);
     }
 
     #[Test]
