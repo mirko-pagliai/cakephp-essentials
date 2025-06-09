@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\TestSuite\Traits;
 
-use Authorization\AuthorizationService;
-use Authorization\Policy\OrmResolver;
 use Cake\Datasource\EntityInterface;
 use Cake\Essentials\ORM\Entity\UserIdentityInterface;
 
@@ -37,24 +35,17 @@ trait AssertPolicyTrait
         UserIdentityInterface&EntityInterface $Identity,
         EntityInterface $Entity,
     ): void {
-        /**
-         * @todo fix
-         */
-        if (str_starts_with($method, 'can')) {
-            $method = lcfirst(substr($method, 3));
-        }
-
-        if (empty($Identity->Authorization)) {
-            $Identity->setAuthorization(new AuthorizationService(new OrmResolver()));
-        }
-
         $result = $Identity->can($method, $Entity);
 
-        $this->assertSame($expectedResult, $result, sprintf(
-            '`%s()` method has returned `%s`',
-            $method,
-            $result ? 'true' : 'false'
-        ));
+        $this->assertSame(
+            $expectedResult,
+            $result,
+            sprintf(
+                '`%s()` method has returned `%s`',
+                $method,
+                $result ? 'true' : 'false'
+            )
+        );
     }
 
     /**
