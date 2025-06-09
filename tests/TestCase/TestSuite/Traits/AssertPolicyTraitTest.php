@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 
+use App\Model\Entity\Article;
 use App\Model\Entity\User;
-use App\Policy\ExamplePolicy;
+use Authorization\Policy\Exception\MissingMethodException;
 use Cake\Essentials\TestSuite\Traits\AssertPolicyTrait;
-use Cake\ORM\Entity;
-use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -21,6 +20,18 @@ use PHPUnit\Framework\TestCase;
 #[CoversTrait(AssertPolicyTrait::class)]
 class AssertPolicyTraitTest extends TestCase
 {
+    protected Article $Article;
+
+    /**
+     * @inheritDoc
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->Article = new Article();
+    }
+
     #[Test]
     public function testAssertPolicyResult(): void
     {
@@ -31,22 +42,22 @@ class AssertPolicyTraitTest extends TestCase
         $FirstUser = new User(['id' => 1]);
         $SecondUser = new User(['id' => 2]);
 
-        $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canAdd', $FirstUser);
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canAdd', $SecondUser);
+        $TestCase->assertPolicyResult(expectedResult: true, method: 'canAdd', Identity: $FirstUser, Entity: $this->Article);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canAdd', Identity: $SecondUser, Entity: $this->Article);
 
         // It is `false` for both, because `canEdit` requires a defined entity to get `true` as a result
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canEdit', $FirstUser);
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canEdit', $SecondUser);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canEdit', Identity: $FirstUser, Entity: $this->Article);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canEdit', Identity: $SecondUser, Entity: $this->Article);
 
-        $Entity = new Entity(['status' => true]);
+        $this->Article->set('status', true);
 
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canEdit', $FirstUser, $Entity);
-        $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canEdit', $SecondUser, $Entity);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canEdit', Identity: $FirstUser, Entity: $this->Article);
+        $TestCase->assertPolicyResult(expectedResult: true, method: 'canEdit', Identity: $SecondUser, Entity: $this->Article);
 
-        $Entity = new Entity(['status' => false]);
+        $this->Article->set('status', false);
 
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canEdit', $FirstUser, $Entity);
-        $TestCase->assertPolicyResult(false, ExamplePolicy::class, 'canEdit', $SecondUser, $Entity);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canEdit', Identity: $FirstUser, Entity: $this->Article);
+        $TestCase->assertPolicyResult(expectedResult: false, method: 'canEdit', Identity: $SecondUser, Entity: $this->Article);
     }
 
     #[Test]
@@ -57,8 +68,8 @@ class AssertPolicyTraitTest extends TestCase
         };
 
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessage('`App\Policy\ExamplePolicy::canEdit()` method has returned `false`');
-        $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canEdit', new User());
+        $this->expectExceptionMessage('`edit()` method has returned `false`');
+        $TestCase->assertPolicyResult(expectedResult: true, method: 'canEdit', Identity: new User(), Entity: $this->Article);
     }
 
     #[Test]
@@ -68,9 +79,9 @@ class AssertPolicyTraitTest extends TestCase
             use AssertPolicyTrait;
         };
 
-        $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage('Policy `App\Policy\ExamplePolicy` does not have a `canDoSomethingDoesNotExist()` method');
-        $TestCase->assertPolicyResult(true, ExamplePolicy::class, 'canDoSomethingDoesNotExist', new User());
+        $this->expectException(MissingMethodException::class);
+        $this->expectExceptionMessage('Method `canNotExist` for invoking action `notExist` has not been defined in `App\Policy\ArticlePolicy`.');
+        $TestCase->assertPolicyResult(expectedResult: true, method: 'notExist', Identity: new User(), Entity: $this->Article);
     }
 
     #[Test]
@@ -80,7 +91,7 @@ class AssertPolicyTraitTest extends TestCase
             use AssertPolicyTrait;
         };
 
-        $TestCase->assertPolicyResultFalse(Policy: ExamplePolicy::class, method: 'canAdd', Identity: new User(['id' => 2]));
+        $TestCase->assertPolicyResultFalse(method: 'canAdd', Identity: new User(['id' => 2]), Entity: $this->Article);
     }
 
     #[Test]
@@ -90,6 +101,6 @@ class AssertPolicyTraitTest extends TestCase
             use AssertPolicyTrait;
         };
 
-        $TestCase->assertPolicyResultTrue(Policy: ExamplePolicy::class, method: 'canAdd', Identity: new User(['id' => 1]));
+        $TestCase->assertPolicyResultTrue(method: 'canAdd', Identity: new User(['id' => 1]), Entity: $this->Article);
     }
 }
