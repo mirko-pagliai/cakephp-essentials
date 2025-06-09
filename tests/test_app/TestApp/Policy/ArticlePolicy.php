@@ -7,9 +7,9 @@ use Authorization\IdentityInterface;
 use Cake\Datasource\EntityInterface;
 
 /**
- * An example policy, for tests.
+ * ArticlePolicy for tests.
  */
-class ExamplePolicy
+class ArticlePolicy
 {
     public function canAdd(IdentityInterface&EntityInterface $Identity): bool
     {
