@@ -9,7 +9,6 @@ use Authorization\AuthorizationService;
 use Authorization\Policy\Exception\MissingMethodException;
 use Authorization\Policy\OrmResolver;
 use Cake\Essentials\TestSuite\Traits\AssertPolicyTrait;
-use Mockery;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
