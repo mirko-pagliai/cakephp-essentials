@@ -15,6 +15,13 @@ const CORE_PATH = ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS;
 const APP = ROOT . 'tests' . DS . 'test_app' . DS;
 const APP_DIR = 'test_app' . DS;
 const WWW_ROOT = APP . 'webroot' . DS;
+define('TMP', sys_get_temp_dir() . DS . 'cakephp-essentials' . DS);
+const LOGS = TMP . 'logs' . DS;
+
+// phpcs:disable
+@mkdir(TMP, 0777, true);
+@mkdir(LOGS, 0777, true);
+// phpcs:enable
 
 putenv('APP_DEFAULT_LOCALE=en_US');
 
