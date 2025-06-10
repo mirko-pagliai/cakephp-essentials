@@ -15,6 +15,14 @@ const CORE_PATH = ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS;
 const APP = ROOT . 'tests' . DS . 'test_app' . DS;
 const APP_DIR = 'test_app' . DS;
 const WWW_ROOT = APP . 'webroot' . DS;
+define('TMP', sys_get_temp_dir() . DS . 'cakephp-essentials' . DS);
+const LOGS = TMP . 'logs' . DS;
+
+foreach ([TMP, LOGS] as $dir) {
+    if (!file_exists($dir)) {
+        mkdir($dir, 0777, true);
+    }
+}
 
 putenv('APP_DEFAULT_LOCALE=en_US');
 
