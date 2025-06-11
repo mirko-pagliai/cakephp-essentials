@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 
 use Cake\Essentials\TestSuite\Traits\AssertLogTrait;
-use Cake\Log\Engine\FileLog;
 use Cake\Log\Log;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Attributes\CoversTrait;
@@ -27,13 +26,6 @@ class AssertLogTraitTest extends TestCase
     {
         parent::setUpBeforeClass();
 
-        Log::setConfig('error', [
-            'engine' => FileLog::class,
-            'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
-            'file' => 'error',
-            'path' => LOGS,
-        ]);
-
         Log::error('Some log text...');
     }
 
@@ -43,8 +35,6 @@ class AssertLogTraitTest extends TestCase
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-
-        Log::drop('error');
 
         unlink(LOGS . 'error.log');
     }

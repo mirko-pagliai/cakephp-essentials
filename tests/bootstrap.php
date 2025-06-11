@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Log\Engine\FileLog;
+use Cake\Log\Log;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -48,4 +50,11 @@ Cache::setConfig([
         'prefix' => 'cake_core_',
         'serialize' => true,
     ],
+]);
+
+Log::setConfig('error', [
+    'engine' => FileLog::class,
+    'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+    'file' => 'error',
+    'path' => LOGS,
 ]);
