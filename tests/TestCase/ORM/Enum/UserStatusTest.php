@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\ORM\Enum;
 
 use Cake\Essentials\ORM\Enum\UserStatus;
-use Cake\Essentials\TestSuite\TestCase;
+use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 

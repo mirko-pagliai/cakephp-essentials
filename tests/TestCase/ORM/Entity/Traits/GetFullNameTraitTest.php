@@ -6,8 +6,8 @@ namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetFullNameTrait;
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
-use Cake\Essentials\TestSuite\TestCase;
 use Cake\ORM\Entity;
+use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -18,11 +18,11 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversTrait(GetFullNameTrait::class)]
 class GetFullNameTraitTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface
-     */
     protected EntityWithGetSetInterface $Person;
 
+    /**
+     * @inheritDoc
+     */
     protected function setUp(): void
     {
         $this->Person = new class extends Entity implements EntityWithGetSetInterface {
