@@ -6,6 +6,7 @@ namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 use Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait;
 use Cake\I18n\DateTime;
 use Cake\ORM\Query\SelectQuery;
+use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +19,19 @@ use PHPUnit\Framework\TestCase;
 #[CoversTrait(AssertQueryBindingsTrait::class)]
 class AssertQueryBindingsTraitTest extends TestCase
 {
+    protected static SelectQuery $Query;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$Query = new class extends SelectQuery {
+            public function __construct()
+            {
+            }
+        };
+        self::$Query->getValueBinder()->bind(':c0', 1, 'integer');
+        self::$Query->getValueBinder()->bind(':c1', 'value', 'string');
+    }
+
     #[Test]
     public function testExtractBindingValues(): void
     {
@@ -27,15 +41,9 @@ class AssertQueryBindingsTraitTest extends TestCase
             }
         };
 
-        $DateTime = new DateTime('2025-06-12 14:30:00');
+        $Query = clone self::$Query;
 
-        $Query = new class extends SelectQuery {
-            public function __construct()
-            {
-            }
-        };
-        $Query->getValueBinder()->bind(':c0', 1, 'integer');
-        $Query->getValueBinder()->bind(':c1', 'value', 'string');
+        $DateTime = new DateTime('2025-06-12 14:30:00');
         $Query->getValueBinder()->bind(':c2', $DateTime, 'datetime');
 
         $expected = [
@@ -45,5 +53,68 @@ class AssertQueryBindingsTraitTest extends TestCase
         ];
         $result = $TestCase->extractBindingValues($Query);
         $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testAssertBindingsEquals(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $Query = clone self::$Query;
+
+        $DateTime = new DateTime('2025-06-12 14:30:00');
+        $Query->getValueBinder()->bind(':c2', $DateTime, 'datetime');
+
+        $expected = [
+            ':c1' => 'value',
+            ':c0' => 1,
+            ':c2' => $DateTime,
+        ];
+
+        $TestCase->assertBindingsEquals($expected, $Query);
+    }
+
+    #[Test]
+    public function testAssertBindingsEqualsOnAssertionFailed(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $this->expectException(AssertionFailedError::class);
+        $TestCase->assertBindingsEquals([':c0' => 1], self::$Query);
+    }
+
+    #[Test]
+    public function testAssertBindingsSame(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $expected = [
+            ':c0' => 1,
+            ':c1' => 'value',
+        ];
+
+        $TestCase->assertBindingsSame($expected, self::$Query);
+    }
+
+    #[Test]
+    public function testAssertBindingsSameOnAssertionFailed(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $expected = [
+            ':c1' => 'value',
+            ':c0' => 1,
+        ];
+
+        $this->expectException(AssertionFailedError::class);
+        $TestCase->assertBindingsSame($expected, self::$Query);
     }
 }
