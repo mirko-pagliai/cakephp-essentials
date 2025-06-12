@@ -7,8 +7,6 @@ use Cake\Datasource\EntityInterface;
 use Cake\Essentials\ORM\Entity\UserIdentityInterface;
 
 /**
- * Trait AssertPolicyTrait
- *
  * Provides methods to assert the results of policy method evaluations.
  */
 trait AssertPolicyTrait
