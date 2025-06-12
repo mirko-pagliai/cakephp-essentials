@@ -56,6 +56,44 @@ class AssertQueryBindingsTraitTest extends TestCase
     }
 
     #[Test]
+    public function testAssertBindingsContains(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $TestCase->assertBindingsContains([':c0' => 1], self::$Query);
+        $TestCase->assertBindingsContains([':c1' => 'value'], self::$Query);
+
+        // Simultaneous testing on both cases
+        $TestCase->assertBindingsContains([':c0' => 1, ':c1' => 'value'], self::$Query);
+    }
+
+    #[Test]
+    public function testAssertBindingsContainsOnAssertionFailedCausedByKey(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $this->expectException(AssertionFailedError::class);
+        $this->expectExceptionMessage('Failed asserting that an array has the key \':c2\'.');
+        $TestCase->assertBindingsContains([':c2' => 'badKey'], self::$Query);
+    }
+
+    #[Test]
+    public function testAssertBindingsContainsOnAssertionFailedCausedByValue(): void
+    {
+        $TestCase = new class ('Test') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $this->expectException(AssertionFailedError::class);
+        $this->expectExceptionMessage('Failed asserting that two strings are equal.');
+        $TestCase->assertBindingsContains([':c1' => 'badValue'], self::$Query);
+    }
+
+    #[Test]
     public function testAssertBindingsEquals(): void
     {
         $TestCase = new class ('Test') extends TestCase {
