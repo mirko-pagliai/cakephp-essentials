@@ -10,7 +10,7 @@
 	>
 
     <testsuites>
-        <testsuite name="Cake\Essentials Test Cases">
+        <testsuite name="cakephp-essentials Test Cases">
             <directory>./tests/TestCase</directory>
         </testsuite>
     </testsuites>
