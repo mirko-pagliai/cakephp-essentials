@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Validation;
 
+use Cake\I18n\DateTime;
 use Cake\Validation\Validator as CakeValidator;
 use Closure;
 use function Cake\I18n\__d as __d;
@@ -88,6 +89,37 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'firstLetterCapitalized', rule: $extra + ['rule' => ['custom', '/^\p{Lu}/u']]);
+    }
+
+    /**
+     * Adds a validation rule to ensure the value of a field is greater than or equal to the specified DateTime.
+     *
+     * @param string $field The name of the field to validate.
+     * @param \Cake\I18n\DateTime $comparisonValue The DateTime value to compare against.
+     * @param string|null $message An optional custom error message to return when the validation fails.
+     * @param \Closure|string|null $when A condition determining when this validation rule should apply.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function greaterThanOrEqualsDateTime(
+        string $field,
+        DateTime $comparisonValue,
+        ?string $message = null,
+        Closure|string|null $when = null,
+    ): self {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Must be greater than or equal to `{0}`', $comparisonValue->i18nFormat()),
+        ]);
+
+        return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
+            'rule' => function (string|DateTime $value) use ($comparisonValue): bool {
+                if (!$value instanceof DateTime) {
+                    $value = new DateTime($value);
+                }
+
+                return $value->greaterThanOrEquals($comparisonValue);
+            },
+        ]);
     }
 
     /**
