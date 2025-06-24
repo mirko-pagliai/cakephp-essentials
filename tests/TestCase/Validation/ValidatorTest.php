@@ -120,6 +120,36 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    public function testNotContainsReservedWords(): void
+    {
+        $this->Validator->notContainsReservedWords('text');
+
+        $this->assertEmpty($this->Validator->validate(['text' => 'any reserved word...']));
+    }
+
+    #[Test]
+    #[TestWith(['admin'])]
+    #[TestWith(['manager'])]
+    #[TestWith(['root'])]
+    #[TestWith(['supervisor'])]
+    #[TestWith(['moderator'])]
+    #[TestWith(['mail'])]
+    #[TestWith(['pwd'])]
+    #[TestWith(['password'])]
+    #[TestWith(['passwd'])]
+    #[TestWith(['1admin2'])]
+    #[TestWith(['1aDmin2'])]
+    #[TestWith(['admin', 'You cannot use a reserved word'])]
+    public function testNotContainsReservedWordsOnError(string $badText, string $customMessage = ''): void
+    {
+        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'Cannot contain any reserved words',]];
+
+        $this->Validator->notContainsReservedWords('text', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
+    }
+
+    #[Test]
     public function testValidPassword(): void
     {
         $this->Validator->validPassword('password');

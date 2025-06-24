@@ -93,25 +93,42 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Validates that the specified field meets standard password requirements.
-     *
-     * The password must:
-     * - Be at least 8 characters long.
-     * - Contain at least one digit.
-     * - Contain at least one uppercase letter.
-     * - Contain at least one lowercase letter.
-     * - Contain at least one special character.
-     * - Not include reserved words such as "admin", "manager", "root", "supervisor", "moderator", "pwd", "password", or "passwd".
+     * Validates that the specified field does not contain any reserved words.
      *
      * @param string $field The name of the field to be validated.
      * @param string|null $message An optional custom validation failure message.
      * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
-     * @return self Returns the current instance with the added validation rules.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function notContainsReservedWords(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Cannot contain any reserved words'),
+        ]);
+
+        return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
+            'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|mail|pwd|password|passwd).)+$/i'],
+        ]);
+    }
+
+    /**
+     * Validates that the specified field complies with password strength requirements.
+     * Ensures the password meets the following criteria:
+     * - At least 8 characters in length.
+     * - Contains at least one digit.
+     * - Contains at least one uppercase letter.
+     * - Contains at least one lowercase letter.
+     * - Contains at least one special character.
+     * - Does not include reserved words.
+     *
+     * @param string $field The name of the field to be validated.
+     * @param string|null $message An optional custom validation failure message.
+     * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
+     * @return self Returns the current instance with the combined password validation rules.
      */
     public function validPassword(string $field, ?string $message = null, Closure|string|null $when = null): self
     {
-        $extra = array_filter(['on' => $when, 'message' => $message]);
-
         return $this
             ->minLength(field: $field, min: 8, message: $message, when: $when)
             ->containsDigit(field: $field, message: $message, when: $when)
@@ -122,9 +139,6 @@ class Validator extends CakeValidator
                 message: $message ?: __d('cake/essentials', 'Must contain at least one special character'),
                 when: $when,
             )
-            ->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
-                'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|pwd|password|passwd).)+$/i'],
-                'message' => $message ?: __d('cake/essentials', 'Cannot contain any reserved words'),
-            ]);
+            ->notContainsReservedWords(field: $field, message: $message, when: $when);
     }
 }
