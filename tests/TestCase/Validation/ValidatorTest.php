@@ -97,15 +97,18 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    public function testFirstLetterCapitalized(): void
+    #[TestWith(['Àbate'])]
+    #[TestWith(['Text'])]
+    public function testFirstLetterCapitalized(string $goodText): void
     {
         $this->Validator->firstLetterCapitalized('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => 'Text']));
+        $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
     }
 
     #[Test]
     #[TestWith(['a'])]
+    #[TestWith(['à'])]
     #[TestWith(['1'])]
     #[TestWith(['!'])]
     #[TestWith(['!'])]
@@ -147,6 +150,57 @@ class ValidatorTest extends TestCase
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
+    }
+
+    #[Test]
+    #[TestWith(['Po'])]
+    #[TestWith(['Mark'])]
+    #[TestWith(['Àbate'])]
+    #[TestWith(['D\'Alessandria'])]
+    #[TestWith(['De Sanctis'])]
+    #[TestWith(['Di Caprio'])]
+    #[TestWith(['De La Cruz'])]
+    #[TestWith(['Della Rovere'])]
+    #[TestWith(['Lo Monaco'])]
+    public function testPersonName(string $goodName): void
+    {
+        $this->Validator->personName('name');
+
+        $this->assertEmpty($this->Validator->validate(['name' => $goodName]));
+    }
+
+    #[Test]
+    #[TestWith(['À'])]
+    #[TestWith(['P'])]
+    #[TestWith(['D\''])]
+    #[TestWith(['D\'\'Alessandria'])]
+    #[TestWith(['De--Luca'])]
+    #[TestWith(['Red-'])]
+    #[TestWith(['Re$$d'])]
+    #[TestWith(['MArk'])]
+    #[TestWith(['M1rk'])]
+    #[TestWith(['Mark '])]
+    #[TestWith(['MArk '])]
+    #[TestWith(['Mark red'])]
+    #[TestWith(['Mark - Red'])]
+    #[TestWith(['Mark - Red', 'You cannot use a bad person name'])]
+    public function testPersonNameOnError(string $badName, string $customMessage = ''): void
+    {
+        $expected = ['name' => ['personName' => $customMessage ?: 'Must be a valid person name']];
+
+        $this->Validator->personName('name', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['name' => $badName]));
+    }
+
+    #[Test]
+    public function testPersonNameOnErrorMaxLength(): void
+    {
+        $expected = ['name' => ['maxLength' => 'The provided value must be at most `40` characters long']];
+
+        $this->Validator->personName('name');
+
+        $this->assertSame($expected, $this->Validator->validate(['name' => 'A' . str_repeat('a', 40)]));
     }
 
     #[Test]
