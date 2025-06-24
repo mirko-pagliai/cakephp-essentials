@@ -112,13 +112,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => function (string|DateTime $value) use ($comparisonValue): bool {
-                if (!$value instanceof DateTime) {
-                    $value = new DateTime($value);
-                }
-
-                return $value->greaterThanOrEquals($comparisonValue);
-            },
+            'rule' => fn(string|DateTime $value): bool => ($value instanceof DateTime ? $value : new DateTime($value))->greaterThanOrEquals($comparisonValue),
         ]);
     }
 

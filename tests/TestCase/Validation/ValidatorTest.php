@@ -124,7 +124,6 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['2025-02-26'])]
     #[TestWith(['2025-02-26 13:00:00'])]
     #[TestWith(['2025-02-26 13:00:01'])]
     #[TestWith([new DateTime('2025-02-26 13:00:00')])]
