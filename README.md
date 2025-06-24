@@ -60,7 +60,7 @@ class AppView extends View
 }
 ```
 
-## Add some basic assets to layout
+## Add some basic assets to the layout
 You can consider adding some key assets to your layout, depending on your needs:
 
 Css:
@@ -92,6 +92,34 @@ You can include `webroot/js/enable-popovers.min.js` and `webroot/js/enable-toolt
 echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
 echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
 ```
+
+## `Validator` class: custom validation methods
+
+This class extends the CakePHP `Validator`, providing additional rules for advanced data validation. Main methods include:
+
+- **containsCapitalLetter($field, $message = null, $when = null)**  
+  Ensures the field contains at least one uppercase (capital) letter.
+
+- **containsDigit($field, $message = null, $when = null)**  
+  Ensures the field contains at least one numeric digit.
+
+- **containsLowercaseLetter($field, $message = null, $when = null)**  
+  Ensures the field contains at least one lowercase letter.
+
+- **firstLetterCapitalized($field, $message = null, $when = null)**  
+  Ensures the value starts with an uppercase letter.
+
+- **greaterThanOrEqualsDateTime($field, DateTime $comparisonValue, $message = null, $when = null)**  
+  Ensures the date/time value is greater than or equal to the given `DateTime`.
+
+- **notContainsReservedWords($field, $message = null, $when = null)**  
+  Ensures the field does *not* contain any reserved words (e.g. `admin`, `root`, `password`, etc.).
+
+- **personName($field, $message = null, $when = null)**  
+  Ensures the field contains a valid person's name (starts with uppercase, meets formatting and length requirements).
+
+All methods return the current `Validator` instance so they can be **chained** when configuring entity validation.
+
 
 ## How to use Bake templates
 In your `config/bootstrap.php` file:
