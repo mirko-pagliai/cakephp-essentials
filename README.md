@@ -94,32 +94,33 @@ echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
 ```
 
 ## `Validator` class: custom validation methods
+This class extends the CakePHP Validator and provides additional rules for advanced validation. Main methods:
 
-This class extends the CakePHP `Validator`, providing additional rules for advanced data validation. Main methods include:
+```php
+// Ensures that the field contains at least one capital letter
+$validator->containsCapitalLetter('fieldName', $message = null, $when = null);
 
-- **containsCapitalLetter($field, $message = null, $when = null)**  
-  Ensures the field contains at least one uppercase (capital) letter.
+// Ensures that the field contains at least one numeric digit
+$validator->containsDigit('fieldName', $message = null, $when = null);
 
-- **containsDigit($field, $message = null, $when = null)**  
-  Ensures the field contains at least one numeric digit.
+// Ensures that the field contains at least one lowercase letter
+$validator->containsLowercaseLetter('fieldName', $message = null, $when = null);
 
-- **containsLowercaseLetter($field, $message = null, $when = null)**  
-  Ensures the field contains at least one lowercase letter.
+// Ensures that the value starts with a capital letter
+$validator->firstLetterCapitalized('fieldName', $message = null, $when = null);
 
-- **firstLetterCapitalized($field, $message = null, $when = null)**  
-  Ensures the value starts with an uppercase letter.
+// Ensures that a date/time value is greater than or equal to the given DateTime
+$validator->greaterThanOrEqualsDateTime('fieldName', $comparisonValue, $message = null, $when = null);
 
-- **greaterThanOrEqualsDateTime($field, DateTime $comparisonValue, $message = null, $when = null)**  
-  Ensures the date/time value is greater than or equal to the given `DateTime`.
+// Ensures the field does NOT contain reserved words (e.g., admin, root, password)
+$validator->notContainsReservedWords('fieldName', $message = null, $when = null);
 
-- **notContainsReservedWords($field, $message = null, $when = null)**  
-  Ensures the field does *not* contain any reserved words (e.g. `admin`, `root`, `password`, etc.).
+// Ensures the field contains a valid person's name (starts with uppercase, correct format/length)
+$validator->personName('fieldName', $message = null, $when = null);
+```
 
-- **personName($field, $message = null, $when = null)**  
-  Ensures the field contains a valid person's name (starts with uppercase, meets formatting and length requirements).
 
-All methods return the current `Validator` instance so they can be **chained** when configuring entity validation.
-
+All methods return the current `Validator` instance, so they can be **chained** for building complex validation rules.
 
 ## How to use Bake templates
 In your `config/bootstrap.php` file:
