@@ -6,6 +6,7 @@ namespace Cake\Essentials\Test\TestCase\Validation;
 use Cake\Essentials\Validation\Validator;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
@@ -126,18 +127,36 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['password' => 'ABCdef1!']));
     }
 
+    public static function invalidPasswordsDataProvider(): array
+    {
+        return [
+            ['minLength', 'The provided value must be at least `8` characters long', '1234Ab!'],
+            ['containsDigit', 'Must contain at least one numeric digit', 'abcdefG!'],
+            ['containsCapitalLetter', 'Must contain at least one capital character', 'abcdef1!'],
+            ['containsLowercaseLetter', 'Must contain at least one lowercase character', 'ABCDEF1!'],
+            ['notAlphaNumeric', 'Must contain at least one special character', 'ABCDEf12'],
+            ['notContainReservedWords', 'Cannot contain any reserved words', 'Admin213!'],
+        ];
+    }
+
     #[Test]
-    #[TestWith(['minLength', 'The provided value must be at least `8` characters long', '1234Ab!'])]
-    #[TestWith(['containsDigit', 'Must contain at least one numeric digit', 'abcdefG!'])]
-    #[TestWith(['containsCapitalLetter', 'Must contain at least one capital character', 'abcdef1!'])]
-    #[TestWith(['containsLowercaseLetter', 'Must contain at least one lowercase character', 'ABCDEF1!'])]
-    #[TestWith(['notAlphaNumeric', 'Must contain at least one special character', 'ABCDEf12'])]
-    #[TestWith(['notContainReservedWords', 'Cannot contain any reserved words', 'Admin213!'])]
+    #[DataProvider('invalidPasswordsDataProvider')]
     public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword): void
     {
         $expected = ['password' => [$expectedErrorName => $expectedMessage]];
 
         $this->Validator->validPassword('password');
+
+        $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
+    }
+
+    #[Test]
+    #[DataProvider('invalidPasswordsDataProvider')]
+    public function testValidPasswordOnErrorWithCustomMessage(string $expectedErrorName, string $expectedMessage, string $badPassword): void
+    {
+        $expected = ['password' => [$expectedErrorName => 'Custom error message']];
+
+        $this->Validator->validPassword('password', 'Custom error message');
 
         $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
     }
