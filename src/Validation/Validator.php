@@ -135,6 +135,29 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Validates that the specified field is a valid title.
+     *
+     * @param string $field The name of the field to be validated.
+     * @param string|null $message An optional custom validation failure message.
+     * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function title(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Must be a valid title'),
+        ]);
+
+        return $this
+            ->firstLetterCapitalized(field: $field, message: $message, when: $when)
+            ->add(field: $field, name: 'title', rule: $extra + [
+                /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
+                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'()\-:]{2,}$/u'],
+            ]);
+    }
+
+    /**
      * Validates that the specified field complies with password strength requirements.
      * Ensures the password meets the following criteria:
      * - At least 8 characters in length.

@@ -217,6 +217,49 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['Title 2025'])]
+    #[TestWith(['Title, 2025'])]
+    #[TestWith(['Title: subtitle 2025'])]
+    #[TestWith(['Élite 2025 / chapter (1)'])]
+    #[TestWith(['Title, with-apostrophe\'s and (round brackets)'])]
+    public function testTitle(string $goodTitle): void
+    {
+        $this->Validator->title('title');
+
+        $this->assertEmpty($this->Validator->validate(['title' => $goodTitle]));
+    }
+
+    #[Test]
+    #[TestWith(['P'])]
+    #[TestWith(['Po'])]
+    #[TestWith(['Title$$$'])]
+    #[TestWith(['Title!'])]
+    #[TestWith(['Title?'])]
+    #[TestWith(['Title; subtitle 2025'])]
+    #[TestWith(['Title?', 'You cannot use a bad title'])]
+    public function testTitleOnError(string $badTitle, string $customMessage = ''): void
+    {
+        $expected = ['title' => ['title' => $customMessage ?: 'Must be a valid title']];
+
+        $this->Validator->title('title', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['title' => $badTitle]));
+    }
+
+    #[Test]
+    public function testTitleOnFirstLetterNotCapitalized(): void
+    {
+        $expected = ['title' => [
+            'firstLetterCapitalized' => 'Has to begin with a capital letter',
+            'title' => 'Must be a valid title',
+        ]];
+
+        $this->Validator->title('title');
+
+        $this->assertSame($expected, $this->Validator->validate(['title' => 'uppercase title']));
+    }
+
+    #[Test]
     public function testValidPassword(): void
     {
         $this->Validator->validPassword('password');
