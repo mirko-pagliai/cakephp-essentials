@@ -194,6 +194,19 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    public function testPersonNameOnFirstLetterNotCapitalized(): void
+    {
+        $expected = ['name' => [
+            'firstLetterCapitalized' => 'Has to begin with a capital letter',
+            'personName' => 'Must be a valid person name',
+        ]];
+
+        $this->Validator->personName('name');
+
+        $this->assertSame($expected, $this->Validator->validate(['name' => 'mark']));
+    }
+
+    #[Test]
     public function testPersonNameOnErrorMaxLength(): void
     {
         $expected = ['name' => ['maxLength' => 'The provided value must be at most `40` characters long']];
