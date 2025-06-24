@@ -249,6 +249,35 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['abc'])]
+    #[TestWith(['a-b'])]
+    #[TestWith(['ab2'])]
+    #[TestWith(['a-b2'])]
+    public function testSlug(string $goodSlug): void
+    {
+        $this->Validator->slug('slug');
+
+        $this->assertEmpty($this->Validator->validate(['slug' => $goodSlug]));
+    }
+
+    #[Test]
+    #[TestWith(['Abc'])]
+    #[TestWith(['aBc'])]
+    #[TestWith(['a/b'])]
+    #[TestWith(['a\\b'])]
+    #[TestWith(['a_b'])]
+    #[TestWith(['aàa'])]
+    #[TestWith(['aàa', 'You cannot use a bad slug'])]
+    public function testSlugOnError(string $badSlug, string $customMessage = ''): void
+    {
+        $expected = ['slug' => ['slug' => $customMessage ?: 'Must be a valid slug']];
+
+        $this->Validator->slug('slug', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['slug' => $badSlug]));
+    }
+
+    #[Test]
     #[TestWith(['Title 2025'])]
     #[TestWith(['Title, 2025'])]
     #[TestWith(['Title: subtitle 2025'])]

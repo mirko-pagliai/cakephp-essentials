@@ -161,6 +161,24 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Adds a validation rule to ensure the value of a field is a valid slug.
+     *
+     * @param string $field The name of the field to validate.
+     * @param string|null $message An optional custom error message to return when the validation fails.
+     * @param \Closure|string|null $when A condition determining when this validation rule should apply.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function slug(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Must be a valid slug'),
+        ]);
+
+        return $this->add(field: $field, name: 'slug', rule: $extra + ['rule' => ['custom', '/^[a-z][a-z\d\-]+$/']]);
+    }
+
+    /**
      * Validates that the specified field is a valid title.
      *
      * @param string $field The name of the field to be validated.
