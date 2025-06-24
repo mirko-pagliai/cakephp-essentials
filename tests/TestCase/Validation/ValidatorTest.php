@@ -194,6 +194,16 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    public function testPersonNameOnErrorMaxLength(): void
+    {
+        $expected = ['name' => ['maxLength' => 'The provided value must be at most `40` characters long']];
+
+        $this->Validator->personName('name');
+
+        $this->assertSame($expected, $this->Validator->validate(['name' => 'A' . str_repeat('a', 40)]));
+    }
+
+    #[Test]
     public function testValidPassword(): void
     {
         $this->Validator->validPassword('password');

@@ -130,7 +130,8 @@ class Validator extends CakeValidator
             ->add(field: $field, name: 'personName', rule: $extra + [
                 /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
                 'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
-            ]);
+            ])
+            ->maxLength(field: $field, max: 40, message: $message, when: $when);
     }
 
     /**
