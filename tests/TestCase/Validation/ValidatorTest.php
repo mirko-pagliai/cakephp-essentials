@@ -117,4 +117,28 @@ class ValidatorTest extends TestCase
 
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
     }
+
+    #[Test]
+    public function testValidPassword(): void
+    {
+        $this->Validator->validPassword('password');
+
+        $this->assertEmpty($this->Validator->validate(['password' => 'ABCdef1!']));
+    }
+
+    #[Test]
+    #[TestWith(['minLength', 'The provided value must be at least `8` characters long', '1234Ab!'])]
+    #[TestWith(['containsDigit', 'Must contain at least one numeric digit', 'abcdefG!'])]
+    #[TestWith(['containsCapitalLetter', 'Must contain at least one capital character', 'abcdef1!'])]
+    #[TestWith(['containsLowercaseLetter', 'Must contain at least one lowercase character', 'ABCDEF1!'])]
+    #[TestWith(['notAlphaNumeric', 'Must contain at least one special character', 'ABCDEf12'])]
+    #[TestWith(['notContainReservedWords', 'Cannot contain any reserved words', 'Admin213!'])]
+    public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword): void
+    {
+        $expected = ['password' => [$expectedErrorName => $expectedMessage]];
+
+        $this->Validator->validPassword('password');
+
+        $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
+    }
 }
