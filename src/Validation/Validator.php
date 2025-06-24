@@ -87,9 +87,7 @@ class Validator extends CakeValidator
             'message' => $message ?: __d('cake/essentials', 'Has to begin with a capital letter'),
         ]);
 
-        return $this->add(field: $field, name: 'firstLetterCapitalized', rule: $extra + [
-            'rule' => fn($value): bool => is_string($value) && ctype_upper($value[0] ?? ''),
-        ]);
+        return $this->add(field: $field, name: 'firstLetterCapitalized', rule: $extra + ['rule' => ['custom', '/^\p{Lu}/u']]);
     }
 
     /**
@@ -110,6 +108,29 @@ class Validator extends CakeValidator
         return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
             'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|mail|pwd|password|passwd).)+$/i'],
         ]);
+    }
+
+    /**
+     * Validates that the specified field contains a valid person name.
+     *
+     * @param string $field The name of the field to be validated.
+     * @param string|null $message An optional custom validation failure message.
+     * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function personName(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Must be a valid person name'),
+        ]);
+
+        return $this
+            ->firstLetterCapitalized(field: $field, message: $message, when: $when)
+            ->add(field: $field, name: 'personName', rule: $extra + [
+                /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
+                'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
+            ]);
     }
 
     /**
