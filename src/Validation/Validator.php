@@ -7,6 +7,8 @@ use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\Validation\Validator as CakeValidator;
 use Closure;
+use function Cake\Essentials\toDate;
+use function Cake\Essentials\toDateTime;
 use function Cake\I18n\__d as __d;
 
 /**
@@ -20,28 +22,6 @@ use function Cake\I18n\__d as __d;
  */
 class Validator extends CakeValidator
 {
-    /**
-     * Internal method to convert a given value into a Date object.
-     *
-     * @param \Cake\I18n\Date|string $date The value to be converted, acceptable either as a Date object or a string.
-     * @return \Cake\I18n\Date The converted Date object.
-     */
-    protected function toDate(Date|string $date): Date
-    {
-        return $date instanceof Date ? $date : new Date($date);
-    }
-
-    /**
-     * Internal method to convert a given value into a DateTime object.
-     *
-     * @param \Cake\I18n\DateTime|string $dateTime The value to be converted, acceptable either as a DateTime object or a string.
-     * @return \Cake\I18n\DateTime The converted DateTime object.
-     */
-    protected function toDateTime(DateTime|string $dateTime): DateTime
-    {
-        return $dateTime instanceof DateTime ? $dateTime : new DateTime($dateTime);
-    }
-
     /**
      * Validates that the specified field contains at least one capital letter.
      *
@@ -135,7 +115,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => $this->toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
+            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
         ]);
     }
 
@@ -175,7 +155,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDate', rule: $extra + [
-            'rule' => fn(string|Date $date): bool => !$this->toDate($date)->isFuture(),
+            'rule' => fn(string|Date $date): bool => !toDate($date)->isFuture(),
         ]);
     }
 
@@ -195,7 +175,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !$this->toDateTime($dateTime)->isFuture(),
+            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
 
@@ -215,7 +195,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notPastDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !$this->toDateTime($dateTime)->isPast(),
+            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isPast(),
         ]);
     }
 
