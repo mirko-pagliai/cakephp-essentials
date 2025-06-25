@@ -23,35 +23,35 @@ msgid "Disabled"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:57
-msgid "Requires user activation"
+msgid "It requires user activation"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:58
-msgid "Requires administrator activation"
+msgid "It requires administrator activation"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:37
-msgid "Must contain at least one capital character"
+msgid "It must contain at least one capital character"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:55
-msgid "Must contain at least one numeric digit"
+msgid "It must contain at least one numeric digit"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:73
-msgid "Must contain at least one lowercase character"
+msgid "It must contain at least one lowercase character"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:91
-msgid "Has to begin with a capital letter"
+msgid "It must begin with a capital letter"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:114
-msgid "Must be greater than or equal to `{0}`"
+msgid "It must be greater than or equal to `{0}`"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:134
-msgid "Cannot contain any reserved words"
+msgid "It cannot contain any reserved words"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:154
@@ -71,19 +71,19 @@ msgid "It cannot be a past datetime"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:234
-msgid "Must be a valid person name"
+msgid "It must be a valid person name"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:258
-msgid "Must be a valid slug"
+msgid "It must be a valid slug"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:276
-msgid "Must be a valid title"
+msgid "It must be a valid title"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:311
-msgid "Must contain at least one special character"
+msgid "It must contain at least one special character"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/View/Helper/FormHelper.php:92

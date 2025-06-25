@@ -34,7 +34,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must contain at least one capital character'),
+            'message' => $message ?: __d('cake/essentials', 'It must contain at least one capital character'),
         ]);
 
         return $this->add(field: $field, name: 'containsCapitalLetter', rule: $extra + ['rule' => ['custom', '/[A-Z]/']]);
@@ -52,7 +52,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must contain at least one numeric digit'),
+            'message' => $message ?: __d('cake/essentials', 'It must contain at least one numeric digit'),
         ]);
 
         return $this->add(field: $field, name: 'containsDigit', rule: $extra + ['rule' => ['custom', '/\d/']]);
@@ -70,7 +70,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must contain at least one lowercase character'),
+            'message' => $message ?: __d('cake/essentials', 'It must contain at least one lowercase character'),
         ]);
 
         return $this->add(field: $field, name: 'containsLowercaseLetter', rule: $extra + ['rule' => ['custom', '/[a-z]/']]);
@@ -88,7 +88,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Has to begin with a capital letter'),
+            'message' => $message ?: __d('cake/essentials', 'It must begin with a capital letter'),
         ]);
 
         return $this->add(field: $field, name: 'firstLetterCapitalized', rule: $extra + ['rule' => ['custom', '/^\p{Lu}/u']]);
@@ -111,7 +111,7 @@ class Validator extends CakeValidator
     ): self {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must be greater than or equal to `{0}`', $comparisonValue->i18nFormat()),
+            'message' => $message ?: __d('cake/essentials', 'It must be greater than or equal to `{0}`', $comparisonValue->i18nFormat()),
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
@@ -131,7 +131,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Cannot contain any reserved words'),
+            'message' => $message ?: __d('cake/essentials', 'It cannot contain any reserved words'),
         ]);
 
         return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
@@ -231,7 +231,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must be a valid person name'),
+            'message' => $message ?: __d('cake/essentials', 'It must be a valid person name'),
         ]);
 
         return $this
@@ -255,7 +255,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must be a valid slug'),
+            'message' => $message ?: __d('cake/essentials', 'It must be a valid slug'),
         ]);
 
         return $this->add(field: $field, name: 'slug', rule: $extra + ['rule' => ['custom', '/^[a-z][a-z\d\-]+$/']]);
@@ -273,7 +273,7 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'Must be a valid title'),
+            'message' => $message ?: __d('cake/essentials', 'It must be a valid title'),
         ]);
 
         return $this
@@ -308,7 +308,7 @@ class Validator extends CakeValidator
             ->containsLowercaseLetter(field: $field, message: $message, when: $when)
             ->notAlphaNumeric(
                 field: $field,
-                message: $message ?: __d('cake/essentials', 'Must contain at least one special character'),
+                message: $message ?: __d('cake/essentials', 'It must contain at least one special character'),
                 when: $when,
             )
             ->notContainsReservedWords(field: $field, message: $message, when: $when);

@@ -47,7 +47,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Does not contain a capital letter'])]
     public function testContainsCapitalLetterOnError(string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsCapitalLetter' => $customMessage ?: 'Must contain at least one capital character']];
+        $expected = ['text' => ['containsCapitalLetter' => $customMessage ?: 'It must contain at least one capital character']];
 
         $this->Validator->containsCapitalLetter('text', $customMessage);
 
@@ -69,7 +69,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Does not contain a digit'])]
     public function testContainsDigitOnError(string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsDigit' => $customMessage ?: 'Must contain at least one numeric digit']];
+        $expected = ['text' => ['containsDigit' => $customMessage ?: 'It must contain at least one numeric digit']];
 
         $this->Validator->containsDigit('text', $customMessage);
 
@@ -91,7 +91,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Does not contain a lowercase letter'])]
     public function testContainsLowercaseLetterOnError(string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsLowercaseLetter' => $customMessage ?: 'Must contain at least one lowercase character']];
+        $expected = ['text' => ['containsLowercaseLetter' => $customMessage ?: 'It must contain at least one lowercase character']];
 
         $this->Validator->containsLowercaseLetter('text', $customMessage);
 
@@ -117,7 +117,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['1', 'You cannot use a bad title'])]
     public function testFirstLetterCapitalizedOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['firstLetterCapitalized' => $customMessage ?: 'Has to begin with a capital letter']];
+        $expected = ['text' => ['firstLetterCapitalized' => $customMessage ?: 'It must begin with a capital letter']];
 
         $this->Validator->firstLetterCapitalized('text', $customMessage);
 
@@ -178,7 +178,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['admin', 'You cannot use a reserved word'])]
     public function testNotContainsReservedWordsOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'Cannot contain any reserved words',]];
+        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words',]];
 
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
@@ -317,7 +317,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Mark - Red', 'You cannot use a bad person name'])]
     public function testPersonNameOnError(string $badName, string $customMessage = ''): void
     {
-        $expected = ['name' => ['personName' => $customMessage ?: 'Must be a valid person name']];
+        $expected = ['name' => ['personName' => $customMessage ?: 'It must be a valid person name']];
 
         $this->Validator->personName('name', $customMessage);
 
@@ -328,8 +328,8 @@ class ValidatorTest extends TestCase
     public function testPersonNameOnFirstLetterNotCapitalized(): void
     {
         $expected = ['name' => [
-            'firstLetterCapitalized' => 'Has to begin with a capital letter',
-            'personName' => 'Must be a valid person name',
+            'firstLetterCapitalized' => 'It must begin with a capital letter',
+            'personName' => 'It must be a valid person name',
         ]];
 
         $this->Validator->personName('name');
@@ -369,7 +369,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['aàa', 'You cannot use a bad slug'])]
     public function testSlugOnError(string $badSlug, string $customMessage = ''): void
     {
-        $expected = ['slug' => ['slug' => $customMessage ?: 'Must be a valid slug']];
+        $expected = ['slug' => ['slug' => $customMessage ?: 'It must be a valid slug']];
 
         $this->Validator->slug('slug', $customMessage);
 
@@ -399,7 +399,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Title?', 'You cannot use a bad title'])]
     public function testTitleOnError(string $badTitle, string $customMessage = ''): void
     {
-        $expected = ['title' => ['title' => $customMessage ?: 'Must be a valid title']];
+        $expected = ['title' => ['title' => $customMessage ?: 'It must be a valid title']];
 
         $this->Validator->title('title', $customMessage);
 
@@ -410,8 +410,8 @@ class ValidatorTest extends TestCase
     public function testTitleOnFirstLetterNotCapitalized(): void
     {
         $expected = ['title' => [
-            'firstLetterCapitalized' => 'Has to begin with a capital letter',
-            'title' => 'Must be a valid title',
+            'firstLetterCapitalized' => 'It must begin with a capital letter',
+            'title' => 'It must be a valid title',
         ]];
 
         $this->Validator->title('title');
@@ -431,11 +431,11 @@ class ValidatorTest extends TestCase
     {
         return [
             ['minLength', 'The provided value must be at least `8` characters long', '1234Ab!'],
-            ['containsDigit', 'Must contain at least one numeric digit', 'abcdefG!'],
-            ['containsCapitalLetter', 'Must contain at least one capital character', 'abcdef1!'],
-            ['containsLowercaseLetter', 'Must contain at least one lowercase character', 'ABCDEF1!'],
-            ['notAlphaNumeric', 'Must contain at least one special character', 'ABCDEf12'],
-            ['notContainReservedWords', 'Cannot contain any reserved words', 'Admin213!'],
+            ['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!'],
+            ['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!'],
+            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!'],
+            ['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12'],
+            ['notContainReservedWords', 'It cannot contain any reserved words', 'Admin213!'],
         ];
     }
 
