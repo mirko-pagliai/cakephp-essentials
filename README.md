@@ -93,35 +93,6 @@ echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
 echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
 ```
 
-## `Validator` class: custom validation methods
-This class extends the CakePHP Validator and provides additional rules for advanced validation. Main methods:
-
-```php
-// Ensures that the field contains at least one capital letter
-$validator->containsCapitalLetter('fieldName', $message = null, $when = null);
-
-// Ensures that the field contains at least one numeric digit
-$validator->containsDigit('fieldName', $message = null, $when = null);
-
-// Ensures that the field contains at least one lowercase letter
-$validator->containsLowercaseLetter('fieldName', $message = null, $when = null);
-
-// Ensures that the value starts with a capital letter
-$validator->firstLetterCapitalized('fieldName', $message = null, $when = null);
-
-// Ensures that a date/time value is greater than or equal to the given DateTime
-$validator->greaterThanOrEqualsDateTime('fieldName', $comparisonValue, $message = null, $when = null);
-
-// Ensures the field does NOT contain reserved words (e.g., admin, root, password)
-$validator->notContainsReservedWords('fieldName', $message = null, $when = null);
-
-// Ensures the field contains a valid person's name (starts with uppercase, correct format/length)
-$validator->personName('fieldName', $message = null, $when = null);
-```
-
-
-All methods return the current `Validator` instance, so they can be **chained** for building complex validation rules.
-
 ## How to use Bake templates
 In your `config/bootstrap.php` file:
 ```php
