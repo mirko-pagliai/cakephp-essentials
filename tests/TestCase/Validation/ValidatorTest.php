@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\Validation;
 
 use Cake\Essentials\Validation\Validator;
+use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -182,6 +183,30 @@ class ValidatorTest extends TestCase
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
+    }
+
+    #[Test]
+    #[TestWith(['now'])]
+    #[TestWith(['yesterday'])]
+    #[TestWith([new Date()])]
+    #[TestWith([new Date('yesterday')])]
+    public function testNotFutureDate(Date|string $goodDate): void
+    {
+        $this->Validator->notFutureDate('date');
+
+        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
+    }
+
+    #[Test]
+    #[TestWith([new Date('tomorrow')])]
+    #[TestWith(['tomorrow', 'You cannot use a bad date'])]
+    public function testNotFutureDateOnError(Date|string $badDate, string $customMessage = ''): void
+    {
+        $expected = ['date' => ['notFutureDate' => $customMessage ?: 'It cannot be a future date']];
+
+        $this->Validator->notFutureDate('date', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
     }
 
     #[Test]

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Validation;
 
+use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\Validation\Validator as CakeValidator;
 use Closure;
@@ -13,14 +14,25 @@ use function Cake\I18n\__d as __d;
  *
  * Extends the CakeValidator class by adding custom validation rules to check
  * the presence of specific character patterns such as capital letters, digits,
- * lowercase letters, or ensuring text starts with a capital letter.
+ * lowercase letters, or ensuring a text starts with a capital letter.
  *
  * {@inheritDoc}
  */
 class Validator extends CakeValidator
 {
     /**
-     * Internal method to convert a given input into a DateTime object.
+     * Internal method to convert a given value into a Date object.
+     *
+     * @param \Cake\I18n\Date|string $date The value to be converted, acceptable either as a Date object or a string.
+     * @return \Cake\I18n\Date The converted Date object.
+     */
+    protected function toDate(Date|string $date): Date
+    {
+        return $date instanceof Date ? $date : new Date($date);
+    }
+
+    /**
+     * Internal method to convert a given value into a DateTime object.
      *
      * @param \Cake\I18n\DateTime|string $dateTime The value to be converted, acceptable either as a DateTime object or a string.
      * @return \Cake\I18n\DateTime The converted DateTime object.
@@ -144,6 +156,26 @@ class Validator extends CakeValidator
 
         return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
             'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|mail|pwd|password|passwd).)+$/i'],
+        ]);
+    }
+
+    /**
+     * Adds a validation rule that ensures the given field does not contain a future date value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function notFutureDate(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot be a future date'),
+        ]);
+
+        return $this->add(field: $field, name: 'notFutureDate', rule: $extra + [
+            'rule' => fn(string|Date $date): bool => !$this->toDate($date)->isFuture(),
         ]);
     }
 
