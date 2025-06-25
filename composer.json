@@ -33,6 +33,7 @@
       "Cake\\Essentials\\": "src"
     },
     "files": [
+      "src/global_functions.php",
       "src/request_detectors.php"
     ]
   },
