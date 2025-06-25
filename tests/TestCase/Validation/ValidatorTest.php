@@ -235,6 +235,30 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['now'])]
+    #[TestWith(['tomorrow'])]
+    #[TestWith([new Date()])]
+    #[TestWith([new Date('tomorrow')])]
+    public function testNotPastDate(Date|string $goodDate): void
+    {
+        $this->Validator->notPastDate('date');
+
+        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
+    }
+
+    #[Test]
+    #[TestWith([new Date('yesterday')])]
+    #[TestWith(['yesterday', 'You cannot use a bad date'])]
+    public function testNotPastDateOnError(Date|string $badDate, string $customMessage = ''): void
+    {
+        $expected = ['date' => ['notPastDate' => $customMessage ?: 'It cannot be a past date']];
+
+        $this->Validator->notPastDate('date', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
+    }
+
+    #[Test]
     #[TestWith(['+10 second'])]
     #[TestWith(['tomorrow'])]
     #[TestWith([new DateTime('+10 second')])]
