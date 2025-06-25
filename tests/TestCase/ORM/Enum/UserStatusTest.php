@@ -20,8 +20,8 @@ class UserStatusTest extends TestCase
         $expected = [
             'active' => 'Active',
             'disabled' => 'Disabled',
-            'requires_user_activation' => 'Requires user activation',
-            'requires_admin_activation' => 'Requires administrator activation',
+            'requires_user_activation' => 'It requires user activation',
+            'requires_admin_activation' => 'It requires administrator activation',
         ];
 
         foreach ($expected as $key => $label) {
