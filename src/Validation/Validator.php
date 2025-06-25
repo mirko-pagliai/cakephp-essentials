@@ -180,6 +180,26 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Adds a validation rule that ensures the given field does not contain a past date value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function notPastDate(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot be a past date'),
+        ]);
+
+        return $this->add(field: $field, name: 'notPastDate', rule: $extra + [
+            'rule' => fn(string|Date $date): bool => !toDate($date)->isPast(),
+        ]);
+    }
+
+    /**
      * Adds a validation rule that ensures the given field does not contain a past datetime value.
      *
      * @param string $field The name of the field to which the rule should be applied.
