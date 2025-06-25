@@ -9,11 +9,13 @@ use Cake\TestSuite\TestCase;
 use DateMalformedStringException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use function Cake\Essentials\toDate;
+use function Cake\Essentials\toDatetime;
 
 /**
  * GlobalFunctionsTest.
  *
- * @see src/global_functions.php.php
+ * @see src/global_functions.php
  */
 class GlobalFunctionsTest extends TestCase
 {

@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
+namespace Cake\Essentials;
+
 use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 
-if (!function_exists('toDate')) {
+if (!function_exists('\Cake\Essentials\toDate')) {
     /**
      * Converts the given input into a Date object.
      *
@@ -18,7 +20,7 @@ if (!function_exists('toDate')) {
     }
 }
 
-if (!function_exists('toDateTime')) {
+if (!function_exists('\Cake\Essentials\toDateTime')) {
     /**
      * Converts the given input into a DateTime object.
      *
