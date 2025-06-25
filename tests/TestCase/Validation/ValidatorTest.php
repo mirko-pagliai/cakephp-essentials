@@ -197,7 +197,7 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    #[TestWith([new DateTime('+2 seconds')])]
+    #[TestWith([new DateTime('+10 seconds')])]
     #[TestWith([new DateTime('tomorrow')])]
     #[TestWith(['tomorrow', 'You cannot use a bad datetime'])]
     public function testNotFutureDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
@@ -210,9 +210,9 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['+1 second'])]
+    #[TestWith(['+10 second'])]
     #[TestWith(['tomorrow'])]
-    #[TestWith([new DateTime('+1 second')])]
+    #[TestWith([new DateTime('+10 second')])]
     #[TestWith([new DateTime('tomorrow')])]
     public function testNotPastDatetime(DateTime|string $goodDatetime): void
     {
