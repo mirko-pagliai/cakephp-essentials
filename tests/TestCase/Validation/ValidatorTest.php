@@ -185,6 +185,56 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['now'])]
+    #[TestWith(['yesterday'])]
+    #[TestWith([new DateTime()])]
+    #[TestWith([new DateTime('yesterday')])]
+    public function testNotFutureDatetime(DateTime|string $goodDatetime): void
+    {
+        $this->Validator->notFutureDatetime('datetime');
+
+        $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
+    }
+
+    #[Test]
+    #[TestWith([new DateTime('+10 seconds')])]
+    #[TestWith([new DateTime('tomorrow')])]
+    #[TestWith(['tomorrow', 'You cannot use a bad datetime'])]
+    public function testNotFutureDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    {
+        $expected = ['datetime' => ['notFutureDatetime' => $customMessage ?: 'It cannot be a future datetime']];
+
+        $this->Validator->notFutureDatetime('datetime', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
+    }
+
+    #[Test]
+    #[TestWith(['+10 second'])]
+    #[TestWith(['tomorrow'])]
+    #[TestWith([new DateTime('+10 second')])]
+    #[TestWith([new DateTime('tomorrow')])]
+    public function testNotPastDatetime(DateTime|string $goodDatetime): void
+    {
+        $this->Validator->notPastDatetime('datetime');
+
+        $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
+    }
+
+    #[Test]
+    #[TestWith([new DateTime('yesterday')])]
+    #[TestWith(['yesterday'])]
+    #[TestWith(['yesterday', 'You cannot use a bad datetime'])]
+    public function testNotPastDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    {
+        $expected = ['datetime' => ['notPastDatetime' => $customMessage ?: 'It cannot be a past datetime']];
+
+        $this->Validator->notPastDatetime('datetime', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
+    }
+
+    #[Test]
     #[TestWith(['Po'])]
     #[TestWith(['Mark'])]
     #[TestWith(['Àbate'])]
@@ -246,6 +296,35 @@ class ValidatorTest extends TestCase
         $this->Validator->personName('name');
 
         $this->assertSame($expected, $this->Validator->validate(['name' => 'A' . str_repeat('a', 40)]));
+    }
+
+    #[Test]
+    #[TestWith(['abc'])]
+    #[TestWith(['a-b'])]
+    #[TestWith(['ab2'])]
+    #[TestWith(['a-b2'])]
+    public function testSlug(string $goodSlug): void
+    {
+        $this->Validator->slug('slug');
+
+        $this->assertEmpty($this->Validator->validate(['slug' => $goodSlug]));
+    }
+
+    #[Test]
+    #[TestWith(['Abc'])]
+    #[TestWith(['aBc'])]
+    #[TestWith(['a/b'])]
+    #[TestWith(['a\\b'])]
+    #[TestWith(['a_b'])]
+    #[TestWith(['aàa'])]
+    #[TestWith(['aàa', 'You cannot use a bad slug'])]
+    public function testSlugOnError(string $badSlug, string $customMessage = ''): void
+    {
+        $expected = ['slug' => ['slug' => $customMessage ?: 'Must be a valid slug']];
+
+        $this->Validator->slug('slug', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['slug' => $badSlug]));
     }
 
     #[Test]

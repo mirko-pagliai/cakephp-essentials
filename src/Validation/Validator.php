@@ -20,6 +20,17 @@ use function Cake\I18n\__d as __d;
 class Validator extends CakeValidator
 {
     /**
+     * Internal method to convert a given input into a DateTime object.
+     *
+     * @param \Cake\I18n\DateTime|string $dateTime The value to be converted, acceptable either as a DateTime object or a string.
+     * @return \Cake\I18n\DateTime The converted DateTime object.
+     */
+    protected function toDateTime(DateTime|string $dateTime): DateTime
+    {
+        return $dateTime instanceof DateTime ? $dateTime : new DateTime($dateTime);
+    }
+
+    /**
      * Validates that the specified field contains at least one capital letter.
      *
      * @param string $field The name of the field to be validated.
@@ -112,7 +123,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $value): bool => ($value instanceof DateTime ? $value : new DateTime($value))->greaterThanOrEquals($comparisonValue),
+            'rule' => fn(string|DateTime $dateTime): bool => $this->toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
         ]);
     }
 
@@ -133,6 +144,46 @@ class Validator extends CakeValidator
 
         return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
             'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|mail|pwd|password|passwd).)+$/i'],
+        ]);
+    }
+
+    /**
+     * Adds a validation rule to ensure the value of a field is not a future datetime.
+     *
+     * @param string $field The name of the field to validate.
+     * @param string|null $message An optional custom error message to return when the validation fails.
+     * @param \Closure|string|null $when A condition determining when this validation rule should apply.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function notFutureDatetime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot be a future datetime'),
+        ]);
+
+        return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
+            'rule' => fn(string|DateTime $dateTime): bool => !$this->toDateTime($dateTime)->isFuture(),
+        ]);
+    }
+
+    /**
+     * Adds a validation rule that ensures the given field does not contain a past datetime value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function notPastDatetime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot be a past datetime'),
+        ]);
+
+        return $this->add(field: $field, name: 'notPastDatetime', rule: $extra + [
+            'rule' => fn(string|DateTime $dateTime): bool => !$this->toDateTime($dateTime)->isPast(),
         ]);
     }
 
@@ -158,6 +209,24 @@ class Validator extends CakeValidator
                 'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
             ])
             ->maxLength(field: $field, max: 40, message: $message, when: $when);
+    }
+
+    /**
+     * Adds a validation rule to ensure the value of a field is a valid slug.
+     *
+     * @param string $field The name of the field to validate.
+     * @param string|null $message An optional custom error message to return when the validation fails.
+     * @param \Closure|string|null $when A condition determining when this validation rule should apply.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function slug(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'Must be a valid slug'),
+        ]);
+
+        return $this->add(field: $field, name: 'slug', rule: $extra + ['rule' => ['custom', '/^[a-z][a-z\d\-]+$/']]);
     }
 
     /**
