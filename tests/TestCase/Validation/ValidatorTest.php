@@ -147,7 +147,7 @@ class ValidatorTest extends TestCase
         $comparisonValue = new DateTime('2025-02-26 13:00:00');
 
         $expected = ['created' => [
-            'greaterThanOrEqualsDateTime' => $customMessage ?: 'Must be greater than or equal to `' . $comparisonValue->i18nFormat() . '`',
+            'greaterThanOrEqualsDateTime' => $customMessage ?: 'It must be greater than or equal to `' . $comparisonValue->i18nFormat() . '`',
         ]];
 
         $this->Validator->greaterThanOrEqualsDateTime('created', $comparisonValue, $customMessage);
