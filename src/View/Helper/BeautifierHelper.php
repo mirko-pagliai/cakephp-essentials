@@ -81,7 +81,7 @@ class BeautifierHelper extends Helper
 
         return $this->Html->span(
             text: $this->Html->code($userAgent),
-            options: $options + compact('icon'),
+            options: $options + ['icon' => ['name' => $icon, 'class' => 'me-1']],
         );
     }
 }

@@ -123,7 +123,7 @@ class BeautifierHelperTest extends TestCase
     #[TestWith(['bi bi-windows', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'])]
     public function testUserAgent(string $expectedIcon, string $userAgent): void
     {
-        $expected = '<span><i class="' . $expectedIcon . '"></i> <code>' . $userAgent . '</code></span>';
+        $expected = '<span><i class="me-1 ' . $expectedIcon . '"></i> <code>' . $userAgent . '</code></span>';
         $result = $this->Beautifier->userAgent($userAgent);
         $this->assertSame($expected, $result);
     }
