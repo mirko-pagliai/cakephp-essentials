@@ -12,13 +12,24 @@ use function Cake\Essentials\toDateTime;
 use function Cake\I18n\__d as __d;
 
 /**
- * Class Validator
+ * Advanced validation class for data input.
  *
- * Extends the CakeValidator class by adding custom validation rules to check
- * the presence of specific character patterns such as capital letters, digits,
- * lowercase letters, or ensuring a text starts with a capital letter.
+ * Extends CakePHP's standard validation by adding specialized rules for string and temporal data validation.
  *
- * {@inheritDoc}
+ * This class enables the easy application of recurring constraints for input fields, such as enforcing the presence
+ * of special characters, numbers, uppercase/lowercase letters, the exclusion of reserved words, or performing
+ * date/time checks relative now or to reference values.
+ *
+ * It is suitable whenever additional rules beyond the built-in framework validations are required, simplifying the
+ * management of custom checks and ensuring greater reliability and consistency of validated data.
+ *
+ * The rules are designed for common business requirements, especially for validating passwords, personal data,
+ * birthdays, and any other fields needing complex, both static and dynamic, constraints.
+ *
+ * You can apply multiple rules to the same instance, facilitating the construction of rich and reusable
+ * validation workflows.
+ *
+ * @see Cake\Validation\Validator
  */
 class Validator extends CakeValidator
 {
@@ -280,7 +291,7 @@ class Validator extends CakeValidator
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
-                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'()\-:]{2,}$/u'],
+                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'\:\-\(\)]{2,}(?<! )$/u'],
             ]);
     }
 

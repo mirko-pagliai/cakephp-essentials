@@ -392,6 +392,7 @@ class ValidatorTest extends TestCase
     #[Test]
     #[TestWith(['P'])]
     #[TestWith(['Po'])]
+    #[TestWith(['Title '])]
     #[TestWith(['Title$$$'])]
     #[TestWith(['Title!'])]
     #[TestWith(['Title?'])]
@@ -407,6 +408,8 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['uppercase title'])]
+    #[TestWith([' Title'])]
     public function testTitleOnFirstLetterNotCapitalized(): void
     {
         $expected = ['title' => [
