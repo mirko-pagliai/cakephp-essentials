@@ -170,11 +170,12 @@ class ValidatorTest extends TestCase
     #[TestWith([' A'])]
     #[TestWith(['A '])]
     #[TestWith([' A '])]
+    #[TestWith(['A ', 'You cannot use a space at the end'])]
     public function testNoStartOrEndSpaceOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end']];
+        $expected = ['text' => ['noStartOrEndSpace' => $customMessage ?: 'It cannot contain spaces at the beginning or at the end']];
 
-        $this->Validator->noStartOrEndSpace('text');
+        $this->Validator->noStartOrEndSpace('text', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
     }
