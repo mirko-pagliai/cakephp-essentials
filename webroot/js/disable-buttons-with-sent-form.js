@@ -11,6 +11,11 @@
  * - Re-enables buttons after 8 seconds
  * - Applies to all forms on the page
  *
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/disable-buttons-with-sent-form.min.js');
+ * ```
+ *
  * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {

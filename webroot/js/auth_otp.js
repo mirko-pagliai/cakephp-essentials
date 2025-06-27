@@ -10,6 +10,11 @@
  *   6 characters in length
  * - No manual submission (pressing "enter" or clicking buttons) required
  *
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/auth_otp.min.js');
+ * ```
+ *
  * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(document).ready(function () {

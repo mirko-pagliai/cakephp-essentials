@@ -12,7 +12,12 @@
  *   - Uses data-close-icon when an element is expanded
  *   - Uses data-open-icon when an element is collapsed
  *
- * When you modify this file, remember to re-run minification and update the related minified file
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.min.js');
+ * ```
+ *
+ * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     $('a[data-bs-toggle="collapse"]').click(function () {
