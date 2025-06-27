@@ -291,7 +291,7 @@ class Validator extends CakeValidator
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
-                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'()\-:]{2,}$/u'],
+                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'\:\-\(\)]{2,}(?<! )$/u'],
             ]);
     }
 
