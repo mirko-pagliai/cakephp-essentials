@@ -156,6 +156,31 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['A'])]
+    #[TestWith(['A B'])]
+    #[TestWith(['A B C'])]
+    public function testNoStartOrEndSpace(string $goodText): void
+    {
+        $this->Validator->noStartOrEndSpace('text');
+
+        $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
+    }
+
+    #[Test]
+    #[TestWith([' A'])]
+    #[TestWith(['A '])]
+    #[TestWith([' A '])]
+    #[TestWith(['A ', 'You cannot use a space at the end'])]
+    public function testNoStartOrEndSpaceOnError(string $badText, string $customMessage = ''): void
+    {
+        $expected = ['text' => ['noStartOrEndSpace' => $customMessage ?: 'It cannot contain spaces at the beginning or at the end']];
+
+        $this->Validator->noStartOrEndSpace('text', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
+    }
+
+    #[Test]
     public function testNotContainsReservedWords(): void
     {
         $this->Validator->notContainsReservedWords('text');
@@ -178,7 +203,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['admin', 'You cannot use a reserved word'])]
     public function testNotContainsReservedWordsOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words',]];
+        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words']];
 
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
@@ -301,50 +326,29 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['À'])]
-    #[TestWith(['P'])]
-    #[TestWith(['D\''])]
-    #[TestWith(['D\'\'Alessandria'])]
-    #[TestWith(['De--Luca'])]
-    #[TestWith(['Red-'])]
-    #[TestWith(['Re$$d'])]
-    #[TestWith(['MArk'])]
-    #[TestWith(['M1rk'])]
-    #[TestWith(['Mark '])]
-    #[TestWith(['MArk '])]
-    #[TestWith(['Mark red'])]
-    #[TestWith(['Mark - Red'])]
-    #[TestWith(['Mark - Red', 'You cannot use a bad person name'])]
-    public function testPersonNameOnError(string $badName, string $customMessage = ''): void
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], 'Mark '])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], ' Mark'])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], ' Mark '])]
+    #[TestWith([['minLength' => 'It must be at least 2 characters long'], 'P'])]
+    #[TestWith([['maxLength' => 'It must be at a maximum of 40 characters long'], 'Massimiliano Alessandro Della Valle Rossi'])]
+    #[TestWith([['firstLetterCapitalized' => 'It must begin with a capital letter'], 'mark'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'D\''])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'D\'\'Alessandria'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'De--Luca'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Red-'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Re$$d'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'MArk'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'M1rk'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Mark red'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Mark - Red'])]
+    #[TestWith([['personName' => 'You cannot use a bad person name'], 'Mark - Red', 'You cannot use a bad person name'])]
+    public function testPersonNameOnError(array $expectedErrorMessage, string $badName, string $customMessage = ''): void
     {
-        $expected = ['name' => ['personName' => $customMessage ?: 'It must be a valid person name']];
+        $expected = ['name' => $expectedErrorMessage];
 
         $this->Validator->personName('name', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['name' => $badName]));
-    }
-
-    #[Test]
-    public function testPersonNameOnFirstLetterNotCapitalized(): void
-    {
-        $expected = ['name' => [
-            'firstLetterCapitalized' => 'It must begin with a capital letter',
-            'personName' => 'It must be a valid person name',
-        ]];
-
-        $this->Validator->personName('name');
-
-        $this->assertSame($expected, $this->Validator->validate(['name' => 'mark']));
-    }
-
-    #[Test]
-    public function testPersonNameOnErrorMaxLength(): void
-    {
-        $expected = ['name' => ['maxLength' => 'The provided value must be at most `40` characters long']];
-
-        $this->Validator->personName('name');
-
-        $this->assertSame($expected, $this->Validator->validate(['name' => 'A' . str_repeat('a', 40)]));
     }
 
     #[Test]
@@ -390,36 +394,24 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
-    #[TestWith(['P'])]
-    #[TestWith(['Po'])]
-    #[TestWith(['Title '])]
-    #[TestWith(['Title$$$'])]
-    #[TestWith(['Title!'])]
-    #[TestWith(['Title?'])]
-    #[TestWith(['Title; subtitle 2025'])]
-    #[TestWith(['Title?', 'You cannot use a bad title'])]
-    public function testTitleOnError(string $badTitle, string $customMessage = ''): void
+    #[TestWith([['minLength' => 'It must be at least 3 characters long'], 'P'])]
+    #[TestWith([['minLength' => 'It must be at least 3 characters long'], 'Po'])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], ' Title'])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], 'Title '])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], ' Title '])]
+    #[TestWith([['firstLetterCapitalized' => 'It must begin with a capital letter'], 'uppercase title'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title$$$'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title!'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title?'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title; subtitle 2025'])]
+    #[TestWith([['title' => 'You cannot use a bad title'], 'Title?', 'You cannot use a bad title'])]
+    public function testTitleOnError(array $expectedErrorMessage, string $badTitle, string $customMessage = ''): void
     {
-        $expected = ['title' => ['title' => $customMessage ?: 'It must be a valid title']];
+        $expected = ['title' => $expectedErrorMessage];
 
         $this->Validator->title('title', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['title' => $badTitle]));
-    }
-
-    #[Test]
-    #[TestWith(['uppercase title'])]
-    #[TestWith([' Title'])]
-    public function testTitleOnFirstLetterNotCapitalized(): void
-    {
-        $expected = ['title' => [
-            'firstLetterCapitalized' => 'It must begin with a capital letter',
-            'title' => 'It must be a valid title',
-        ]];
-
-        $this->Validator->title('title');
-
-        $this->assertSame($expected, $this->Validator->validate(['title' => 'uppercase title']));
     }
 
     #[Test]

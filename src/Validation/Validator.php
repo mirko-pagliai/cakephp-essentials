@@ -131,6 +131,26 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Adds a validation rule that ensures the given field does not contain spaces at the beginning or the end of its value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function noStartOrEndSpace(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot contain spaces at the beginning or at the end'),
+        ]);
+
+        return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
+            'rule' => fn (string $value): bool => $value === trim($value),
+        ]);
+    }
+
+    /**
      * Validates that the specified field does not contain any reserved words.
      *
      * @param string $field The name of the field to be validated.
@@ -246,12 +266,15 @@ class Validator extends CakeValidator
         ]);
 
         return $this
+            ->setStopOnFailure()
+            ->noStartOrEndSpace(field: $field, message: $message, when: $when)
+            ->minLength(field: $field, min: 2, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2), when: $when)
+            ->maxLength(field: $field, max: 40, message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40), when: $when)
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'personName', rule: $extra + [
                 /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
                 'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
-            ])
-            ->maxLength(field: $field, max: 40, message: $message, when: $when);
+            ]);
     }
 
     /**
@@ -288,10 +311,13 @@ class Validator extends CakeValidator
         ]);
 
         return $this
+            ->setStopOnFailure()
+            ->noStartOrEndSpace(field: $field, message: $message, when: $when)
+            ->minLength(field: $field, min: 3, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3), when: $when)
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
-                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'\:\-\(\)]{2,}(?<! )$/u'],
+                'rule' => ['custom', '/^\s*([\p{L}\p{N}\/, \'()\-:](?:[\p{L}\p{N}\/, \'()\-: ]*[\p{L}\p{N}\/, \'()\-:])?)\s*$/u'],
             ]);
     }
 
