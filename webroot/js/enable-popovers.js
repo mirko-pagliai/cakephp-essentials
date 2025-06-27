@@ -10,7 +10,12 @@
  * - Uses Bootstrap's Popover component
  * - Targets elements with data-bs-toggle="popover" attribute
  *
- * When you modify this file, remember to re-run minification and update the related minified file
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
+ * ```
+ *
+ * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')

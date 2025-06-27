@@ -10,7 +10,12 @@
  * - Uses Bootstrap's Tooltip component
  * - Targets elements with data-bs-toggle="tooltip" attribute
  *
- * When you modify this file, remember to re-run minification and update the related minified file
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
+ * ```
+ *
+ * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
