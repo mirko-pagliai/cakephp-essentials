@@ -1,4 +1,15 @@
 /**
+ * Bootstrap Tooltip Initializer
+ *
+ * This script initializes Bootstrap tooltips for all elements with the
+ * `data-bs-toggle="tooltip"` attribute. It enables the display of small
+ * popup hints when users hover over or focus on elements.
+ *
+ * Features:
+ * - Automatically initializes all tooltip elements on page load
+ * - Uses Bootstrap's Tooltip component
+ * - Targets elements with data-bs-toggle="tooltip" attribute
+ *
  * When you modify this file, remember to re-run minification and update the related minified file
  */
 $(function () {
