@@ -131,6 +131,26 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Adds a validation rule that ensures the given field does not contain spaces at the beginning or the end of its value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function noStartOrEndSpace(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It cannot contain spaces at the beginning or at the end'),
+        ]);
+
+        return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
+            'rule' => fn (string $value): bool => $value === trim($value),
+        ]);
+    }
+
+    /**
      * Validates that the specified field does not contain any reserved words.
      *
      * @param string $field The name of the field to be validated.

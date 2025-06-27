@@ -156,6 +156,30 @@ class ValidatorTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['A'])]
+    #[TestWith(['A B'])]
+    #[TestWith(['A B C'])]
+    public function testNoStartOrEndSpace(string $goodText): void
+    {
+        $this->Validator->noStartOrEndSpace('text');
+
+        $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
+    }
+
+    #[Test]
+    #[TestWith([' A'])]
+    #[TestWith(['A '])]
+    #[TestWith([' A '])]
+    public function testNoStartOrEndSpaceOnError(string $badText, string $customMessage = ''): void
+    {
+        $expected = ['text' => ['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end']];
+
+        $this->Validator->noStartOrEndSpace('text');
+
+        $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
+    }
+
+    #[Test]
     public function testNotContainsReservedWords(): void
     {
         $this->Validator->notContainsReservedWords('text');
@@ -178,7 +202,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['admin', 'You cannot use a reserved word'])]
     public function testNotContainsReservedWordsOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words',]];
+        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words']];
 
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
