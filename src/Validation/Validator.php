@@ -266,12 +266,15 @@ class Validator extends CakeValidator
         ]);
 
         return $this
+            ->setStopOnFailure()
+            ->noStartOrEndSpace(field: $field, message: $message, when: $when)
+            ->minLength(field: $field, min: 2, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2), when: $when)
+            ->maxLength(field: $field, max: 40, message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40), when: $when)
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'personName', rule: $extra + [
                 /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
                 'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
-            ])
-            ->maxLength(field: $field, max: 40, message: $message, when: $when);
+            ]);
     }
 
     /**
@@ -308,10 +311,13 @@ class Validator extends CakeValidator
         ]);
 
         return $this
+            ->setStopOnFailure()
+            ->noStartOrEndSpace(field: $field, message: $message, when: $when)
+            ->minLength(field: $field, min: 3, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3), when: $when)
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
-                'rule' => ['custom', '/^\p{Lu}[\p{L}\p{N}\/, \'\:\-\(\)]{2,}(?<! )$/u'],
+                'rule' => ['custom', '/^\s*([\p{L}\p{N}\/, \'()\-:](?:[\p{L}\p{N}\/, \'()\-: ]*[\p{L}\p{N}\/, \'()\-:])?)\s*$/u'],
             ]);
     }
 
