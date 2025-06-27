@@ -8,6 +8,7 @@ use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -111,5 +112,27 @@ class BeautifierHelperTest extends TestCase
         ];
         $result = $this->Beautifier->questionTooltip(tooltip: 'Text', options: ['icon' => 'house', 'class' => 'custom-class']);
         $this->assertHtml($expected, $result);
+    }
+
+    #[Test]
+    #[TestWith(['bi bi-question-circle-fill', 'Unknown agent'])]
+    #[TestWith(['bi bi-android', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36'])]
+    #[TestWith(['bi bi-ubuntu', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'])]
+    #[TestWith(['bi bi-apple', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5.1 Mobile/15E148 Safari/604.1'])]
+    #[TestWith(['bi bi-apple', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15'])]
+    #[TestWith(['bi bi-windows', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'])]
+    public function testUserAgent(string $expectedIcon, string $userAgent): void
+    {
+        $expected = '<span><i class="' . $expectedIcon . '"></i> <code>' . $userAgent . '</code></span>';
+        $result = $this->Beautifier->userAgent($userAgent);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
+    public function testUserAgentWithCustomClassAndIcon(): void
+    {
+        $expected = '<span class="custom-class"><i class="bi bi-house"></i> <code>Unknown agent</code></span>';
+        $result = $this->Beautifier->userAgent('Unknown agent', ['class' => 'custom-class', 'icon' => 'house']);
+        $this->assertSame($expected, $result);
     }
 }

@@ -56,4 +56,32 @@ class BeautifierHelper extends Helper
     {
         return $this->_questionPopoverAndTooltip(options: compact('tooltip') + $options);
     }
+
+    /**
+     * Returns the user agent, wrapped in a `code` tag and with icon.
+     *
+     * @param string $userAgent The user agent string to parse and identify.
+     * @param array<string, mixed> $options Additional options to customize the output.
+     * @return string The formatted HTML span element representing the user agent.
+     */
+    public function userAgent(string $userAgent, array $options = []): string
+    {
+        if (str_contains($userAgent, 'Android')) {
+            $icon = 'android';
+        } elseif (preg_match('/(Linux|Windows|iPhone|Mac OS)/', $userAgent, $matches) === 1) {
+            $icon = match ($matches[0]) {
+                'Linux' => 'ubuntu',
+                'iPhone', 'Mac OS' => 'apple',
+                default => lcfirst($matches[0]),
+            };
+        } else {
+            //Icon for unknown devices
+            $icon = 'question-circle-fill';
+        }
+
+        return $this->Html->span(
+            text: $this->Html->code($userAgent),
+            options: $options + compact('icon'),
+        );
+    }
 }
