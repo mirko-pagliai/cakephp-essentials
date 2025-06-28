@@ -32,6 +32,15 @@ class BeautifierHelperTest extends TestCase
     }
 
     #[Test]
+    #[TestWith(['<span><i class="small text-body-secondary bi bi-globe-americas"></i> <code>127.0.0.1</code></span>'])]
+    #[TestWith(['<span class="custom-class"><i class="bi bi-house"></i> <code>127.0.0.1</code></span>', ['icon' => 'house', 'class' => 'custom-class']])]
+    public function testIpAddress(string $expected, array $options = []): void
+    {
+        $result = $this->Beautifier->ipAddress('127.0.0.1', $options);
+        $this->assertSame($expected, $result);
+    }
+
+    #[Test]
     #[TestWith(['First<br />Second'])]
     #[TestWith([['First', 'Second']])]
     public function testQuestionPopover(string|array $popover): void
@@ -122,7 +131,7 @@ class BeautifierHelperTest extends TestCase
     #[TestWith(['bi bi-windows', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'])]
     public function testUserAgent(string $expectedIcon, string $userAgent): void
     {
-        $expected = '<span><i class="me-1 ' . $expectedIcon . '"></i> <code>' . $userAgent . '</code></span>';
+        $expected = '<span><i class="me-1 small text-body-secondary ' . $expectedIcon . '"></i> <code>' . $userAgent . '</code></span>';
         $result = $this->Beautifier->userAgent($userAgent);
         $this->assertSame($expected, $result);
     }
