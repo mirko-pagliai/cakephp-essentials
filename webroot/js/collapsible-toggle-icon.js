@@ -1,5 +1,23 @@
 /**
- * When you modify this file, remember to re-run minification and update the related minified file
+ * Toggle icon handler for collapsible elements
+ *
+ * This script manages the behavior of toggle icons within links that have the
+ * `data-bs-toggle="collapse"` attribute. It dynamically changes the icon when
+ * the element is expanded or collapsed.
+ *
+ * Features:
+ * - Activates on links with data-bs-toggle="collapse" attribute
+ * - Looks for span.toggle-icon element within the link
+ * - Replaces the icon (<i>) inside the span based on state:
+ *   - Uses data-close-icon when an element is expanded
+ *   - Uses data-open-icon when an element is collapsed
+ *
+ * In your template file:
+ * ```
+ * echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.min.js');
+ * ```
+ *
+ * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     $('a[data-bs-toggle="collapse"]').click(function () {

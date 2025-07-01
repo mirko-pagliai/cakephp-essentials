@@ -1,6 +1,9 @@
 # cakephp-essentials
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
+[![CI](https://github.com/mirko-pagliai/cakephp-essentials/actions/workflows/ci.yml/badge.svg)](https://github.com/mirko-pagliai/cakephp-essentials/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/mirko-pagliai/cakephp-essentials/branch/master/graph/badge.svg?token=EG4qYNZrgi)](https://codecov.io/gh/mirko-pagliai/cakephp-essentials)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5e537ce1da06450885c841799fb43c6a)](https://app.codacy.com/gh/mirko-pagliai/cakephp-essentials/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Various classes and utilities useful for various CakePHP projects.
 
@@ -60,7 +63,7 @@ class AppView extends View
 }
 ```
 
-## Add some basic assets to layout
+## Add some basic assets to the layout
 You can consider adding some key assets to your layout, depending on your needs:
 
 Css:

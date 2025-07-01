@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-04-08 17:33+0200\n"
+"POT-Creation-Date: 2025-06-25 20:30+0200\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -23,11 +23,67 @@ msgid "Disabled"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:57
-msgid "Requires user activation"
+msgid "It requires user activation"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:58
-msgid "Requires administrator activation"
+msgid "It requires administrator activation"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:37
+msgid "It must contain at least one capital character"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:55
+msgid "It must contain at least one numeric digit"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:73
+msgid "It must contain at least one lowercase character"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:91
+msgid "It must begin with a capital letter"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:114
+msgid "It must be greater than or equal to `{0}`"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:134
+msgid "It cannot contain any reserved words"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:154
+msgid "It cannot be a future date"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:174
+msgid "It cannot be a future datetime"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:194
+msgid "It cannot be a past date"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:214
+msgid "It cannot be a past datetime"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:234
+msgid "It must be a valid person name"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:258
+msgid "It must be a valid slug"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:276
+msgid "It must be a valid title"
+msgstr ""
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:311
+msgid "It must contain at least one special character"
 msgstr ""
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/View/Helper/FormHelper.php:92

@@ -17,7 +17,8 @@
     "friendsofcake/bootstrap-ui": "^5.1.1",
     "moment/moment": "^2.30",
     "twbs/bootstrap": "~5.3",
-    "twbs/bootstrap-icons": "^1.11"
+    "twbs/bootstrap-icons": "^1.11",
+    "symfony/filesystem": "^7.3"
   },
   "require-dev": {
     "cakephp/authentication": "^3.2",
@@ -32,6 +33,7 @@
       "Cake\\Essentials\\": "src"
     },
     "files": [
+      "src/global_functions.php",
       "src/request_detectors.php"
     ]
   },

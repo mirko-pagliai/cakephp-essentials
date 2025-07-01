@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Cake\Log\Engine\FileLog;
+use Cake\Log\Log;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -18,11 +20,10 @@ const WWW_ROOT = APP . 'webroot' . DS;
 define('TMP', sys_get_temp_dir() . DS . 'cakephp-essentials' . DS);
 const LOGS = TMP . 'logs' . DS;
 
-foreach ([TMP, LOGS] as $dir) {
-    if (!file_exists($dir)) {
-        mkdir($dir, 0777, true);
-    }
-}
+// phpcs:disable
+@mkdir(TMP, 0777, true);
+@mkdir(LOGS, 0777, true);
+// phpcs:enable
 
 putenv('APP_DEFAULT_LOCALE=en_US');
 
@@ -49,4 +50,11 @@ Cache::setConfig([
         'prefix' => 'cake_core_',
         'serialize' => true,
     ],
+]);
+
+Log::setConfig('error', [
+    'engine' => FileLog::class,
+    'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+    'file' => 'error',
+    'path' => LOGS,
 ]);

@@ -54,8 +54,8 @@ enum UserStatus: string implements EnumLabelInterface
         return match ($this) {
             self::Active => __d('cake/essentials', 'Active'),
             self::Disabled => __d('cake/essentials', 'Disabled'),
-            self::RequiresUserActivation => __d('cake/essentials', 'Requires user activation'),
-            self::RequiresAdminActivation =>__d('cake/essentials', 'Requires administrator activation'),
+            self::RequiresUserActivation => __d('cake/essentials', 'It requires user activation'),
+            self::RequiresAdminActivation =>__d('cake/essentials', 'It requires administrator activation'),
         };
     }
 }

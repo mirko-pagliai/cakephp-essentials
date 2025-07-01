@@ -1,11 +1,12 @@
 # LANGUAGE translation of Cake/Essentials
 # Copyright 2025 Mirko Pagliai <mirko.pagliai@gmail.com>
 #
+# Mirko Pagliai <mirko.pagliai@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2025-04-08 17:33+0200\n"
-"PO-Revision-Date: 2025-04-08 17:35+0200\n"
+"POT-Creation-Date: 2025-06-25 20:30+0200\n"
+"PO-Revision-Date: 2025-06-25 20:39+0200\n"
 "Last-Translator: Mirko Pagliai <mirko.pagliai@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,6 +15,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: it_IT\n"
 "X-Generator: Lokalize 22.12.3\n"
+
+msgid "It must be at least {0} characters long"
+msgstr "Deve essere lungo almeno {0} caratteri"
+
+msgid "It must be at a maximum of {0} characters long"
+msgstr "Deve essere lungo al massimo {0} caratteri"
+
+msgid "It cannot contain spaces at the beginning or at the end"
+msgstr "Non può contenere spazi all'inizio o alla fine"
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:55
 msgid "Active"
@@ -24,12 +34,68 @@ msgid "Disabled"
 msgstr "Disabilitato"
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:57
-msgid "Requires user activation"
+msgid "It requires user activation"
 msgstr "Richiede attivazione dell'utente"
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/ORM/Enum/UserStatus.php:58
-msgid "Requires administrator activation"
+msgid "It requires administrator activation"
 msgstr "Richiede attivazione di un amministratore"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:37
+msgid "It must contain at least one capital character"
+msgstr "Deve contenere almeno una lettera maiuscola"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:55
+msgid "It must contain at least one numeric digit"
+msgstr "Deve contenere almeno un numero"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:73
+msgid "It must contain at least one lowercase character"
+msgstr "Deve contenere almeno una lettera minuscola"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:91
+msgid "It must begin with a capital letter"
+msgstr "Deve cominciare con una lettera maiuscola"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:114
+msgid "It must be greater than or equal to `{0}`"
+msgstr "Deve essere maggiore o uguale a `{0}`"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:134
+msgid "It cannot contain any reserved words"
+msgstr "Non può contenere alcuna parola riservata"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:154
+msgid "It cannot be a future date"
+msgstr "Non può essere una data futura"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:174
+msgid "It cannot be a future datetime"
+msgstr "Non possono essere una data e un orario futuri"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:194
+msgid "It cannot be a past date"
+msgstr "Non può essere una data passata"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:214
+msgid "It cannot be a past datetime"
+msgstr "Non possono essere una data e un orario passati"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:234
+msgid "It must be a valid person name"
+msgstr "Deve essere un nome di persona valido"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:258
+msgid "It must be a valid slug"
+msgstr "Deve essere uno slug valido"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:276
+msgid "It must be a valid title"
+msgstr "Deve essere un titolo valido"
+
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:311
+msgid "It must contain at least one special character"
+msgstr "Deve contenere almeno un carattere speciale"
 
 #: ./home/mirko/Libs/Plugins/cakephp-essentials/src/View/Helper/FormHelper.php:92
 msgid "Now"
