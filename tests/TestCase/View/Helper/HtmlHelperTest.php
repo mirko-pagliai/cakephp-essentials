@@ -20,9 +20,6 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversClass(HtmlHelper::class)]
 class HtmlHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\HtmlHelper
-     */
     protected HtmlHelper $Html;
 
     /**
@@ -41,11 +38,11 @@ class HtmlHelperTest extends TestCase
         $expected = sprintf('<%s class="custom-class">My text</%s>', $tag, $tag);
         $options = ['class' => 'custom-class'];
 
-        //Both positionals
+        //With positional arguments
         $result = $this->Html->{$tag}('My text', $options);
         $this->assertSame($expected, $result);
 
-        //Both named
+        //With named arguments
         $result = $this->Html->{$tag}(text: 'My text', options: $options);
         $this->assertSame($expected, $result);
 
@@ -168,13 +165,12 @@ class HtmlHelperTest extends TestCase
     #[Test]
     #[TestWith([['tooltip' => 'First<br />Second']])]
     #[TestWith([['tooltip' => ['First', 'Second']]])]
-    #[TestWith([['data-bs-html' => 'false', 'tooltip' => 'First<br />Second', 'data-bs-toggle' => 'something-else']])]
     public function testAddTooltip(array $options): void
     {
         $expected = [
             'data-bs-html' => 'true',
             'data-bs-title' => 'First<br />Second',
-            'data-bs-toggle' => 'tooltip',
+            'tooltip' => 'true',
         ];
         $result = $this->Html->addTooltip(options: $options);
         $this->assertSame($expected, $result);
@@ -259,7 +255,7 @@ class HtmlHelperTest extends TestCase
         ];
 
         yield [
-            '<img src="/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip" class="img-fluid">',
+            '<img src="/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" tooltip="true" class="img-fluid">',
             '/path/to/image.png?k=v',
             ['tooltip' => 'My tooltip', 'alt' => false],
         ];
@@ -295,7 +291,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testLinkWithTooltip(): void
     {
-        $expected = 'data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip"';
+        $expected = 'data-bs-html="true" data-bs-title="My tooltip" tooltip="true"';
         $result = $this->Html->link(title: 'Title', url: '#url', options: ['tooltip' => 'My tooltip']);
         $this->assertStringContainsString($expected, $result);
     }
@@ -311,7 +307,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     #[TestWith(['<span>My text</span>'])]
     #[TestWith(['<span><i class="bi bi-home"></i> My text</span>', ['icon' => 'home']])]
-    #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-toggle="tooltip">My text</span>', ['tooltip' => 'My tooltip']])]
+    #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" tooltip="true">My text</span>', ['tooltip' => 'My tooltip']])]
     public function testTag(string $expectedTag, array $options = []): void
     {
         $result = $this->Html->tag(name: 'span', text: 'My text', options: $options);

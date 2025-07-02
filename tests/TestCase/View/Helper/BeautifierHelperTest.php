@@ -93,8 +93,8 @@ class BeautifierHelperTest extends TestCase
             'span' => [
                 'data-bs-html' => 'true',
                 'data-bs-title' => 'First&lt;br /&gt;Second',
-                'data-bs-toggle' => 'tooltip',
                 'class' => 'cursor-pointer',
+                'tooltip' => 'true',
             ],
             'i' => ['class' => 'opacity-75 text-body-tertiary bi bi-question-circle-fill'],
             '/i',
@@ -111,8 +111,8 @@ class BeautifierHelperTest extends TestCase
             'span' => [
                 'data-bs-html' => 'true',
                 'data-bs-title' => 'Text',
-                'data-bs-toggle' => 'tooltip',
                 'class' => 'custom-class cursor-pointer',
+                'tooltip' => 'true',
             ],
             'i' => ['class' => 'bi bi-house'],
             '/i',

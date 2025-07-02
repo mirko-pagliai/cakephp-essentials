@@ -195,11 +195,13 @@ class HtmlHelper extends BootstrapUIHtmlHelper
     /**
      * Adds a tooltip, starting from the options.
      *
-     * Takes the options and, if the `tooltip` option is present (as a string or array of strings),
-     *  constructs all the options needed for the tooltip, then returns the options.
+     * Takes the options and, if the `tooltip` option is present, constructs all the options needed for
+     * the tooltip, then returns the updated options.
      *
-     * @param array $options
-     * @return array
+     * HTML is enabled for the tooltip content.
+     *
+     * @param array $options Options array, which may include a `tooltip` key for tooltip content.
+     * @return array Updated options array with tooltip attributes.
      *
      * @link https://getbootstrap.com/docs/5.3/components/tooltips
      */
@@ -215,7 +217,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         return [
             'data-bs-html' => 'true',
             'data-bs-title' => $tooltip,
-            'data-bs-toggle' => 'tooltip',
+            'tooltip' => 'true',
         ] + $options;
     }
 
@@ -306,7 +308,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      *
      * Unlike the original method, it sets some default options and supports tooltips.
      *
-     * Unlike other methods, the `img-fluid` class here is not appended to other possible existing classes,
+     * Unlike other methods, the `img-fluid` class here is not appended to other possible existing classes
      *  but only used as a default class.
      *
      * The `alt` attribute is, by default, auto-determined from `$path`. Set it to `false` to disable it.
