@@ -217,6 +217,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         return [
             'data-bs-html' => 'true',
             'data-bs-title' => $tooltip,
+            'data-bs-trigger' => 'hover',
             'tooltip' => 'true',
         ] + $options;
     }

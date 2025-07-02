@@ -170,6 +170,7 @@ class HtmlHelperTest extends TestCase
         $expected = [
             'data-bs-html' => 'true',
             'data-bs-title' => 'First<br />Second',
+            'data-bs-trigger' => 'hover',
             'tooltip' => 'true',
         ];
         $result = $this->Html->addTooltip(options: $options);
@@ -255,7 +256,7 @@ class HtmlHelperTest extends TestCase
         ];
 
         yield [
-            '<img src="/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" tooltip="true" class="img-fluid">',
+            '<img src="/path/to/image.png?k=v" data-bs-html="true" data-bs-title="My tooltip" data-bs-trigger="hover" tooltip="true" class="img-fluid">',
             '/path/to/image.png?k=v',
             ['tooltip' => 'My tooltip', 'alt' => false],
         ];
@@ -291,7 +292,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testLinkWithTooltip(): void
     {
-        $expected = 'data-bs-html="true" data-bs-title="My tooltip" tooltip="true"';
+        $expected = 'data-bs-html="true" data-bs-title="My tooltip" data-bs-trigger="hover" tooltip="true"';
         $result = $this->Html->link(title: 'Title', url: '#url', options: ['tooltip' => 'My tooltip']);
         $this->assertStringContainsString($expected, $result);
     }
@@ -307,7 +308,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     #[TestWith(['<span>My text</span>'])]
     #[TestWith(['<span><i class="bi bi-home"></i> My text</span>', ['icon' => 'home']])]
-    #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" tooltip="true">My text</span>', ['tooltip' => 'My tooltip']])]
+    #[TestWith(['<span data-bs-html="true" data-bs-title="My tooltip" data-bs-trigger="hover" tooltip="true">My text</span>', ['tooltip' => 'My tooltip']])]
     public function testTag(string $expectedTag, array $options = []): void
     {
         $result = $this->Html->tag(name: 'span', text: 'My text', options: $options);

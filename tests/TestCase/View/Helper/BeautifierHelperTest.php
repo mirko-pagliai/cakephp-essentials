@@ -92,6 +92,7 @@ class BeautifierHelperTest extends TestCase
             'span' => [
                 'data-bs-html' => 'true',
                 'data-bs-title' => 'First&lt;br /&gt;Second',
+                'data-bs-trigger' => 'hover',
                 'tooltip' => 'true',
             ],
             'i' => ['class' => 'opacity-75 text-body-tertiary bi bi-question-circle-fill'],
@@ -109,6 +110,7 @@ class BeautifierHelperTest extends TestCase
             'span' => [
                 'data-bs-html' => 'true',
                 'data-bs-title' => 'Text',
+                'data-bs-trigger' => 'hover',
                 'class' => 'custom-class',
                 'tooltip' => 'true',
             ],
