@@ -42,8 +42,6 @@ class BeautifierHelper extends Helper
             'icon' => ['name' => 'question-circle-fill', 'class' => 'opacity-75 text-body-tertiary'],
         ];
 
-        $options = $this->Html->addClass(options: $options, class: 'cursor-pointer');
-
         return $this->Html->span(options: $options);
     }
 
