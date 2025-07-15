@@ -2,25 +2,26 @@
 declare(strict_types=1);
 
 /**
- * @uses \App\Controller\{{ pluralVar[0:1]|upper ~ pluralVar[1:] }}Controller::index()
+ * @link \App\Controller\{{ pluralVar[0:1]|upper ~ pluralVar[1:] }}Controller::index()
  *
  * @var \{{ namespace }}\View\AppView $this
  * @var iterable<\{{ entityClass }}> ${{ pluralVar }}
  */
 
+/** @link templates/Common/index.php */
+$this->extend('/Common/index');
+
 $this->assignTitle(__('{{ pluralHumanName }}'));
 
 {% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
-$this->startMainLinks();
-echo $this->Html->link(
+$this->addMainLink($this->Html->link(
     title: __('Add'),
     url: ['action' => 'add'],
     options: [
         'class' => 'btn btn-sm btn-outline-primary',
         'icon' => $this->Html::ADD_ICON,
-    ]
-);
-$this->end();
+    ],
+));
 {% set done = [] %}
 ?>
 
