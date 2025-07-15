@@ -19,26 +19,24 @@ $this->assignTitle(h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ display
 {% set associationFields = fieldsData.associationFields %}
 {% set groupedFields = fieldsData.groupedFields %}
 {% set pK = '$' ~ singularVar[0:1]|upper ~ singularVar[1:] ~ '->' ~ primaryKey[0] %}
-$this->startMainLinks();
-echo $this->Html->link(
+$this->addMainLink($this->Html->link(
     title: __('List'),
     url: ['action' => 'index'],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::INDEX_ICON]
-);
-echo $this->Html->link(
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::INDEX_ICON],
+));
+$this->addMainLink($this->Html->link(
     title: __('Edit'),
     url: ['action' => 'edit', {{ pK|raw }}],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::EDIT_ICON]
-);
-echo $this->Form->deleteLink(
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::EDIT_ICON],
+));
+$this->addMainLink($this->Form->deleteLink(
     title: __('Delete'),
     url: ['action' => 'delete', {{ pK|raw }}],
     options: [
         'class' => 'btn btn-sm btn-outline-danger',
         'icon' => $this->Html::DELETE_ICON,
-    ]
-);
-$this->end();
+    ],
+));
 ?>
 {% set done = [] %}
 

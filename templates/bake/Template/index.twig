@@ -40,7 +40,7 @@ $this->addMainLink($this->Html->link(
             </tr>
         </thead>
         <tbody>
-            <?php foreach (${{ pluralVar }} as ${{ singularVar[0:1]|upper ~ singularVar[1:] }}): ?>
+            <?php foreach (${{ pluralVar }} as ${{ singularVar[0:1]|upper ~ singularVar[1:] }}) : ?>
             <tr>
 {% for field in fields %}
 {% set isKey = false %}
@@ -53,7 +53,7 @@ $this->addMainLink($this->Html->link(
                     if (${{ singularVar[0:1]|upper ~ singularVar[1:] }}->hasValue('{{ details.property }}')) {
                         echo $this->Html->link(
                             title: ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.displayField }},
-                            url: ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}]
+                            url: ['controller' => '{{ details.controller }}', 'action' => 'view', ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ details.property }}->{{ details.primaryKey[0] }}],
                         );
                     }
                     ?>
@@ -88,17 +88,17 @@ $this->addMainLink($this->Html->link(
                         echo $this->Html->link(
                             title: __('View'),
                             url: ['action' => 'view', {{ pk|raw }}],
-                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON]
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON],
                         );
                         echo $this->Html->link(
                             title: __('Edit'),
                             url: ['action' => 'edit', {{ pk|raw }}],
-                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON]
+                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON],
                         );
                         echo $this->Form->deleteLink(
                             title: __('Delete'),
                             url: ['action' => 'delete', {{ pk|raw }}],
-                            options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON]
+                            options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON],
                         );
                         ?>
                     </div>
