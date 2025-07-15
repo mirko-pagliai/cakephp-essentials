@@ -70,7 +70,7 @@ $this->addMainLink($this->Html->link(
                 </td>
 {% elseif field == 'id' %}
                 <td>
-                    <code class="fw-bolder">#<?= ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }} ?></code>
+                    <?= $this->Html->code(text: '#' . ${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}, options: ['class' => 'fs-6']) ?>
                 </td>
 {% elseif columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger'] %}
                 <td><?= h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ field }}) ?></td>
