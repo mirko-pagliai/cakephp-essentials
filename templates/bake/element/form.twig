@@ -59,8 +59,8 @@ $this->addMainLink($this->Form->deleteLink(
         {{- "\n" }}
     {%- elseif fieldData.type in ['date', 'datetime', 'time'] and fieldData %}
         echo $this->Form->control(fieldName: '{{ field }}', options: [
-        'class' => 'w-auto',
-        'empty' => true,
+            'class' => 'w-auto',
+            'empty' => true,
         ]);
         {{- "\n" }}
     {%- else %}
