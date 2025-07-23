@@ -75,6 +75,7 @@ class PlainTextBehaviorTest extends TestCase
         $this->PlainTextBehavior->setTargetField($this->Table->newEmptyEntity());
     }
 
+    #[Test]
     public function testSetTargetFieldOnMissingTargetField(): void
     {
         $this->PlainTextBehavior->setConfig('targetField', 'no_existing_target_field');
