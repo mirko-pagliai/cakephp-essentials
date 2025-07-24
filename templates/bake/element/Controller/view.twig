@@ -13,9 +13,10 @@
     public function view(int $id): void
     {
         ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->get(primaryKey: $id, contain: {{ Bake.exportArray(allAssociations)|raw }});
+
 {% if Bake.hasPlugin('Authorization') %}
         $this->Authorization->authorize(${{ singularName[0:1]|upper ~ singularName[1:] }});
-{% endif %}
 
+{% endif %}
         $this->set(compact('{{ singularName[0:1]|upper ~ singularName[1:] }}'));
     }

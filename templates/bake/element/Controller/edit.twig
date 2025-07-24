@@ -15,6 +15,7 @@
 
 {% if Bake.hasPlugin('Authorization') %}
         $this->Authorization->authorize(${{ singularName[0:1]|upper ~ singularName[1:] }});
+
 {% endif %}
         if ($this->request->is(['patch', 'post', 'put'])) {
             ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->patchEntity(${{ singularName[0:1]|upper ~ singularName[1:] }}, $this->request->getData());

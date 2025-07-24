@@ -10,8 +10,10 @@
         $this->request->allowMethod(['post', 'delete']);
 
         ${{ singularName[0:1]|upper ~ singularName[1:] }} = $this->{{ currentModelName }}->get(primaryKey: $id);
+
 {% if Bake.hasPlugin('Authorization') %}
         $this->Authorization->authorize(${{ singularName[0:1]|upper ~ singularName[1:] }});
+
 {% endif %}
         if ($this->{{ currentModelName }}->delete(${{ singularName[0:1]|upper ~ singularName[1:] }})) {
             $this->Flash->success(__('The operation has been performed correctly'));
