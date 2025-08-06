@@ -9,7 +9,6 @@ use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Generator;
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -25,15 +24,11 @@ use UnexpectedValueException;
 #[UsesClass(HtmlHelper::class)]
 class FlashHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\FlashHelper
-     */
     protected FlashHelper $Flash;
 
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $View = new View();
@@ -43,6 +38,9 @@ class FlashHelperTest extends TestCase
         $this->Flash = new FlashHelper($View);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FlashHelper::render()
+     */
     #[Test]
     public function testRender(): void
     {
@@ -65,19 +63,25 @@ class FlashHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FlashHelper::render()
+     */
     #[Test]
-    public function testRenderOnEmptyFlashMessages(): void
+    public function testRenderWithEmptyFlashMessages(): void
     {
         $this->assertNull($this->Flash->render());
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FlashHelper::render()
+     */
     #[Test]
     #[TestWith(['alert-primary', 'default'])]
     #[TestWith(['alert-dark', 'dark'])]
     #[TestWith(['alert-danger', 'error'])]
     #[TestWith(['alert-info', 'info'])]
     #[TestWith(['alert-warning', 'warning'])]
-    public function testRenderDefaultClasses(string $expectedClass, string $type): void
+    public function testRenderWithDefaultClasses(string $expectedClass, string $type): void
     {
         $this->Flash->getView()->getRequest()->getSession()->write('Flash', [
             'flash' => [
@@ -106,9 +110,12 @@ class FlashHelperTest extends TestCase
         yield [$Alert->Html->icon($defaultIcons['warning']), 'warning'];
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FlashHelper::render()
+     */
     #[Test]
     #[DataProvider('providerTestRenderDefaultIcons')]
-    public function testRenderDefaultIcons(string $expectedIconClasses, string $type): void
+    public function testRenderWithDefaultIcons(string $expectedIconClasses, string $type): void
     {
         $this->Flash->getView()->getRequest()->getSession()->write('Flash', [
             'flash' => [
@@ -123,6 +130,9 @@ class FlashHelperTest extends TestCase
         $this->assertStringContainsString($expectedIconClasses, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FlashHelper::render()
+     */
     #[Test]
     public function testRenderWithInvalidKey(): void
     {

@@ -9,7 +9,6 @@ use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
 use Generator;
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -23,15 +22,11 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(HtmlHelper::class)]
 class CollapsibleHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\CollapsibleHelper
-     */
     protected CollapsibleHelper $Collapsible;
 
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $this->Collapsible = new CollapsibleHelper(new View());
@@ -68,6 +63,9 @@ class CollapsibleHelperTest extends TestCase
         yield [$expected, true];
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
+     */
     #[Test]
     #[DataProvider('providerTestLink')]
     public function testLink(array $expectedHtml, bool $alreadyOpen = false): void
@@ -76,15 +74,21 @@ class CollapsibleHelperTest extends TestCase
         $this->assertHtml($expectedHtml, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
+     */
     #[Test]
     #[TestWith(['class="custom-class collapsed text-decoration-none"'])]
     #[TestWith(['class="custom-class text-decoration-none"', true])]
-    public function testLinkCustomClass(string $expected, bool $alreadyOpen = false): void
+    public function testLinkWithCustomClass(string $expected, bool $alreadyOpen = false): void
     {
         $result = $this->Collapsible->link(title: 'Title', options: ['class' => 'custom-class'], alreadyOpen: $alreadyOpen);
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
+     */
     #[Test]
     public function testLinkWithIcon(): void
     {
@@ -92,6 +96,9 @@ class CollapsibleHelperTest extends TestCase
         $this->assertStringContainsString('<i class="bi bi-house"></i> Title', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
+     */
     #[Test]
     public function testLinkWithCustomToggleIcons(): void
     {
@@ -103,6 +110,9 @@ class CollapsibleHelperTest extends TestCase
         $this->assertStringContainsString('bi bi-2-circle', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
+     */
     #[Test]
     #[TestWith([''])]
     #[TestWith([null])]
@@ -132,6 +142,9 @@ class CollapsibleHelperTest extends TestCase
         $this->assertStringContainsString('class="text-decoration-none"', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
+     */
     #[Test]
     #[TestWith(['<div id="my-id" class="collapse">Text</div>', 'Text'])]
     #[TestWith(['<div id="my-id" class="collapse">First<br />Second</div>', ['First', 'Second']])]
@@ -144,6 +157,9 @@ class CollapsibleHelperTest extends TestCase
         $this->assertSame($expectedContent, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
+     */
     #[Test]
     #[TestWith(['<div id="my-id" class="collapse show">Text</div>', 'Text'])]
     #[TestWith(['<div id="my-id" class="collapse show">First<br />Second</div>', ['First', 'Second']])]
@@ -156,6 +172,9 @@ class CollapsibleHelperTest extends TestCase
         $this->assertSame($expectedContent, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
+     */
     #[Test]
     public function testContentWithoutLinkBeingCalled(): void
     {
@@ -164,8 +183,11 @@ class CollapsibleHelperTest extends TestCase
         $this->Collapsible->content('Text');
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
+     */
     #[Test]
-    public function testContentConsecutiveMethodCalls(): void
+    public function testContentOnConsecutiveMethodCalls(): void
     {
         $this->Collapsible->link(title: 'Title');
         $result = $this->Collapsible->content('Text');

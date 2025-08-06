@@ -7,6 +7,7 @@ use Cake\Essentials\View\Helper\FormHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -19,9 +20,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(HtmlHelper::class)]
 class FormHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\FormHelper
-     */
     protected FormHelper $Form;
 
     /**
@@ -32,6 +30,9 @@ class FormHelperTest extends TestCase
         $this->Form = new FormHelper(new View());
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::button()
+     */
     #[Test]
     public function testButton(): void
     {
@@ -40,17 +41,23 @@ class FormHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::button()
+     */
     #[Test]
     #[TestWith(['btn btn-primary'])]
     #[TestWith(['btn btn-success', ['type' => 'submit']])]
     #[TestWith(['btn btn-primary', ['type' => 'reset']])]
     #[TestWith(['custom-class btn btn-secondary', ['class' => 'custom-class', 'type' => 'submit']])]
-    public function testButtonClassesAndType(string $expectedClass, array $options = []): void
+    public function testButtonWithClassAndType(string $expectedClass, array $options = []): void
     {
         $result = $this->Form->button(title: 'My button', options: $options);
         $this->assertStringContainsString('class="' . $expectedClass . '"', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
     #[TestWith(['<div id="myfield-help" class="form-text">A help text</div>', 'A help text'])]
     #[TestWith(['<div id="myfield-help" class="form-text"><div>First</div><div>Second</div></div>', ['First', 'Second']])]
@@ -60,22 +67,31 @@ class FormHelperTest extends TestCase
         $this->assertStringContainsString($expectedContains, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
-    public function testControlDateWithDefaultAsNow(): void
+    public function testControlWithDateTypeAndDefaultAsNow(): void
     {
         $result = $this->Form->control(fieldName: 'myField', options: ['default' => 'now', 'type' => 'date']);
         $this->assertMatchesRegularExpression('/value="\d{4}\-\d{2}\-\d{2}"/', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
-    public function testControlDatetimeWithDefaultAsNow(): void
+    public function testControlWithDatetimeTypeAndDefaultAsNow(): void
     {
         $result = $this->Form->control(fieldName: 'myField', options: ['default' => 'now', 'type' => 'datetime']);
         $this->assertMatchesRegularExpression('/value="\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:00"/', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
-    public function testControlSwitchType(): void
+    public function testControlWithSwitchType(): void
     {
         $expected = [
             'div' => ['class' => 'form-check form-switch checkbox'],
@@ -90,8 +106,11 @@ class FormHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
-    public function testControlDateWithAppendNowButton(): void
+    public function testControlWithDateTypeAndAppendNowButton(): void
     {
         $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DD&#039;))" type="button"><i class="bi bi-clock"></i> Today</button>';
         $result = $this->Form->control(fieldName: 'myField', options: [
@@ -101,8 +120,11 @@ class FormHelperTest extends TestCase
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
     #[Test]
-    public function testControlDatetimeWithAppendNowButton(): void
+    public function testControlWithDatetimeTypeAndAppendNowButton(): void
     {
         $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DDTHH:mm&#039;))" type="button"><i class="bi bi-clock"></i> Now</button>';
         $result = $this->Form->control(fieldName: 'myField', options: [
@@ -112,6 +134,9 @@ class FormHelperTest extends TestCase
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::dateTime()
+     */
     #[Test]
     #[TestWith(['<input type="datetime-local" name="datetime" step="60" class="form-control" value="">'])]
     #[TestWith(['<input type="datetime-local" name="datetime" class="form-control" value="">', ['step' => null]])]
@@ -122,24 +147,30 @@ class FormHelperTest extends TestCase
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\View\Helper\FormHelper::deleteLink()
      */
     #[Test]
     public function testDeleteLink(): void
     {
-        $Form = $this->createPartialMock(FormHelper::class, ['postLink']);
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\FormHelper $FormHelper */
+        $FormHelper = Mockery::mock(FormHelper::class . '[postLink]', [new View()]);
+        $FormHelper->shouldReceive('postLink')
+            ->with(
+                'My link',
+                '#',
+                [
+                    'confirm' => 'Are you sure you want to delete this item?',
+                    'method' => 'delete',
+                ],
+            )
+            ->once();
 
-        $Form
-            ->expects($this->once())
-            ->method('postLink')
-            ->with('My link', '#', [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'delete',
-            ]);
-
-        $Form->deleteLink('My link', '#');
+        $FormHelper->deleteLink('My link', '#');
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::postLink()
+     */
     #[Test]
     public function testPostLink(): void
     {
@@ -157,6 +188,9 @@ class FormHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::radio()
+     */
     #[Test]
     public function testRadio(): void
     {
@@ -165,6 +199,9 @@ class FormHelperTest extends TestCase
         $this->assertStringContainsString('<label class="form-check-label" for="myfield-second"><strong>Second</strong></label>', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::select()
+     */
     #[Test]
     public function testSelectContainsEmptyValue(): void
     {
@@ -173,6 +210,9 @@ class FormHelperTest extends TestCase
         $this->assertStringContainsString('select an option', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::select()
+     */
     #[Test]
     #[TestWith([['default' => 'a']])]
     #[TestWith([['value' => 'a']])]
@@ -186,6 +226,9 @@ class FormHelperTest extends TestCase
         $this->assertStringNotContainsString('select an option', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::submit()
+     */
     #[Test]
     #[TestWith(['<input type="submit" class="btn btn-success" value="">'])]
     #[TestWith(['<input type="submit" class="btn btn-primary" value="">', ['class' => 'btn btn-primary']])]

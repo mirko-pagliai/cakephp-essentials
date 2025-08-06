@@ -10,6 +10,7 @@ use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Generator;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -26,46 +27,45 @@ class AlertHelperTest extends TestCase
     protected AlertHelper $Alert;
 
     /**
-     * @var \Cake\Essentials\View\Helper\HtmlHelper&\PHPUnit\Framework\MockObject\MockObject
+     * @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper
      */
     protected HtmlHelper $Html;
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @inheritDoc
      */
     public function setUp(): void
     {
         $View = new View();
 
-        $this->Html = $this->getMockBuilder(HtmlHelper::class)
-            ->setConstructorArgs([$View])
-            ->onlyMethods(['link'])
-            ->getMock();
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
+        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$View]);
+        $this->Html = $HtmlHelper;
 
         $this->Alert = new AlertHelper($View);
         $this->Alert->getView()->helpers()->set('Html', $this->Html);
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\View\Helper\AlertHelper::__call()
      */
     #[Test]
     #[TestWith(['Text'])]
     #[TestWith(['Text', ['class' => 'custom-class']])]
     public function testMagicCallMethod(string $text, array $options = []): void
     {
-        $Alert = $this->createPartialMock(AlertHelper::class, ['alert']);
-        $Alert
-            ->expects($this->exactly(2))
-            ->method('alert')
-            ->with('success', $text, $options);
+        $expected = $this->Alert->alert(type: 'success', text: $text, options: $options);
 
-        $Alert->success($text, $options);
-        $Alert->success(text: $text, options: $options);
+        $result = $this->Alert->success($text, $options);
+        $this->assertSame($expected, $result);
+
+        $result = $this->Alert->success(text: $text, options: $options);
+        $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::__call()
+     */
     #[Test]
     public function testMagicCallMethodTooFewArguments(): void
     {
@@ -74,6 +74,9 @@ class AlertHelperTest extends TestCase
         $this->Alert->success();
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::__call()
+     */
     #[Test]
     public function testMagicCallMethodTooManyArguments(): void
     {
@@ -83,6 +86,9 @@ class AlertHelperTest extends TestCase
         $this->Alert->success('Text', [], 'Third');
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::__call()
+     */
     #[Test]
     public function testMagicCallMethodWithANoExistingMethod(): void
     {
@@ -92,6 +98,9 @@ class AlertHelperTest extends TestCase
         $this->Alert->noExistingMethod();
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
+     */
     #[Test]
     #[TestWith(['<div role="alert" class="alert alert-dark border-0">Text</div>', 'Text'])]
     #[TestWith(['<div role="alert" class="alert alert-dark border-0">First<br />Second</div>', ['First', 'Second']])]
@@ -102,6 +111,9 @@ class AlertHelperTest extends TestCase
         $this->assertSame($expectedAlert, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
+     */
     #[Test]
     #[TestWith(['<i class="bi bi-house"></i>', 'house'])]
     #[TestWith(['<i class="fs-4 bi bi-house"></i>', ['name' => 'house', 'class' => 'fs-4']])]
@@ -115,6 +127,9 @@ class AlertHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
+     */
     #[Test]
     #[TestWith(['<i class="bi bi-exclamation-triangle-fill"></i>', 'danger'])]
     #[TestWith(['<i class="bi bi-check-circle-fill"></i>', 'success'])]
@@ -130,6 +145,9 @@ class AlertHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
+     */
     #[Test]
     public function testAlertWithDisabledIcon(): void
     {
@@ -148,6 +166,9 @@ class AlertHelperTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
+     */
     #[Test]
     #[DataProvider('providerTestAlertRewritesDefaultIcons')]
     public function testAlertRewritesDefaultIcons(string $alertType): void
@@ -165,24 +186,30 @@ class AlertHelperTest extends TestCase
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::link()
+     */
     #[Test]
     public function testLink(): void
     {
         $this->Html
-            ->expects($this->once())
-            ->method('link')
-            ->with('Title', '#example', ['class' => 'custom-class alert-link']);
+            ->shouldReceive('link')
+            ->with('Title', '#example', ['class' => 'custom-class alert-link'])
+            ->once();
 
         $this->Alert->link('Title', '#example', ['class' => 'custom-class']);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\AlertHelper::linkFromPath()
+     */
     #[Test]
     public function testLinkFromPath(): void
     {
         $this->Html
-            ->expects($this->once())
-            ->method('link')
-            ->with('Title', ['_path' => 'Users::view', 1], ['class' => 'custom-class alert-link']);
+            ->shouldReceive('link')
+            ->with('Title', ['_path' => 'Users::view', 1], ['class' => 'custom-class alert-link'])
+            ->once();
 
         $this->Alert->linkFromPath('Title', 'Users::view', [1], ['class' => 'custom-class']);
     }
