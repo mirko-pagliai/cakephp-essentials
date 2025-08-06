@@ -9,6 +9,7 @@ use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -19,6 +20,9 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversTrait(UserMethodsTrait::class)]
 class UserMethodsTraitTest extends TestCase
 {
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::_setPassword()
+     */
     #[Test]
     public function testSetPassword(): void
     {
@@ -28,6 +32,9 @@ class UserMethodsTraitTest extends TestCase
         $this->assertNotEquals($password, $User->password);
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isId()
+     */
     #[Test]
     #[TestWith([true, 2])]
     #[TestWith([true, 2, 3])]
@@ -40,6 +47,9 @@ class UserMethodsTraitTest extends TestCase
         $this->assertSame($expectedIsId, $User->isId(...$id));
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isGroup()
+     */
     #[Test]
     #[TestWith([true, 'admin'])]
     #[TestWith([true, 'admin', 'manager'])]
@@ -56,50 +66,53 @@ class UserMethodsTraitTest extends TestCase
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isAdmin()
      */
     #[Test]
     public function testIsAdmin(): void
     {
-        $User = $this->createPartialMock(User::class, ['isGroup']);
-        $User
-            ->expects($this->any())
-            ->method('isGroup')
-            ->with('admin');
+        /** @var \Mockery\MockInterface&\App\Model\Entity\User $User */
+        $User = Mockery::mock(User::class . '[isGroup]');
+        $User->shouldReceive('isGroup')
+            ->with('admin')
+            ->once();
 
         $User->isAdmin();
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isManager()
      */
     #[Test]
     public function testIsManager(): void
     {
-        $User = $this->createPartialMock(User::class, ['isGroup']);
-        $User
-            ->expects($this->any())
-            ->method('isGroup')
-            ->with('admin', 'manager');
+        /** @var \Mockery\MockInterface&\App\Model\Entity\User $User */
+        $User = Mockery::mock(User::class . '[isGroup]');
+        $User->shouldReceive('isGroup')
+            ->with('admin', 'manager')
+            ->once();
 
         $User->isManager();
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isFounder()
      */
     #[Test]
     public function testIsFounder(): void
     {
-        $User = $this->createPartialMock(User::class, ['isId']);
-        $User
-            ->expects($this->once())
-            ->method('isId')
-            ->with(1);
+        /** @var \Mockery\MockInterface&\App\Model\Entity\User $User */
+        $User = Mockery::mock(User::class . '[isId]');
+        $User->shouldReceive('isId')
+            ->with(1)
+            ->once();
 
         $User->isFounder();
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isOwnerOf()
+     */
     #[Test]
     #[TestWith([true, 4])]
     #[TestWith([false, 3])]

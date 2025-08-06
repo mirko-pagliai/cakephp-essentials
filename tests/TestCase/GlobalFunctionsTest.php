@@ -15,7 +15,7 @@ use function Cake\Essentials\toDatetime;
 /**
  * GlobalFunctionsTest.
  *
- * @see src/global_functions.php
+ * @link src/global_functions.php
  */
 class GlobalFunctionsTest extends TestCase
 {

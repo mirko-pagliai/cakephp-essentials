@@ -20,6 +20,9 @@ class LogTraitTest extends TestCase
 {
     use AssertLogTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function tearDown(): void
     {
         parent::tearDown();

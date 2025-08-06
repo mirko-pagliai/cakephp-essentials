@@ -16,6 +16,9 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversTrait(EnumWithGetLabelsTrait::class)]
 class EnumWithGetLabelsTraitTest extends TestCase
 {
+    /**
+     * @link \Cake\Essentials\ORM\Enum\Traits\EnumWithGetLabelsTrait::getLabels()
+     */
     #[Test]
     public function testGetLabels(): void
     {
@@ -28,6 +31,9 @@ class EnumWithGetLabelsTraitTest extends TestCase
         $this->assertSame($expected, Suit::getLabels());
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Enum\Traits\EnumWithGetLabelsTrait::getLabels()
+     */
     #[Test]
     public function testGetLabelsEnumWithIntKeys(): void
     {

@@ -15,6 +15,9 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(Router::class)]
 class RouterTest extends TestCase
 {
+    /**
+     * @link \Cake\Essentials\Routing\Router::getRequestOrFail()
+     */
     #[Test]
     public function testGetRequestOrFail(): void
     {
@@ -25,6 +28,9 @@ class RouterTest extends TestCase
         $this->assertSame($Request, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\Routing\Router::getRequestOrFail()
+     */
     #[Test]
     public function testGetRequestOrFailWithNoRequest(): void
     {

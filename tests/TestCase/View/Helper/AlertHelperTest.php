@@ -10,7 +10,6 @@ use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use Generator;
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -24,9 +23,6 @@ use PHPUnit\Framework\Attributes\UsesClass;
 #[UsesClass(HtmlHelper::class)]
 class AlertHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\AlertHelper
-     */
     protected AlertHelper $Alert;
 
     /**
@@ -39,7 +35,6 @@ class AlertHelperTest extends TestCase
      *
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
-    #[Override]
     public function setUp(): void
     {
         $View = new View();

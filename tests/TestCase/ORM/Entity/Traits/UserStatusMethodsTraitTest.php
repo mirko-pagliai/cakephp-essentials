@@ -42,6 +42,9 @@ class UserStatusMethodsTraitTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait::isActive()
+     */
     #[Test]
     #[DataProvider('providerTestIsActive')]
     public function testIsActive(bool $expectedIsActive, UserStatus $UserStatus): void
@@ -65,6 +68,9 @@ class UserStatusMethodsTraitTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait::isDisabled()
+     */
     #[Test]
     #[DataProvider('providerTestIsDisabled')]
     public function testIsDisabled(bool $expectedIsDisabled, UserStatus $UserStatus): void
@@ -95,6 +101,9 @@ class UserStatusMethodsTraitTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait::isPending()
+     */
     #[Test]
     #[DataProvider('providerTestIsPending')]
     public function testIsPending(bool $expectedIsPending, UserStatus $UserStatus): void
@@ -118,6 +127,9 @@ class UserStatusMethodsTraitTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait::requiresAdminActivation()
+     */
     #[Test]
     #[DataProvider('providerTestRequiresAdminActivation')]
     public function testRequiresAdminActivation(bool $expectedRequiresAdminActivation, UserStatus $UserStatus): void
@@ -141,6 +153,9 @@ class UserStatusMethodsTraitTest extends TestCase
         }
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait::requiresUserActivation()
+     */
     #[Test]
     #[DataProvider('providerTestRequiresUserActivation')]
     public function testRequiresUserActivation(bool $expectedRequiresUserActivation, UserStatus $UserStatus): void

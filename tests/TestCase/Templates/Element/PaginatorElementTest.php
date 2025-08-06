@@ -14,7 +14,7 @@ use PHPUnit\Framework\Attributes\Test;
 /**
  * PaginatorElementTest.
  *
- * @see templates/element/paginator.php
+ * @link templates/element/paginator.php
  */
 class PaginatorElementTest extends TestCase
 {
