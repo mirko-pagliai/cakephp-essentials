@@ -146,7 +146,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
-            'rule' => fn (string $value): bool => $value === trim($value),
+            'rule' => fn(string $value): bool => $value === trim($value),
         ]);
     }
 

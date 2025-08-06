@@ -80,13 +80,13 @@ class DropdownHelperTest extends TestCase
             ->with(
                 'My link',
                 '#',
-                ['class' => 'my-custom-class dropdown-item']
+                ['class' => 'my-custom-class dropdown-item'],
             );
 
         $this->Dropdown->link(
             title: 'My link',
             url: '#',
-            options: ['class' => 'my-custom-class']
+            options: ['class' => 'my-custom-class'],
         );
     }
 
@@ -99,14 +99,14 @@ class DropdownHelperTest extends TestCase
             ->with(
                 'My link from path',
                 ['_path' => 'Users::index', '?' => ['k' => 'v']],
-                ['class' => 'my-custom-class dropdown-item']
+                ['class' => 'my-custom-class dropdown-item'],
             );
 
         $this->Dropdown->linkFromPath(
             title: 'My link from path',
             path: 'Users::index',
             params: ['?' => ['k' => 'v']],
-            options: ['class' => 'my-custom-class']
+            options: ['class' => 'my-custom-class'],
         );
     }
 
@@ -125,7 +125,7 @@ class DropdownHelperTest extends TestCase
         $this->Dropdown->deleteLink(
             title: 'My post link',
             url: '#',
-            options: ['class' => 'my-custom-class']
+            options: ['class' => 'my-custom-class'],
         );
     }
 
@@ -138,13 +138,13 @@ class DropdownHelperTest extends TestCase
             ->with(
                 'My post link',
                 '#',
-                ['class' => 'my-custom-class dropdown-item']
+                ['class' => 'my-custom-class dropdown-item'],
             );
 
         $this->Dropdown->postLink(
             title: 'My post link',
             url: '#',
-            options: ['class' => 'my-custom-class']
+            options: ['class' => 'my-custom-class'],
         );
     }
 

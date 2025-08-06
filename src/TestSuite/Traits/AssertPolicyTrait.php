@@ -41,8 +41,8 @@ trait AssertPolicyTrait
             sprintf(
                 '`%s()` method has returned `%s`',
                 $method,
-                $result ? 'true' : 'false'
-            )
+                $result ? 'true' : 'false',
+            ),
         );
     }
 

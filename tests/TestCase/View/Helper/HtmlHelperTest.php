@@ -237,7 +237,7 @@ class HtmlHelperTest extends TestCase
         $result = $this->Html->flushDiv(
             list: $list,
             options: ['class' => 'custom-wrapper-class'],
-            itemOptions: ['class' => 'custom-item-class']
+            itemOptions: ['class' => 'custom-item-class'],
         );
         $this->assertSame($expected, $result);
     }

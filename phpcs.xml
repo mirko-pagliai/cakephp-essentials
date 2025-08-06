@@ -16,12 +16,6 @@
     <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing.IncorrectLinesCountBetweenDifferentAnnotationsTypes">
         <severity>0</severity>
     </rule>
-    <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration.IncorrectSpacesAfterKeyword">
-        <severity>0</severity>
-    </rule>
-    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall.MissingTrailingComma">
-        <severity>0</severity>
-    </rule>
 
     <exclude-pattern>/coverage/</exclude-pattern>
     <exclude-pattern>/webroot/js/*.min.js</exclude-pattern>

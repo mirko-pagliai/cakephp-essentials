@@ -70,9 +70,12 @@ class AlertHelper extends Helper
     {
         if (in_array(needle: $name, haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'])) {
             if (count($arguments) > 2) {
-                throw new ArgumentCountError(
-                    sprintf('Too many arguments for `%s::%s()`, %s passed and at most 2 expected.', $this::class, $name, count($arguments))
-                );
+                throw new ArgumentCountError(sprintf(
+                    'Too many arguments for `%s::%s()`, %s passed and at most 2 expected.',
+                    $this::class,
+                    $name,
+                    count($arguments),
+                ));
             }
 
             return $this->alert($name, ...$arguments);

@@ -25,7 +25,7 @@ use Cake\Http\ServerRequest;
  */
 ServerRequest::addDetector(
     name: 'action',
-    detector: fn (ServerRequest $Request, string ...$action): bool => in_array(needle: $Request->getParam('action'), haystack: $action)
+    detector: fn(ServerRequest $Request, string ...$action): bool => in_array(needle: $Request->getParam('action'), haystack: $action),
 );
 
 /**
@@ -39,11 +39,11 @@ ServerRequest::addDetector(
  * </code>
  * returns `true` if the current action is `delete`, otherwise `false`.
  */
-ServerRequest::addDetector('add', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'add'));
-ServerRequest::addDetector('delete', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'delete'));
-ServerRequest::addDetector('edit', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'edit'));
-ServerRequest::addDetector('index', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'index'));
-ServerRequest::addDetector('view', fn (ServerRequest $Request): bool => $Request->is(type: 'action', args: 'view'));
+ServerRequest::addDetector('add', fn(ServerRequest $Request): bool => $Request->is(type: 'action', args: 'add'));
+ServerRequest::addDetector('delete', fn(ServerRequest $Request): bool => $Request->is(type: 'action', args: 'delete'));
+ServerRequest::addDetector('edit', fn(ServerRequest $Request): bool => $Request->is(type: 'action', args: 'edit'));
+ServerRequest::addDetector('index', fn(ServerRequest $Request): bool => $Request->is(type: 'action', args: 'index'));
+ServerRequest::addDetector('view', fn(ServerRequest $Request): bool => $Request->is(type: 'action', args: 'view'));
 
 /**
  * `is('localhost')` detector.
@@ -52,7 +52,7 @@ ServerRequest::addDetector('view', fn (ServerRequest $Request): bool => $Request
  */
 ServerRequest::addDetector(
     name: 'localhost',
-    detector: fn (ServerRequest $Request): bool => $Request->is('ip', '127.0.0.1', '::1')
+    detector: fn(ServerRequest $Request): bool => $Request->is('ip', '127.0.0.1', '::1'),
 );
 
 /**
@@ -62,5 +62,5 @@ ServerRequest::addDetector(
  */
 ServerRequest::addDetector(
     name: 'ip',
-    detector: fn (ServerRequest $Request, string ...$ip): bool => in_array(needle: $Request->clientIp(), haystack: $ip)
+    detector: fn(ServerRequest $Request, string ...$ip): bool => in_array(needle: $Request->clientIp(), haystack: $ip),
 );

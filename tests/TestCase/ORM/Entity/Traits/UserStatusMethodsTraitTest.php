@@ -8,7 +8,6 @@ use Cake\Essentials\ORM\Entity\Traits\UserStatusMethodsTrait;
 use Cake\Essentials\ORM\Enum\UserStatus;
 use Cake\TestSuite\TestCase;
 use Generator;
-use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
@@ -19,15 +18,11 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversTrait(UserStatusMethodsTrait::class)]
 class UserStatusMethodsTraitTest extends TestCase
 {
-    /**
-     * @var \App\Model\Entity\User
-     */
     protected User $User;
 
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $this->User = new User();
@@ -40,7 +35,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Active`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Active
+            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Active,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -63,7 +58,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Disabled
+            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Disabled,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -93,7 +88,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `$pendingStatus`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn (UserStatus $UserStatus): bool => !in_array(needle: $UserStatus, haystack: $pendingStatus)
+            callback: fn(UserStatus $UserStatus): bool => !in_array(needle: $UserStatus, haystack: $pendingStatus),
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -116,7 +111,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresAdminActivation
+            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresAdminActivation,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -139,7 +134,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn (UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresUserActivation
+            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresUserActivation,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
