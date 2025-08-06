@@ -28,9 +28,12 @@ class BeautifierHelperTest extends TestCase
     {
         parent::setUp();
 
-        $this->Beautifier ??= new BeautifierHelper(new View());
+        $this->Beautifier = new BeautifierHelper(new View());
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::ipAddress()
+     */
     #[Test]
     #[TestWith(['<span><i class="small text-body-secondary bi bi-globe-americas"></i> <code>127.0.0.1</code></span>'])]
     #[TestWith(['<span class="custom-class"><i class="bi bi-house"></i> <code>127.0.0.1</code></span>', ['icon' => 'house', 'class' => 'custom-class']])]
@@ -40,6 +43,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionPopover()
+     */
     #[Test]
     #[TestWith(['First<br />Second'])]
     #[TestWith([['First', 'Second']])]
@@ -62,6 +68,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionPopover()
+     */
     #[Test]
     public function testQuestionPopoverWithCustomClassAndIcon(): void
     {
@@ -83,6 +92,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionTooltip()
+     */
     #[Test]
     #[TestWith(['First<br />Second'])]
     #[TestWith([['First', 'Second']])]
@@ -103,6 +115,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionTooltip()
+     */
     #[Test]
     public function testQuestionTooltipWithCustomClassAndIcon(): void
     {
@@ -122,6 +137,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertHtml($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::userAgent()
+     */
     #[Test]
     #[TestWith(['bi bi-question-circle-fill', 'Unknown agent'])]
     #[TestWith(['bi bi-android', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36'])]
@@ -136,6 +154,9 @@ class BeautifierHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::userAgent()
+     */
     #[Test]
     public function testUserAgentWithCustomClassAndIcon(): void
     {

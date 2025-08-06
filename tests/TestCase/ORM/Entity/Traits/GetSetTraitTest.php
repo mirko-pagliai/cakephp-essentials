@@ -8,7 +8,6 @@ use BadMethodCallException;
 use Cake\Datasource\Exception\MissingPropertyException;
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\TestSuite\TestCase;
-use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -19,15 +18,11 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversTrait(GetSetTrait::class)]
 class GetSetTraitTest extends TestCase
 {
-    /**
-     * @var \App\Model\Entity\EntityWithSomeVirtualFields
-     */
     protected EntityWithSomeVirtualFields $Entity;
 
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $this->Entity = new EntityWithSomeVirtualFields();

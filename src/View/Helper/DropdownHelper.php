@@ -170,7 +170,7 @@ class DropdownHelper extends Helper implements Stringable
     {
         if (empty($this->_opening)) {
             throw new BadMethodCallException(
-                'The opening link has not been set, probably the `create()` method was not called previously.'
+                'The opening link has not been set, probably the `create()` method was not called previously.',
             );
         }
         if (empty($this->_links)) {

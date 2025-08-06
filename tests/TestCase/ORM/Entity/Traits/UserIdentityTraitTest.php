@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace Cake\Essentials\Test\TestCase\ORM\Entity\Traits;
 
 use Authorization\AuthorizationServiceInterface;
-use Cake\Datasource\EntityInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetSetTrait;
 use Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait;
 use Cake\Essentials\ORM\Entity\UserIdentityInterface;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
-use Override;
+use Mockery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -21,24 +20,20 @@ use PHPUnit\Framework\Attributes\Test;
 class UserIdentityTraitTest extends TestCase
 {
     /**
-     * @var \Authorization\AuthorizationServiceInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @var \Mockery\MockInterface&\Authorization\AuthorizationServiceInterface
      */
     protected AuthorizationServiceInterface $AuthorizationService;
 
-    /**
-     * @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface&\Cake\Essentials\ORM\Entity\UserIdentityInterface
-     */
     protected UserIdentityInterface $Identity;
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
-        $this->AuthorizationService = $this->createMock(AuthorizationServiceInterface::class);
+        /** @var \Mockery\MockInterface&\Authorization\AuthorizationServiceInterface $AuthorizationService */
+        $AuthorizationService = Mockery::mock(AuthorizationServiceInterface::class);
+        $this->AuthorizationService = $AuthorizationService;
 
         $this->Identity = new class extends Entity implements UserIdentityInterface {
             use GetSetTrait;
@@ -48,53 +43,56 @@ class UserIdentityTraitTest extends TestCase
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::can()
      */
     #[Test]
     public function testCan(): void
     {
-        $Entity = $this->createStub(EntityInterface::class);
+        $Entity = new Entity();
 
         $this->AuthorizationService
-            ->expects($this->once())
-            ->method('can')
-            ->with($this->Identity, 'add', $Entity);
+            ->shouldReceive('can')
+            ->with($this->Identity, 'add', $Entity)
+            ->once();
 
         $this->Identity->can('add', $Entity);
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::canResult()
      */
     #[Test]
     public function testCanResult(): void
     {
-        $Entity = $this->createStub(EntityInterface::class);
+        $Entity = new Entity();
 
         $this->AuthorizationService
-            ->expects($this->once())
-            ->method('canResult')
-            ->with($this->Identity, 'add', $Entity);
+            ->shouldReceive('canResult')
+            ->with($this->Identity, 'add', $Entity)
+            ->once();
 
         $this->Identity->canResult('add', $Entity);
     }
 
     /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::applyScope()
      */
     #[Test]
     public function testApplyScope(): void
     {
-        $Entity = $this->createStub(EntityInterface::class);
+        $Entity = new Entity();
 
         $this->AuthorizationService
-            ->expects($this->once())
-            ->method('applyScope')
-            ->with($this->Identity, 'add', $Entity, 'optionalExtraArg');
+            ->shouldReceive('applyScope')
+            ->with($this->Identity, 'add', $Entity, 'optionalExtraArg')
+            ->once();
 
         $this->Identity->applyScope('add', $Entity, 'optionalExtraArg');
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::getIdentifier()
+     */
     #[Test]
     public function testGetIdentifier(): void
     {
@@ -102,6 +100,9 @@ class UserIdentityTraitTest extends TestCase
         $this->assertSame(2, $this->Identity->getIdentifier());
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::getOriginalData()
+     */
     #[Test]
     public function testGetOriginalData(): void
     {
@@ -109,6 +110,9 @@ class UserIdentityTraitTest extends TestCase
         $this->assertSame($this->Identity, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserIdentityTrait::setAuthorization()
+     */
     #[Test]
     public function testSetAuthorization(): void
     {

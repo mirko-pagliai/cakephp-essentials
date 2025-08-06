@@ -6,6 +6,7 @@ namespace Cake\Essentials\Test\TestCase;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use Generator;
+use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\Attributes\TestWith;
 /**
  * RequestDetectorsTest.
  *
- * @see src/request_detectors.php
+ * @link src/request_detectors.php
  */
 class RequestDetectorsTest extends TestCase
 {
@@ -54,9 +55,6 @@ class RequestDetectorsTest extends TestCase
         $this->assertSame($expectedIsDetector, $Request->is($detectorAction));
     }
 
-    /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
     #[Test]
     #[TestWith([true, '127.0.0.1'])]
     #[TestWith([true, '::1'])]
@@ -64,18 +62,13 @@ class RequestDetectorsTest extends TestCase
     #[TestWith([false, '127.0.1.1'])]
     public function testIsLocalhost(bool $expectedIsLocalhost, string $clientIp): void
     {
-        $Request = $this->createPartialMock(ServerRequest::class, ['clientIp']);
-        $Request
-            ->expects($this->once())
-            ->method('clientIp')
-            ->willReturn($clientIp);
+        /** @var \Mockery\MockInterface&\Cake\Http\ServerRequest $Request */
+        $Request = Mockery::mock(ServerRequest::class . '[clientIp]');
+        $Request->shouldReceive('clientIp')->andReturn($clientIp);
 
         $this->assertSame($expectedIsLocalhost, $Request->is('localhost'));
     }
 
-    /**
-     * @throws \PHPUnit\Framework\MockObject\Exception
-     */
     #[Test]
     #[TestWith([false, '99.99.99.98'])]
     #[TestWith([true, '99.99.99.99'])]
@@ -83,11 +76,9 @@ class RequestDetectorsTest extends TestCase
     #[TestWith([false, '99.99.99.97', '99.99.99.98'])]
     public function testIsIp(bool $expectedIsIp, string ...$ip): void
     {
-        $Request = $this->createPartialMock(ServerRequest::class, ['clientIp']);
-        $Request
-            ->expects($this->once())
-            ->method('clientIp')
-            ->willReturn('99.99.99.99');
+        /** @var \Mockery\MockInterface&\Cake\Http\ServerRequest $Request */
+        $Request = Mockery::mock(ServerRequest::class . '[clientIp]');
+        $Request->shouldReceive('clientIp')->andReturn('99.99.99.99');
 
         $this->assertSame($expectedIsIp, $Request->is('ip', ...$ip));
     }

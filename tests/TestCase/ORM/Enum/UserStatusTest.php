@@ -14,6 +14,9 @@ use PHPUnit\Framework\Attributes\Test;
 #[CoversClass(UserStatus::class)]
 class UserStatusTest extends TestCase
 {
+    /**
+     * @link \Cake\Essentials\ORM\Enum\UserStatus::label()
+     */
     #[Test]
     public function testLabel(): void
     {

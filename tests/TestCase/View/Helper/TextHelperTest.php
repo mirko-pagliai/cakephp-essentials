@@ -18,9 +18,6 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversClass(TextHelper::class)]
 class TextHelperTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\Helper\TextHelper
-     */
     protected TextHelper $Text;
 
     /**
@@ -31,6 +28,9 @@ class TextHelperTest extends TestCase
         $this->Text = new TextHelper(new View());
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\TextHelper::autoParagraph()
+     */
     #[Test]
     #[TestWith(['This is a text' . PHP_EOL . 'This is another text'])]
     #[TestWith([PHP_EOL . 'This is a text' . PHP_EOL . 'This is another text'])]
@@ -45,6 +45,9 @@ class TextHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\TextHelper::autoParagraph()
+     */
     #[Test]
     #[TestWith(['This is a text'])]
     #[TestWith(['This is a text' . PHP_EOL])]
@@ -57,6 +60,9 @@ class TextHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\TextHelper::autoParagraph()
+     */
     #[Test]
     #[TestWith([null])]
     #[TestWith([''])]
@@ -90,6 +96,9 @@ class TextHelperTest extends TestCase
         ];
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\TextHelper::highlight()
+     */
     #[Test]
     #[DataProvider('provideHighlight')]
     public function testHighlight(string $expectedHighlight, string|array $phrase, array $options = []): void

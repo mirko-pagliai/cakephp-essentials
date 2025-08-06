@@ -21,6 +21,9 @@ class AssertQueryBindingsTraitTest extends TestCase
 {
     protected static SelectQuery $Query;
 
+    /**
+     * @inheritDoc
+     */
     public static function setUpBeforeClass(): void
     {
         self::$Query = new class extends SelectQuery {
@@ -32,10 +35,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         self::$Query->getValueBinder()->bind(':c1', 'value', 'string');
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::extractBindingValues()
+     */
     #[Test]
     public function testExtractBindingValues(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait {
                 extractBindingValues as public;
             }
@@ -55,10 +61,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsContains()
+     */
     #[Test]
     public function testAssertBindingsContains(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -69,10 +78,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsContains([':c0' => 1, ':c1' => 'value'], self::$Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsContains()
+     */
     #[Test]
     public function testAssertBindingsContainsOnAssertionFailedCausedByKey(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -81,10 +93,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsContains([':c2' => 'badKey'], self::$Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsContains()
+     */
     #[Test]
     public function testAssertBindingsContainsOnAssertionFailedCausedByValue(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -93,10 +108,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsContains([':c1' => 'badValue'], self::$Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsEquals()
+     */
     #[Test]
     public function testAssertBindingsEquals(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -114,10 +132,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsEquals($expected, $Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsEquals()
+     */
     #[Test]
     public function testAssertBindingsEqualsOnAssertionFailed(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -125,10 +146,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsEquals([':c0' => 1], self::$Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsSame()
+     */
     #[Test]
     public function testAssertBindingsSame(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 
@@ -140,10 +164,13 @@ class AssertQueryBindingsTraitTest extends TestCase
         $TestCase->assertBindingsSame($expected, self::$Query);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::assertBindingsSame()
+     */
     #[Test]
     public function testAssertBindingsSameOnAssertionFailed(): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertQueryBindingsTrait;
         };
 

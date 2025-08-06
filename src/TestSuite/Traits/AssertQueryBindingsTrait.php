@@ -29,8 +29,8 @@ trait AssertQueryBindingsTrait
     private function extractBindingValues(SelectQuery $Query): array
     {
         return array_map(
-            callback: fn (array $v): mixed => $v['value'],
-            array: $Query->getValueBinder()->bindings()
+            callback: fn(array $v): mixed => $v['value'],
+            array: $Query->getValueBinder()->bindings(),
         );
     }
 

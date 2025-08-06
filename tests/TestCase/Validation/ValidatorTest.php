@@ -30,6 +30,9 @@ class ValidatorTest extends TestCase
         $this->Validator = new Validator();
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsCapitalLetter()
+     */
     #[Test]
     #[TestWith(['A'])]
     #[TestWith(['Ab3!'])]
@@ -42,6 +45,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsCapitalLetter()
+     */
     #[Test]
     #[TestWith([])]
     #[TestWith(['Does not contain a capital letter'])]
@@ -54,6 +60,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => 'a3!']));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsDigit()
+     */
     #[Test]
     #[TestWith(['3'])]
     #[TestWith(['Ab3!'])]
@@ -64,6 +73,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsDigit()
+     */
     #[Test]
     #[TestWith([])]
     #[TestWith(['Does not contain a digit'])]
@@ -76,6 +88,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => 'Ab!']));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsLowercaseLetter()
+     */
     #[Test]
     #[TestWith(['a'])]
     #[TestWith(['aB3!'])]
@@ -86,6 +101,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::containsLowercaseLetter()
+     */
     #[Test]
     #[TestWith([])]
     #[TestWith(['Does not contain a lowercase letter'])]
@@ -98,6 +116,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => 'A3!']));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::firstLetterCapitalized()
+     */
     #[Test]
     #[TestWith(['Àbate'])]
     #[TestWith(['Text'])]
@@ -108,6 +129,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::firstLetterCapitalized()
+     */
     #[Test]
     #[TestWith(['a'])]
     #[TestWith(['à'])]
@@ -124,6 +148,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
+     */
     #[Test]
     #[TestWith(['2025-02-26 13:00:00'])]
     #[TestWith(['2025-02-26 13:00:01'])]
@@ -136,6 +163,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
+     */
     #[Test]
     #[TestWith(['2025-02-26 12:59:59'])]
     #[TestWith(['2025-02-26 12:00:00'])]
@@ -155,6 +185,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::noStartOrEndSpace()
+     */
     #[Test]
     #[TestWith(['A'])]
     #[TestWith(['A B'])]
@@ -166,6 +199,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::noStartOrEndSpace()
+     */
     #[Test]
     #[TestWith([' A'])]
     #[TestWith(['A '])]
@@ -180,6 +216,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notContainsReservedWords()
+     */
     #[Test]
     public function testNotContainsReservedWords(): void
     {
@@ -188,6 +227,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['text' => 'any reserved word...']));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notContainsReservedWords()
+     */
     #[Test]
     #[TestWith(['admin'])]
     #[TestWith(['manager'])]
@@ -210,6 +252,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['text' => $badText]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
+     */
     #[Test]
     #[TestWith(['now'])]
     #[TestWith(['yesterday'])]
@@ -222,6 +267,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
+     */
     #[Test]
     #[TestWith([new Date('tomorrow')])]
     #[TestWith(['tomorrow', 'You cannot use a bad date'])]
@@ -234,6 +282,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
+     */
     #[Test]
     #[TestWith(['now'])]
     #[TestWith(['yesterday'])]
@@ -246,6 +297,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
+     */
     #[Test]
     #[TestWith([new DateTime('+10 seconds')])]
     #[TestWith([new DateTime('tomorrow')])]
@@ -259,6 +313,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notPastDate()
+     */
     #[Test]
     #[TestWith(['now'])]
     #[TestWith(['tomorrow'])]
@@ -271,6 +328,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notPastDate()
+     */
     #[Test]
     #[TestWith([new Date('yesterday')])]
     #[TestWith(['yesterday', 'You cannot use a bad date'])]
@@ -283,6 +343,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
+     */
     #[Test]
     #[TestWith(['+10 second'])]
     #[TestWith(['tomorrow'])]
@@ -295,6 +358,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
+     */
     #[Test]
     #[TestWith([new DateTime('yesterday')])]
     #[TestWith(['yesterday'])]
@@ -308,6 +374,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::personName()
+     */
     #[Test]
     #[TestWith(['Po'])]
     #[TestWith(['Mark'])]
@@ -325,6 +394,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['name' => $goodName]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::personName()
+     */
     #[Test]
     #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], 'Mark '])]
     #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], ' Mark'])]
@@ -351,6 +423,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['name' => $badName]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::slug()
+     */
     #[Test]
     #[TestWith(['abc'])]
     #[TestWith(['a-b'])]
@@ -363,6 +438,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['slug' => $goodSlug]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::slug()
+     */
     #[Test]
     #[TestWith(['Abc'])]
     #[TestWith(['aBc'])]
@@ -380,6 +458,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['slug' => $badSlug]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::title()
+     */
     #[Test]
     #[TestWith(['Title 2025'])]
     #[TestWith(['Title, 2025'])]
@@ -393,6 +474,9 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['title' => $goodTitle]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::title()
+     */
     #[Test]
     #[TestWith([['minLength' => 'It must be at least 3 characters long'], 'P'])]
     #[TestWith([['minLength' => 'It must be at least 3 characters long'], 'Po'])]
@@ -414,6 +498,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['title' => $badTitle]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::validPassword()
+     */
     #[Test]
     public function testValidPassword(): void
     {
@@ -434,6 +521,9 @@ class ValidatorTest extends TestCase
         ];
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::validPassword()
+     */
     #[Test]
     #[DataProvider('invalidPasswordsDataProvider')]
     public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword): void
@@ -445,6 +535,9 @@ class ValidatorTest extends TestCase
         $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
     }
 
+    /**
+     * @link \Cake\Essentials\Validation\Validator::validPassword()
+     */
     #[Test]
     #[DataProvider('invalidPasswordsDataProvider')]
     public function testValidPasswordOnErrorWithCustomMessage(string $expectedErrorName, string $expectedMessage, string $badPassword): void

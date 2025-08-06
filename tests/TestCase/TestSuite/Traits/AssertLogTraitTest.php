@@ -24,8 +24,6 @@ class AssertLogTraitTest extends TestCase
      */
     public static function setUpBeforeClass(): void
     {
-        parent::setUpBeforeClass();
-
         Log::error('Some log text...');
     }
 
@@ -34,37 +32,44 @@ class AssertLogTraitTest extends TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        parent::tearDownAfterClass();
-
         unlink(LOGS . 'error.log');
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertLogTrait::assertLogContains()
+     */
     #[Test]
     #[TestWith(['error.log'])]
     #[TestWith([LOGS . 'error.log'])]
     public function testAssertLogContains(string $logName): void
     {
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertLogTrait;
         };
         $TestCase->assertLogContains('Some log text...', $logName);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertLogTrait::assertLogContains()
+     */
     #[Test]
     public function testAssertLogContainsOnFailure(): void
     {
         $this->expectException(AssertionFailedError::class);
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertLogTrait;
         };
         $TestCase->assertLogContains('This text is not contained in the log file', LOGS . 'error.log');
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertLogTrait::assertLogContains()
+     */
     #[Test]
     public function testAssertLogContainsOnNoExistingFile(): void
     {
         $this->expectException(AssertionFailedError::class);
-        $TestCase = new class ('Test') extends TestCase {
+        $TestCase = new class ('MyTest') extends TestCase {
             use AssertLogTrait;
         };
         $TestCase->assertLogContains('Some log text...', LOGS . 'no_existing_file.log');

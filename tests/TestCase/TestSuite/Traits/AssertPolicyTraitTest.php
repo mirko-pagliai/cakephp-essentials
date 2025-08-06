@@ -33,14 +33,15 @@ class AssertPolicyTraitTest extends TestCase
      */
     public function setUp(): void
     {
-        parent::setUp();
-
         $this->Article = new Article();
 
         $this->User = new User(['id' => 1]);
         $this->User->setAuthorization(new AuthorizationService(new OrmResolver()));
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResult()
+     */
     #[Test]
     public function testAssertPolicyResult(): void
     {
@@ -69,8 +70,11 @@ class AssertPolicyTraitTest extends TestCase
         $TestCase->assertPolicyResult(expectedResult: false, method: 'edit', Identity: $AnotherUser, Entity: $this->Article);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResult()
+     */
     #[Test]
-    public function testAssertPolicyOnFailure(): void
+    public function testAssertPolicyResultOnFailure(): void
     {
         $TestCase = new class ('Test') extends TestCase {
             use AssertPolicyTrait;
@@ -81,8 +85,11 @@ class AssertPolicyTraitTest extends TestCase
         $TestCase->assertPolicyResult(expectedResult: true, method: 'edit', Identity: $this->User, Entity: $this->Article);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResult()
+     */
     #[Test]
-    public function testAssertPolicyWithNoExistingPolicyMethod(): void
+    public function testAssertPolicyWithNoExistingPolicyResultMethod(): void
     {
         $TestCase = new class ('Test') extends TestCase {
             use AssertPolicyTrait;
@@ -93,6 +100,9 @@ class AssertPolicyTraitTest extends TestCase
         $TestCase->assertPolicyResult(expectedResult: true, method: 'invalidAction', Identity: $this->User, Entity: $this->Article);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResultFalse()
+     */
     #[Test]
     public function testAssertPolicyResultFalse(): void
     {
@@ -103,6 +113,9 @@ class AssertPolicyTraitTest extends TestCase
         $TestCase->assertPolicyResultFalse(method: 'edit', Identity: $this->User, Entity: $this->Article);
     }
 
+    /**
+     * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResultTrue()
+     */
     #[Test]
     public function testAssertPolicyResultTrue(): void
     {

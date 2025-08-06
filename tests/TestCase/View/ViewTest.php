@@ -5,7 +5,6 @@ namespace Cake\Essentials\Test\TestCase;
 
 use Cake\Essentials\View\View;
 use Cake\TestSuite\TestCase;
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -16,22 +15,19 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversClass(View::class)]
 class ViewTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\View\View
-     */
     protected View $View;
 
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $this->View = new View();
-        $this->View->initialize();
     }
 
     /**
+     * @link \Cake\Essentials\View\View::initialize()
+     *
      * @param class-string $expectedClass
      * @param string $helper
      * @return void
@@ -48,6 +44,9 @@ class ViewTest extends TestCase
         $this->assertInstanceOf($expectedClass, $HelperRegistry->get($helper));
     }
 
+    /**
+     * @link \Cake\Essentials\View\View::assignTitle()
+     */
     #[Test]
     public function testAssignTitle(): void
     {
@@ -57,6 +56,9 @@ class ViewTest extends TestCase
         $this->assertSame($title, $this->View->fetch('main_title'));
     }
 
+    /**
+     * @link \Cake\Essentials\View\View::startMainLinks()
+     */
     #[Test]
     public function testStartMainLinks(): void
     {

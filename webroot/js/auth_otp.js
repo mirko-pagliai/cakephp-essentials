@@ -19,7 +19,7 @@
  */
 $(document).ready(function () {
     $('#otp').on("keyup", function () {
-        if ($(this).val().length == 6) {
+        if ($(this).val().length === 6) {
             $(this).closest('form').trigger('submit');
         }
     });

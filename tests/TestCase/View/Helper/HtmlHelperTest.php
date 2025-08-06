@@ -30,6 +30,9 @@ class HtmlHelperTest extends TestCase
         $this->Html = new HtmlHelper(new View());
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
+     */
     #[Test]
     #[TestWith(['h1'])]
     #[TestWith(['span'])]
@@ -55,6 +58,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
+     */
     #[Test]
     #[TestWith(['code', '<code>My text</code>'])]
     #[TestWith(['em', '<em>My text</em>'])]
@@ -78,6 +84,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
+     */
     #[Test]
     public function testCallMagicMethodTooFewArguments(): void
     {
@@ -85,6 +94,9 @@ class HtmlHelperTest extends TestCase
         $this->Html->h1();
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
+     */
     #[Test]
     public function testCallMagicMethodTooManyArguments(): void
     {
@@ -93,6 +105,9 @@ class HtmlHelperTest extends TestCase
         $this->Html->h1('My text', [], 'noExistingArgument');
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::buildIcon()
+     */
     #[Test]
     #[TestWith(['', []])]
     #[TestWith(['<i class="bi bi-house"></i>', ['icon' => 'house']])]
@@ -107,6 +122,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expectedIcon, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::buildIcon()
+     */
     #[Test]
     public function testBuildIconWithMissingName(): void
     {
@@ -115,6 +133,9 @@ class HtmlHelperTest extends TestCase
         $this->Html->buildIcon(['icon' => ['size' => 'lg']]);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::addIconToTitle()
+     */
     #[Test]
     #[TestWith(['Title', 'Title'])]
     #[TestWith(['Title', 'Title', ['icon' => null]])]
@@ -136,6 +157,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($options, $resultOptions);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::addPopover()
+     */
     #[Test]
     #[TestWith([['popover' => 'First<br />Second']])]
     #[TestWith([['popover' => ['First', 'Second']]])]
@@ -154,6 +178,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::addPopover()
+     */
     #[Test]
     public function testAddPopoverWithNoPopoverOption(): void
     {
@@ -162,6 +189,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($options, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::addTooltip()
+     */
     #[Test]
     #[TestWith([['tooltip' => 'First<br />Second']])]
     #[TestWith([['tooltip' => ['First', 'Second']]])]
@@ -177,6 +207,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::addTooltip()
+     */
     #[Test]
     public function testAddTooltipWithNoTooltipOption(): void
     {
@@ -185,6 +218,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($options, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::abbr()
+     */
     #[Test]
     #[TestWith(['<abbr class="initialism">My text</abbr>', 'My text', ''])]
     #[TestWith(['<abbr class="initialism" title="A title">My text</abbr>', 'My text', 'A title'])]
@@ -197,6 +233,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expectedAbbr, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::button()
+     */
     #[Test]
     #[TestWith(['<button type="button" class="btn">My text</button>'])]
     #[TestWith(['<button type="button" class="btn"></button>', ''])]
@@ -210,6 +249,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expectedButton, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::flushDiv()
+     */
     #[Test]
     public function testFlushDiv(): void
     {
@@ -237,7 +279,7 @@ class HtmlHelperTest extends TestCase
         $result = $this->Html->flushDiv(
             list: $list,
             options: ['class' => 'custom-wrapper-class'],
-            itemOptions: ['class' => 'custom-item-class']
+            itemOptions: ['class' => 'custom-item-class'],
         );
         $this->assertSame($expected, $result);
     }
@@ -262,6 +304,9 @@ class HtmlHelperTest extends TestCase
         ];
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::image()
+     */
     #[Test]
     #[DataProvider('imageProvider')]
     public function testImage(string $expectedImage, string $path, array $options = []): void
@@ -270,6 +315,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expectedImage, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::link()
+     */
     #[Test]
     #[TestWith(['<a href="#url" title="Title">Title</a>', 'Title'])]
     #[TestWith(['<a href="#url" title="Title"><span>Title</span></a>', '<span>Title</span>'])]
@@ -281,6 +329,9 @@ class HtmlHelperTest extends TestCase
         $this->assertSame($expectedLink, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::link()
+     */
     #[Test]
     public function testLinkWithPopover(): void
     {
@@ -289,6 +340,9 @@ class HtmlHelperTest extends TestCase
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::link()
+     */
     #[Test]
     public function testLinkWithTooltip(): void
     {
@@ -297,6 +351,9 @@ class HtmlHelperTest extends TestCase
         $this->assertStringContainsString($expected, $result);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::link()
+     */
     #[Test]
     public function testLinkWithTitleAsArray(): void
     {
@@ -305,6 +362,9 @@ class HtmlHelperTest extends TestCase
         $this->Html->link(['controller' => 'Pages', 'action' => 'index']);
     }
 
+    /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::tag()
+     */
     #[Test]
     #[TestWith(['<span>My text</span>'])]
     #[TestWith(['<span><i class="bi bi-home"></i> My text</span>', ['icon' => 'home']])]

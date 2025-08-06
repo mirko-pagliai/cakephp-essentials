@@ -26,9 +26,9 @@ trait EnumWithGetLabelsTrait
         return array_combine(
             keys: array_column(array: $cases, column_key: 'value'),
             values: array_map(
-                callback: fn (EnumLabelInterface $Enum): string => $Enum->label(),
-                array: $cases
-            )
+                callback: fn(EnumLabelInterface $Enum): string => $Enum->label(),
+                array: $cases,
+            ),
         );
     }
 }

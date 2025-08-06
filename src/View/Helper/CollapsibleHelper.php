@@ -109,7 +109,7 @@ class CollapsibleHelper extends Helper
                 'aria-controls' => $this->collapsibleId,
                 'aria-expanded' => $this->alreadyOpen ? 'true' : 'false',
                 'data-bs-toggle' => 'collapse',
-            ] + $options
+            ] + $options,
         );
     }
 
@@ -127,7 +127,7 @@ class CollapsibleHelper extends Helper
     {
         if (!isset($this->alreadyOpen) || !isset($this->collapsibleId)) {
             throw new BadMethodCallException(
-                'Seems that the link to open the collapsible was not set, perhaps the `link()` method was not called?'
+                'Seems that the link to open the collapsible was not set, perhaps the `link()` method was not called?',
             );
         }
 

@@ -18,9 +18,6 @@ use PHPUnit\Framework\Attributes\TestWith;
 #[CoversTrait(GetIconTrait::class)]
 class GetIconTraitTest extends TestCase
 {
-    /**
-     * @var \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
-     */
     protected EntityWithIconsInterface $Entity;
 
     /**
