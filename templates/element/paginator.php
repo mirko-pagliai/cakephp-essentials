@@ -16,9 +16,13 @@ try {
 } catch (CakeException) {
     $hasPages = false;
 }
+
+if (!$hasPages) {
+    return;
+}
 ?>
 
-<?php if ($hasPages && $this->Paginator->total() > 1) : ?>
+<?php if ($this->Paginator->total() > 1) : ?>
     <nav class="d-print-none mt-4">
         <div class="d-none d-lg-flex justify-content-center">
             <?= $this->Paginator->links(options: ['prev' => true, 'next' => true]) ?>
