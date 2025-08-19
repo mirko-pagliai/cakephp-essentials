@@ -16,37 +16,35 @@ try {
 } catch (CakeException) {
     $hasPages = false;
 }
-
-if (!$hasPages || $this->Paginator->total() < 2) {
-    return;
-}
 ?>
 
-<nav class="d-print-none mt-4">
-    <div class="d-none d-lg-flex justify-content-center">
-        <?= $this->Paginator->links(options: ['prev' => true, 'next' => true]) ?>
-    </div>
-    <ul class="pagination d-lg-none justify-content-center m-0">
-        <?php
-        if ($this->Paginator->hasPrev()) {
-            echo $this->Paginator->prev();
-        }
-        echo $this->Html->tag(
-            name: 'li',
-            text: $this->Html->span(
-                text: $this->Paginator->counter(__d('cake/essentials', 'Page {{page}} of {{pages}}')),
-                options: ['class' => 'bg-transparent page-link'],
-            ),
-            options: ['class' => 'page-item disabled'],
-        );
-        if ($this->Paginator->hasNext()) {
-            echo $this->Paginator->next();
-        }
-        ?>
-    </ul>
-</nav>
+<?php if ($hasPages && $this->Paginator->total() > 1) : ?>
+    <nav class="d-print-none mt-4">
+        <div class="d-none d-lg-flex justify-content-center">
+            <?= $this->Paginator->links(options: ['prev' => true, 'next' => true]) ?>
+        </div>
+        <ul class="pagination d-lg-none justify-content-center m-0">
+            <?php
+            if ($this->Paginator->hasPrev()) {
+                echo $this->Paginator->prev();
+            }
+            echo $this->Html->tag(
+                name: 'li',
+                text: $this->Html->span(
+                    text: $this->Paginator->counter(__d('cake/essentials', 'Page {{page}} of {{pages}}')),
+                    options: ['class' => 'bg-transparent page-link'],
+                ),
+                options: ['class' => 'page-item disabled'],
+            );
+            if ($this->Paginator->hasNext()) {
+                echo $this->Paginator->next();
+            }
+            ?>
+        </ul>
+    </nav>
+<?php endif; ?>
 
-<div class="mt-3 small text-center text-secondary">
+<div class="small text-center text-secondary">
     <?= $this->Paginator->counter(
         __d('cake/essentials', 'Page {{page}} of {{pages}}, showing {{current}} items out of {{count}} total'),
     ) ?>
