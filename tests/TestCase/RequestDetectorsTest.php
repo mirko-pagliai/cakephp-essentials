@@ -6,7 +6,6 @@ namespace Cake\Essentials\Test\TestCase;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use Generator;
-use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -62,11 +61,10 @@ class RequestDetectorsTest extends TestCase
     #[TestWith([false, '127.0.1.1'])]
     public function testIsLocalhost(bool $expectedIsLocalhost, string $clientIp): void
     {
-        /** @var \Mockery\MockInterface&\Cake\Http\ServerRequest $Request */
-        $Request = Mockery::mock(ServerRequest::class . '[clientIp]');
-        $Request->shouldReceive('clientIp')->andReturn($clientIp);
+        $Request = new ServerRequest(['environment' => ['REMOTE_ADDR' => $clientIp]]);
+        $result = $Request->is('localhost');
 
-        $this->assertSame($expectedIsLocalhost, $Request->is('localhost'));
+        $this->assertSame($expectedIsLocalhost, $result);
     }
 
     #[Test]
@@ -76,10 +74,9 @@ class RequestDetectorsTest extends TestCase
     #[TestWith([false, '99.99.99.97', '99.99.99.98'])]
     public function testIsIp(bool $expectedIsIp, string ...$ip): void
     {
-        /** @var \Mockery\MockInterface&\Cake\Http\ServerRequest $Request */
-        $Request = Mockery::mock(ServerRequest::class . '[clientIp]');
-        $Request->shouldReceive('clientIp')->andReturn('99.99.99.99');
+        $Request = new ServerRequest(['environment' => ['REMOTE_ADDR' => '99.99.99.99']]);
+        $result = $Request->is('ip', ...$ip);
 
-        $this->assertSame($expectedIsIp, $Request->is('ip', ...$ip));
+        $this->assertSame($expectedIsIp, $result);
     }
 }
