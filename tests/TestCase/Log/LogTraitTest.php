@@ -38,8 +38,7 @@ class LogTraitTest extends TestCase
 
             public ?ServerRequest $request = null;
         };
-        $Instance->request = new ServerRequest();
-        $Instance->request = $Instance->request->withEnv('REMOTE_ADDR', '127.0.0.1');
+        $Instance->request = new ServerRequest(['environment' => ['REMOTE_ADDR' => '127.0.0.1']]);
         $Instance->log('Some log text...');
 
         $this->assertLogContains('error: 127.0.0.1 - Some log text...', 'error.log');
