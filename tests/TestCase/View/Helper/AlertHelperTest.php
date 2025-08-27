@@ -52,7 +52,8 @@ class AlertHelperTest extends TestCase
     #[Test]
     #[TestWith(['Text'])]
     #[TestWith(['Text', ['class' => 'custom-class']])]
-    public function testMagicCallMethod(string $text, array $options = []): void
+    #[TestWith([['First line', 'Second line']])]
+    public function testMagicCallMethod(string|array $text, array $options = []): void
     {
         $expected = $this->Alert->alert(type: 'success', text: $text, options: $options);
 
