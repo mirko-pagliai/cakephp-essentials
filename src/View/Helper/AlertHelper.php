@@ -60,11 +60,11 @@ class AlertHelper extends Helper
      *
      * Provides all supported alert types as methods (`success()`, `danger()`, and so on).
      *
-     * @param string $name Method name, will be the `$type` argument
+     * @param string $name Method name. It will be the `$type` argument
      * @param array $arguments Params, other arguments
      * @return string
      * @throws \ArgumentCountError with too many or too few arguments
-     * @throws \BadMethodCallException with a no existing method
+     * @throws \BadMethodCallException with no existing method
      */
     public function __call(string $name, array $arguments): string
     {
@@ -88,7 +88,7 @@ class AlertHelper extends Helper
      * Creates an alert.
      *
      * @param string $type Alert type (`primary`, `secondary` and so on)
-     * @param array<string>|string $text Alert text, as string or array of strings
+     * @param array<string>|string $text Alert text, as a string or array of strings
      * @param array<string, mixed> $options Array of options and HTML attributes
      * @return string
      */
@@ -103,11 +103,11 @@ class AlertHelper extends Helper
             $text = implode('<br />', $text);
         }
 
-        // Adds some classes to wrapper
+        //Adds some classes to the wrapper
         $options = $this->addClass(options: $options, class: 'alert alert-' . $type . ' border-0');
 
         if ($options['icon']) {
-            // Adds other some classes to wrapper
+            //Adds other some classes to wrapper
             $options = $this->addClass(options: $options, class: 'd-flex align-items-baseline');
 
             $text = $this->formatTemplate(name: 'wrapperIconAndText', data: compact('text') + [
@@ -138,7 +138,7 @@ class AlertHelper extends Helper
     }
 
     /**
-     * Creates an HTML link from route path string, compatible with alerts (adds the `alert-link` class).
+     * Creates an HTML link from a route path string, compatible with alerts (adds the `alert-link` class).
      *
      * @param string $title
      * @param string $path
