@@ -506,18 +506,18 @@ class ValidatorTest extends TestCase
     {
         $this->Validator->validPassword('password');
 
-        $this->assertEmpty($this->Validator->validate(['password' => 'ABCdef1!']));
+        $this->assertEmpty($this->Validator->validate(['password' => 'ABCdef1gH3!?']));
     }
 
     public static function invalidPasswordsDataProvider(): array
     {
         return [
-            ['minLength', 'The provided value must be at least `8` characters long', '1234Ab!'],
-            ['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!'],
-            ['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!'],
-            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!'],
-            ['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12'],
-            ['notContainReservedWords', 'It cannot contain any reserved words', 'Admin213!'],
+            ['minLength', 'The provided value must be at least `12` characters long', 'abcd1234Ab!'],
+            ['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!abcd'],
+            ['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!abcd'],
+            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1234'],
+            ['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12abcd'],
+            ['notContainReservedWords', 'It cannot contain any reserved words', 'Admin213!abcd'],
         ];
     }
 
