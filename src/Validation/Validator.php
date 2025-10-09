@@ -29,7 +29,7 @@ use function Cake\I18n\__d as __d;
  * You can apply multiple rules to the same instance, facilitating the construction of rich and reusable
  * validation workflows.
  *
- * @see Cake\Validation\Validator
+ * @see \Cake\Validation\Validator
  */
 class Validator extends CakeValidator
 {
@@ -323,8 +323,9 @@ class Validator extends CakeValidator
 
     /**
      * Validates that the specified field complies with password strength requirements.
+     *
      * Ensures the password meets the following criteria:
-     * - At least 8 characters in length.
+     * - At least 12 characters in length.
      * - Contains at least one digit.
      * - Contains at least one uppercase letter.
      * - Contains at least one lowercase letter.
@@ -339,7 +340,7 @@ class Validator extends CakeValidator
     public function validPassword(string $field, ?string $message = null, Closure|string|null $when = null): self
     {
         return $this
-            ->minLength(field: $field, min: 8, message: $message, when: $when)
+            ->minLength(field: $field, min: 12, message: $message, when: $when)
             ->containsDigit(field: $field, message: $message, when: $when)
             ->containsCapitalLetter(field: $field, message: $message, when: $when)
             ->containsLowercaseLetter(field: $field, message: $message, when: $when)
