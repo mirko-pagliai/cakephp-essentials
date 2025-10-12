@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
 
 /**
@@ -8,7 +9,7 @@ use Cake\Http\ServerRequest;
  *
  * Checks if `$action` matches the current action.
  *
- * The `$action` argument can be a string or an array of strings. In the second case, it is sufficient that the action
+ * The `$action` argument can be a string or an array of strings. In the second case, it is enough that the action
  * matches one of those.
  *
  * Example:
@@ -25,7 +26,10 @@ use Cake\Http\ServerRequest;
  */
 ServerRequest::addDetector(
     name: 'action',
-    detector: fn(ServerRequest $Request, string ...$action): bool => in_array(needle: $Request->getParam('action'), haystack: $action),
+    detector: fn(ServerRequest $Request, string ...$action): bool => in_array(
+        needle: $Request->getParam('action'),
+        haystack: $action,
+    ),
 );
 
 /**
@@ -64,3 +68,24 @@ ServerRequest::addDetector(
     name: 'ip',
     detector: fn(ServerRequest $Request, string ...$ip): bool => in_array(needle: $Request->clientIp(), haystack: $ip),
 );
+
+/**
+ * `is('trustedClient')` detector.
+ *
+ * Returns `true` if it is a trusted client.
+ *
+ * Before using this detector, you should write trusted clients into the configuration, for example:
+ * ```
+ * Configure::write('trustedIpAddress', ['45.46.47.48', '192.168.0.100']);
+ * ```
+ */
+ServerRequest::addDetector(name: 'trustedClient', detector: function (ServerRequest $Request): bool {
+    if ($Request->is('localhost')) {
+        return true;
+    }
+
+    /** @var array<string> $trustedIpAddresses */
+    $trustedIpAddresses = (array)Configure::readOrFail('trustedIpAddress');
+
+    return $Request->is('ip', ...$trustedIpAddresses);
+});

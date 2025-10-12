@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase;
 
+use Cake\Core\Configure;
 use Cake\Http\ServerRequest;
 use Cake\TestSuite\TestCase;
 use Generator;
@@ -17,6 +18,14 @@ use PHPUnit\Framework\Attributes\TestWith;
  */
 class RequestDetectorsTest extends TestCase
 {
+    /**
+     * @inheritDoc
+     */
+    public static function setUpBeforeClass(): void
+    {
+        Configure::write('trustedIpAddress', ['45.46.47.48', '192.168.0.100']);
+    }
+
     #[Test]
     #[TestWith([true, 'myAction'])]
     #[TestWith([false, 'notMyAction'])]
@@ -78,5 +87,22 @@ class RequestDetectorsTest extends TestCase
         $result = $Request->is('ip', ...$ip);
 
         $this->assertSame($expectedIsIp, $result);
+    }
+
+    #[Test]
+    #[TestWith([true, '127.0.0.1'])]
+    #[TestWith([true, '::1'])]
+    #[TestWith([false, '127.0.1.1'])]
+    #[TestWith([false, '192.168.0.99'])]
+    #[TestWith([true, '192.168.0.100'])]
+    #[TestWith([false, '192.168.1.100'])]
+    #[TestWith([true, '45.46.47.48'])]
+    #[TestWith([false, '45.46.47.49'])]
+    public function testIsTrustedClient(bool $expectedIsTrustedClient, string $ipAddress): void
+    {
+        $Request = new ServerRequest(['environment' => ['REMOTE_ADDR' => $ipAddress]]);
+        $result = $Request->is('trustedClient');
+
+        $this->assertSame($expectedIsTrustedClient, $result);
     }
 }
