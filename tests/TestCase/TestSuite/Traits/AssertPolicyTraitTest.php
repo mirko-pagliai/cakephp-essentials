@@ -6,7 +6,6 @@ namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 use App\Model\Entity\Article;
 use App\Model\Entity\User;
 use Authorization\AuthorizationService;
-use Authorization\Policy\Exception\MissingMethodException;
 use Authorization\Policy\OrmResolver;
 use Cake\Essentials\TestSuite\Traits\AssertPolicyTrait;
 use PHPUnit\Framework\Attributes\CoversTrait;
@@ -95,8 +94,7 @@ class AssertPolicyTraitTest extends TestCase
             use AssertPolicyTrait;
         };
 
-        $this->expectException(MissingMethodException::class);
-        $this->expectExceptionMessage('Method `canInvalidAction` for invoking action `invalidAction` has not been defined in `App\Policy\ArticlePolicy`.');
+        $this->expectExceptionMessage('Call to undefined method App\Policy\ArticlePolicy::canInvalidAction()');
         $TestCase->assertPolicyResult(expectedResult: true, method: 'invalidAction', Identity: $this->User, Entity: $this->Article);
     }
 
