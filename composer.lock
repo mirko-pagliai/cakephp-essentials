@@ -55,16 +55,16 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "5.2.8",
+            "version": "5.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "b51b13ff8df7f9160a261b978eb93efe1210ad2c"
+                "reference": "12d41e43f945c1cb38ef3d983a9d87f9b13c041f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/b51b13ff8df7f9160a261b978eb93efe1210ad2c",
-                "reference": "b51b13ff8df7f9160a261b978eb93efe1210ad2c",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/12d41e43f945c1cb38ef3d983a9d87f9b13c041f",
+                "reference": "12d41e43f945c1cb38ef3d983a9d87f9b13c041f",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +172,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/cakephp"
             },
-            "time": "2025-09-24T02:35:28+00:00"
+            "time": "2025-10-17T03:14:02+00:00"
         },
         {
             "name": "cakephp/chronos",
@@ -509,20 +509,20 @@
         },
         {
             "name": "laminas/laminas-diactoros",
-            "version": "3.7.0",
+            "version": "3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "b6a3b5bebb1a124f6e4ae22f3571ac83dee4b07d"
+                "reference": "60c182916b2749480895601649563970f3f12ec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/b6a3b5bebb1a124f6e4ae22f3571ac83dee4b07d",
-                "reference": "b6a3b5bebb1a124f6e4ae22f3571ac83dee4b07d",
+                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/60c182916b2749480895601649563970f3f12ec4",
+                "reference": "60c182916b2749480895601649563970f3f12ec4",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/http-factory": "^1.1",
                 "psr/http-message": "^1.1 || ^2.0"
             },
@@ -593,24 +593,24 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-10-11T18:30:50+00:00"
+            "time": "2025-10-12T15:31:36+00:00"
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.12.0",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "b14da3519c650e9436e410cfedee6f860312eff9"
+                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/b14da3519c650e9436e410cfedee6f860312eff9",
-                "reference": "b14da3519c650e9436e410cfedee6f860312eff9",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
+                "reference": "181eaeeb838ad3d80fbbcfb0657a46bc212bbd4e",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/http-message": "^1.0 || ^2.0",
                 "psr/http-message-implementation": "^1.0 || ^2.0",
                 "psr/http-server-handler": "^1.0"
@@ -660,7 +660,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-05-13T21:21:16+00:00"
+            "time": "2025-10-12T20:58:29+00:00"
         },
         {
             "name": "league/container",
@@ -1665,29 +1665,29 @@
     "packages-dev": [
         {
             "name": "cakedc/cakephp-phpstan",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/cakephp-phpstan.git",
-                "reference": "dec811f201ae971503848bc6190ce42a9b41efa5"
+                "reference": "a96c5f2808cdf47de617a7174203493bdffd2772"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/cakephp-phpstan/zipball/dec811f201ae971503848bc6190ce42a9b41efa5",
-                "reference": "dec811f201ae971503848bc6190ce42a9b41efa5",
+                "url": "https://api.github.com/repos/CakeDC/cakephp-phpstan/zipball/a96c5f2808cdf47de617a7174203493bdffd2772",
+                "reference": "a96c5f2808cdf47de617a7174203493bdffd2772",
                 "shasum": ""
             },
             "require": {
                 "cakephp/cakephp": "^5.0",
                 "php": ">=8.1.0",
-                "phpstan/phpstan": "^2.0"
+                "phpstan/phpstan": "^2.1.26"
             },
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "^5.0",
                 "phpstan/phpstan-deprecation-rules": "^2.0",
                 "phpstan/phpstan-phpunit": "^2.0",
                 "phpstan/phpstan-strict-rules": "^2.0",
-                "phpunit/phpunit": "^10.1"
+                "phpunit/phpunit": "^10.5 || ^11.5 || ^12.1"
             },
             "type": "phpstan-extension",
             "extra": {
@@ -1716,9 +1716,9 @@
             "description": "CakePHP plugin extension for PHPStan.",
             "support": {
                 "issues": "https://github.com/CakeDC/cakephp-phpstan/issues",
-                "source": "https://github.com/CakeDC/cakephp-phpstan/tree/4.0.0"
+                "source": "https://github.com/CakeDC/cakephp-phpstan/tree/4.1.0"
             },
-            "time": "2024-11-11T15:58:58+00:00"
+            "time": "2025-10-12T13:48:52+00:00"
         },
         {
             "name": "cakephp/authentication",
