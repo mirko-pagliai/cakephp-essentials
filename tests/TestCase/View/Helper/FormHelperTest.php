@@ -112,7 +112,7 @@ class FormHelperTest extends TestCase
     #[Test]
     public function testControlWithDateTypeAndAppendNowButton(): void
     {
-        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DD&#039;))" type="button"><i class="bi bi-clock"></i> Today</button>';
+        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();" type="button"><i class="bi bi-clock"></i> Today</button>';
         $result = $this->Form->control(fieldName: 'myField', options: [
             'appendNowButton' => true,
             'type' => 'date',
@@ -126,7 +126,7 @@ class FormHelperTest extends TestCase
     #[Test]
     public function testControlWithDatetimeTypeAndAppendNowButton(): void
     {
-        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="javascript:event.preventDefault(); $(this).prev(&#039;input&#039;).val(moment(new Date()).format(&#039;YYYY-MM-DDTHH:mm&#039;))" type="button"><i class="bi bi-clock"></i> Now</button>';
+        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();" type="button"><i class="bi bi-clock"></i> Now</button>';
         $result = $this->Form->control(fieldName: 'myField', options: [
             'appendNowButton' => true,
             'type' => 'datetime',

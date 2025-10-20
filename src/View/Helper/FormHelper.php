@@ -85,20 +85,20 @@ class FormHelper extends BootstrapUIFormHelper
          * When the `appendNowButton` option is `true`, appends a "now" button that automatically sets the input value
          *  to the current date and time for `datetime` type and to the current date for `date` type.
          *
-         * It requires the `Moment.js` library.
+         * It requires `current-local-datetime.min.js`.
+         *
+         * @link webroot/js/current-local-datetime.min.js
          */
         if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
-            $format = 'YYYY-MM-DDTHH:mm';
             $text = __d('cake/essentials', 'Now');
             if ($type === 'date') {
-                $format = 'YYYY-MM-DD';
                 $text = __d('cake/essentials', 'Today');
             }
 
             $options['append'] = $this->Html->button(text: $text, options: [
                 'class' => 'btn btn-primary btn-sm text-nowrap',
                 'icon' => 'clock',
-                'onclick' => 'javascript:event.preventDefault(); $(this).prev(\'input\').val(moment(new Date()).format(\'' . $format . '\'))',
+                'onclick' => 'event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();',
             ]);
         }
         unset($options['appendNowButton']);
