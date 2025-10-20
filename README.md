@@ -16,7 +16,6 @@ In your `composer.json`, add the `post-update-cmd` command event:
         "ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f",
         "ln -s ../../vendor/twbs/bootstrap-icons/font/ webroot/vendor/bootstrap-icons -f",
         "ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f",
-        "ln -s ../../vendor/moment/moment/min/ webroot/vendor/moment -f"
     ]
   },
 ```
@@ -29,7 +28,6 @@ rm -rf webroot/vendor/ && mkdir webroot/vendor/ -p
 ln -s ../../vendor/twbs/bootstrap/dist/ webroot/vendor/bootstrap -f
 ln -s ../../vendor/twbs/bootstrap-icons/font/ webroot/vendor/bootstrap-icons -f
 ln -s ../../vendor/axllent/jquery/ webroot/vendor/jquery -f
-ln -s ../../vendor/moment/moment/min/ webroot/vendor/moment -f
 ```
 It can also be useful to launch the command:
 ```bash
