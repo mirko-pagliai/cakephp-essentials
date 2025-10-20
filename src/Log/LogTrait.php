@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Log;
 
-use Cake\Http\ServerRequest;
 use Cake\Log\LogTrait as CakeLogTrait;
+use Cake\Routing\Router;
 use Psr\Log\LogLevel;
 use Stringable;
 
@@ -30,14 +30,16 @@ trait LogTrait
      */
     public function log(Stringable|string $message, string|int $level = LogLevel::ERROR, array|string $context = []): bool
     {
-        //@phpstan-ignore property.notFound, instanceof.alwaysTrue
-        if (isset($this->request) && $this->request instanceof ServerRequest) {
-            $clientIp = $this->request->clientIp();
-            if ($clientIp) {
-                $message = $clientIp . ' - ' . $message;
-            }
-        }
+        /**
+         * @var \Cake\Http\ServerRequest $request
+         * @phpstan-ignore function.alreadyNarrowedType, function.impossibleType
+         */
+        $request = method_exists($this, 'getRequest') ? $this->getRequest() : Router::getRequest();
 
-        return $this->_log(message: $message, level: $level, context: $context);
+        return $this->_log(
+            message: $request->clientIp() ? $request->clientIp() . ' - ' . $message : $message,
+            level: $level,
+            context: $context,
+        );
     }
 }

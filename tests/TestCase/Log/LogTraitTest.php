@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\Log;
 
+use Cake\Controller\Controller;
 use Cake\Essentials\Log\LogTrait;
 use Cake\Http\ServerRequest;
+use Cake\Routing\Router;
 use Cake\TestSuite\LogTestTrait;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
@@ -28,51 +30,58 @@ class LogTraitTest extends TestCase
         parent::setUp();
 
         $this->setupLog('error');
+
+        $Request = new ServerRequest(['environment' => ['REMOTE_ADDR' => '86.36.458.25']]);
+        Router::setRequest($Request);
     }
 
     /**
      * @link \Cake\Essentials\Log\LogTrait::log()
      */
     #[Test]
-    public function testLogWithRequest(): void
+    public function testLog(): void
     {
         $Instance = new class () {
             use LogTrait;
-
-            protected ?ServerRequest $request {
-                get => new ServerRequest(['environment' => ['REMOTE_ADDR' => '127.0.0.1']]);
-            }
         };
         $Instance->log('Some log text...');
 
         $this->assertLogMessage(
             level: 'error',
-            expectedMessage: '127.0.0.1 - Some log text...',
+            expectedMessage: '86.36.458.25 - Some log text...',
         );
     }
 
     /**
+     * Tests for the ` log ()` method when the `getRequest()` method is available.
+     *
      * @link \Cake\Essentials\Log\LogTrait::log()
      */
     #[Test]
-    public function testLogWithRequestButNoClientIp(): void
+    public function testLogWithGetRequestMethod(): void
     {
-        $Instance = new class () {
+        $Request = new ServerRequest(['environment' => ['REMOTE_ADDR' => '56.54.25.63']]);
+        $Instance = new class ($Request) extends Controller {
             use LogTrait;
-
-            protected ?ServerRequest $request;
         };
         $Instance->log('Some log text...');
 
-        $this->assertLogMessage(level: 'error', expectedMessage: 'Some log text...');
+        $this->assertLogMessage(
+            level: 'error',
+            expectedMessage: '56.54.25.63 - Some log text...',
+        );
     }
 
     /**
+     * Tests for the `log()` method when the `ServerRequest::clientIp()` returns `null`.
+     *
      * @link \Cake\Essentials\Log\LogTrait::log()
      */
     #[Test]
-    public function testLogWithNoRequest(): void
+    public function testLogWithNoClientIp(): void
     {
+        Router::setRequest(new ServerRequest());
+
         $Instance = new class () {
             use LogTrait;
         };
