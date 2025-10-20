@@ -15,7 +15,6 @@
     "cakephp/cakephp": "^5.2",
     "axllent/jquery": "~3.7",
     "friendsofcake/bootstrap-ui": "^5.1.1",
-    "moment/moment": "^2.30",
     "twbs/bootstrap": "~5.3",
     "twbs/bootstrap-icons": "^1.11",
     "symfony/filesystem": "^7.3"
