@@ -108,7 +108,7 @@ class AssertPolicyTraitTest extends TestCase
             $this->fail('Expected exception not thrown.');
         } catch (Throwable $e) {
             $this->assertTrue(
-                ($e instanceof MissingMethodException && $e->getMessage() === 'Method `invalidAction` has not been defined in `App\Policy\ArticlePolicy`.') ||
+                ($e instanceof MissingMethodException && $e->getMessage() === 'Method `canInvalidAction` for invoking action `invalidAction` has not been defined in `App\Policy\ArticlePolicy`.') ||
                 ($e instanceof Error && str_contains($e->getMessage(), 'Call to undefined method')),
             );
         }
