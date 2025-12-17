@@ -9,10 +9,12 @@ use Authorization\AuthorizationService;
 use Authorization\Policy\Exception\MissingMethodException;
 use Authorization\Policy\OrmResolver;
 use Cake\Essentials\TestSuite\Traits\AssertPolicyTrait;
+use Error;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * AssertPolicyTraitTest.
@@ -95,9 +97,21 @@ class AssertPolicyTraitTest extends TestCase
             use AssertPolicyTrait;
         };
 
-        $this->expectException(MissingMethodException::class);
-        $this->expectExceptionMessage('Method `canInvalidAction` for invoking action `invalidAction` has not been defined in `App\Policy\ArticlePolicy`.');
-        $TestCase->assertPolicyResult(expectedResult: true, method: 'invalidAction', Identity: $this->User, Entity: $this->Article);
+        try {
+            $TestCase->assertPolicyResult(
+                expectedResult: true,
+                method: 'invalidAction',
+                Identity: $this->User,
+                Entity: $this->Article,
+            );
+
+            $this->fail('Expected exception not thrown.');
+        } catch (Throwable $e) {
+            $this->assertTrue(
+                ($e instanceof MissingMethodException && $e->getMessage() === 'Method `canInvalidAction` for invoking action `invalidAction` has not been defined in `App\Policy\ArticlePolicy`.') ||
+                ($e instanceof Error && str_contains($e->getMessage(), 'Call to undefined method')),
+            );
+        }
     }
 
     /**

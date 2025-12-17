@@ -166,7 +166,17 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notContainReservedWords', rule: $extra + [
-            'rule' => ['custom', '/^((?!admin|manager|root|supervisor|moderator|mail|pwd|password|passwd).)+$/i'],
+            'rule' => function (string $value) use ($message): bool|string {
+                $result = preg_match('/(1234|5678|7890|0000|juventus|napoli|milan|inter|admin|manager|root|supervisor|moderator|mail|pwd|password|passwd)/i', $value, $matches);
+
+                /** @var array{0: string}|false $matches */
+
+                if ($result && isset($matches[0])) {
+                    return $message ?: __d('cake/essentials', 'It cannot contain the reserved word `{0}`', $matches[0]);
+                }
+
+                return !$result;
+            },
         ]);
     }
 

@@ -231,21 +231,30 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::notContainsReservedWords()
      */
     #[Test]
-    #[TestWith(['admin'])]
-    #[TestWith(['manager'])]
-    #[TestWith(['root'])]
-    #[TestWith(['supervisor'])]
-    #[TestWith(['moderator'])]
-    #[TestWith(['mail'])]
-    #[TestWith(['pwd'])]
-    #[TestWith(['password'])]
-    #[TestWith(['passwd'])]
-    #[TestWith(['1admin2'])]
-    #[TestWith(['1aDmin2'])]
-    #[TestWith(['admin', 'You cannot use a reserved word'])]
-    public function testNotContainsReservedWordsOnError(string $badText, string $customMessage = ''): void
+    #[TestWith(['It cannot contain the reserved word `admin`', 'admin'])]
+    #[TestWith(['It cannot contain the reserved word `manager`', 'manager'])]
+    #[TestWith(['It cannot contain the reserved word `root`', 'root'])]
+    #[TestWith(['It cannot contain the reserved word `supervisor`', 'supervisor'])]
+    #[TestWith(['It cannot contain the reserved word `moderator`', 'moderator'])]
+    #[TestWith(['It cannot contain the reserved word `mail`', 'mail'])]
+    #[TestWith(['It cannot contain the reserved word `pwd`', 'pwd'])]
+    #[TestWith(['It cannot contain the reserved word `password`', 'password'])]
+    #[TestWith(['It cannot contain the reserved word `passwd`', 'passwd'])]
+    #[TestWith(['It cannot contain the reserved word `admin`', '1admin2'])]
+    #[TestWith(['It cannot contain the reserved word `aDmin`', '1aDmin2'])]
+    #[TestWith(['It cannot contain the reserved word `1234`', 'ab1234cd'])]
+    #[TestWith(['It cannot contain the reserved word `5678`', 'ab5678cd'])]
+    #[TestWith(['It cannot contain the reserved word `7890`', 'ab7890cd'])]
+    #[TestWith(['It cannot contain the reserved word `0000`', 'ab0000cd'])]
+    #[TestWith(['It cannot contain the reserved word `1234`', 'ab1234567890cd'])]
+    #[TestWith(['It cannot contain the reserved word `juventus`', '12juventus34'])]
+    #[TestWith(['It cannot contain the reserved word `nApOli`', '12nApOli34'])]
+    #[TestWith(['It cannot contain the reserved word `MILAN`', '12MILAN34'])]
+    #[TestWith(['It cannot contain the reserved word `inter`', '12inter34'])]
+    #[TestWith(['You cannot use a reserved word', 'admin', 'You cannot use a reserved word'])]
+    public function testNotContainsReservedWordsOnError(string $expectedError, string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['notContainReservedWords' => $customMessage ?: 'It cannot contain any reserved words']];
+        $expected = ['text' => ['notContainReservedWords' => $expectedError]];
 
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
@@ -512,12 +521,12 @@ class ValidatorTest extends TestCase
     public static function invalidPasswordsDataProvider(): array
     {
         return [
-            ['minLength', 'The provided value must be at least `12` characters long', 'abcd1234Ab!'],
+            ['minLength', 'The provided value must be at least `12` characters long', 'abcd1534Ab!'],
             ['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!abcd'],
             ['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!abcd'],
-            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1234'],
+            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1634'],
             ['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12abcd'],
-            ['notContainReservedWords', 'It cannot contain any reserved words', 'Admin213!abcd'],
+            ['notContainReservedWords', 'It cannot contain the reserved word `Admin`', 'Admin213!abcd'],
         ];
     }
 
