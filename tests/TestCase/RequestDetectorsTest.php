@@ -11,6 +11,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 
+require_once ROOT . 'src/request_detectors.php';
+
 /**
  * RequestDetectorsTest.
  *
