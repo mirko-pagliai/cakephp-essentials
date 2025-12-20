@@ -45,13 +45,13 @@ class AlertHelper extends Helper
             'warning' => HtmlHelper::WARNING_ICON_FILL,
         ],
         'templates' => [
-            // Wrappers used when an icon is also used, to separate it from the text
+            // Wrappers used when an icon is also used to separate it from the text
             'wrapperIconAndText' => '<div class="alert-icon me-2">{{icon}}</div><div class="alert-text">{{text}}</div>',
         ],
     ];
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = ['Html'];
 
@@ -68,20 +68,20 @@ class AlertHelper extends Helper
      */
     public function __call(string $name, array $arguments): string
     {
-        if (in_array(needle: $name, haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'])) {
-            if (count($arguments) > 2) {
-                throw new ArgumentCountError(sprintf(
-                    'Too many arguments for `%s::%s()`, %s passed and at most 2 expected.',
-                    $this::class,
-                    $name,
-                    count($arguments),
-                ));
-            }
-
-            return $this->alert($name, ...$arguments);
+        if (!in_array(needle: $name, haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'])) {
+            throw new BadMethodCallException(sprintf('Method `%s::%s()` does not exist.', $this::class, $name));
         }
 
-        throw new BadMethodCallException('Method `' . $this::class . '::' . $name . '()` does not exist.');
+        if (count($arguments) > 2) {
+            throw new ArgumentCountError(sprintf(
+                'Too many arguments for `%s::%s()`, %s passed and at most 2 expected.',
+                $this::class,
+                $name,
+                count($arguments),
+            ));
+        }
+
+        return $this->alert($name, ...$arguments);
     }
 
     /**
