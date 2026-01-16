@@ -362,6 +362,19 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * @inheritDoc
      */
     #[Override]
+    public function scriptStart(array $options = []): void
+    {
+        if (!isset($options['block'])) {
+            $options['block'] = true;
+        }
+
+        parent::scriptStart($options);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    #[Override]
     public function tag(string $name, ?string $text = null, array $options = []): string
     {
         [$text, $options] = $this->addIconToTitle(title: is_null($text) ? '' : $text, options: $options);
