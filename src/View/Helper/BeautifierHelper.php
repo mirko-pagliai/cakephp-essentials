@@ -13,7 +13,7 @@ use Cake\View\Helper;
 class BeautifierHelper extends Helper
 {
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = ['Html'];
 
@@ -26,7 +26,9 @@ class BeautifierHelper extends Helper
      */
     public function ipAddress(string $ipAddress, array $options = []): string
     {
-        $options += ['icon' => ['name' => 'globe-americas', 'class' => 'small text-body-secondary']];
+        $options += [
+            'icon' => ['name' => 'globe-americas', 'class' => 'small text-body-secondary'],
+        ];
 
         return $this->Html->span($this->Html->code($ipAddress), $options);
     }
@@ -91,7 +93,9 @@ class BeautifierHelper extends Helper
             $icon = 'question-circle-fill';
         }
 
-        $options += ['icon' => ['name' => $icon, 'class' => 'me-1 small text-body-secondary']];
+        $options += [
+            'icon' => ['name' => $icon, 'class' => 'me-1 small text-body-secondary'],
+        ];
 
         return $this->Html->span($this->Html->code($userAgent), options: $options);
     }
