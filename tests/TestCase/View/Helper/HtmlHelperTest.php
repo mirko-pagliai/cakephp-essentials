@@ -363,6 +363,34 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::scriptStart()
+     */
+    #[Test]
+    public function testScriptStart(): void
+    {
+        /**
+         * By default and if not set, the `block` option is `true`.
+         */
+        $this->Html->scriptStart();
+        echo 'ehi';
+        $result = $this->Html->scriptEnd();
+        $this->assertNull($result);
+
+        /**
+         * The remaining behaviors are as expected.
+         */
+        $this->Html->scriptStart(['block' => false]);
+        echo 'ehi';
+        $result = $this->Html->scriptEnd();
+        $this->assertSame('<script>ehi</script>', $result);
+
+        $this->Html->scriptStart(['block' => true]);
+        echo 'ehi';
+        $result = $this->Html->scriptEnd();
+        $this->assertNull($result);
+    }
+
+    /**
      * @link \Cake\Essentials\View\Helper\HtmlHelper::tag()
      */
     #[Test]
