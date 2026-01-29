@@ -9,6 +9,8 @@ use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 /**
  * This trait implements some generic methods for the `User` entity.
  *
+ * The trait can be used directly, but you should override the `isGroup()` method if you use a field other than `name`.
+ *
  * - `_setPassword()` ensures password hashing;
  * - `isId()` (and the `isFounder()` alias) and `isOwnerOf()` provide controls based on the user's ID;
  * - `isGroup()` (and the `isAdmin()` and `isManager()` aliases) provides checks based on the ID of the user group the
