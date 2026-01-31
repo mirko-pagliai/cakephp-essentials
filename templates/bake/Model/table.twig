@@ -85,10 +85,7 @@ class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' im
 {% set generatedFunctions = generatedFunctions|merge(['validationDefault']) %}
 
     /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance
-     * @return \Cake\Validation\Validator
+     * @inheritDoc
      */
     public function validationDefault(Validator $validator): Validator
     {
@@ -113,11 +110,7 @@ class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' im
 {% set generatedFunctions = generatedFunctions|merge(['buildRules']) %}
 
     /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified
-     * @return \Cake\ORM\RulesChecker
+     * @inheritDoc
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
@@ -138,9 +131,7 @@ class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' im
 {% set generatedFunctions = generatedFunctions|merge(['defaultConnectionName']) %}
 
     /**
-     * Returns the database connection name to use by default.
-     *
-     * @return string
+     * @inheritDoc
      */
     public static function defaultConnectionName(): string
     {
