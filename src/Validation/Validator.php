@@ -106,12 +106,13 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the value of a field is greater than the value of another datetime field.
+     * Adds a validation rule that ensures the datetime value of the given field is greater than the datetime value of
+     *  another specified field.
      *
-     * @param string $field The name of the field to which the rule is applied.
-     * @param string $secondField The name of the field whose value should be compared.
-     * @param string|null $message Optional custom error message to return if the validation rule is violated.
-     * @param \Closure|string|null $when Optional condition to specify when the rule should be applied.
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string $secondField The name of the field containing the datetime value to compare against.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
      * @return self Returns the current instance for method chaining.
      */
     public function greaterThanDateTimeField(
@@ -131,12 +132,12 @@ class Validator extends CakeValidator
                         return true;
                     }
 
-                    $firstDateTime = toDateTime($dateTime);
-                    if (toDateTime($context['data'][$secondField])->greaterThan($firstDateTime)) {
+                    $secondDateTime = toDateTime($context['data'][$secondField]);
+                    if (toDateTime($dateTime)->greaterThan($secondDateTime)) {
                         return true;
                     }
 
-                    return $message ?: __d('cake/essentials', 'It must be greater than to `{0}`', $firstDateTime->i18nFormat());
+                    return $message ?: __d('cake/essentials', 'It must be greater than to `{0}`', $secondDateTime->i18nFormat());
                 },
             ],
         );

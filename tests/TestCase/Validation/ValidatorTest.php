@@ -11,6 +11,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use function Cake\Essentials\toDateTime;
 
 /**
  * ValidatorTest.
@@ -154,10 +155,10 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:00', ''])]
-    #[TestWith([new DateTime('2025-02-26 13:00:00'), ''])]
-    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:01'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith(['', '2025-02-26 13:00:00'])]
+    #[TestWith(['', new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith(['2025-02-26 13:00:01', '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'),new DateTime('2025-02-26 13:00:00')])]
     public function testGreaterThanDateTimeField(string|DateTime $first_field, string|DateTime $second_field): void
     {
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
@@ -172,17 +173,14 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 12:59:59'])]
+    #[TestWith(['2025-02-26 12:59:59', '2025-02-26 13:00:00'])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00'])]
     #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
     public function testGreaterThanDateTimeFieldOnError(string|DateTime $first_field, string|DateTime $second_field, string $customMessage = ''): void
     {
-        $expected = [
-            'first_field' => [
-                'greaterThanDateTimeField' => $customMessage ?: 'It must be greater than to `2/26/25, 1:00 PM`',
-            ],
-        ];
+        $expectedMessage = $customMessage ?: 'It must be greater than to `' . toDateTime($second_field)->i18nFormat() . '`';
+        $expected = ['first_field' => ['greaterThanDateTimeField' => $expectedMessage]];
 
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field', $customMessage);
 
