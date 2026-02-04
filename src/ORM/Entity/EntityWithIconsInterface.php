@@ -20,12 +20,12 @@ namespace Cake\Essentials\ORM\Entity;
  * ```
  * class Articles extends Entity implements EntityWithIconsInterface
  * {
- *    public function getIcon(): string
+ *    public function getIcon(): string|array
  *    {
  *       return $this->isPublished() ? 'hand-thumbs-up' : 'hand-thumbs-down';
  *    }
  *
- *    public static function getStaticIcon(): string
+ *    public static function getStaticIcon(): string|array
  *    {
  *       return 'book';
  *    }
@@ -38,15 +38,28 @@ namespace Cake\Essentials\ORM\Entity;
  * {
  *    use GetIconTrait;
  *
- *    public static function getStaticIcon(): string
+ *    public static function getStaticIcon(): string|array
  *    {
  *       return 'book';
  *    }
  * }
  * ```
  *
+ * These methods, in addition to a string, can also return an array, useful if you want to use a different set of icons than the default one, for example:
+ * ```
+ * public static function getStaticIcon(): string|array
+ * {
+ *     return [
+ *        'name' => 'bullseye',
+ *        'namespace' => 'fas',
+ *        'prefix' => 'fa',
+ *     ];
+ * }
+ * ```
+ *
  * @phpstan-require-extends \Cake\ORM\Entity
  *
+ * @link https://github.com/FriendsOfCake/bootstrap-ui?tab=readme-ov-file#using-a-different-icon-set Using a different icon set
  * @see \Cake\Essentials\ORM\Entity\Traits\GetIconTrait
  */
 interface EntityWithIconsInterface
@@ -54,14 +67,14 @@ interface EntityWithIconsInterface
     /**
      * Returns the icon for this instantiated entity.
      *
-     * @return non-empty-string
+     * @return non-empty-string|non-empty-array<non-empty-string, non-empty-string>
      */
-    public function getIcon(): string;
+    public function getIcon(): string|array;
 
     /**
      * Returns the static icon for this entity type.
      *
-     * @return non-empty-string
+     * @return non-empty-string|non-empty-array<non-empty-string, non-empty-string>
      */
-    public static function getStaticIcon(): string;
+    public static function getStaticIcon(): string|array;
 }

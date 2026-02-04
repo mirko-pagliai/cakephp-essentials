@@ -7,7 +7,6 @@ use Cake\Essentials\ORM\Entity\EntityWithIconsInterface;
 use Cake\Essentials\ORM\Entity\Traits\GetIconTrait;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
-use Override;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
@@ -23,7 +22,6 @@ class GetIconTraitTest extends TestCase
     /**
      * @inheritDoc
      */
-    #[Override]
     protected function setUp(): void
     {
         $this->Entity = new class extends Entity implements EntityWithIconsInterface {
@@ -36,19 +34,36 @@ class GetIconTraitTest extends TestCase
         };
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
+     */
     #[Test]
     public function testGetIcon(): void
     {
-        $this->assertSame($this->Entity->getStaticIcon(), $this->Entity->getIcon());
+        $result = $this->Entity->getIcon();
+        $this->assertSame('house', $result);
     }
 
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
+     */
     #[Test]
     public function testGetIconWithIconProperty(): void
     {
         $this->Entity->set('icon', 'book');
-        $this->assertSame($this->Entity->get('icon'), $this->Entity->getIcon());
+
+        $result = $this->Entity->getIcon();
+        $this->assertSame('book', $result);
     }
 
+    /**
+     * Tests for the `getIcon()` method with invalid icon property value.
+     *
+     * In this case, the `icon` property has been set. But since it is invalid, it still returns the `getStaticIcon()`
+     *  value.
+     *
+     * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
+     */
     #[Test]
     #[TestWith([''])]
     #[TestWith([null])]
@@ -56,6 +71,8 @@ class GetIconTraitTest extends TestCase
     public function testGetIconWithInvalidIconProperty(mixed $invalidPropertyValue): void
     {
         $this->Entity->set('icon', $invalidPropertyValue);
-        $this->assertSame($this->Entity->getStaticIcon(), $this->Entity->getIcon());
+
+        $result = $this->Entity->getIcon();
+        $this->assertSame('house', $result);
     }
 }
