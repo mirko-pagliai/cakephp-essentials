@@ -193,13 +193,49 @@ class ValidatorTest extends TestCase
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
     public function testGreaterThanDateTimeFieldOnError(string|DateTime $first_field, string|DateTime $second_field, string $customMessage = ''): void
     {
-        $expectedMessage = $customMessage ?: 'It must be greater than to `' . toDateTime($second_field)->i18nFormat() . '`';
+        $expectedMessage = $customMessage ?: 'It must be greater than `' . toDateTime($second_field)->i18nFormat() . '`';
         $expected = ['first_field' => ['greaterThanDateTimeField' => $expectedMessage]];
 
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field', $customMessage);
 
         $result = $this->Validator->validate(compact('first_field', 'second_field'));
         $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
+    public function testGreaterThanDateTime(DateTime|string $GoodDateTime): void
+    {
+        $this->Validator->greaterThanDateTime('created', new DateTime('2025-02-26 13:00:00'));
+
+        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+    }
+
+    /**
+     * Tests for the `greaterThanDateTime()` method, on error.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 12:59:59'])]
+    #[TestWith(['2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
+    public function testGreaterThanDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
+    {
+        $comparisonValue = new DateTime('2025-02-26 13:00:00');
+
+        $expected = ['created' => [
+            'greaterThanDateTime' => $customMessage ?: 'It must be greater than `' . $comparisonValue->i18nFormat() . '`',
+        ]];
+
+        $this->Validator->greaterThanDateTime('created', $comparisonValue, $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
     }
 
     /**
@@ -218,6 +254,8 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * Tests for the `greaterThanOrEqualsDateTime()` method, on error.
+     *
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]

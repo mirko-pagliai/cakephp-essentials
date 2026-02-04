@@ -137,10 +137,36 @@ class Validator extends CakeValidator
                         return true;
                     }
 
-                    return $message ?: __d('cake/essentials', 'It must be greater than to `{0}`', $secondDateTime->i18nFormat());
+                    return $message ?: __d('cake/essentials', 'It must be greater than `{0}`', $secondDateTime->i18nFormat());
                 },
             ],
         );
+    }
+
+    /**
+     * Adds a validation rule that ensures the given field contains a datetime value greater than the specified
+     *  comparison value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param \Cake\I18n\DateTime $comparisonValue The datetime value to compare against.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function greaterThanDateTime(
+        string $field,
+        DateTime $comparisonValue,
+        ?string $message = null,
+        Closure|string|null $when = null,
+    ): self {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It must be greater than `{0}`', $comparisonValue->i18nFormat()),
+        ]);
+
+        return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
+            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThan($comparisonValue),
+        ]);
     }
 
     /**
