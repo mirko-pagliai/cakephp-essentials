@@ -79,12 +79,14 @@ class GetIconTraitTest extends TestCase
      * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
      */
     #[Test]
-    public function testGetIconWithIconProperty(): void
+    #[TestWith(['book'])]
+    #[TestWith([['name' => 'bullseye', 'namespace' => 'fas', 'prefix' => 'fa']])]
+    public function testGetIconWithIconProperty(string|array $icon): void
     {
-        $this->Entity->set('icon', 'book');
+        $this->Entity->set('icon', $icon);
 
         $result = $this->Entity->getIcon();
-        $this->assertSame('book', $result);
+        $this->assertSame($icon, $result);
     }
 
     /**
