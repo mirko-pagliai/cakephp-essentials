@@ -137,7 +137,11 @@ class Validator extends CakeValidator
                         return true;
                     }
 
-                    return $message ?: __d('cake/essentials', 'It must be greater than `{0}`', $secondDateTime->i18nFormat());
+                    return $message ?: __d(
+                        'cake/essentials',
+                        'It must be greater than `{0}`',
+                        $secondDateTime->i18nFormat(),
+                    );
                 },
             ],
         );
@@ -161,7 +165,11 @@ class Validator extends CakeValidator
     ): self {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It must be greater than `{0}`', $comparisonValue->i18nFormat()),
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It must be greater than `{0}`',
+                $comparisonValue->i18nFormat(),
+            ),
         ]);
 
         return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
@@ -186,7 +194,11 @@ class Validator extends CakeValidator
     ): self {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It must be greater than or equal to `{0}`', $comparisonValue->i18nFormat()),
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It must be greater than or equal to `{0}`',
+                $comparisonValue->i18nFormat(),
+            ),
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
@@ -206,7 +218,10 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot contain spaces at the beginning or at the end'),
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It cannot contain spaces at the beginning or at the end',
+            ),
         ]);
 
         return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
@@ -236,7 +251,11 @@ class Validator extends CakeValidator
                 /** @var array{0: string}|false $matches */
 
                 if ($result && isset($matches[0])) {
-                    return $message ?: __d('cake/essentials', 'It cannot contain the reserved word `{0}`', $matches[0]);
+                    return $message ?: __d(
+                        'cake/essentials',
+                        'It cannot contain the reserved word `{0}`',
+                        $matches[0],
+                    );
                 }
 
                 return !$result;
@@ -342,8 +361,18 @@ class Validator extends CakeValidator
         return $this
             ->setStopOnFailure()
             ->noStartOrEndSpace(field: $field, message: $message, when: $when)
-            ->minLength(field: $field, min: 2, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2), when: $when)
-            ->maxLength(field: $field, max: 40, message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40), when: $when)
+            ->minLength(
+                field: $field,
+                min: 2,
+                message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2),
+                when: $when,
+            )
+            ->maxLength(
+                field: $field,
+                max: 40,
+                message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40),
+                when: $when,
+            )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'personName', rule: $extra + [
                 /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
@@ -387,7 +416,12 @@ class Validator extends CakeValidator
         return $this
             ->setStopOnFailure()
             ->noStartOrEndSpace(field: $field, message: $message, when: $when)
-            ->minLength(field: $field, min: 3, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3), when: $when)
+            ->minLength(
+                field: $field,
+                min: 3,
+                message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3),
+                when: $when,
+            )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
@@ -420,7 +454,10 @@ class Validator extends CakeValidator
             ->containsLowercaseLetter(field: $field, message: $message, when: $when)
             ->notAlphaNumeric(
                 field: $field,
-                message: $message ?: __d('cake/essentials', 'It must contain at least one special character'),
+                message: $message ?: __d(
+                    'cake/essentials',
+                    'It must contain at least one special character',
+                ),
                 when: $when,
             )
             ->notContainsReservedWords(field: $field, message: $message, when: $when);
