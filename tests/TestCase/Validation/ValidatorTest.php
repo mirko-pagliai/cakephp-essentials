@@ -27,7 +27,7 @@ class ValidatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->Validator = new Validator();
+        $this->Validator ??= new Validator();
     }
 
     /**
@@ -149,6 +149,48 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * Tests for the `greaterThanDateTimeField()` method.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 13:00:00', ''])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), ''])]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    public function testGreaterThanDateTimeField(string|DateTime $first_field, string|DateTime $second_field): void
+    {
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
+
+        $result = $this->Validator->validate(compact('first_field', 'second_field'));
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Tests for the `greaterThanDateTimeField()` method, on error.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 12:59:59'])]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
+    public function testGreaterThanDateTimeFieldOnError(string|DateTime $first_field, string|DateTime $second_field, string $customMessage = ''): void
+    {
+        $expected = [
+            'first_field' => [
+                'greaterThanDateTimeField' => $customMessage ?: 'It must be greater than to `2/26/25, 1:00 PM`',
+            ],
+        ];
+
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field', $customMessage);
+
+        $result = $this->Validator->validate(compact('first_field', 'second_field'));
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
@@ -168,10 +210,8 @@ class ValidatorTest extends TestCase
      */
     #[Test]
     #[TestWith(['2025-02-26 12:59:59'])]
-    #[TestWith(['2025-02-26 12:00:00'])]
     #[TestWith([new DateTime('2025-02-26 12:59:59')])]
-    #[TestWith([new DateTime('2025-02-26 12:00:00')])]
-    #[TestWith([new DateTime('2025-02-26 12:00:00'), 'You cannot use a past datetime'])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
     public function testGreaterThanOrEqualsDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
     {
         $comparisonValue = new DateTime('2025-02-26 13:00:00');
