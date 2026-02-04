@@ -106,6 +106,78 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Adds a validation rule that ensures the datetime value of the given field is greater than the datetime value of
+     *  another specified field.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param string $secondField The name of the field containing the datetime value to compare against.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function greaterThanDateTimeField(
+        string $field,
+        string $secondField,
+        ?string $message = null,
+        Closure|string|null $when = null,
+    ): self {
+        $extra = array_filter(['on' => $when]);
+
+        return $this->add(
+            field: $field,
+            name: 'greaterThanDateTimeField',
+            rule: $extra + [
+                'rule' => function (string|DateTime $dateTime, array $context) use ($secondField, $message): bool|string {
+                    if (empty($context['data'][$secondField])) {
+                        return true;
+                    }
+
+                    $secondDateTime = toDateTime($context['data'][$secondField]);
+                    if (toDateTime($dateTime)->greaterThan($secondDateTime)) {
+                        return true;
+                    }
+
+                    return $message ?: __d(
+                        'cake/essentials',
+                        'It must be greater than `{0}`',
+                        $secondDateTime->i18nFormat(),
+                    );
+                },
+            ],
+        );
+    }
+
+    /**
+     * Adds a validation rule that ensures the given field contains a datetime value greater than the specified
+     *  comparison value.
+     *
+     * @param string $field The name of the field to which the rule should be applied.
+     * @param \Cake\I18n\DateTime $comparisonValue The datetime value to compare against.
+     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
+     * @param \Closure|string|null $when Optional condition under which the rule is applied.
+     * @return self Returns the current instance for method chaining.
+     */
+    public function greaterThanDateTime(
+        string $field,
+        DateTime $comparisonValue,
+        ?string $message = null,
+        Closure|string|null $when = null,
+    ): self {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It must be greater than `{0}`',
+                $comparisonValue->i18nFormat(),
+            ),
+        ]);
+
+        return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
+            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThan($comparisonValue),
+        ]);
+    }
+
+    /**
      * Adds a validation rule to ensure the value of a field is greater than or equal to the specified DateTime.
      *
      * @param string $field The name of the field to validate.
@@ -122,7 +194,11 @@ class Validator extends CakeValidator
     ): self {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It must be greater than or equal to `{0}`', $comparisonValue->i18nFormat()),
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It must be greater than or equal to `{0}`',
+                $comparisonValue->i18nFormat(),
+            ),
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
@@ -142,7 +218,10 @@ class Validator extends CakeValidator
     {
         $extra = array_filter([
             'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot contain spaces at the beginning or at the end'),
+            'message' => $message ?: __d(
+                'cake/essentials',
+                'It cannot contain spaces at the beginning or at the end',
+            ),
         ]);
 
         return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
@@ -172,7 +251,11 @@ class Validator extends CakeValidator
                 /** @var array{0: string}|false $matches */
 
                 if ($result && isset($matches[0])) {
-                    return $message ?: __d('cake/essentials', 'It cannot contain the reserved word `{0}`', $matches[0]);
+                    return $message ?: __d(
+                        'cake/essentials',
+                        'It cannot contain the reserved word `{0}`',
+                        $matches[0],
+                    );
                 }
 
                 return !$result;
@@ -278,8 +361,18 @@ class Validator extends CakeValidator
         return $this
             ->setStopOnFailure()
             ->noStartOrEndSpace(field: $field, message: $message, when: $when)
-            ->minLength(field: $field, min: 2, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2), when: $when)
-            ->maxLength(field: $field, max: 40, message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40), when: $when)
+            ->minLength(
+                field: $field,
+                min: 2,
+                message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 2),
+                when: $when,
+            )
+            ->maxLength(
+                field: $field,
+                max: 40,
+                message: $message ?: __d('cake/essentials', 'It must be at a maximum of {0} characters long', 40),
+                when: $when,
+            )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'personName', rule: $extra + [
                 /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
@@ -323,7 +416,12 @@ class Validator extends CakeValidator
         return $this
             ->setStopOnFailure()
             ->noStartOrEndSpace(field: $field, message: $message, when: $when)
-            ->minLength(field: $field, min: 3, message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3), when: $when)
+            ->minLength(
+                field: $field,
+                min: 3,
+                message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3),
+                when: $when,
+            )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
                 /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
@@ -356,7 +454,10 @@ class Validator extends CakeValidator
             ->containsLowercaseLetter(field: $field, message: $message, when: $when)
             ->notAlphaNumeric(
                 field: $field,
-                message: $message ?: __d('cake/essentials', 'It must contain at least one special character'),
+                message: $message ?: __d(
+                    'cake/essentials',
+                    'It must contain at least one special character',
+                ),
                 when: $when,
             )
             ->notContainsReservedWords(field: $field, message: $message, when: $when);

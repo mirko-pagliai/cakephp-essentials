@@ -8,9 +8,9 @@ use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use function Cake\Essentials\toDateTime;
 
 /**
  * ValidatorTest.
@@ -27,7 +27,7 @@ class ValidatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->Validator = new Validator();
+        $this->Validator ??= new Validator();
     }
 
     /**
@@ -53,7 +53,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['Does not contain a capital letter'])]
     public function testContainsCapitalLetterOnError(string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsCapitalLetter' => $customMessage ?: 'It must contain at least one capital character']];
+        $expected = [
+            'text' => [
+                'containsCapitalLetter' => $customMessage ?: 'It must contain at least one capital character',
+            ],
+        ];
 
         $this->Validator->containsCapitalLetter('text', $customMessage);
 
@@ -109,7 +113,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['Does not contain a lowercase letter'])]
     public function testContainsLowercaseLetterOnError(string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsLowercaseLetter' => $customMessage ?: 'It must contain at least one lowercase character']];
+        $expected = [
+            'text' => [
+                'containsLowercaseLetter' => $customMessage ?: 'It must contain at least one lowercase character',
+            ],
+        ];
 
         $this->Validator->containsLowercaseLetter('text', $customMessage);
 
@@ -149,6 +157,98 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * Tests for the `greaterThanDateTimeField()` method.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    #[TestWith(['', '2025-02-26 13:00:00'])]
+    #[TestWith(['', new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith(['2025-02-26 13:00:01', '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'),new DateTime('2025-02-26 13:00:00')])]
+    public function testGreaterThanDateTimeField(string|DateTime $first_field, string|DateTime $second_field): void
+    {
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
+
+        $result = $this->Validator->validate(compact('first_field', 'second_field'));
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Tests for the `greaterThanDateTimeField()` method, without the second field.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    public function testGreaterThanDateTimeFieldWithoutSecondField(): void
+    {
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
+
+        $result = $this->Validator->validate(['first_field' => '2025-02-26 13:00:00']);
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Tests for the `greaterThanDateTimeField()` method, on error.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 12:59:59', '2025-02-26 13:00:00'])]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
+    public function testGreaterThanDateTimeFieldOnError(
+        string|DateTime $first_field,
+        string|DateTime $second_field,
+        string $customMessage = '',
+    ): void {
+        $expectedMessage = $customMessage ?: 'It must be greater than `' . toDateTime($second_field)->i18nFormat() . '`';
+        $expected = ['first_field' => ['greaterThanDateTimeField' => $expectedMessage]];
+
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field', $customMessage);
+
+        $result = $this->Validator->validate(compact('first_field', 'second_field'));
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
+    public function testGreaterThanDateTime(DateTime|string $GoodDateTime): void
+    {
+        $this->Validator->greaterThanDateTime('created', new DateTime('2025-02-26 13:00:00'));
+
+        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+    }
+
+    /**
+     * Tests for the `greaterThanDateTime()` method, on error.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26 12:59:59'])]
+    #[TestWith(['2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
+    public function testGreaterThanDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
+    {
+        $comparisonValue = new DateTime('2025-02-26 13:00:00');
+
+        $expected = ['created' => [
+            'greaterThanDateTime' => $customMessage ?: 'It must be greater than `' . $comparisonValue->i18nFormat() . '`',
+        ]];
+
+        $this->Validator->greaterThanDateTime('created', $comparisonValue, $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
+    }
+
+    /**
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
@@ -164,14 +264,14 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * Tests for the `greaterThanOrEqualsDateTime()` method, on error.
+     *
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
     #[TestWith(['2025-02-26 12:59:59'])]
-    #[TestWith(['2025-02-26 12:00:00'])]
     #[TestWith([new DateTime('2025-02-26 12:59:59')])]
-    #[TestWith([new DateTime('2025-02-26 12:00:00')])]
-    #[TestWith([new DateTime('2025-02-26 12:00:00'), 'You cannot use a past datetime'])]
+    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
     public function testGreaterThanOrEqualsDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
     {
         $comparisonValue = new DateTime('2025-02-26 13:00:00');
@@ -209,7 +309,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['A ', 'You cannot use a space at the end'])]
     public function testNoStartOrEndSpaceOnError(string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['noStartOrEndSpace' => $customMessage ?: 'It cannot contain spaces at the beginning or at the end']];
+        $expected = [
+            'text' => [
+                'noStartOrEndSpace' => $customMessage ?: 'It cannot contain spaces at the beginning or at the end',
+            ],
+        ];
 
         $this->Validator->noStartOrEndSpace('text', $customMessage);
 
@@ -518,42 +622,22 @@ class ValidatorTest extends TestCase
         $this->assertEmpty($this->Validator->validate(['password' => 'ABCdef1gH3!?']));
     }
 
-    public static function invalidPasswordsDataProvider(): array
-    {
-        return [
-            ['minLength', 'The provided value must be at least `12` characters long', 'abcd1534Ab!'],
-            ['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!abcd'],
-            ['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!abcd'],
-            ['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1634'],
-            ['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12abcd'],
-            ['notContainReservedWords', 'It cannot contain the reserved word `Admin`', 'Admin213!abcd'],
-        ];
-    }
-
     /**
      * @link \Cake\Essentials\Validation\Validator::validPassword()
      */
     #[Test]
-    #[DataProvider('invalidPasswordsDataProvider')]
-    public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword): void
+    #[TestWith(['minLength', 'The provided value must be at least `12` characters long', 'abcd1534Ab!'])]
+    #[TestWith(['containsDigit', 'It must contain at least one numeric digit', 'abcdefG!abcd'])]
+    #[TestWith(['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!abcd'])]
+    #[TestWith(['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1634'])]
+    #[TestWith(['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12abcd'])]
+    #[TestWith(['notContainReservedWords', 'It cannot contain the reserved word `Admin`', 'Admin213!abcd'])]
+    #[TestWith(['notContainReservedWords', 'Custom error message', 'Admin213!abcd', 'Custom error message'])]
+    public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword, ?string $customMessage = null): void
     {
         $expected = ['password' => [$expectedErrorName => $expectedMessage]];
 
-        $this->Validator->validPassword('password');
-
-        $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::validPassword()
-     */
-    #[Test]
-    #[DataProvider('invalidPasswordsDataProvider')]
-    public function testValidPasswordOnErrorWithCustomMessage(string $expectedErrorName, string $expectedMessage, string $badPassword): void
-    {
-        $expected = ['password' => [$expectedErrorName => 'Custom error message']];
-
-        $this->Validator->validPassword('password', 'Custom error message');
+        $this->Validator->validPassword('password', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['password' => $badPassword]));
     }
