@@ -168,6 +168,20 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * Tests for the `greaterThanDateTimeField()` method, without the second field.
+     *
+     * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
+     */
+    #[Test]
+    public function testGreaterThanDateTimeFieldWithoutSecondField(): void
+    {
+        $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
+
+        $result = $this->Validator->validate(['first_field' => '2025-02-26 13:00:00']);
+        $this->assertEmpty($result);
+    }
+
+    /**
      * Tests for the `greaterThanDateTimeField()` method, on error.
      *
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
