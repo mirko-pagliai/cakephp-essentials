@@ -45,6 +45,37 @@ class GetIconTraitTest extends TestCase
     }
 
     /**
+     * Tests for the `getIcon()` method with the `getStaticIcon()` method returning an array.
+     *
+     * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
+     */
+    #[Test]
+    public function testGetIconWithArray(): void
+    {
+        $expected = [
+            'name' => 'bullseye',
+            'namespace' => 'fas',
+            'prefix' => 'fa',
+        ];
+
+        $Entity = new class extends Entity implements EntityWithIconsInterface {
+            use GetIconTrait;
+
+            public static function getStaticIcon(): array
+            {
+                return [
+                    'name' => 'bullseye',
+                    'namespace' => 'fas',
+                    'prefix' => 'fa',
+                ];
+            }
+        };
+
+        $result = $Entity->getIcon();
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
      */
     #[Test]
@@ -66,6 +97,7 @@ class GetIconTraitTest extends TestCase
      */
     #[Test]
     #[TestWith([''])]
+    #[TestWith([[]])]
     #[TestWith([null])]
     #[TestWith([false])]
     public function testGetIconWithInvalidIconProperty(mixed $invalidPropertyValue): void
