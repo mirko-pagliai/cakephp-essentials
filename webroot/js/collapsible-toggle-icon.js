@@ -1,9 +1,8 @@
 /**
  * Toggle icon handler for collapsible elements
  *
- * This script manages the behavior of toggle icons within links that have the
- * `data-bs-toggle="collapse"` attribute. It dynamically changes the icon when
- * the element is expanded or collapsed.
+ * This script manages the behavior of toggle icons within links that have the `data-bs-toggle="collapse"` attribute.
+ *  It dynamically changes the icon when the element is expanded or collapsed.
  *
  * Features:
  * - Activates on links with the `data-bs-toggle="collapse"` attribute

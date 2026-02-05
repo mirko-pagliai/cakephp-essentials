@@ -14,10 +14,8 @@
  * ```
  * echo $this->Html->script('/cake/essentials/js/auth_otp.min.js');
  * ```
- *
- * When you modify this file, remember to re-run minification and update the related minified file.
  */
-$(document).ready(function () {
+$(function () {
     $('#otp').on("keyup", function () {
         if ($(this).val().length === 6) {
             $(this).closest('form').trigger('submit');

@@ -1,15 +1,13 @@
 /**
- * Returns the current local date and time formatted for <input type="datetime-local">.
+ * Returns the current local date and time formatted for `<input type="datetime-local">`.
  *
- * Output format: 'YYYY-MM-DDTHH:mm'
- * Example: '2025-10-20T14:05'
+ * Output format: `YYYY-MM-DDTHH:mm`
+ * Example: `2025-10-20T14:05`
  *
  * Notes:
  * - Uses the browser's local timezone (not UTC).
  * - Drops seconds and milliseconds to match typical datetime-local step=60.
  * - No external dependencies (pure JavaScript).
- *
- * When you modify this file, remember to re-run minification and update the related minified file.
  *
  * @returns {string} Local date/time string in HTML5 datetime-local format.
  */
