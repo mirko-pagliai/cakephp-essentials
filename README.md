@@ -8,14 +8,7 @@
 Various classes and useful utilities for various CakePHP projects.
 
 * [Global functions](#global-functions)
-    + [rtr()](#rtr--)
-    + [toDate() and toDateTime()](#todate---and-todatetime--)
 * [Request detectors](#request-detectors)
-    + [is('action') detector](#is--action---detector)
-    + [Other "action detectors": is('add'), is('edit'), is('view'), is('index'), is('delete')](#other--action-detectors---is--add----is--edit----is--view----is--index----is--delete--)
-    + [is('ip') detector](#is--ip---detector)
-    + [is('localhost') detector](#is--localhost---detector)
-    + [is('trustedClient') detector](#is--trustedclient---detector)
 * [Extends the View](#extends-the-view)
 * [Using Tooltips and Popovers](#using-tooltips-and-popovers)
 * [How to use Bake templates](#how-to-use-bake-templates)
