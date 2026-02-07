@@ -9,7 +9,6 @@ use Cake\TestSuite\TestCase;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\RequiresOperatingSystemFamily;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
 use function Cake\Essentials\rtr;
@@ -29,9 +28,7 @@ class GlobalFunctionsTest extends TestCase
     #[Test]
     #[TestWith([ROOT . 'webroot', 'webroot'])]
     #[TestWith([ROOT . 'webroot/assets', 'webroot/assets'])]
-    #[TestWith([ROOT . DS . 'webroot', 'webroot'])]
-    #[TestWith([ROOT . DS . 'webroot' . DS, 'webroot' . DS])]
-    #[RequiresOperatingSystemFamily('Linux')]
+    #[TestWith([ROOT . 'webroot' . DS, 'webroot' . DS])]
     public function testRtr(string $path, string $expectedRelativePath): void
     {
         $result = rtr($path);

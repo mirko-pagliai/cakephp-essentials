@@ -9,7 +9,6 @@ use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use DateTimeInterface;
 use InvalidArgumentException;
-use Symfony\Component\Filesystem\Filesystem;
 
 if (!function_exists('Cake\Essentials\rtr')) {
     /**
@@ -28,13 +27,12 @@ if (!function_exists('Cake\Essentials\rtr')) {
      */
     function rtr(string $path): string
     {
-        if (!str_starts_with($path, ROOT)) {
+        $root = rtrim(ROOT, DS) . DS;
+        if (!str_starts_with($path, $root)) {
             throw new InvalidArgumentException("Path `$path` does not start with the application root");
         }
 
-        $relativePath = rtrim(new Filesystem()->makePathRelative($path, ROOT), DS);
-
-        return str_ends_with($path, DS) ? $relativePath . DS : $relativePath;
+        return substr($path, strlen($root));
     }
 }
 
