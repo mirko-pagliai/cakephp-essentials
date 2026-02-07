@@ -84,8 +84,5 @@ ServerRequest::addDetector(name: 'trustedClient', detector: function (ServerRequ
         return true;
     }
 
-    /** @var array<string> $trustedIpAddresses */
-    $trustedIpAddresses = (array)Configure::readOrFail('trustedIpAddress');
-
-    return $Request->is('ip', ...$trustedIpAddresses);
+    return $Request->is('ip', ...(array)Configure::readOrFail('trustedIpAddress'));
 });
