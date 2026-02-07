@@ -7,6 +7,20 @@
 
 Various classes and useful utilities for various CakePHP projects.
 
+* [Global functions](#global-functions)
+    + [rtr()](#rtr--)
+    + [toDate() and toDateTime()](#todate---and-todatetime--)
+* [Request detectors](#request-detectors)
+    + [is('action') detector](#is--action---detector)
+    + [Other "action detectors": is('add'), is('edit'), is('view'), is('index'), is('delete')](#other--action-detectors---is--add----is--edit----is--view----is--index----is--delete--)
+    + [is('ip') detector](#is--ip---detector)
+    + [is('localhost') detector](#is--localhost---detector)
+    + [is('trustedClient') detector](#is--trustedclient---detector)
+* [Extends the View](#extends-the-view)
+* [Using Tooltips and Popovers](#using-tooltips-and-popovers)
+* [How to use Bake templates](#how-to-use-bake-templates)
+
+
 ## Global functions
 ### rtr()
 `rtr()` is an acronym for "relative to root."
@@ -45,7 +59,77 @@ $dateTime = toDateTime($dateTime);
 $date = toDate($date);
 ```
 
-## Extends the `View`
+## Request detectors
+This plugin provides several very useful 
+[request detectors](https://book.cakephp.org/5.x/controllers/request-response.html#checking-request-conditions).
+
+### is('action') detector
+Checks if `$action` matches the current action.
+
+The `$action` argument can be a string or an array of strings. In the second case, it is enough that the action matches
+one of those.
+
+Example:
+```php
+$this->getRequest()->is('action', 'delete')
+```
+returns `true` if the current action is `delete`, otherwise `false`.
+
+Example:
+```php
+$this->getRequest()->isAction('action', 'edit', 'delete')
+````
+returns `true` if the current action is `edit` or `delete`, otherwise `false`.
+
+### Other "action detectors": is('add'), is('edit'), is('view'), is('index'), is('delete')
+
+These are quick aliases for `is('action')` detectors.
+
+Example:
+```php
+$this->getRequest()->is('delete')
+```
+returns `true` if the current action is `delete`, otherwise `false`.
+
+### is('ip') detector
+Checks whether the current client IP matches the IP or one of the IPs passed as an argument.
+
+Example:
+```php
+$this->getRequest()->is('ip', '99.99.99.99')
+```
+returns `true` if the current client IP is `99.99.99.99`, otherwise `false`.
+
+Example:
+```php
+$this->getRequest()->isAction('ip', ['99.99.99.99', '11.11.11.11']);
+````
+returns `true` if the current client IP is `99.99.99.99` or `11.11.11.11`, otherwise `false`.
+
+### is('localhost') detector
+This is a quick alias for `is('ip')` detector.
+
+Returns `true` if the current client IP matches localhost.
+
+### is('trustedClient') detector
+This is a quick alias for `is('ip')` detector.
+
+Returns `true` if it is a trusted client.
+
+Before using this detector, you should write trusted clients into the configuration.
+
+For example, in your `bootstrap.php` file,
+```php
+Configure::write('trustedIpAddress', ['45.46.47.48', '192.168.0.100']);
+```
+
+At this point,
+```php
+$this->getRequest()->isAction('trustedClient')
+```
+returns `true` if the current client IP matches one of these.
+
+## Extends the View
 ```php
 use Cake\Essentials\View\View;
 
@@ -73,7 +157,6 @@ class AppView extends View
 ```
 
 ## Using Tooltips and Popovers
-
 Several helper methods support tooltips and popovers and can generate them automatically.
 
 Please refer to the Bootstrap documentation before using them ([here](https://getbootstrap.com/docs/5.3/components/popovers) and [here](https://getbootstrap.com/docs/5.3/components/tooltips)).
