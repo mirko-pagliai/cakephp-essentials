@@ -15,8 +15,6 @@
  * ```
  * echo $this->Html->script('/cake/essentials/js/disable-buttons-with-sent-form.min.js');
  * ```
- *
- * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     $('form').on('submit', function () {

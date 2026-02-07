@@ -26,6 +26,9 @@ class RequestDetectorsTest extends TestCase
         Configure::write('trustedIpAddress', ['45.46.47.48', '192.168.0.100']);
     }
 
+    /**
+     * Tests for `is('action')` detector.
+     */
     #[Test]
     #[TestWith([true, 'myAction'])]
     #[TestWith([false, 'notMyAction'])]

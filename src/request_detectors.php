@@ -14,13 +14,13 @@ use Cake\Http\ServerRequest;
  *
  * Example:
  * <code>
- * $this->getRequest()->is('action', 'delete');
+ * $this->getRequest()->is('action', 'delete')
  * </code>
  * returns `true` if the current action is `delete`, otherwise `false`.
  *
  * Example:
  * <code>
- * $this->getRequest()->isAction('action', 'edit', 'delete');
+ * $this->getRequest()->isAction('action', 'edit', 'delete')
  * </code>
  * returns `true` if the current action is `edit` or `delete`, otherwise `false`.
  */
@@ -35,11 +35,11 @@ ServerRequest::addDetector(
 /**
  * Other "action detectors": `is('add')`, `is('edit')`, `is('view')`, `is('index')`, `is('delete')`.
  *
- * They are quick aliases for `is('action')` detectors.
+ * These are quick aliases for `is('action')` detectors.
  *
  * Example:
  * <code>
- * $this->getRequest()->is('delete');
+ * $this->getRequest()->is('delete')
  * </code>
  * returns `true` if the current action is `delete`, otherwise `false`.
  */
@@ -52,6 +52,8 @@ ServerRequest::addDetector('view', fn(ServerRequest $Request): bool => $Request-
 /**
  * `is('localhost')` detector.
  *
+ * This is a quick alias for `is('ip')` detector.
+ *
  * Returns `true` if the current client IP matches localhost.
  */
 ServerRequest::addDetector(
@@ -63,6 +65,18 @@ ServerRequest::addDetector(
  * `is('ip')` detector.
  *
  * Checks whether the current client IP matches the IP or one of the IPs passed as an argument.
+ *
+ * Example:
+ * <code>
+ * $this->getRequest()->is('ip', '99.99.99.99')
+ * </code>
+ * returns `true` if the current client IP is `99.99.99.99`, otherwise `false`.
+ *
+ * Example:
+ * <code>
+ * $this->getRequest()->isAction('ip', ['99.99.99.99', '11.11.11.11'])
+ * </code>
+ * returns `true` if the current client IP is `99.99.99.99` or `11.11.11.11`, otherwise `false`.
  */
 ServerRequest::addDetector(
     name: 'ip',
@@ -72,20 +86,27 @@ ServerRequest::addDetector(
 /**
  * `is('trustedClient')` detector.
  *
+ * This is a quick alias for `is('ip')` detector.
+ *
  * Returns `true` if it is a trusted client.
  *
- * Before using this detector, you should write trusted clients into the configuration, for example:
- * ```
+ * Before using this detector, you should write trusted clients into the configuration.
+ *
+ * For example, in your `bootstrap.php` file,
+ * <code>
  * Configure::write('trustedIpAddress', ['45.46.47.48', '192.168.0.100']);
- * ```
+ * </code>
+ *
+ * At this point,
+ * <code>
+ * $this->getRequest()->isAction('trustedClient')
+ * </code>
+ * returns `true` if the current client IP matches one of these.
  */
 ServerRequest::addDetector(name: 'trustedClient', detector: function (ServerRequest $Request): bool {
     if ($Request->is('localhost')) {
         return true;
     }
 
-    /** @var array<string> $trustedIpAddresses */
-    $trustedIpAddresses = (array)Configure::readOrFail('trustedIpAddress');
-
-    return $Request->is('ip', ...$trustedIpAddresses);
+    return $Request->is('ip', ...(array)Configure::readOrFail('trustedIpAddress'));
 });

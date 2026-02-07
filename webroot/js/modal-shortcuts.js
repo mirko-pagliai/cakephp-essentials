@@ -1,23 +1,22 @@
 /**
  * modal-shortcuts.js
  *
- * Provides a reusable utility to bind global keyboard shortcuts
- * to Bootstrap modal dialogs.
+ * Provides a reusable utility to bind global keyboard shortcuts to Bootstrap modal dialogs.
  *
- * Each shortcut is explicitly registered via configuration and
- * opens a specific modal when the defined key combination is pressed.
+ * Each shortcut is explicitly registered via configuration and opens a specific modal when the defined key combination
+ *  is pressed.
  *
  * Features:
+ *
  * - Supports multiple modals and shortcuts per page
  * - Keyboard-layout independent (uses `event.code`)
  * - Prevents triggering while typing in editable elements
  * - Reuses Bootstrap modal instances
  *
  * Dependencies:
+ *
  * - jQuery;
  * - Bootstrap 5 (Modal component).
- *
- * When you modify this file, remember to re-run minification and update the related minified file.
  */
 $(function () {
     /**
