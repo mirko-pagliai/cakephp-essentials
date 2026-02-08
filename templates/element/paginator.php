@@ -25,7 +25,12 @@ if (!$hasPages) {
 <?php if ($this->Paginator->total() > 1) : ?>
     <nav class="d-print-none mt-4">
         <div class="d-none d-lg-flex justify-content-center">
-            <?= $this->Paginator->links(options: ['prev' => true, 'next' => true]) ?>
+            <?= $this->Paginator->links(options: [
+                // `pagination` is required
+                'class' => 'm-0 pagination',
+                'prev' => true,
+                'next' => true,
+            ]) ?>
         </div>
         <ul class="pagination d-lg-none justify-content-center m-0">
             <?php
@@ -48,7 +53,7 @@ if (!$hasPages) {
     </nav>
 <?php endif; ?>
 
-<div class="small text-center text-secondary">
+<div class="mt-2 small text-center text-secondary">
     <?= $this->Paginator->counter(
         __d('cake/essentials', 'Page {{page}} of {{pages}}, showing {{current}} items out of {{count}} total'),
     ) ?>
