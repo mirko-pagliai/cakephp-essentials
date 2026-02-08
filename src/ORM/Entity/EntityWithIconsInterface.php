@@ -45,7 +45,8 @@ namespace Cake\Essentials\ORM\Entity;
  * }
  * ```
  *
- * These methods, in addition to a string, can also return an array, useful if you want to use a different set of icons than the default one, for example:
+ * These methods, in addition to a string, can also return an array, useful if you want to use a different set of icons
+ *  than the default one, for example:
  * ```
  * public static function getStaticIcon(): string|array
  * {
@@ -67,14 +68,14 @@ interface EntityWithIconsInterface
     /**
      * Returns the icon for this instantiated entity.
      *
-     * @return non-empty-string|non-empty-array<non-empty-string, non-empty-string>
+     * @return non-empty-string|array{name: non-empty-string, namespace: non-empty-string, prefix: non-empty-string}
      */
     public function getIcon(): string|array;
 
     /**
      * Returns the static icon for this entity type.
      *
-     * @return non-empty-string|non-empty-array<non-empty-string, non-empty-string>
+     * @return non-empty-string|array{name: non-empty-string, namespace: non-empty-string, prefix: non-empty-string}
      */
     public static function getStaticIcon(): string|array;
 }
