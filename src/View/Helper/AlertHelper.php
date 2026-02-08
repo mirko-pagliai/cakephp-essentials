@@ -19,14 +19,14 @@ use Cake\View\StringTemplateTrait;
  *
  * @property \Cake\Essentials\View\Helper\HtmlHelper $Html
  *
- * @method string danger(string|array $text, array $options = [])
- * @method string dark(string|array $text, array $options = [])
- * @method string info(string|array $text, array $options = [])
- * @method string light(string|array $text, array $options = [])
- * @method string primary(string|array $text, array $options = [])
- * @method string secondary(string|array $text, array $options = [])
- * @method string success(string|array $text, array $options = [])
- * @method string warning(string|array $text, array $options = [])
+ * @method string danger(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string dark(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string info(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string light(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string primary(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string secondary(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string success(array<string>|string $text, array<string, mixed> $options = [])
+ * @method string warning(array<string>|string $text, array<string, mixed> $options = [])
  *
  * @see https://getbootstrap.com/docs/5.3/components/alerts
  */
@@ -92,7 +92,7 @@ class AlertHelper extends Helper
      * @param array<string, mixed> $options Array of options and HTML attributes
      * @return string
      */
-    public function alert(string $type, string|array $text, array $options = []): string
+    public function alert(string $type, array|string $text, array $options = []): string
     {
         $options += [
             'icon' => $this->getConfig('icon.' . $type),
@@ -124,10 +124,10 @@ class AlertHelper extends Helper
      *
      * @param array|string $title
      * @param array|string|null $url
-     * @param array<string, mixed> $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return string
      *
-     * @see \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
+     * @link \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
      * @see https://getbootstrap.com/docs/5.3/components/alerts/#link-color
      */
     public function link(array|string $title, array|string|null $url = null, array $options = []): string
@@ -142,11 +142,12 @@ class AlertHelper extends Helper
      *
      * @param string $title
      * @param string $path
-     * @param array $params
-     * @param array<string, mixed> $options
+     * @param array<string, mixed> $params An array specifying any additional parameters. Can be also any special
+     *   parameters supported by `Router::url()`
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return string
      *
-     * @see \Cake\View\Helper\HtmlHelper::linkFromPath() for more information about the method arguments
+     * @link \Cake\View\Helper\HtmlHelper::linkFromPath() for more information about the method arguments
      * @see https://getbootstrap.com/docs/5.3/components/alerts/#link-color
      */
     public function linkFromPath(string $title, string $path, array $params = [], array $options = []): string

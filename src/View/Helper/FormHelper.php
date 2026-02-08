@@ -18,7 +18,7 @@ use function Cake\I18n\__d as __d;
 class FormHelper extends BootstrapUIFormHelper
 {
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = [
         'Cake/Essentials.Html',

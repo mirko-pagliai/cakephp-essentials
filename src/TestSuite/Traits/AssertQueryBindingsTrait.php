@@ -24,7 +24,7 @@ trait AssertQueryBindingsTrait
      * ```
      *
      * @param \Cake\ORM\Query\SelectQuery $Query The query object containing the value binder and its bindings.
-     * @return array An array of binding values extracted from the query.
+     * @return array<string, mixed> An array of binding values extracted from the query.
      */
     private function extractBindingValues(SelectQuery $Query): array
     {
@@ -40,7 +40,7 @@ trait AssertQueryBindingsTrait
      * Note that this method is not a simple alias for `assertContains()`.
      * In fact, for each value of `$needle`, that key is checked to see if it exists and has that value.
      *
-     * @param array $needle The binding values that are expected to be found.
+     * @param array<string, mixed> $needle The binding values that are expected to be found.
      * @param \Cake\ORM\Query\SelectQuery $Query The query object whose bindings are being tested.
      * @return void
      */
@@ -57,7 +57,7 @@ trait AssertQueryBindingsTrait
     /**
      * Asserts that the bindings of the given query match the expected values.
      *
-     * @param array $expected The expected binding values.
+     * @param array<string, mixed> $expected The expected binding values.
      * @param \Cake\ORM\Query\SelectQuery $Query The query object whose bindings are being tested.
      * @return void
      */
@@ -69,7 +69,7 @@ trait AssertQueryBindingsTrait
     /**
      * Asserts that the bindings of the given query are the same as the expected values.
      *
-     * @param array $expected The expected binding values.
+     * @param array<string, mixed> $expected The expected binding values.
      * @param \Cake\ORM\Query\SelectQuery $Query The query object whose bindings are being tested.
      * @return void
      */

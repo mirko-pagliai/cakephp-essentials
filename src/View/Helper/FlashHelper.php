@@ -14,7 +14,7 @@ use UnexpectedValueException;
 class FlashHelper extends Helper
 {
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = ['Alert'];
 
@@ -32,8 +32,8 @@ class FlashHelper extends Helper
      * Renders the message set in FlashComponent::set().
      *
      * @param string $key The [Flash.]key you are rendering in the view
-     * @param array $options Additional options to use for the creation of this flash message.  Supports the 'params'
-     *  and 'element' keys that are used in the helper
+     * @param array<string, mixed> $options Additional options to use for the creation of this flash message.  Supports
+     *  the 'params' and 'element' keys that are used in the helper
      * @return string|null Rendered flash message or null if flash key does not exist in session
      * @throws \UnexpectedValueException If value for flash settings key is not an array
      */

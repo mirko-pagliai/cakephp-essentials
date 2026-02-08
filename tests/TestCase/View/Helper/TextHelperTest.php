@@ -97,6 +97,10 @@ class TextHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedHighlight
+     * @param string|array<string> $phrase
+     * @param array<string> $options
+     *
      * @link \Cake\Essentials\View\Helper\TextHelper::highlight()
      */
     #[Test]

@@ -106,6 +106,9 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedIcon
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::buildIcon()
      */
     #[Test]
@@ -134,6 +137,10 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedTitle
+     * @param string $title
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::addIconToTitle()
      */
     #[Test]
@@ -158,6 +165,8 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::addPopover()
      */
     #[Test]
@@ -190,6 +199,8 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::addTooltip()
      */
     #[Test]
@@ -219,6 +230,11 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedAbbr
+     * @param string $text
+     * @param string $title
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::abbr()
      */
     #[Test]
@@ -234,6 +250,10 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedButton
+     * @param string $text
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::button()
      */
     #[Test]
@@ -305,6 +325,10 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedImage
+     * @param string $path
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::image()
      */
     #[Test]
@@ -316,6 +340,10 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedLink
+     * @param string $title
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::link()
      */
     #[Test]
@@ -391,6 +419,9 @@ class HtmlHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedTag
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\HtmlHelper::tag()
      */
     #[Test]

@@ -47,13 +47,16 @@ class AlertHelperTest extends TestCase
     }
 
     /**
+     * @param array<string>|string $text
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\AlertHelper::__call()
      */
     #[Test]
     #[TestWith(['Text'])]
     #[TestWith(['Text', ['class' => 'custom-class']])]
     #[TestWith([['First line', 'Second line']])]
-    public function testMagicCallMethod(string|array $text, array $options = []): void
+    public function testMagicCallMethod(array|string $text, array $options = []): void
     {
         $expected = $this->Alert->alert(type: 'success', text: $text, options: $options);
 
@@ -100,25 +103,32 @@ class AlertHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedAlert
+     * @param array<string>|string $text
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
      */
     #[Test]
     #[TestWith(['<div role="alert" class="alert alert-dark border-0">Text</div>', 'Text'])]
     #[TestWith(['<div role="alert" class="alert alert-dark border-0">First<br />Second</div>', ['First', 'Second']])]
     #[TestWith(['<div class="custom-class alert alert-dark border-0" role="alert">Text</div>', 'Text', ['class' => 'custom-class']])]
-    public function testAlert(string $expectedAlert, string|array $text, array $options = []): void
+    public function testAlert(string $expectedAlert, array|string $text, array $options = []): void
     {
         $result = $this->Alert->alert(type: 'dark', text: $text, options: $options);
         $this->assertSame($expectedAlert, $result);
     }
 
     /**
+     * @param string $expectedIcon
+     * @param array<string>|string $icon
+     *
      * @link \Cake\Essentials\View\Helper\AlertHelper::alert()
      */
     #[Test]
     #[TestWith(['<i class="bi bi-house"></i>', 'house'])]
     #[TestWith(['<i class="fs-4 bi bi-house"></i>', ['name' => 'house', 'class' => 'fs-4']])]
-    public function testAlertWithCustomIcons(string $expectedIcon, string|array $icon): void
+    public function testAlertWithCustomIcons(string $expectedIcon, array|string $icon): void
     {
         $expected = '<div role="alert" class="alert alert-dark border-0 d-flex align-items-baseline">' .
             '<div class="alert-icon me-2">' . $expectedIcon . '</div>' .

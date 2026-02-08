@@ -64,6 +64,9 @@ class CollapsibleHelperTest extends TestCase
     }
 
     /**
+     * @param array<int|string, mixed> $expectedHtml
+     * @param bool $alreadyOpen
+     *
      * @link \Cake\Essentials\View\Helper\CollapsibleHelper::link()
      */
     #[Test]
@@ -143,13 +146,17 @@ class CollapsibleHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedContent
+     * @param array<string>|string $content
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
      */
     #[Test]
     #[TestWith(['<div id="my-id" class="collapse">Text</div>', 'Text'])]
     #[TestWith(['<div id="my-id" class="collapse">First<br />Second</div>', ['First', 'Second']])]
     #[TestWith(['<div id="my-id" class="custom-class collapse">Text</div>', 'Text', ['class' => 'custom-class']])]
-    public function testContent(string $expectedContent, string|array $content, array $options = []): void
+    public function testContent(string $expectedContent, array|string $content, array $options = []): void
     {
         $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id');
 
@@ -158,13 +165,17 @@ class CollapsibleHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedContent
+     * @param array<string>|string $content
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\CollapsibleHelper::content()
      */
     #[Test]
     #[TestWith(['<div id="my-id" class="collapse show">Text</div>', 'Text'])]
     #[TestWith(['<div id="my-id" class="collapse show">First<br />Second</div>', ['First', 'Second']])]
     #[TestWith(['<div id="my-id" class="custom-class collapse show">Text</div>', 'Text', ['class' => 'custom-class']])]
-    public function testContentAlreadyOpened(string $expectedContent, string|array $content, array $options = []): void
+    public function testContentAlreadyOpened(string $expectedContent, array|string $content, array $options = []): void
     {
         $this->Collapsible->link(title: 'Title', collapsibleId: 'my-id', alreadyOpen: true);
 
