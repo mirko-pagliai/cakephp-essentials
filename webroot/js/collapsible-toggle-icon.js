@@ -13,7 +13,7 @@
  *
  * In your template file:
  * ```
- * echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.min.js');
+ * echo $this->Html->script('/cake/essentials/js/collapsible-toggle-icon.js');
  * ```
  */
 $(function () {
