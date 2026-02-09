@@ -20,7 +20,7 @@
  *
  * To include this script in your CakePHP project, add the following line to your template file:
  * ```
- * echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
+ * echo $this->Html->script('/cake/essentials/js/enable-popovers.js');
  * ```
  *
  * ## Usage

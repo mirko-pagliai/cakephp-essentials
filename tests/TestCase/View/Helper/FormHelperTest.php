@@ -42,6 +42,9 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedClass
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::button()
      */
     #[Test]
@@ -56,12 +59,15 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedContains
+     * @param array<string>|string $help
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::control()
      */
     #[Test]
     #[TestWith(['<div id="myfield-help" class="form-text">A help text</div>', 'A help text'])]
     #[TestWith(['<div id="myfield-help" class="form-text"><div>First</div><div>Second</div></div>', ['First', 'Second']])]
-    public function testControlWithHelp(string $expectedContains, string|array $help): void
+    public function testControlWithHelp(string $expectedContains, array|string $help): void
     {
         $result = $this->Form->control(fieldName: 'myField', options: compact('help'));
         $this->assertStringContainsString($expectedContains, $result);
@@ -135,6 +141,9 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedDatetime
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::dateTime()
      */
     #[Test]
@@ -211,6 +220,8 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::select()
      */
     #[Test]
@@ -227,6 +238,9 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * @param string $expectedButton
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::submit()
      */
     #[Test]

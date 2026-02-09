@@ -53,7 +53,7 @@ class CollapsibleHelper extends Helper
     public ?string $collapsibleId = null;
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = ['Html'];
 
@@ -65,7 +65,7 @@ class CollapsibleHelper extends Helper
      *
      * @param string $title
      * @param string $collapsibleId
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @param bool $alreadyOpen
      * @return string
      */
@@ -119,7 +119,7 @@ class CollapsibleHelper extends Helper
      * You must first have correctly called the `link()` method, which sets the necessary properties.
      *
      * @param array<string>|string $content
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return string
      * @throws \BadMethodCallException if the `link()` method has not been called previously
      */

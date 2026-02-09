@@ -508,6 +508,10 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * @param array<string, string> $expectedErrorMessage
+     * @param string $badName
+     * @param string $customMessage
+     *
      * @link \Cake\Essentials\Validation\Validator::personName()
      */
     #[Test]
@@ -588,6 +592,10 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * @param array<string, string> $expectedErrorMessage
+     * @param string $badTitle
+     * @param string $customMessage
+     *
      * @link \Cake\Essentials\Validation\Validator::title()
      */
     #[Test]

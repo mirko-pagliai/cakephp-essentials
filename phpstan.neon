@@ -14,7 +14,9 @@ parameters:
 
     ignoreErrors:
         - identifier: missingType.generics
-        - identifier: missingType.iterableValue
+        -
+            message: '#^Method Cake\\Essentials\\View\\Helper\\\w+Helper::(deleteLink|image|link|postLink)\(\) has parameter \$(path|title|url) with no value type specified in iterable type array\.$#'
+            path: src/View/Helper
         -
             message: '#^Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::\w+\(\)\.$#'
             path: tests/TestCase

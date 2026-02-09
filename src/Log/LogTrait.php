@@ -25,7 +25,7 @@ trait LogTrait
      *
      * @param \Stringable|string $message The message to log. If the request has a client IP, the message is prefixed with the IP.
      * @param string|int $level The log level. Defaults to LogLevel::ERROR.
-     * @param array|string $context Additional context for the log message.
+     * @param array<string, mixed>|string $context Additional context for the log message.
      * @return bool Returns true on successful logging, false otherwise.
      */
     public function log(Stringable|string $message, string|int $level = LogLevel::ERROR, array|string $context = []): bool

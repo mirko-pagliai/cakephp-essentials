@@ -76,12 +76,14 @@ class GetIconTraitTest extends TestCase
     }
 
     /**
+     * @param array<string>|string $icon
+     *
      * @link \Cake\Essentials\ORM\Entity\Traits\GetIconTrait::getIcon()
      */
     #[Test]
     #[TestWith(['book'])]
     #[TestWith([['name' => 'bullseye', 'namespace' => 'fas', 'prefix' => 'fa']])]
-    public function testGetIconWithIconProperty(string|array $icon): void
+    public function testGetIconWithIconProperty(array|string $icon): void
     {
         $this->Entity->set('icon', $icon);
 

@@ -158,11 +158,11 @@ Keep in mind that:
 1) both depend on the third-party library _Popper_, which you need to include, or you can use `bootstrap.bundle.min.js`
 which contains _Popper_;
 2) you will need to initialize both, as indicated in the documentation.  
-You can include `webroot/js/enable-popovers.min.js` and `webroot/js/enable-tooltips.min.js` files in yourt layout, which
+You can include `webroot/js/enable-popovers.js` and `webroot/js/enable-tooltips.js` files in yourt layout, which
 will do it automatically:
 ```php
-echo $this->Html->script('/cake/essentials/js/enable-popovers.min.js');
-echo $this->Html->script('/cake/essentials/js/enable-tooltips.min.js');
+echo $this->Html->script('/cake/essentials/js/enable-popovers.js');
+echo $this->Html->script('/cake/essentials/js/enable-tooltips.js');
 ```
 
 ## How to use Bake templates

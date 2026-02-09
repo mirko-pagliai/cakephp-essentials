@@ -32,6 +32,9 @@ class BeautifierHelperTest extends TestCase
     }
 
     /**
+     * @param string $expected
+     * @param array<string, mixed> $options
+     *
      * @link \Cake\Essentials\View\Helper\BeautifierHelper::ipAddress()
      */
     #[Test]
@@ -44,12 +47,14 @@ class BeautifierHelperTest extends TestCase
     }
 
     /**
+     * @param array<string>|string $popover
+     *
      * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionPopover()
      */
     #[Test]
     #[TestWith(['First<br />Second'])]
     #[TestWith([['First', 'Second']])]
-    public function testQuestionPopover(string|array $popover): void
+    public function testQuestionPopover(array|string $popover): void
     {
         $expected = [
             'span' => [
@@ -93,12 +98,14 @@ class BeautifierHelperTest extends TestCase
     }
 
     /**
+     * @param array<string>|string $tooltip
+     *
      * @link \Cake\Essentials\View\Helper\BeautifierHelper::questionTooltip()
      */
     #[Test]
     #[TestWith(['First<br />Second'])]
     #[TestWith([['First', 'Second']])]
-    public function testQuestionTooltip(string|array $tooltip): void
+    public function testQuestionTooltip(array|string $tooltip): void
     {
         $expected = [
             'span' => [

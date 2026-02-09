@@ -31,7 +31,6 @@ class GetSetTraitTest extends TestCase
     /**
      * @param non-empty-string $expectedMethod
      * @param non-empty-string $methodToCall
-     * @return void
      * @throws \PHPUnit\Framework\MockObject\Exception
      */
     #[Test]

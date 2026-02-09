@@ -1,9 +1,8 @@
 /**
  * Form Button Disable Handler
  *
- * This script prevents multiple form submissions by temporarily disabling
- * submit buttons after the first click. The buttons are automatically
- * re-enabled after a safety timeout.
+ * This script prevents multiple form submissions by temporarily disabling submit buttons after the first click. The
+ *  buttons are automatically re-enabled after a safety timeout.
  *
  * Features:
  * - Automatically disables submit buttons on form submission
@@ -13,7 +12,7 @@
  *
  * In your template file:
  * ```
- * echo $this->Html->script('/cake/essentials/js/disable-buttons-with-sent-form.min.js');
+ * echo $this->Html->script('/cake/essentials/js/disable-buttons-with-sent-form.js');
  * ```
  */
 $(function () {

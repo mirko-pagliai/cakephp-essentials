@@ -11,23 +11,23 @@ use Override;
 /**
  * {@inheritDoc}
  *
- * @method string code(string $text = '', array $options = [])
- * @method string em(string $text = '', array $options = [])
- * @method string kbd(string $text = '', array $options = [])
- * @method string h1(string $text = '', array $options = [])
- * @method string h2(string $text = '', array $options = [])
- * @method string h3(string $text = '', array $options = [])
- * @method string h4(string $text = '', array $options = [])
- * @method string h5(string $text = '', array $options = [])
- * @method string h6(string $text = '', array $options = [])
- * @method string pre(string $text = '', array $options = [])
- * @method string small(string $text = '', array $options = [])
- * @method string span(string $text = '', array $options = [])
- * @method string strong(string $text = '', array $options = [])
- * @method string time(string $text = '', array $options = [])
- * @method string title(string $text = '', array $options = [])
- * @method string underline(string $text = '', array $options = [])
- * @method string var(string $text = '', array $options = [])
+ * @method string code(string $text = '', array<string, mixed> $options = [])
+ * @method string em(string $text = '', array<string, mixed> $options = [])
+ * @method string kbd(string $text = '', array<string, mixed> $options = [])
+ * @method string h1(string $text = '', array<string, mixed> $options = [])
+ * @method string h2(string $text = '', array<string, mixed> $options = [])
+ * @method string h3(string $text = '', array<string, mixed> $options = [])
+ * @method string h4(string $text = '', array<string, mixed> $options = [])
+ * @method string h5(string $text = '', array<string, mixed> $options = [])
+ * @method string h6(string $text = '', array<string, mixed> $options = [])
+ * @method string pre(string $text = '', array<string, mixed> $options = [])
+ * @method string small(string $text = '', array<string, mixed> $options = [])
+ * @method string span(string $text = '', array<string, mixed> $options = [])
+ * @method string strong(string $text = '', array<string, mixed> $options = [])
+ * @method string time(string $text = '', array<string, mixed> $options = [])
+ * @method string title(string $text = '', array<string, mixed> $options = [])
+ * @method string underline(string $text = '', array<string, mixed> $options = [])
+ * @method string var(string $text = '', array<string, mixed> $options = [])
  */
 class HtmlHelper extends BootstrapUIHtmlHelper
 {
@@ -59,7 +59,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * ```
      *
      * @param string $tag Method name, it will be the tag name
-     * @param array $arguments Other arguments
+     * @param array<array-key, mixed> $arguments Other arguments
      * @return string
      * @throws \ArgumentCountError If there are too many or too few arguments
      */
@@ -78,6 +78,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             default => $tag,
         };
         $text = $arguments['text'] ?? ($arguments[0] ?? '');
+        assert(is_string($text));
         $options = $arguments['options'] ?? ($arguments[1] ?? []);
 
         return $this->tag(name: $tag, text: $text, options: $options);
@@ -104,7 +105,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * <i class="fs-5 bi bi-house"></i>
      * ```
      *
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return string
      * @throws \InvalidArgumentException On missing icon `name` value
      */
@@ -120,7 +121,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             return $this->icon(name: $options);
         }
 
-        if (!isset($options['name'])) {
+        assert(is_array($options));
+        if (!array_key_exists('name', $options)) {
             throw new InvalidArgumentException('Missing icon `name` value');
         }
 
@@ -142,8 +144,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * ```
      *
      * @param string $title
-     * @param array $options
-     * @return array{string, array} Array with title and icon as string and the (manipulated) options
+     * @param array<string, mixed> $options Array of HTML attributes
+     * @return array{string, array<string, mixed>} Array with title and icon as string and the (manipulated) options
      */
     public function addIconToTitle(string $title = '', array $options = []): array
     {
@@ -168,8 +170,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * We suggest you set the `onclick` option as `event.preventDefault();` if you use it on a link tag
      *  that doesn't work properly as a link.
      *
-     * @param array $options
-     * @return array
+     * @param array<string, mixed> $options Array of HTML attributes
+     * @return array<string, mixed> Updated options array with popover attributes.
      *
      * @link https://getbootstrap.com/docs/5.3/components/popovers
      */
@@ -200,8 +202,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      *
      * HTML is enabled for the tooltip content.
      *
-     * @param array $options Options array, which may include a `tooltip` key for tooltip content.
-     * @return array Updated options array with tooltip attributes.
+     * @param array<string, mixed> $options Options array, which may include a `tooltip` key for tooltip content.
+     * @return array<string, mixed> Updated options array with tooltip attributes.
      *
      * @link https://getbootstrap.com/docs/5.3/components/tooltips
      */
@@ -249,7 +251,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
      * Creates a `button` tag.
      *
      * @param string $text
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return string
      *
      * @see \Cake\Essentials\View\Helper\HtmlHelper::tag() for all options

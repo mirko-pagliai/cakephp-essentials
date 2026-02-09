@@ -31,9 +31,9 @@ trait GetSetTrait
      *  it in its class.
      *
      * @param string $name
-     * @param array $arguments
+     * @param array<array-key, mixed> $arguments
      * @return mixed
-     * @throws \BadMethodCallException With a no existing method
+     * @throws \BadMethodCallException With no existing method
      * @throws \Cake\Datasource\Exception\MissingPropertyException When the property does not exist or is `null`
      */
     public function __call(string $name, array $arguments): mixed

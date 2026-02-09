@@ -5,7 +5,6 @@ namespace Cake\Essentials\View\Helper;
 
 use BadMethodCallException;
 use Cake\View\Helper;
-use Override;
 use Stringable;
 
 /**
@@ -41,12 +40,15 @@ use Stringable;
  */
 class DropdownHelper extends Helper implements Stringable
 {
+    /**
+     * @var array<string>
+     */
     protected array $_links = [];
 
     protected ?string $_opening = null;
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected array $helpers = ['Html', 'Form'];
 
@@ -54,7 +56,7 @@ class DropdownHelper extends Helper implements Stringable
      * Creates the main link that allows you to open the dropdown.
      *
      * @param string $title
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return self
      */
     public function create(string $title = '', array $options = []): self
@@ -78,7 +80,7 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @param string $title
      * @param array|string|null $url
-     * @param array $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return self
      *
      * @see \Cake\View\Helper\FormHelper::deleteLink() for more information about the method arguments
@@ -97,10 +99,10 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @param string $title
      * @param array|string $url
-     * @param array<string, mixed> $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return self
      *
-     * @see \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
+     * @link \Cake\View\Helper\HtmlHelper::link() for more information about the method arguments
      */
     public function link(string $title, array|string $url, array $options = []): self
     {
@@ -116,11 +118,12 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @param string $title
      * @param string $path
-     * @param array $params
-     * @param array<string, mixed> $options
+     * @param array<array-key, mixed> $params An array specifying any additional parameters. Can be also any special
+     *  parameters supported by `Router::url()`
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return self
      *
-     * @see \Cake\View\Helper\HtmlHelper::linkPath() for more information about the method arguments
+     * @link \Cake\View\Helper\HtmlHelper::linkFromPath() for more information about the method arguments
      */
     public function linkFromPath(string $title, string $path, array $params = [], array $options = []): self
     {
@@ -133,7 +136,7 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @param string $title
      * @param array|string $url
-     * @param array<string, mixed> $options
+     * @param array<string, mixed> $options Array of HTML attributes
      * @return self
      *
      * @see \Cake\View\Helper\FormHelper::postLink() for more information about the method arguments
@@ -162,7 +165,7 @@ class DropdownHelper extends Helper implements Stringable
     /**
      * Builds and returns the entire dropdown, encapsulating the opening link and the links submenu in a wrapper.
      *
-     * @param array $options Additional HTML attributes for the wrapper
+     * @param array<string, mixed> $options Additional HTML attributes for the wrapper
      * @return string
      * @throws \BadMethodCallException if the `create()` method or if no link methods have been called
      */
@@ -198,7 +201,6 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @return string
      */
-    #[Override]
     public function __toString(): string
     {
         return $this->render();
