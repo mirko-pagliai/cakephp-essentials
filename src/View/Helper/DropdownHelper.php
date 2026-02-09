@@ -118,7 +118,7 @@ class DropdownHelper extends Helper implements Stringable
      *
      * @param string $title
      * @param string $path
-     * @param array<string, mixed> $params An array specifying any additional parameters. Can be also any special
+     * @param array<array-key, mixed> $params An array specifying any additional parameters. Can be also any special
      *  parameters supported by `Router::url()`
      * @param array<string, mixed> $options Array of HTML attributes
      * @return self

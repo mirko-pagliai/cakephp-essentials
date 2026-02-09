@@ -61,14 +61,19 @@ class AlertHelper extends Helper
      * Provides all supported alert types as methods (`success()`, `danger()`, and so on).
      *
      * @param string $name Method name. It will be the `$type` argument
-     * @param array $arguments Params, other arguments
+     * @param array<array-key, mixed> $arguments Params, other arguments
      * @return string
      * @throws \ArgumentCountError with too many or too few arguments
      * @throws \BadMethodCallException with no existing method
      */
     public function __call(string $name, array $arguments): string
     {
-        if (!in_array(needle: $name, haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'])) {
+        if (
+            !in_array(
+                needle: $name,
+                haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'],
+            )
+        ) {
             throw new BadMethodCallException(sprintf('Method `%s::%s()` does not exist.', $this::class, $name));
         }
 
@@ -80,6 +85,8 @@ class AlertHelper extends Helper
                 count($arguments),
             ));
         }
+
+        /** @var array{string, array<string, mixed>} $arguments } */
 
         return $this->alert($name, ...$arguments);
     }
@@ -142,7 +149,7 @@ class AlertHelper extends Helper
      *
      * @param string $title
      * @param string $path
-     * @param array<string, mixed> $params An array specifying any additional parameters. Can be also any special
+     * @param array<array-key, mixed> $params An array specifying any additional parameters. Can be also any special
      *   parameters supported by `Router::url()`
      * @param array<string, mixed> $options Array of HTML attributes
      * @return string

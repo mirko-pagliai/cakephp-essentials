@@ -219,9 +219,32 @@ class AlertHelperTest extends TestCase
     {
         $this->Html
             ->shouldReceive('link')
-            ->with('Title', ['_path' => 'Users::view', 1], ['class' => 'custom-class alert-link'])
-            ->once();
+            ->once()
+            ->with(
+                'Title',
+                ['_path' => 'Users::view', '?' => ['k' => 'v']],
+                ['class' => 'custom-class alert-link'],
+            )
+            ->shouldReceive('link')
+            ->once()
+            ->with(
+                'Title',
+                ['_path' => 'Users::view', 1],
+                ['class' => 'custom-class alert-link'],
+            );
 
-        $this->Alert->linkFromPath('Title', 'Users::view', [1], ['class' => 'custom-class']);
+        $this->Alert->linkFromPath(
+            title: 'Title',
+            path: 'Users::view',
+            params: ['?' => ['k' => 'v']],
+            options: ['class' => 'custom-class'],
+        );
+
+        $this->Alert->linkFromPath(
+            title: 'Title',
+            path: 'Users::view',
+            params: [1],
+            options: ['class' => 'custom-class'],
+        );
     }
 }

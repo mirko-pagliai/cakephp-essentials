@@ -110,17 +110,32 @@ class DropdownHelperTest extends TestCase
     {
         $this->Html
             ->shouldReceive('link')
+            ->once()
             ->with(
                 'My link from path',
                 ['_path' => 'Users::index', '?' => ['k' => 'v']],
                 ['class' => 'my-custom-class dropdown-item'],
             )
-            ->once();
+            ->shouldReceive('link')
+            ->once()
+            ->with(
+                'My link from path',
+                ['_path' => 'Users::index', 1],
+                ['class' => 'my-custom-class dropdown-item'],
+            );
 
         $result = $this->Dropdown->linkFromPath(
             title: 'My link from path',
             path: 'Users::index',
             params: ['?' => ['k' => 'v']],
+            options: ['class' => 'my-custom-class'],
+        );
+        $this->assertSame($result, $this->Dropdown);
+
+        $result = $this->Dropdown->linkFromPath(
+            title: 'My link from path',
+            path: 'Users::index',
+            params: [1],
             options: ['class' => 'my-custom-class'],
         );
         $this->assertSame($result, $this->Dropdown);
