@@ -20,6 +20,7 @@ use Override;
  * @method string h4(string $text = '', array<string, mixed> $options = [])
  * @method string h5(string $text = '', array<string, mixed> $options = [])
  * @method string h6(string $text = '', array<string, mixed> $options = [])
+ * @method string legend(string $text = '', array<string, mixed> $options = [])
  * @method string pre(string $text = '', array<string, mixed> $options = [])
  * @method string small(string $text = '', array<string, mixed> $options = [])
  * @method string span(string $text = '', array<string, mixed> $options = [])
