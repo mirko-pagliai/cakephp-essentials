@@ -225,13 +225,16 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:01'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
-    public function testGreaterThanDateTime(DateTime|string $GoodDateTime): void
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-27')])]
+    #[TestWith([new Date('2025-02-25'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-26')])]
+    public function testGreaterThanDateTime(DateTime|Date $comparisonValue, DateTime|Date|string $dateTime): void
     {
-        $this->Validator->greaterThanDateTime('created', new DateTime('2025-02-26 13:00:00'));
+        $this->Validator->greaterThanDateTime('created', $comparisonValue);
 
-        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+        $this->assertEmpty($this->Validator->validate(['created' => $dateTime]));
     }
 
     /**
@@ -240,21 +243,22 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 12:59:59'])]
-    #[TestWith(['2025-02-26 13:00:00'])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59')])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
-    public function testGreaterThanDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 12:59:59'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-27'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new Date('2025-02-27'), new Date('2025-02-26')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
+    public function testGreaterThanDateTimeOnError(DateTime|Date $comparisonValue, DateTime|Date|string $badDateTime, string $customMessage = ''): void
     {
-        $comparisonValue = new DateTime('2025-02-26 13:00:00');
-
         $expected = ['created' => [
             'greaterThanDateTime' => $customMessage ?: 'It must be greater than `' . $comparisonValue->i18nFormat() . '`',
         ]];
 
         $this->Validator->greaterThanDateTime('created', $comparisonValue, $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
+        $this->assertSame($expected, $this->Validator->validate(['created' => $badDateTime]));
     }
 
     /**
