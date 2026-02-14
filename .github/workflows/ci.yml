@@ -1,8 +1,15 @@
 name: CI
 
 on:
-  push:
   pull_request:
+
+  push:
+    branches:
+      - master
+
+  schedule:
+    - cron: '0 3 * * *'
+
   workflow_dispatch:
 
 permissions:
@@ -18,8 +25,6 @@ jobs:
         dependencies: ['highest']
         include:
           - php-version: '8.4'
-            dependencies: 'lowest'
-          - php-version: '8.5'
             dependencies: 'lowest'
 
     steps:
@@ -41,19 +46,19 @@ jobs:
       - name: Run PHPUnit
         run: |
           if [[ ${{ matrix.dependencies }} == 'highest' ]]; then
-            export XDEBUG_MODE=coverage;
             vendor/bin/phpunit --display-skipped --display-deprecations --display-warnings --coverage-clover=coverage.xml
           else
             vendor/bin/phpunit --display-deprecations --display-warnings
           fi
 
       - name: Submit code coverage
-        if: success() && matrix.dependencies == 'highest'
+        if: success() && matrix.dependencies == 'highest' && matrix.php-version == '8.5'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   testsuite-windows:
+    if: github.event_name == 'pull_request'
     runs-on: windows-2022
     name: Windows - PHP 8.4
 
@@ -123,12 +128,10 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Run phpcs
-        if: always()
         run: vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml
 
       - name: Show phpcs results in PR
         run: cs2pr ./phpcs-report.xml
 
       - name: Run phpstan
-        if: always()
         run: vendor/bin/phpstan analyse --error-format=github
