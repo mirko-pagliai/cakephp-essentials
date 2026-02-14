@@ -204,6 +204,8 @@ class ValidatorTest extends TestCase
     #[TestWith(['2025-02-26', '2025-02-27'])]
     #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
     #[TestWith([new Date('2025-02-26'), new Date('2025-02-27')])]
+    #[TestWith([new DateTime('2025-02-25 13:00:00'), new Date('2025-02-26')])]
+    #[TestWith([new Date('2025-02-26'), new DateTime('2025-02-26 13:00:00')])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
     public function testGreaterThanDateTimeFieldOnError(
         DateTime|Date|string $first_field,
