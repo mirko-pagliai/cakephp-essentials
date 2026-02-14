@@ -429,7 +429,7 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
+     * @link \Cake\Essentials\Validation\Validator::notFutureDateTime()
      */
     #[Test]
     #[TestWith(['now'])]
@@ -442,13 +442,13 @@ class ValidatorTest extends TestCase
     #[TestWith([new Date('yesterday')])]
     public function testNotFutureDatetime(DateTime|Date|string $dateOrDateTime): void
     {
-        $this->Validator->notFutureDatetime('datetime');
+        $this->Validator->notFutureDateTime('datetime');
 
         $this->assertEmpty($this->Validator->validate(['datetime' => $dateOrDateTime]));
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
+     * @link \Cake\Essentials\Validation\Validator::notFutureDateTime()
      */
     #[Test]
     #[TestWith(['tomorrow'])]
@@ -459,15 +459,15 @@ class ValidatorTest extends TestCase
     #[TestWith(['tomorrow', 'You cannot use a bad datetime'])]
     public function testNotFutureDatetimeOnError(DateTime|Date|string $badDateOrDateTime, string $customMessage = ''): void
     {
-        $expected = ['datetime' => ['notFutureDatetime' => $customMessage ?: 'It cannot be a future datetime']];
+        $expected = ['datetime' => ['notFutureDateTime' => $customMessage ?: 'It cannot be a future datetime']];
 
-        $this->Validator->notFutureDatetime('datetime', $customMessage);
+        $this->Validator->notFutureDateTime('datetime', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDateOrDateTime]));
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
+     * @link \Cake\Essentials\Validation\Validator::notPastDateTime()
      */
     #[Test]
     #[TestWith(['tomorrow'])]
@@ -475,13 +475,13 @@ class ValidatorTest extends TestCase
     #[TestWith([new Date('tomorrow')])]
     public function testNotPastDatetime(DateTime|Date|string $dateOrDateTime): void
     {
-        $this->Validator->notPastDatetime('datetime');
+        $this->Validator->notPastDateTime('datetime');
 
         $this->assertEmpty($this->Validator->validate(['datetime' => $dateOrDateTime]));
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
+     * @link \Cake\Essentials\Validation\Validator::notPastDateTime()
      */
     #[Test]
     #[TestWith(['yesterday'])]
@@ -490,9 +490,9 @@ class ValidatorTest extends TestCase
     #[TestWith(['yesterday', 'You cannot use a bad datetime'])]
     public function testNotPastDatetimeOnError(DateTime|Date|string $badDateOrDateTime, string $customMessage = ''): void
     {
-        $expected = ['datetime' => ['notPastDatetime' => $customMessage ?: 'It cannot be a past datetime']];
+        $expected = ['datetime' => ['notPastDateTime' => $customMessage ?: 'It cannot be a past datetime']];
 
-        $this->Validator->notPastDatetime('datetime', $customMessage);
+        $this->Validator->notPastDateTime('datetime', $customMessage);
 
         $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDateOrDateTime]));
     }
