@@ -511,6 +511,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['Della Rovere'])]
     #[TestWith(['Lo Monaco'])]
     #[TestWith(['O\'Neill'])]
+    #[TestWith(['Jean-Paul'])]
     public function testPersonName(string $goodName): void
     {
         $this->Validator->personName('name');
@@ -540,8 +541,8 @@ class ValidatorTest extends TestCase
     #[TestWith([['personName' => 'It must be a valid person name'], 'MArk'])]
     #[TestWith([['personName' => 'It must be a valid person name'], 'M1rk'])]
     #[TestWith([['personName' => 'It must be a valid person name'], 'Mark red'])]
-    #[TestWith([['personName' => 'It must be a valid person name'], 'Mark - Red'])]
-    #[TestWith([['personName' => 'You cannot use a bad person name'], 'Mark - Red', 'You cannot use a bad person name'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Jean - Paul'])]
+    #[TestWith([['personName' => 'You cannot use a bad person name'], 'Mark red', 'You cannot use a bad person name'])]
     public function testPersonNameOnError(array $expectedErrorMessage, string $badName, string $customMessage = ''): void
     {
         $expected = ['my_field' => $expectedErrorMessage];
