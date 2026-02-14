@@ -416,7 +416,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['You cannot use a reserved word', 'admin', 'You cannot use a reserved word'])]
     public function testNotContainsReservedWordsOnError(string $expectedError, string $badText, string $customMessage = ''): void
     {
-        $expected = ['text' => ['notContainReservedWords' => $expectedError]];
+        $expected = ['text' => ['notContainsReservedWords' => $expectedError]];
 
         $this->Validator->notContainsReservedWords('text', $customMessage);
 
@@ -644,8 +644,8 @@ class ValidatorTest extends TestCase
     #[TestWith(['containsCapitalLetter', 'It must contain at least one capital character', 'abcdef1!abcd'])]
     #[TestWith(['containsLowercaseLetter', 'It must contain at least one lowercase character', 'ABCDEF1!1634'])]
     #[TestWith(['notAlphaNumeric', 'It must contain at least one special character', 'ABCDEf12abcd'])]
-    #[TestWith(['notContainReservedWords', 'It cannot contain the reserved word `Admin`', 'Admin213!abcd'])]
-    #[TestWith(['notContainReservedWords', 'Custom error message', 'Admin213!abcd', 'Custom error message'])]
+    #[TestWith(['notContainsReservedWords', 'It cannot contain the reserved word `Admin`', 'Admin213!abcd'])]
+    #[TestWith(['notContainsReservedWords', 'Custom error message', 'Admin213!abcd', 'Custom error message'])]
     public function testValidPasswordOnError(string $expectedErrorName, string $expectedMessage, string $badPassword, ?string $customMessage = null): void
     {
         $expected = ['password' => [$expectedErrorName => $expectedMessage]];
