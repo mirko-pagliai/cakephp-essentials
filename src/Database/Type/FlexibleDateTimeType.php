@@ -21,11 +21,7 @@ class FlexibleDateTimeType extends DateTimeType
      */
     public function marshal(mixed $value): ?DateTimeInterface
     {
-        if ($value === null || $value === '') {
-            return null;
-        }
-
-        // Se è stringa ISO solo data (YYYY-MM-DD)
+        // Convert date to datetime
         if (is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
             $value .= ' 00:00:00';
         }
