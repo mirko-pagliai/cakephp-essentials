@@ -432,44 +432,13 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDate()
-     */
-    #[Test]
-    #[TestWith(['now'])]
-    #[TestWith(['tomorrow'])]
-    #[TestWith([new Date()])]
-    #[TestWith([new Date('tomorrow')])]
-    public function testNotPastDate(Date|string $goodDate): void
-    {
-        $this->Validator->notPastDate('date');
-
-        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDate()
-     */
-    #[Test]
-    #[TestWith([new Date('yesterday')])]
-    #[TestWith(['yesterday', 'You cannot use a bad date'])]
-    public function testNotPastDateOnError(Date|string $badDate, string $customMessage = ''): void
-    {
-        $expected = ['date' => ['notPastDate' => $customMessage ?: 'It cannot be a past date']];
-
-        $this->Validator->notPastDate('date', $customMessage);
-
-        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
-    }
-
-    /**
      * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
      */
     #[Test]
-    #[TestWith(['+10 second'])]
     #[TestWith(['tomorrow'])]
-    #[TestWith([new DateTime('+10 second')])]
     #[TestWith([new DateTime('tomorrow')])]
-    public function testNotPastDatetime(DateTime|string $goodDatetime): void
+    #[TestWith([new Date('tomorrow')])]
+    public function testNotPastDatetime(DateTime|Date|string $goodDatetime): void
     {
         $this->Validator->notPastDatetime('datetime');
 
@@ -480,10 +449,11 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
      */
     #[Test]
-    #[TestWith([new DateTime('yesterday')])]
     #[TestWith(['yesterday'])]
+    #[TestWith([new DateTime('yesterday')])]
+    #[TestWith([new Date('yesterday')])]
     #[TestWith(['yesterday', 'You cannot use a bad datetime'])]
-    public function testNotPastDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    public function testNotPastDatetimeOnError(DateTime|Date|string $badDatetime, string $customMessage = ''): void
     {
         $expected = ['datetime' => ['notPastDatetime' => $customMessage ?: 'It cannot be a past datetime']];
 
