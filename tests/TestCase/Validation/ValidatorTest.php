@@ -265,15 +265,19 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:00'])]
-    #[TestWith(['2025-02-26 13:00:01'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:00')])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
-    public function testGreaterThanOrEqualsDateTime(DateTime|string $GoodDateTime): void
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-27')])]
+    #[TestWith([new Date('2025-02-25'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-26')])]
+    public function testGreaterThanOrEqualsDateTime(DateTime|Date $comparisonValue, DateTime|Date|string $dateTime): void
     {
-        $this->Validator->greaterThanOrEqualsDateTime('created', new DateTime('2025-02-26 13:00:00'));
+        $this->Validator->greaterThanOrEqualsDateTime('created', $comparisonValue);
 
-        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+        $this->assertEmpty($this->Validator->validate(['created' => $dateTime]));
     }
 
     /**
