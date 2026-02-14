@@ -371,44 +371,18 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
-     */
-    #[Test]
-    #[TestWith(['now'])]
-    #[TestWith(['yesterday'])]
-    #[TestWith([new Date()])]
-    #[TestWith([new Date('yesterday')])]
-    public function testNotFutureDate(Date|string $goodDate): void
-    {
-        $this->Validator->notFutureDate('date');
-
-        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
-     */
-    #[Test]
-    #[TestWith([new Date('tomorrow')])]
-    #[TestWith(['tomorrow', 'You cannot use a bad date'])]
-    public function testNotFutureDateOnError(Date|string $badDate, string $customMessage = ''): void
-    {
-        $expected = ['date' => ['notFutureDate' => $customMessage ?: 'It cannot be a future date']];
-
-        $this->Validator->notFutureDate('date', $customMessage);
-
-        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
-    }
-
-    /**
      * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
      */
     #[Test]
     #[TestWith(['now'])]
     #[TestWith(['yesterday'])]
+    #[TestWith(['2026-02-13 00:00:00'])]
+    #[TestWith(['2026-02-13'])]
     #[TestWith([new DateTime()])]
     #[TestWith([new DateTime('yesterday')])]
-    public function testNotFutureDatetime(DateTime|string $goodDatetime): void
+    #[TestWith([new Date()])]
+    #[TestWith([new Date('yesterday')])]
+    public function testNotFutureDatetime(DateTime|Date|string $goodDatetime): void
     {
         $this->Validator->notFutureDatetime('datetime');
 
@@ -419,10 +393,13 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
      */
     #[Test]
-    #[TestWith([new DateTime('+10 seconds')])]
+    #[TestWith(['tomorrow'])]
+    #[TestWith(['2099-02-13 00:00:00'])]
+    #[TestWith(['2099-02-13'])]
     #[TestWith([new DateTime('tomorrow')])]
+    #[TestWith([new Date('tomorrow')])]
     #[TestWith(['tomorrow', 'You cannot use a bad datetime'])]
-    public function testNotFutureDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    public function testNotFutureDatetimeOnError(DateTime|Date|string $badDatetime, string $customMessage = ''): void
     {
         $expected = ['datetime' => ['notFutureDatetime' => $customMessage ?: 'It cannot be a future datetime']];
 

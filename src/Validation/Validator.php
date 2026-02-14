@@ -264,27 +264,7 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the given field does not contain a future date value.
-     *
-     * @param string $field The name of the field to which the rule should be applied.
-     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
-     * @param \Closure|string|null $when Optional condition under which the rule is applied.
-     * @return self Returns the current instance for method chaining.
-     */
-    public function notFutureDate(string $field, ?string $message = null, Closure|string|null $when = null): self
-    {
-        $extra = array_filter([
-            'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot be a future date'),
-        ]);
-
-        return $this->add(field: $field, name: 'notFutureDate', rule: $extra + [
-            'rule' => fn(Date|string $date): bool => !toDate($date)->isFuture(),
-        ]);
-    }
-
-    /**
-     * Adds a validation rule to ensure the value of a field is not a future datetime.
+     * Adds a validation rule to ensure that the value of the specified field is not a future datetime/date.
      *
      * @param string $field The name of the field to validate.
      * @param string|null $message An optional custom error message to return when the validation fails.
@@ -299,7 +279,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
-            'rule' => fn(DateTime|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
+            'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
 
