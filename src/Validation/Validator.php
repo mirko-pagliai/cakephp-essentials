@@ -32,6 +32,11 @@ use function Cake\I18n\__d as __d;
  */
 class Validator extends CakeValidator
 {
+    protected const array RESERVED_WORDS = [
+        '1234', '5678', '7890', '0000', 'admin', 'manager', 'root', 'supervisor', 'moderator', 'mail', 'pwd', 'password',
+        'passwd', 'juventus', 'napoli', 'milan', 'inter',
+    ];
+
     /**
      * Validates that the specified field contains at least one capital letter.
      *
@@ -260,18 +265,20 @@ class Validator extends CakeValidator
      * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
      * @return self Returns the current instance with the added validation rule.
      */
-    public function notContainsReservedWords(string $field, ?string $message = null, Closure|string|null $when = null): self
-    {
-        $extra = array_filter([
-            'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot contain any reserved words'),
-        ]);
+    public function notContainsReservedWords(
+        string $field,
+        ?string $message = null,
+        Closure|string|null $when = null,
+    ): self {
+        $extra = array_filter(['on' => $when]);
 
         return $this->add(field: $field, name: 'notContainsReservedWords', rule: $extra + [
             'rule' => function (string $value) use ($message): bool|string {
-                $result = preg_match('/(1234|5678|7890|0000|juventus|napoli|milan|inter|admin|manager|root|supervisor|moderator|mail|pwd|password|passwd)/i', $value, $matches);
-
-                /** @var array{0: string}|false $matches */
+                $result = preg_match(
+                    pattern: '/(' . implode('|', array_map('preg_quote', self::RESERVED_WORDS)) . ')/i',
+                    subject: $value,
+                    matches: $matches,
+                );
 
                 if ($result && isset($matches[0])) {
                     return $message ?: __d(

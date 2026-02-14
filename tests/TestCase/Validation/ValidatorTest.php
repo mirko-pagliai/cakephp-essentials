@@ -27,7 +27,7 @@ class ValidatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->Validator ??= new Validator();
+        $this->Validator = new Validator();
     }
 
     /**
@@ -505,6 +505,7 @@ class ValidatorTest extends TestCase
     #[TestWith(['De La Cruz'])]
     #[TestWith(['Della Rovere'])]
     #[TestWith(['Lo Monaco'])]
+    #[TestWith(['O\'Neill'])]
     public function testPersonName(string $goodName): void
     {
         $this->Validator->personName('name');
