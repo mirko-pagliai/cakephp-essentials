@@ -371,7 +371,7 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule to ensure the value of a field is a valid slug.
+     * Adds a validation rule to ensure the value of a field is a valid slug (at least 3 characters).
      *
      * @param string $field The name of the field to validate.
      * @param string|null $message An optional custom error message to return when the validation fails.
@@ -385,7 +385,7 @@ class Validator extends CakeValidator
             'message' => $message ?: __d('cake/essentials', 'It must be a valid slug'),
         ]);
 
-        return $this->add(field: $field, name: 'slug', rule: $extra + ['rule' => ['custom', '/^[a-z][a-z\d\-]+$/']]);
+        return $this->add(field: $field, name: 'slug', rule: $extra + ['rule' => ['custom', '/^[a-z][a-z\d\-]{2,}$/']]);
     }
 
     /**

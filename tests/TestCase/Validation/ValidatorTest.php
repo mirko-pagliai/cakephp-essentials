@@ -565,6 +565,7 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::slug()
      */
     #[Test]
+    #[TestWith(['ab'])]
     #[TestWith(['Abc'])]
     #[TestWith(['aBc'])]
     #[TestWith(['a/b'])]
