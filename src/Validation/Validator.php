@@ -7,7 +7,6 @@ use Cake\I18n\Date;
 use Cake\I18n\DateTime;
 use Cake\Validation\Validator as CakeValidator;
 use Closure;
-use function Cake\Essentials\toDate;
 use function Cake\Essentials\toDateTime;
 use function Cake\I18n\__d as __d;
 
@@ -88,6 +87,29 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Validates that the specified field contains a valid date or datetime value.
+     *
+     * @param string $field The name of the field to be validated.
+     * @param string|null $message An optional custom validation failure message.
+     * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function dateOrDateTime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It must be a valid date or datetime'),
+        ]);
+
+        /** @var class-string<\Cake\Validation\Validation> $defaultProvider */
+        $defaultProvider = $this->getProvider('default');
+
+        return $this->add(field: $field, name: 'dateOrDateTime', rule: $extra + [
+            'rule' => fn(string $value): bool => $defaultProvider::date($value) || $defaultProvider::dateTime($value),
+        ]);
+    }
+
+    /**
      * Validates that the specified field begins with a capital letter.
      *
      * @param string $field The name of the field to be validated.
@@ -106,8 +128,8 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the datetime value of the given field is greater than the datetime value of
-     *  another specified field.
+     * Adds a validation rule that ensures the datetime/date value of the given field is greater than the datetime/date
+     *  value of another specified field.
      *
      * @param string $field The name of the field to which the rule should be applied.
      * @param string $secondField The name of the field containing the datetime value to compare against.
@@ -127,7 +149,7 @@ class Validator extends CakeValidator
             field: $field,
             name: 'greaterThanDateTimeField',
             rule: $extra + [
-                'rule' => function (string|DateTime $dateTime, array $context) use ($secondField, $message): bool|string {
+                'rule' => function (DateTime|Date|string $dateTime, array $context) use ($secondField, $message): true|string {
                     if (empty($context['data'][$secondField])) {
                         return true;
                     }
@@ -148,18 +170,18 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the given field contains a datetime value greater than the specified
-     *  comparison value.
+     * Adds a validation rule that ensures the given field contains a datetime/date value greater than the specified
+     *  comparison datetime/date value.
      *
      * @param string $field The name of the field to which the rule should be applied.
-     * @param \Cake\I18n\DateTime $comparisonValue The datetime value to compare against.
+     * @param \Cake\I18n\DateTime|\Cake\I18n\Date $comparisonValue The datetime/date value to compare against.
      * @param string|null $message Optional custom error message to be used if the validation rule is violated.
      * @param \Closure|string|null $when Optional condition under which the rule is applied.
      * @return self Returns the current instance for method chaining.
      */
     public function greaterThanDateTime(
         string $field,
-        DateTime $comparisonValue,
+        DateTime|Date $comparisonValue,
         ?string $message = null,
         Closure|string|null $when = null,
     ): self {
@@ -173,22 +195,23 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThan($comparisonValue),
+            'rule' => fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThan(toDateTime($comparisonValue)),
         ]);
     }
 
     /**
-     * Adds a validation rule to ensure the value of a field is greater than or equal to the specified DateTime.
+     * Adds a validation rule that ensures the given field contains a datetime/date value greater or equal to the
+     * specified comparison datetime/date value.
      *
      * @param string $field The name of the field to validate.
-     * @param \Cake\I18n\DateTime $comparisonValue The DateTime value to compare against.
+     * @param \Cake\I18n\DateTime|\Cake\I18n\Date $comparisonValue The datetime/date value to compare against.
      * @param string|null $message An optional custom error message to return when the validation fails.
      * @param \Closure|string|null $when A condition determining when this validation rule should apply.
      * @return self Returns the current instance with the added validation rule.
      */
     public function greaterThanOrEqualsDateTime(
         string $field,
-        DateTime $comparisonValue,
+        DateTime|Date $comparisonValue,
         ?string $message = null,
         Closure|string|null $when = null,
     ): self {
@@ -202,7 +225,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
+            'rule' => fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals(toDateTime($comparisonValue)),
         ]);
     }
 
@@ -264,27 +287,7 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the given field does not contain a future date value.
-     *
-     * @param string $field The name of the field to which the rule should be applied.
-     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
-     * @param \Closure|string|null $when Optional condition under which the rule is applied.
-     * @return self Returns the current instance for method chaining.
-     */
-    public function notFutureDate(string $field, ?string $message = null, Closure|string|null $when = null): self
-    {
-        $extra = array_filter([
-            'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot be a future date'),
-        ]);
-
-        return $this->add(field: $field, name: 'notFutureDate', rule: $extra + [
-            'rule' => fn(string|Date $date): bool => !toDate($date)->isFuture(),
-        ]);
-    }
-
-    /**
-     * Adds a validation rule to ensure the value of a field is not a future datetime.
+     * Adds a validation rule to ensure that the value of the specified field is not a future datetime/date.
      *
      * @param string $field The name of the field to validate.
      * @param string|null $message An optional custom error message to return when the validation fails.
@@ -299,32 +302,12 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isFuture(),
+            'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
 
     /**
-     * Adds a validation rule that ensures the given field does not contain a past date value.
-     *
-     * @param string $field The name of the field to which the rule should be applied.
-     * @param string|null $message Optional custom error message to be used if the validation rule is violated.
-     * @param \Closure|string|null $when Optional condition under which the rule is applied.
-     * @return self Returns the current instance for method chaining.
-     */
-    public function notPastDate(string $field, ?string $message = null, Closure|string|null $when = null): self
-    {
-        $extra = array_filter([
-            'on' => $when,
-            'message' => $message ?: __d('cake/essentials', 'It cannot be a past date'),
-        ]);
-
-        return $this->add(field: $field, name: 'notPastDate', rule: $extra + [
-            'rule' => fn(string|Date $date): bool => !toDate($date)->isPast(),
-        ]);
-    }
-
-    /**
-     * Adds a validation rule that ensures the given field does not contain a past datetime value.
+     * Adds a validation rule to ensure that the value of the specified field is not a past datetime/date.
      *
      * @param string $field The name of the field to which the rule should be applied.
      * @param string|null $message Optional custom error message to be used if the validation rule is violated.
@@ -339,7 +322,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notPastDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isPast(),
+            'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isPast(),
         ]);
     }
 

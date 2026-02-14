@@ -38,11 +38,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['Ab3!'])]
     #[TestWith(['bbA'])]
     #[TestWith(['!bbA'])]
-    public function testContainsCapitalLetter(string $goodString): void
+    public function testContainsCapitalLetter(string $stringContainsCapitalLetter): void
     {
         $this->Validator->containsCapitalLetter('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
+        $this->assertEmpty($this->Validator->validate(['text' => $stringContainsCapitalLetter]));
     }
 
     /**
@@ -70,11 +70,11 @@ class ValidatorTest extends TestCase
     #[Test]
     #[TestWith(['3'])]
     #[TestWith(['Ab3!'])]
-    public function testContainsDigit(string $goodString): void
+    public function testContainsDigit(string $stringContainsDigits): void
     {
         $this->Validator->containsDigit('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
+        $this->assertEmpty($this->Validator->validate(['text' => $stringContainsDigits]));
     }
 
     /**
@@ -98,11 +98,11 @@ class ValidatorTest extends TestCase
     #[Test]
     #[TestWith(['a'])]
     #[TestWith(['aB3!'])]
-    public function testContainsLowercaseLetter(string $goodString): void
+    public function testContainsLowercaseLetter(string $stringContainsLowecaseLetter): void
     {
         $this->Validator->containsLowercaseLetter('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => $goodString]));
+        $this->assertEmpty($this->Validator->validate(['text' => $stringContainsLowecaseLetter]));
     }
 
     /**
@@ -125,16 +125,48 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * @link \Cake\Essentials\Validation\Validator::dateOrDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26'])]
+    #[TestWith(['2025-02-26 13:00'])]
+    #[TestWith(['2025-02-26 13:00:00'])]
+    public function testDateOrDateTime(string $dateOrDatetime): void
+    {
+        $this->Validator->dateOrDateTime('my_field');
+
+        $this->assertEmpty($this->Validator->validate(['my_field' => $dateOrDatetime]));
+    }
+
+    /**
+     * @link \Cake\Essentials\Validation\Validator::dateOrDateTime()
+     */
+    #[Test]
+    #[TestWith([''])]
+    #[TestWith(['invalid-string'])]
+    #[TestWith(['2025-02-26 13'])]
+    #[TestWith(['2025-02-26 13:00:00:00'])]
+    #[TestWith(['invalid-string', 'This is not a good date or datetime!'])]
+    public function testDateOrDateTimeOnError(string $badDateOrDatetime, string $customMessage = ''): void
+    {
+        $expected = ['my_field' => ['dateOrDateTime' => $customMessage ?: 'It must be a valid date or datetime']];
+
+        $this->Validator->dateOrDateTime('my_field', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badDateOrDatetime]));
+    }
+
+    /**
      * @link \Cake\Essentials\Validation\Validator::firstLetterCapitalized()
      */
     #[Test]
     #[TestWith(['Àbate'])]
     #[TestWith(['Text'])]
-    public function testFirstLetterCapitalized(string $goodText): void
+    public function testFirstLetterCapitalized(string $stringWithFirstLetterCapitalized): void
     {
         $this->Validator->firstLetterCapitalized('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
+        $this->assertEmpty($this->Validator->validate(['text' => $stringWithFirstLetterCapitalized]));
     }
 
     /**
@@ -157,16 +189,19 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * Tests for the `greaterThanDateTimeField()` method.
-     *
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
      */
     #[Test]
     #[TestWith(['', '2025-02-26 13:00:00'])]
+    #[TestWith(['', '2025-02-26'])]
     #[TestWith(['', new DateTime('2025-02-26 13:00:00')])]
     #[TestWith(['2025-02-26 13:00:01', '2025-02-26 13:00:00'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01'),new DateTime('2025-02-26 13:00:00')])]
-    public function testGreaterThanDateTimeField(string|DateTime $first_field, string|DateTime $second_field): void
+    #[TestWith(['2025-02-26', '2025-02-25'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-26'), new Date('2025-02-25')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-26'), new DateTime('2025-02-25 13:00:00')])]
+    public function testGreaterThanDateTimeField(DateTime|Date|string $first_field, DateTime|Date|string $second_field): void
     {
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
 
@@ -196,11 +231,15 @@ class ValidatorTest extends TestCase
     #[Test]
     #[TestWith(['2025-02-26 12:59:59', '2025-02-26 13:00:00'])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00'])]
+    #[TestWith(['2025-02-26', '2025-02-27'])]
     #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-26'), new Date('2025-02-27')])]
+    #[TestWith([new DateTime('2025-02-25 13:00:00'), new Date('2025-02-26')])]
+    #[TestWith([new Date('2025-02-26'), new DateTime('2025-02-26 13:00:00')])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
     public function testGreaterThanDateTimeFieldOnError(
-        string|DateTime $first_field,
-        string|DateTime $second_field,
+        DateTime|Date|string $first_field,
+        DateTime|Date|string $second_field,
         string $customMessage = '',
     ): void {
         $expectedMessage = $customMessage ?: 'It must be greater than `' . toDateTime($second_field)->i18nFormat() . '`';
@@ -216,13 +255,16 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:01'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
-    public function testGreaterThanDateTime(DateTime|string $GoodDateTime): void
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-27')])]
+    #[TestWith([new Date('2025-02-25'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-26')])]
+    public function testGreaterThanDateTime(DateTime|Date $comparisonValue, DateTime|Date|string $dateOrDateTime): void
     {
-        $this->Validator->greaterThanDateTime('created', new DateTime('2025-02-26 13:00:00'));
+        $this->Validator->greaterThanDateTime('created', $comparisonValue);
 
-        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+        $this->assertEmpty($this->Validator->validate(['created' => $dateOrDateTime]));
     }
 
     /**
@@ -231,36 +273,45 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 12:59:59'])]
-    #[TestWith(['2025-02-26 13:00:00'])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59')])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
-    public function testGreaterThanDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
-    {
-        $comparisonValue = new DateTime('2025-02-26 13:00:00');
-
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 12:59:59'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-27'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new Date('2025-02-27'), new Date('2025-02-26')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
+    public function testGreaterThanDateTimeOnError(
+        DateTime|Date $comparisonValue,
+        DateTime|Date|string $badDateOrDateTime,
+        string $customMessage = '',
+    ): void {
         $expected = ['created' => [
             'greaterThanDateTime' => $customMessage ?: 'It must be greater than `' . $comparisonValue->i18nFormat() . '`',
         ]];
 
         $this->Validator->greaterThanDateTime('created', $comparisonValue, $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
+        $this->assertSame($expected, $this->Validator->validate(['created' => $badDateOrDateTime]));
     }
 
     /**
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 13:00:00'])]
-    #[TestWith(['2025-02-26 13:00:01'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:00')])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01')])]
-    public function testGreaterThanOrEqualsDateTime(DateTime|string $GoodDateTime): void
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:00'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 13:00:01'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-27'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:01')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-27')])]
+    #[TestWith([new Date('2025-02-25'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-25'), new Date('2025-02-26')])]
+    public function testGreaterThanOrEqualsDateTime(DateTime|Date $comparisonValue, DateTime|Date|string $dateOrDateTime): void
     {
-        $this->Validator->greaterThanOrEqualsDateTime('created', new DateTime('2025-02-26 13:00:00'));
+        $this->Validator->greaterThanOrEqualsDateTime('created', $comparisonValue);
 
-        $this->assertEmpty($this->Validator->validate(['created' => $GoodDateTime]));
+        $this->assertEmpty($this->Validator->validate(['created' => $dateOrDateTime]));
     }
 
     /**
@@ -269,20 +320,27 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::greaterThanOrEqualsDateTime()
      */
     #[Test]
-    #[TestWith(['2025-02-26 12:59:59'])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59')])]
-    #[TestWith([new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
-    public function testGreaterThanOrEqualsDateTimeOnError(DateTime|string $BadDateTime, string $customMessage = ''): void
-    {
-        $comparisonValue = new DateTime('2025-02-26 13:00:00');
-
-        $expected = ['created' => [
-            'greaterThanOrEqualsDateTime' => $customMessage ?: 'It must be greater than or equal to `' . $comparisonValue->i18nFormat() . '`',
-        ]];
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-26 12:59:59'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), '2025-02-25'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-26'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-27'), new DateTime('2025-02-26 12:59:59')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 12:59:59'), 'You cannot use a past datetime'])]
+    public function testGreaterThanOrEqualsDateTimeOnError(
+        DateTime|Date $comparisonValue,
+        DateTime|Date|string $badDateOrDateTime,
+        string $customMessage = '',
+    ): void {
+        $expected = [
+            'created' => [
+                'greaterThanOrEqualsDateTime' => $customMessage ?: 'It must be greater than or equal to `' . $comparisonValue->i18nFormat() . '`',
+            ],
+        ];
 
         $this->Validator->greaterThanOrEqualsDateTime('created', $comparisonValue, $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['created' => $BadDateTime]));
+        $this->assertSame($expected, $this->Validator->validate(['created' => $badDateOrDateTime]));
     }
 
     /**
@@ -292,11 +350,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['A'])]
     #[TestWith(['A B'])]
     #[TestWith(['A B C'])]
-    public function testNoStartOrEndSpace(string $goodText): void
+    public function testNoStartOrEndSpace(string $stringNotStartingOrEndingWithSpace): void
     {
         $this->Validator->noStartOrEndSpace('text');
 
-        $this->assertEmpty($this->Validator->validate(['text' => $goodText]));
+        $this->assertEmpty($this->Validator->validate(['text' => $stringNotStartingOrEndingWithSpace]));
     }
 
     /**
@@ -366,125 +424,72 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
-     */
-    #[Test]
-    #[TestWith(['now'])]
-    #[TestWith(['yesterday'])]
-    #[TestWith([new Date()])]
-    #[TestWith([new Date('yesterday')])]
-    public function testNotFutureDate(Date|string $goodDate): void
-    {
-        $this->Validator->notFutureDate('date');
-
-        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::notFutureDate()
-     */
-    #[Test]
-    #[TestWith([new Date('tomorrow')])]
-    #[TestWith(['tomorrow', 'You cannot use a bad date'])]
-    public function testNotFutureDateOnError(Date|string $badDate, string $customMessage = ''): void
-    {
-        $expected = ['date' => ['notFutureDate' => $customMessage ?: 'It cannot be a future date']];
-
-        $this->Validator->notFutureDate('date', $customMessage);
-
-        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
-    }
-
-    /**
      * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
      */
     #[Test]
     #[TestWith(['now'])]
     #[TestWith(['yesterday'])]
+    #[TestWith(['2026-02-13 00:00:00'])]
+    #[TestWith(['2026-02-13'])]
     #[TestWith([new DateTime()])]
     #[TestWith([new DateTime('yesterday')])]
-    public function testNotFutureDatetime(DateTime|string $goodDatetime): void
+    #[TestWith([new Date()])]
+    #[TestWith([new Date('yesterday')])]
+    public function testNotFutureDatetime(DateTime|Date|string $dateOrDateTime): void
     {
         $this->Validator->notFutureDatetime('datetime');
 
-        $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
+        $this->assertEmpty($this->Validator->validate(['datetime' => $dateOrDateTime]));
     }
 
     /**
      * @link \Cake\Essentials\Validation\Validator::notFutureDatetime()
      */
     #[Test]
-    #[TestWith([new DateTime('+10 seconds')])]
+    #[TestWith(['tomorrow'])]
+    #[TestWith(['2099-02-13 00:00:00'])]
+    #[TestWith(['2099-02-13'])]
     #[TestWith([new DateTime('tomorrow')])]
+    #[TestWith([new Date('tomorrow')])]
     #[TestWith(['tomorrow', 'You cannot use a bad datetime'])]
-    public function testNotFutureDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    public function testNotFutureDatetimeOnError(DateTime|Date|string $badDateOrDateTime, string $customMessage = ''): void
     {
         $expected = ['datetime' => ['notFutureDatetime' => $customMessage ?: 'It cannot be a future datetime']];
 
         $this->Validator->notFutureDatetime('datetime', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDate()
-     */
-    #[Test]
-    #[TestWith(['now'])]
-    #[TestWith(['tomorrow'])]
-    #[TestWith([new Date()])]
-    #[TestWith([new Date('tomorrow')])]
-    public function testNotPastDate(Date|string $goodDate): void
-    {
-        $this->Validator->notPastDate('date');
-
-        $this->assertEmpty($this->Validator->validate(['date' => $goodDate]));
-    }
-
-    /**
-     * @link \Cake\Essentials\Validation\Validator::notPastDate()
-     */
-    #[Test]
-    #[TestWith([new Date('yesterday')])]
-    #[TestWith(['yesterday', 'You cannot use a bad date'])]
-    public function testNotPastDateOnError(Date|string $badDate, string $customMessage = ''): void
-    {
-        $expected = ['date' => ['notPastDate' => $customMessage ?: 'It cannot be a past date']];
-
-        $this->Validator->notPastDate('date', $customMessage);
-
-        $this->assertSame($expected, $this->Validator->validate(['date' => $badDate]));
+        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDateOrDateTime]));
     }
 
     /**
      * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
      */
     #[Test]
-    #[TestWith(['+10 second'])]
     #[TestWith(['tomorrow'])]
-    #[TestWith([new DateTime('+10 second')])]
     #[TestWith([new DateTime('tomorrow')])]
-    public function testNotPastDatetime(DateTime|string $goodDatetime): void
+    #[TestWith([new Date('tomorrow')])]
+    public function testNotPastDatetime(DateTime|Date|string $dateOrDateTime): void
     {
         $this->Validator->notPastDatetime('datetime');
 
-        $this->assertEmpty($this->Validator->validate(['datetime' => $goodDatetime]));
+        $this->assertEmpty($this->Validator->validate(['datetime' => $dateOrDateTime]));
     }
 
     /**
      * @link \Cake\Essentials\Validation\Validator::notPastDatetime()
      */
     #[Test]
-    #[TestWith([new DateTime('yesterday')])]
     #[TestWith(['yesterday'])]
+    #[TestWith([new DateTime('yesterday')])]
+    #[TestWith([new Date('yesterday')])]
     #[TestWith(['yesterday', 'You cannot use a bad datetime'])]
-    public function testNotPastDatetimeOnError(DateTime|string $badDatetime, string $customMessage = ''): void
+    public function testNotPastDatetimeOnError(DateTime|Date|string $badDateOrDateTime, string $customMessage = ''): void
     {
         $expected = ['datetime' => ['notPastDatetime' => $customMessage ?: 'It cannot be a past datetime']];
 
         $this->Validator->notPastDatetime('datetime', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDatetime]));
+        $this->assertSame($expected, $this->Validator->validate(['datetime' => $badDateOrDateTime]));
     }
 
     /**
@@ -533,11 +538,11 @@ class ValidatorTest extends TestCase
     #[TestWith([['personName' => 'You cannot use a bad person name'], 'Mark - Red', 'You cannot use a bad person name'])]
     public function testPersonNameOnError(array $expectedErrorMessage, string $badName, string $customMessage = ''): void
     {
-        $expected = ['name' => $expectedErrorMessage];
+        $expected = ['my_field' => $expectedErrorMessage];
 
-        $this->Validator->personName('name', $customMessage);
+        $this->Validator->personName('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['name' => $badName]));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badName]));
     }
 
     /**
@@ -550,9 +555,9 @@ class ValidatorTest extends TestCase
     #[TestWith(['a-b2'])]
     public function testSlug(string $goodSlug): void
     {
-        $this->Validator->slug('slug');
+        $this->Validator->slug('my_field');
 
-        $this->assertEmpty($this->Validator->validate(['slug' => $goodSlug]));
+        $this->assertEmpty($this->Validator->validate(['my_field' => $goodSlug]));
     }
 
     /**
@@ -568,11 +573,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['aàa', 'You cannot use a bad slug'])]
     public function testSlugOnError(string $badSlug, string $customMessage = ''): void
     {
-        $expected = ['slug' => ['slug' => $customMessage ?: 'It must be a valid slug']];
+        $expected = ['my_field' => ['slug' => $customMessage ?: 'It must be a valid slug']];
 
-        $this->Validator->slug('slug', $customMessage);
+        $this->Validator->slug('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['slug' => $badSlug]));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badSlug]));
     }
 
     /**
@@ -586,9 +591,9 @@ class ValidatorTest extends TestCase
     #[TestWith(['Title, with-apostrophe\'s and (round brackets)'])]
     public function testTitle(string $goodTitle): void
     {
-        $this->Validator->title('title');
+        $this->Validator->title('my_field');
 
-        $this->assertEmpty($this->Validator->validate(['title' => $goodTitle]));
+        $this->assertEmpty($this->Validator->validate(['my_field' => $goodTitle]));
     }
 
     /**
@@ -612,11 +617,11 @@ class ValidatorTest extends TestCase
     #[TestWith([['title' => 'You cannot use a bad title'], 'Title?', 'You cannot use a bad title'])]
     public function testTitleOnError(array $expectedErrorMessage, string $badTitle, string $customMessage = ''): void
     {
-        $expected = ['title' => $expectedErrorMessage];
+        $expected = ['my_field' => $expectedErrorMessage];
 
-        $this->Validator->title('title', $customMessage);
+        $this->Validator->title('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['title' => $badTitle]));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badTitle]));
     }
 
     /**
