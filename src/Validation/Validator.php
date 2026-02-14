@@ -301,14 +301,14 @@ class Validator extends CakeValidator
      * @param \Closure|string|null $when A condition determining when this validation rule should apply.
      * @return self Returns the current instance with the added validation rule.
      */
-    public function notFutureDatetime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    public function notFutureDateTime(string $field, ?string $message = null, Closure|string|null $when = null): self
     {
         $extra = array_filter([
             'on' => $when,
             'message' => $message ?: __d('cake/essentials', 'It cannot be a future datetime'),
         ]);
 
-        return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
+        return $this->add(field: $field, name: 'notFutureDateTime', rule: $extra + [
             'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
@@ -321,14 +321,14 @@ class Validator extends CakeValidator
      * @param \Closure|string|null $when Optional condition under which the rule is applied.
      * @return self Returns the current instance for method chaining.
      */
-    public function notPastDatetime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    public function notPastDateTime(string $field, ?string $message = null, Closure|string|null $when = null): self
     {
         $extra = array_filter([
             'on' => $when,
             'message' => $message ?: __d('cake/essentials', 'It cannot be a past datetime'),
         ]);
 
-        return $this->add(field: $field, name: 'notPastDatetime', rule: $extra + [
+        return $this->add(field: $field, name: 'notPastDateTime', rule: $extra + [
             'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isPast(),
         ]);
     }
