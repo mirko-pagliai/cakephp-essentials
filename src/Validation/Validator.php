@@ -88,6 +88,29 @@ class Validator extends CakeValidator
     }
 
     /**
+     * Validates that the specified field contains a valid date or datetime value.
+     *
+     * @param string $field The name of the field to be validated.
+     * @param string|null $message An optional custom validation failure message.
+     * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
+     * @return self Returns the current instance with the added validation rule.
+     */
+    public function dateOrDateTime(string $field, ?string $message = null, Closure|string|null $when = null): self
+    {
+        $extra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It must be a valid date or datetime'),
+        ]);
+
+        /** @var class-string<\Cake\Validation\Validation> $defaultProvider */
+        $defaultProvider = $this->getProvider('default');
+
+        return $this->add(field: $field, name: 'dateOrDateTime', rule: $extra + [
+            'rule' => fn(string $value): bool => $defaultProvider::date($value) || $defaultProvider::dateTime($value),
+        ]);
+    }
+
+    /**
      * Validates that the specified field begins with a capital letter.
      *
      * @param string $field The name of the field to be validated.

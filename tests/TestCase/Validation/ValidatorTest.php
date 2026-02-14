@@ -125,6 +125,38 @@ class ValidatorTest extends TestCase
     }
 
     /**
+     * @link \Cake\Essentials\Validation\Validator::dateOrDateTime()
+     */
+    #[Test]
+    #[TestWith(['2025-02-26'])]
+    #[TestWith(['2025-02-26 13:00'])]
+    #[TestWith(['2025-02-26 13:00:00'])]
+    public function testDateOrDateTime(string $dateOrDatetime): void
+    {
+        $this->Validator->dateOrDateTime('my_field');
+
+        $this->assertEmpty($this->Validator->validate(['my_field' => $dateOrDatetime]));
+    }
+
+    /**
+     * @link \Cake\Essentials\Validation\Validator::dateOrDateTime()
+     */
+    #[Test]
+    #[TestWith([''])]
+    #[TestWith(['invalid-string'])]
+    #[TestWith(['2025-02-26 13'])]
+    #[TestWith(['2025-02-26 13:00:00:00'])]
+    #[TestWith(['invalid-string', 'This is not a good date or datetime!'])]
+    public function testDateOrDateTimeOnError(string $badDateOrDatetime, string $customMessage = ''): void
+    {
+        $expected = ['my_field' => ['dateOrDateTime' => $customMessage ?: 'It must be a valid date or datetime']];
+
+        $this->Validator->dateOrDateTime('my_field', $customMessage);
+
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badDateOrDatetime]));
+    }
+
+    /**
      * @link \Cake\Essentials\Validation\Validator::firstLetterCapitalized()
      */
     #[Test]
@@ -157,8 +189,6 @@ class ValidatorTest extends TestCase
     }
 
     /**
-     * Tests for the `greaterThanDateTimeField()` method.
-     *
      * @link \Cake\Essentials\Validation\Validator::greaterThanDateTimeField()
      */
     #[Test]
