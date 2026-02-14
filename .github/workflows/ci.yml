@@ -134,4 +134,4 @@ jobs:
         run: cs2pr ./phpcs-report.xml
 
       - name: Run phpstan
-        run: vendor/bin/phpstan analyse --error-format=github
+        run: vendor/bin/phpstan analyse --memory-limit=1G --error-format=github
