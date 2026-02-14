@@ -49,19 +49,20 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::containsCapitalLetter()
      */
     #[Test]
-    #[TestWith([])]
-    #[TestWith(['Does not contain a capital letter'])]
-    public function testContainsCapitalLetterOnError(string $customMessage = ''): void
+    #[TestWith([''])]
+    #[TestWith(['a3!'])]
+    #[TestWith(['a3!', 'Does not contain a capital letter'])]
+    public function testContainsCapitalLetterOnError(string $badString, string $customMessage = ''): void
     {
         $expected = [
-            'text' => [
+            'my_field' => [
                 'containsCapitalLetter' => $customMessage ?: 'It must contain at least one capital character',
             ],
         ];
 
-        $this->Validator->containsCapitalLetter('text', $customMessage);
+        $this->Validator->containsCapitalLetter('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['text' => 'a3!']));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badString]));
     }
 
     /**
@@ -81,15 +82,16 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::containsDigit()
      */
     #[Test]
-    #[TestWith([])]
-    #[TestWith(['Does not contain a digit'])]
-    public function testContainsDigitOnError(string $customMessage = ''): void
+    #[TestWith([''])]
+    #[TestWith(['Ab!'])]
+    #[TestWith(['Ab!', 'Does not contain a digit'])]
+    public function testContainsDigitOnError(string $badString, string $customMessage = ''): void
     {
-        $expected = ['text' => ['containsDigit' => $customMessage ?: 'It must contain at least one numeric digit']];
+        $expected = ['my_field' => ['containsDigit' => $customMessage ?: 'It must contain at least one numeric digit']];
 
-        $this->Validator->containsDigit('text', $customMessage);
+        $this->Validator->containsDigit('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['text' => 'Ab!']));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badString]));
     }
 
     /**
@@ -109,19 +111,20 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::containsLowercaseLetter()
      */
     #[Test]
-    #[TestWith([])]
-    #[TestWith(['Does not contain a lowercase letter'])]
-    public function testContainsLowercaseLetterOnError(string $customMessage = ''): void
+    #[TestWith([''])]
+    #[TestWith(['A3!'])]
+    #[TestWith(['A3!', 'Does not contain a lowercase letter'])]
+    public function testContainsLowercaseLetterOnError(string $badString, string $customMessage = ''): void
     {
         $expected = [
-            'text' => [
+            'my_field' => [
                 'containsLowercaseLetter' => $customMessage ?: 'It must contain at least one lowercase character',
             ],
         ];
 
-        $this->Validator->containsLowercaseLetter('text', $customMessage);
+        $this->Validator->containsLowercaseLetter('my_field', $customMessage);
 
-        $this->assertSame($expected, $this->Validator->validate(['text' => 'A3!']));
+        $this->assertSame($expected, $this->Validator->validate(['my_field' => $badString]));
     }
 
     /**
@@ -173,6 +176,7 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::firstLetterCapitalized()
      */
     #[Test]
+    #[TestWith([''])]
     #[TestWith(['a'])]
     #[TestWith(['à'])]
     #[TestWith(['1'])]
@@ -347,6 +351,7 @@ class ValidatorTest extends TestCase
      * @link \Cake\Essentials\Validation\Validator::noStartOrEndSpace()
      */
     #[Test]
+    #[TestWith([''])]
     #[TestWith(['A'])]
     #[TestWith(['A B'])]
     #[TestWith(['A B C'])]
