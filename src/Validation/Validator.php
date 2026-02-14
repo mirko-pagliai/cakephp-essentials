@@ -106,8 +106,8 @@ class Validator extends CakeValidator
     }
 
     /**
-     * Adds a validation rule that ensures the datetime value of the given field is greater than the datetime value of
-     *  another specified field.
+     * Adds a validation rule that ensures the datetime/date value of the given field is greater than the datetime/date
+     *  value of another specified field.
      *
      * @param string $field The name of the field to which the rule should be applied.
      * @param string $secondField The name of the field containing the datetime value to compare against.
@@ -127,7 +127,7 @@ class Validator extends CakeValidator
             field: $field,
             name: 'greaterThanDateTimeField',
             rule: $extra + [
-                'rule' => function (string|DateTime $dateTime, array $context) use ($secondField, $message): bool|string {
+                'rule' => function (DateTime|Date|string $dateTime, array $context) use ($secondField, $message): true|string {
                     if (empty($context['data'][$secondField])) {
                         return true;
                     }
@@ -173,7 +173,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThan($comparisonValue),
+            'rule' => fn(DateTime|string $dateTime): bool => toDateTime($dateTime)->greaterThan($comparisonValue),
         ]);
     }
 
@@ -202,7 +202,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
+            'rule' => fn(DateTime|string $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals($comparisonValue),
         ]);
     }
 
@@ -279,7 +279,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDate', rule: $extra + [
-            'rule' => fn(string|Date $date): bool => !toDate($date)->isFuture(),
+            'rule' => fn(Date|string $date): bool => !toDate($date)->isFuture(),
         ]);
     }
 
@@ -299,7 +299,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isFuture(),
+            'rule' => fn(DateTime|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
 
@@ -319,7 +319,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notPastDate', rule: $extra + [
-            'rule' => fn(string|Date $date): bool => !toDate($date)->isPast(),
+            'rule' => fn(Date|string $date): bool => !toDate($date)->isPast(),
         ]);
     }
 
@@ -339,7 +339,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notPastDatetime', rule: $extra + [
-            'rule' => fn(string|DateTime $dateTime): bool => !toDateTime($dateTime)->isPast(),
+            'rule' => fn(DateTime|string $dateTime): bool => !toDateTime($dateTime)->isPast(),
         ]);
     }
 

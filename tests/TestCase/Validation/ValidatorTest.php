@@ -163,10 +163,13 @@ class ValidatorTest extends TestCase
      */
     #[Test]
     #[TestWith(['', '2025-02-26 13:00:00'])]
+    #[TestWith(['', '2025-02-26'])]
     #[TestWith(['', new DateTime('2025-02-26 13:00:00')])]
     #[TestWith(['2025-02-26 13:00:01', '2025-02-26 13:00:00'])]
-    #[TestWith([new DateTime('2025-02-26 13:00:01'),new DateTime('2025-02-26 13:00:00')])]
-    public function testGreaterThanDateTimeField(string|DateTime $first_field, string|DateTime $second_field): void
+    #[TestWith(['2025-02-26', '2025-02-25'])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-26'), new Date('2025-02-25')])]
+    public function testGreaterThanDateTimeField(DateTime|Date|string $first_field, DateTime|Date|string $second_field): void
     {
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
 
@@ -196,11 +199,13 @@ class ValidatorTest extends TestCase
     #[Test]
     #[TestWith(['2025-02-26 12:59:59', '2025-02-26 13:00:00'])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00'])]
+    #[TestWith(['2025-02-26', '2025-02-27'])]
     #[TestWith([new DateTime('2025-02-26 13:00:00'), new DateTime('2025-02-26 13:00:00')])]
+    #[TestWith([new Date('2025-02-26'), new Date('2025-02-27')])]
     #[TestWith(['2025-02-26 13:00:00', '2025-02-26 13:00:00', 'Bad `$second_field`'])]
     public function testGreaterThanDateTimeFieldOnError(
-        string|DateTime $first_field,
-        string|DateTime $second_field,
+        DateTime|Date|string $first_field,
+        DateTime|Date|string $second_field,
         string $customMessage = '',
     ): void {
         $expectedMessage = $customMessage ?: 'It must be greater than `' . toDateTime($second_field)->i18nFormat() . '`';
