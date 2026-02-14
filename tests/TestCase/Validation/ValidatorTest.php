@@ -169,6 +169,8 @@ class ValidatorTest extends TestCase
     #[TestWith(['2025-02-26', '2025-02-25'])]
     #[TestWith([new DateTime('2025-02-26 13:00:01'), new DateTime('2025-02-26 13:00:00')])]
     #[TestWith([new Date('2025-02-26'), new Date('2025-02-25')])]
+    #[TestWith([new DateTime('2025-02-26 13:00:01'), new Date('2025-02-25')])]
+    #[TestWith([new Date('2025-02-26'), new DateTime('2025-02-25 13:00:00')])]
     public function testGreaterThanDateTimeField(DateTime|Date|string $first_field, DateTime|Date|string $second_field): void
     {
         $this->Validator->greaterThanDateTimeField('first_field', 'second_field');
