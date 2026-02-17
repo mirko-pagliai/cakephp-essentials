@@ -68,14 +68,14 @@ interface EntityWithIconsInterface
     /**
      * Returns the icon for this instantiated entity.
      *
-     * @return array{name: string, namespace: string, prefix: string}|string
+     * @return array{name: string, prefix?: ?string, namespace?: ?string}|string
      */
     public function getIcon(): string|array;
 
     /**
      * Returns the static icon for this entity type.
      *
-     * @return array{name: string, namespace: string, prefix: string}|string
+     * @return array{name: string, prefix?: ?string, namespace?: ?string}|string
      */
     public static function getStaticIcon(): string|array;
 }
