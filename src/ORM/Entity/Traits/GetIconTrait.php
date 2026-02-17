@@ -7,7 +7,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
  * This trait automatically implements the `getIcon()` method, which returns the `icon` property, if exists and is
  *  valid, otherwise returns `getStaticIcon()`.
  *
- * @property array{name: string, namespace: string, prefix: string}|string|null $icon
+ * @property array{name: string, prefix?: ?string, namespace?: ?string}|string|null $icon
  *
  * @phpstan-require-implements \Cake\Essentials\ORM\Entity\EntityWithIconsInterface
  */
@@ -18,7 +18,7 @@ trait GetIconTrait
      *
      * Returns the `icon` property if it exists for this entity and is valid, otherwise returns `getStaticIcon()`.
      *
-     * @return array{name: string, namespace: string, prefix: string}|string
+     * @return array{name: string, prefix?: ?string, namespace?: ?string}|string
      */
     public function getIcon(): string|array
     {

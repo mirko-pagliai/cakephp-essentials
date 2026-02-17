@@ -52,12 +52,7 @@ class GetIconTraitTest extends TestCase
     #[Test]
     public function testGetIconWithArray(): void
     {
-        $expected = [
-            'name' => 'bullseye',
-            'namespace' => 'fas',
-            'prefix' => 'fa',
-        ];
-
+        // The `getStaticIcon()` methods returns an array
         $Entity = new class extends Entity implements EntityWithIconsInterface {
             use GetIconTrait;
 
@@ -72,7 +67,49 @@ class GetIconTraitTest extends TestCase
         };
 
         $result = $Entity->getIcon();
-        $this->assertSame($expected, $result);
+        $this->assertSame([
+            'name' => 'bullseye',
+            'namespace' => 'fas',
+            'prefix' => 'fa',
+        ], $result);
+
+        // The `getStaticIcon()` methods returns an array with `namespace` key is `null`
+        $Entity = new class extends Entity implements EntityWithIconsInterface {
+            use GetIconTrait;
+
+            public static function getStaticIcon(): array
+            {
+                return [
+                    'name' => 'bullseye',
+                    'namespace' => null,
+                    'prefix' => 'fa',
+                ];
+            }
+        };
+
+        $result = $Entity->getIcon();
+        $this->assertSame([
+            'name' => 'bullseye',
+            'namespace' => null,
+            'prefix' => 'fa',
+        ], $result);
+
+        // The `getStaticIcon()` methods returns an array without `prefix` and `namespace` keys
+        $Entity = new class extends Entity implements EntityWithIconsInterface {
+            use GetIconTrait;
+
+            public static function getStaticIcon(): array
+            {
+                return [
+                    'name' => 'bullseye',
+                ];
+            }
+        };
+
+        $result = $Entity->getIcon();
+        $this->assertSame([
+            'name' => 'bullseye',
+        ], $result);
     }
 
     /**
