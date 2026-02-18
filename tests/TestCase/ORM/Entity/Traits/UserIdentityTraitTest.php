@@ -10,13 +10,13 @@ use Cake\Essentials\ORM\Entity\UserIdentityInterface;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
 use Mockery;
-use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
  * UserIdentityTraitTest.
  */
-#[CoversClass(UserIdentityTrait::class)]
+#[CoversTrait(UserIdentityTrait::class)]
 class UserIdentityTraitTest extends TestCase
 {
     /**
