@@ -18,6 +18,22 @@ class BeautifierHelper extends Helper
     protected array $helpers = ['Html'];
 
     /**
+     * @var array<string, mixed>
+     */
+    protected array $_defaultConfig = [
+        // Default icons
+        'icon' => [
+            'android' => 'android',
+            'apple' => 'apple',
+            'ipAddress' => 'globe-americas',
+            'linux' => 'ubuntu',
+            'question' => 'question-circle-fill',
+            'unknownDevice' => 'question-circle-fill',
+            'windows' => 'windows',
+        ],
+    ];
+
+    /**
      * Returns a nice representation of an IP address.
      *
      * @param string $ipAddress The IP address to be displayed.
@@ -26,9 +42,12 @@ class BeautifierHelper extends Helper
      */
     public function ipAddress(string $ipAddress, array $options = []): string
     {
-        $options += [
-            'icon' => ['name' => 'globe-americas', 'class' => 'small text-body-secondary'],
-        ];
+        if (!isset($options['icon'])) {
+            $iconFromConfig = $this->getConfig('icon.ipAddress');
+            $iconFromConfig = is_string($iconFromConfig) ? ['name' => $iconFromConfig] : (array)$iconFromConfig;
+
+            $options['icon'] = $iconFromConfig + ['class' => 'small text-body-secondary'];
+        }
 
         return $this->Html->span($this->Html->code($ipAddress), $options);
     }
@@ -41,8 +60,14 @@ class BeautifierHelper extends Helper
     {
         $options += [
             'class' => null,
-            'icon' => ['name' => 'question-circle-fill', 'class' => 'opacity-75 text-body-tertiary'],
         ];
+
+        if (!isset($options['icon'])) {
+            $iconFromConfig = $this->getConfig('icon.question');
+            $iconFromConfig = is_string($iconFromConfig) ? ['name' => $iconFromConfig] : (array)$iconFromConfig;
+
+            $options['icon'] = $iconFromConfig + ['class' => 'opacity-75 text-body-tertiary'];
+        }
 
         return $this->Html->span(options: $options);
     }
@@ -80,22 +105,24 @@ class BeautifierHelper extends Helper
      */
     public function userAgent(string $userAgent, array $options = []): string
     {
-        if (str_contains($userAgent, 'Android')) {
-            $icon = 'android';
-        } elseif (preg_match('/(Linux|Windows|iPhone|Mac OS)/', $userAgent, $matches) === 1) {
-            $icon = match ($matches[0]) {
-                'Linux' => 'ubuntu',
-                'iPhone', 'Mac OS' => 'apple',
-                default => lcfirst($matches[0]),
-            };
-        } else {
-            //Icon for unknown devices
-            $icon = 'question-circle-fill';
-        }
+        if (!isset($options['icon'])) {
+            // The `Android` case must go first, so as not to conflict with `Linux; Android`
+            if (str_contains($userAgent, 'Android')) {
+                $iconFromConfig = $this->getConfig('icon.android');
+            } elseif (preg_match('/(Linux|Windows|iPhone|Mac OS)/', $userAgent, $matches) === 1) {
+                $iconFromConfig = match ($matches[0]) {
+                    'iPhone', 'Mac OS' => $this->getConfig('icon.apple'),
+                    default => $this->getConfig('icon.' . lcfirst($matches[0])),
+                };
+            } else {
+                //Icon for unknown devices
+                $iconFromConfig = $this->getConfig('icon.unknownDevice');
+            }
 
-        $options += [
-            'icon' => ['name' => $icon, 'class' => 'me-1 small text-body-secondary'],
-        ];
+            $iconFromConfig = is_string($iconFromConfig) ? ['name' => $iconFromConfig] : (array)$iconFromConfig;
+
+            $options['icon'] = $iconFromConfig + ['class' => 'me-1 small text-body-secondary'];
+        }
 
         return $this->Html->span($this->Html->code($userAgent), options: $options);
     }
