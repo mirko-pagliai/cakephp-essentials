@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e882812522d6bf6b16ed078698ff3a58",
+    "content-hash": "6e90dfe8949b806ef1b48374caca9390",
     "packages": [
         {
             "name": "axllent/jquery",
@@ -307,16 +307,16 @@
         },
         {
             "name": "friendsofcake/bootstrap-ui",
-            "version": "5.1.2",
+            "version": "5.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfCake/bootstrap-ui.git",
-                "reference": "800b849776a9c1766667e0d20610e096f61f029c"
+                "reference": "1c197b9d49c5271057a0c74a264909c76c435015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/800b849776a9c1766667e0d20610e096f61f029c",
-                "reference": "800b849776a9c1766667e0d20610e096f61f029c",
+                "url": "https://api.github.com/repos/FriendsOfCake/bootstrap-ui/zipball/1c197b9d49c5271057a0c74a264909c76c435015",
+                "reference": "1c197b9d49c5271057a0c74a264909c76c435015",
                 "shasum": ""
             },
             "require": {
@@ -325,12 +325,12 @@
             "require-dev": {
                 "cakephp/bake": "^3.0",
                 "cakephp/cakephp-codesniffer": "^5.1",
-                "phpunit/phpunit": "^10.5.5 || ^11.1.3"
+                "phpunit/phpunit": "^10.5.58 || ^11.5.3 || ^12.4"
             },
             "type": "cakephp-plugin",
             "autoload": {
                 "psr-4": {
-                    "BootstrapUI\\": "src"
+                    "BootstrapUI\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -359,7 +359,7 @@
                 "issues": "http://github.com/friendsofcake/bootstrap-ui/issues",
                 "source": "http://github.com/friendsofcake/bootstrap-ui"
             },
-            "time": "2025-07-29T17:10:14+00:00"
+            "time": "2026-02-19T18:02:12+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

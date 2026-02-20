@@ -19,7 +19,7 @@ $this->addMainLink($this->Html->link(
     url: ['action' => 'add'],
     options: [
         'class' => 'btn btn-sm btn-outline-primary',
-        'icon' => $this->Html::ADD_ICON,
+        'icon' => 'plus-lg',
     ],
 ));
 {% set done = [] %}
@@ -88,17 +88,17 @@ $this->addMainLink($this->Html->link(
                         echo $this->Html->link(
                             title: __('View'),
                             url: ['action' => 'view', {{ pk|raw }}],
-                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON],
+                            options: ['class' => 'text-nowrap', 'icon' => 'eye-fill'],
                         );
                         echo $this->Html->link(
                             title: __('Edit'),
                             url: ['action' => 'edit', {{ pk|raw }}],
-                            options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON],
+                            options: ['class' => 'text-nowrap', 'icon' => 'pencil-fill'],
                         );
                         echo $this->Form->deleteLink(
                             title: __('Delete'),
                             url: ['action' => 'delete', {{ pk|raw }}],
-                            options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON],
+                            options: ['class' => 'link-danger text-nowrap', 'icon' => 'trash'],
                         );
                         ?>
                     </div>

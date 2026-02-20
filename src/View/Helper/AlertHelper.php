@@ -40,9 +40,9 @@ class AlertHelper extends Helper
     protected array $_defaultConfig = [
         // Default icons for some alert types
         'icon' => [
-            'danger' => HtmlHelper::WARNING_ICON_FILL,
-            'success' => HtmlHelper::SUCCESS_ICON,
-            'warning' => HtmlHelper::WARNING_ICON_FILL,
+            'danger' => 'exclamation-triangle-fill',
+            'success' => 'check-circle-fill',
+            'warning' => 'exclamation-triangle-fill',
         ],
         'templates' => [
             // Wrappers used when an icon is also used to separate it from the text

@@ -22,19 +22,19 @@ $this->assignTitle(h(${{ singularVar[0:1]|upper ~ singularVar[1:] }}->{{ display
 $this->addMainLink($this->Html->link(
     title: __('List'),
     url: ['action' => 'index'],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::INDEX_ICON],
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'list'],
 ));
 $this->addMainLink($this->Html->link(
     title: __('Edit'),
     url: ['action' => 'edit', {{ pK|raw }}],
-    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => $this->Html::EDIT_ICON],
+    options: ['class' => 'btn btn-sm btn-outline-primary', 'icon' => 'pencil-fill'],
 ));
 $this->addMainLink($this->Form->deleteLink(
     title: __('Delete'),
     url: ['action' => 'delete', {{ pK|raw }}],
     options: [
         'class' => 'btn btn-sm btn-outline-danger',
-        'icon' => $this->Html::DELETE_ICON,
+        'icon' => 'trash',
     ],
 ));
 ?>
@@ -166,17 +166,17 @@ $this->addMainLink($this->Form->deleteLink(
                             echo $this->Html->link(
                                 title: __('View'),
                                 url: ['controller' => '{{ details.controller }}', 'action' => 'view', {{ otherPk|raw }}],
-                                options: ['class' => 'text-nowrap', 'icon' => $this->Html::VIEW_ICON],
+                                options: ['class' => 'text-nowrap', 'icon' => 'eye-fill'],
                             );
                             echo $this->Html->link(
                                 title: __('Edit'),
                                 url: ['controller' => '{{ details.controller }}', 'action' => 'edit', {{ otherPk|raw }}],
-                                options: ['class' => 'text-nowrap', 'icon' => $this->Html::EDIT_ICON],
+                                options: ['class' => 'text-nowrap', 'icon' => 'pencil-fill'],
                             );
                             echo $this->Form->deleteLink(
                                 title: __('Delete'),
                                 url: ['controller' => '{{ details.controller }}', 'action' => 'delete', {{ otherPk|raw }}],
-                                options: ['class' => 'link-danger text-nowrap', 'icon' => $this->Html::DELETE_ICON],
+                                options: ['class' => 'link-danger text-nowrap', 'icon' => 'trash'],
                             );
                             ?>
                         </div>

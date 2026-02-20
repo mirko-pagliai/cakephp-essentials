@@ -62,25 +62,42 @@ class HtmlHelperTest extends TestCase
      * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
      */
     #[Test]
-    #[TestWith(['code', '<code>My text</code>'])]
-    #[TestWith(['em', '<em>My text</em>'])]
-    #[TestWith(['kbd', '<kbd>My text</kbd>'])]
-    #[TestWith(['h1', '<h1>My text</h1>'])]
-    #[TestWith(['h2', '<h2>My text</h2>'])]
-    #[TestWith(['h3', '<h3>My text</h3>'])]
-    #[TestWith(['h4', '<h4>My text</h4>'])]
-    #[TestWith(['h5', '<h5>My text</h5>'])]
-    #[TestWith(['h6', '<h6>My text</h6>'])]
-    #[TestWith(['pre', '<pre>My text</pre>'])]
-    #[TestWith(['small', '<small>My text</small>'])]
-    #[TestWith(['span', '<span>My text</span>'])]
-    #[TestWith(['strong', '<strong>My text</strong>'])]
-    #[TestWith(['title', '<title>My text</title>'])]
-    #[TestWith(['underline', '<u>My text</u>'])]
-    #[TestWith(['var', '<var>My text</var>'])]
-    public function testCallMagicMethodWithAllDefinedTags(string $tag, string $expected): void
+    #[TestWith(['code'])]
+    #[TestWith(['em'])]
+    #[TestWith(['kbd'])]
+    #[TestWith(['h1'])]
+    #[TestWith(['h2'])]
+    #[TestWith(['h3'])]
+    #[TestWith(['h4'])]
+    #[TestWith(['h5'])]
+    #[TestWith(['h6'])]
+    #[TestWith(['pre'])]
+    #[TestWith(['small'])]
+    #[TestWith(['span'])]
+    #[TestWith(['strong'])]
+    #[TestWith(['title'])]
+    #[TestWith(['var'])]
+    public function testCallMagicMethodWithAllDefinedTags(string $tag): void
     {
+        $expected = "<{$tag}>My text</{$tag}>";
         $result = $this->Html->{$tag}('My text');
+        $this->assertSame($expected, $result);
+
+        $expected = "<{$tag}>0</{$tag}>";
+        $result = $this->Html->{$tag}('0');
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * Tests for the `__call()` magic method, for `underline`.
+     *
+     * @link \Cake\Essentials\View\Helper\HtmlHelper::__call()
+     */
+    #[Test]
+    public function testCallMagicMethodWithUnderline(): void
+    {
+        $expected = '<u>My text</u>';
+        $result = $this->Html->underline('My text');
         $this->assertSame($expected, $result);
     }
 
