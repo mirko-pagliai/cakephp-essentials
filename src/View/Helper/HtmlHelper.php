@@ -153,7 +153,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         $icon = $this->buildIcon($options);
         unset($options['icon']);
 
-        if (!$title) {
+        if ($title === '') {
             return [$icon, $options];
         }
 
