@@ -104,10 +104,11 @@ class CollapsibleHelper extends Helper
 
         return $this->Html->link(
             title: $title,
-            url: '#' . $this->collapsibleId,
+            url: '#',
             options: [
                 'aria-controls' => $this->collapsibleId,
                 'aria-expanded' => $this->alreadyOpen ? 'true' : 'false',
+                'data-bs-target' => '#' . $this->collapsibleId,
                 'data-bs-toggle' => 'collapse',
             ] + $options,
         );
