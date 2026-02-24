@@ -37,9 +37,10 @@ class CollapsibleHelperTest extends TestCase
         // Default
         $expected = [
             'a' => [
-                'href' => '#my-id',
+                'href' => '#',
                 'aria-controls' => 'my-id',
                 'aria-expanded' => 'false',
+                'data-bs-target' => '#my-id',
                 'data-bs-toggle' => 'collapse',
                 'role' => 'button',
                 'class' => 'collapsed text-decoration-none',
