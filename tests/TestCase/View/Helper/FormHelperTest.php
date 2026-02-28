@@ -116,6 +116,19 @@ class FormHelperTest extends TestCase
      * @link \Cake\Essentials\View\Helper\FormHelper::control()
      */
     #[Test]
+    public function testControlForEscapeOption(): void
+    {
+        $result = $this->Form->control(fieldName: 'myField', options: [
+            'help' => '<code>Code!</code>',
+            'type' => 'switch',
+        ]);
+        $this->assertStringContainsString('<code>Code!</code>', $result);
+    }
+
+    /**
+     * @link \Cake\Essentials\View\Helper\FormHelper::control()
+     */
+    #[Test]
     public function testControlWithDateTypeAndAppendNowButton(): void
     {
         $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();" type="button"><i class="bi bi-clock"></i> Today</button>';
