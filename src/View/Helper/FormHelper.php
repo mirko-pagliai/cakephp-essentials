@@ -57,6 +57,7 @@ class FormHelper extends BootstrapUIFormHelper
         $options += [
             'appendNowButton' => false,
             'default' => null,
+            'escape' => false,
             'templates' => [],
             'type' => null,
         ];
