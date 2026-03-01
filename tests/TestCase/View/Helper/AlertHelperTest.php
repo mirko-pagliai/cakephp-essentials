@@ -145,6 +145,7 @@ class AlertHelperTest extends TestCase
     #[TestWith(['<i class="bi bi-exclamation-triangle-fill"></i>', 'danger'])]
     #[TestWith(['<i class="bi bi-check-circle-fill"></i>', 'success'])]
     #[TestWith(['<i class="bi bi-exclamation-triangle-fill"></i>', 'warning'])]
+    #[TestWith(['<i class="bi bi-info-circle-fill"></i>', 'info'])]
     public function testAlertWithDefaultIcons(string $expectedIcon, string $alertType): void
     {
         $expected = '<div role="alert" class="alert alert-' . $alertType . ' border-0 d-flex align-items-baseline">' .
