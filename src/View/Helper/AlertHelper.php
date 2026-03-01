@@ -43,6 +43,7 @@ class AlertHelper extends Helper
             'danger' => 'exclamation-triangle-fill',
             'success' => 'check-circle-fill',
             'warning' => 'exclamation-triangle-fill',
+            'info' => 'info-circle-fill',
         ],
         'templates' => [
             // Wrappers used when an icon is also used to separate it from the text
