@@ -62,6 +62,7 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         };
         $text = $arguments['text'] ?? ($arguments[0] ?? '');
         assert(is_string($text));
+        /** @var array<string, mixed> $options */
         $options = $arguments['options'] ?? ($arguments[1] ?? []);
 
         return $this->tag(name: $tag, text: $text, options: $options);
@@ -164,6 +165,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
             return $options;
         }
 
+        /** @var array{popover: string|array<string>} $options */
+
         $popover = implode('<br />', (array)$options['popover']);
         unset($options['popover']);
 
@@ -195,6 +198,8 @@ class HtmlHelper extends BootstrapUIHtmlHelper
         if (empty($options['tooltip'])) {
             return $options;
         }
+
+        /** @var array{tooltip: string|array<string>} $options */
 
         $tooltip = implode('<br />', (array)$options['tooltip']);
         unset($options['tooltip']);
