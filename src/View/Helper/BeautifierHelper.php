@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Cake\Essentials\View\Helper;
 
 use Cake\View\Helper;
+use Stringable;
 
 /**
  * A helper that provides methods to "beautify" the output of some specific entities and values.
@@ -28,6 +29,7 @@ class BeautifierHelper extends Helper
             'ipAddress' => 'globe-americas',
             'linux' => 'ubuntu',
             'question' => 'question-circle-fill',
+            'time' => 'clock',
             'unknownDevice' => 'question-circle-fill',
             'windows' => 'windows',
         ],
@@ -94,6 +96,22 @@ class BeautifierHelper extends Helper
     public function questionTooltip(string|array $tooltip, array $options = []): string
     {
         return $this->_questionPopoverAndTooltip(options: compact('tooltip') + $options);
+    }
+
+    /**
+     * Returns a formatted time representation.
+     *
+     * @param \Stringable|string $text The time text or a stringable object representing time
+     * @param array<string, mixed> $options Additional options for formatting
+     * @return string The formatted time as a string
+     */
+    public function time(Stringable|string $text, array $options = []): string
+    {
+        $options += [
+            'icon' => $this->getConfig('icon.time'),
+        ];
+
+        return $this->Html->time(text: (string)$text, options: $options);
     }
 
     /**
