@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\View\Helper;
 
+use Cake\I18n\Date;
+use Cake\I18n\DateTime;
 use Cake\View\Helper;
 use Stringable;
+use function Cake\I18n\__dx as __dx;
 
 /**
  * A helper that provides methods to "beautify" the output of some specific entities and values.
@@ -34,6 +37,58 @@ class BeautifierHelper extends Helper
             'windows' => 'windows',
         ],
     ];
+
+    /**
+     * Generates a string representation of a date range in the format "From {Start} to {End}".
+     *
+     * @param \Cake\I18n\Date|\Cake\I18n\DateTime $from The starting date or datetime
+     * @param \Cake\I18n\Date|\Cake\I18n\DateTime $to The ending date or datetime
+     * @param array<string, mixed> $options Additional formatting options. Supports 'format' for date formatting
+     * @return string A formatted string representing the date range
+     */
+    public function fromDayToDay(Date|DateTime $from, Date|DateTime $to, array $options = []): string
+    {
+        /** @var string|int|null $format */
+        $format = $options['format'] ?? 'dd/MM';
+        unset($options['format']);
+
+        return $this->time(
+            text: __dx(
+                'cake/essentials',
+                'from day to day',
+                'From {0} to {1}',
+                $from->i18nFormat($format),
+                $to->i18nFormat($format),
+            ),
+            options: $options,
+        );
+    }
+
+    /**
+     * Generates a formatted string representing the time range between two DateTime instances.
+     *
+     * @param \Cake\I18n\DateTime $from The starting time of the range
+     * @param \Cake\I18n\DateTime $to The ending time of the range
+     * @param array<string, mixed> $options Optional settings for output formatting. The `format` key defines the time format (default is 'HH:mm')
+     * @return string A formatted string representing the time range
+     */
+    public function fromHourToHour(DateTime $from, DateTime $to, array $options = []): string
+    {
+        /** @var string|int|null $format */
+        $format = $options['format'] ?? 'HH:mm';
+        unset($options['format']);
+
+        return $this->time(
+            text: __dx(
+                'cake/essentials',
+                'from hour to hour',
+                'From {0} to {1}',
+                $from->i18nFormat($format),
+                $to->i18nFormat($format),
+            ),
+            options: $options,
+        );
+    }
 
     /**
      * Returns a nice representation of an IP address.

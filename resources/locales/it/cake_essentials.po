@@ -16,6 +16,14 @@ msgstr ""
 "Language: it_IT\n"
 "X-Generator: Lokalize 22.12.3\n"
 
+msgctxt "from day to day"
+msgid "From {0} to {1}"
+msgstr "Dal {0} al {1}"
+
+msgctxt "from hour to hour"
+msgid "From {0} to {1}"
+msgstr "Dalle {0} alle {1}"
+
 msgid "It cannot contain the reserved word `{0}`"
 msgstr "Non può contenere la parola riservata `{0}`"
 
