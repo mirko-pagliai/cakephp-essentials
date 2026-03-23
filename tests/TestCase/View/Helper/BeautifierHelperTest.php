@@ -187,6 +187,17 @@ class BeautifierHelperTest extends TestCase
     }
 
     /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::time()
+     */
+    #[Test]
+    public function testTime(): void
+    {
+        $expected = '<time><i class="bi bi-clock"></i> 12:34:56</time>';
+        $result = $this->Beautifier->time('12:34:56');
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * @link \Cake\Essentials\View\Helper\BeautifierHelper::userAgent()
      */
     #[Test]
