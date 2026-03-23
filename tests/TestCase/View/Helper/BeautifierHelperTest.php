@@ -6,6 +6,8 @@ namespace Cake\Essentials\Test\TestCase\View\Helper;
 use Cake\Essentials\View\Helper\BeautifierHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\Essentials\View\View;
+use Cake\I18n\Date;
+use Cake\I18n\DateTime;
 use Cake\TestSuite\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
@@ -29,6 +31,37 @@ class BeautifierHelperTest extends TestCase
         parent::setUp();
 
         $this->Beautifier = new BeautifierHelper(new View());
+    }
+
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::fromDayToDay()
+     */
+    #[Test]
+    #[TestWith(['From 02/03 to 03/03', new DateTime('2025-03-02 18:36:00'), new DateTime('2025-03-03 18:36:00')])]
+    #[TestWith(['From 02/03 to 03/03', new Date('2025-03-02'), new Date('2025-03-03')])]
+    #[TestWith(['From 02/03/2025 to 03/03/2025', new Date('2025-03-02'), new Date('2025-03-03'), 'dd/MM/yyyy'])]
+    public function testFromDayToDay(string $expectedText, Date|DateTime $Start, Date|DateTime $End, ?string $format = null): void
+    {
+        $expected = '<time><i class="bi bi-clock"></i> ' . $expectedText . '</time>';
+        $result = $this->Beautifier->fromDayToDay(from: $Start, to: $End, options: compact('format'));
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @link \Cake\Essentials\View\Helper\BeautifierHelper::fromHourToHour()
+     */
+    #[Test]
+    #[TestWith(['From 18:36 to 19:36'])]
+    #[TestWith(['From 18:36:12 to 19:36:13', 'HH:mm:ss'])]
+    public function testFromHourToHour(string $expectedText, ?string $format = null): void
+    {
+        $expected = '<time><i class="bi bi-clock"></i> ' . $expectedText . '</time>';
+        $result = $this->Beautifier->fromHourToHour(
+            from: new DateTime('2025-03-02 18:36:12'),
+            to: new DateTime('2025-03-02 19:36:13'),
+            options: compact('format'),
+        );
+        $this->assertSame($expected, $result);
     }
 
     /**
