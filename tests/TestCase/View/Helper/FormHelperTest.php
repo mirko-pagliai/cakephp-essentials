@@ -126,12 +126,14 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * Tests for the `control()` method with `date` type and `appendNowButton` option.
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::control()
      */
     #[Test]
     public function testControlWithDateTypeAndAppendNowButton(): void
     {
-        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();" type="button"><i class="bi bi-clock"></i> Today</button>';
+        $expected = '<button class="btn btn-primary btn-sm text-nowrap" onclick="event.preventDefault(); this.previousElementSibling.value = currentLocalDate();" type="button"><i class="bi bi-clock"></i> Today</button>';
         $result = $this->Form->control(fieldName: 'myField', options: [
             'appendNowButton' => true,
             'type' => 'date',
@@ -140,6 +142,8 @@ class FormHelperTest extends TestCase
     }
 
     /**
+     * Tests for the `control()` method with `datetime` type and `appendNowButton` option
+     *
      * @link \Cake\Essentials\View\Helper\FormHelper::control()
      */
     #[Test]
