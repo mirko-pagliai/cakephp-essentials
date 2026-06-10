@@ -92,15 +92,17 @@ class FormHelper extends BootstrapUIFormHelper
          */
         if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
             $text = __d('cake/essentials', 'Now');
+            $onclick = 'event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();';
+
             if ($type === 'date') {
                 $text = __d('cake/essentials', 'Today');
+                $onclick = 'event.preventDefault(); this.previousElementSibling.value = currentLocalDate();';
             }
 
             $options['append'] = $this->Html->button(text: $text, options: [
                 'class' => 'btn btn-primary btn-sm text-nowrap',
                 'icon' => 'clock',
-                'onclick' => 'event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();',
-            ]);
+            ] + compact('onclick'));
         }
         unset($options['appendNowButton']);
 
