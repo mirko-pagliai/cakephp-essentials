@@ -72,7 +72,7 @@ class FormHelper extends BootstrapUIFormHelper
             $options['default'] = $type === 'datetime' ? DateTime::now()->second(0) : Date::today();
         } elseif ($type === 'switch') {
             /**
-             * Support for "switch" type.
+             * Support for the "switch" type.
              *
              * @see https://github.com/FriendsOfCake/bootstrap-ui?tab=readme-ov-file#switches
              * @see https://getbootstrap.com/docs/5.3/forms/checks-radios/#switches
@@ -81,7 +81,7 @@ class FormHelper extends BootstrapUIFormHelper
         }
 
         /**
-         * Support for "appendNowButton" option.
+         * Support for the "appendNowButton" option.
          *
          * When the `appendNowButton` option is `true`, appends a "now" button that automatically sets the input value
          *  to the current date and time for `datetime` type and to the current date for `date` type.
@@ -111,13 +111,13 @@ class FormHelper extends BootstrapUIFormHelper
          */
         if (!empty($options['help']) && is_array($options['help'])) {
             $options['help'] = implode(separator: '', array: array_map(
-                callback: fn(string $help): string => '<div>' . $help . '</div>',
+                callback: fn(string $help): string => "<div>$help</div>",
                 array: $options['help'],
             ));
         }
 
         /**
-         * If the `append` option is present and if it is a string, if `append` contains a button and if the
+         * If the `append` option is present and if it is a string, if `append` contains a button, and if the
          *  `inputGroupContainer` template has not been set, it automatically sets this template.
          */
         if (
