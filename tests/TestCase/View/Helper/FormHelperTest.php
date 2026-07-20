@@ -212,14 +212,15 @@ class FormHelperTest extends TestCase
             '/a',
         ];
 
+        /**
+         * @todo to be removed when CakePHP is >= 5.4
+         */
         if (version_compare(Configure::version(), '5.4', '<')) {
             $expected['form'] = ['name', 'method' => 'post', 'style' => 'display:none;', 'action' => '#url'];
             $expected['a'] = ['href' => '#', 'onclick', 'class' => 'text-decoration-none', 'title' => 'Title'];
         }
-//        debug($expected);
 
         $result = $this->Form->postLink(title: 'Title', url: '#url', options: ['icon' => 'home']);
-//        dd($result);
         $this->assertHtml($expected, $result);
     }
 
