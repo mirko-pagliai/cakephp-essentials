@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\View\Helper;
 
+use Cake\Core\Configure;
 use Cake\Essentials\View\Helper\FormHelper;
 use Cake\Essentials\View\Helper\HtmlHelper;
 use Cake\TestSuite\TestCase;
@@ -201,15 +202,24 @@ class FormHelperTest extends TestCase
     public function testPostLink(): void
     {
         $expected = [
-            'form' => ['name', 'method' => 'post', 'style' => 'display:none;', 'action' => '#url'],
+            'form' => ['name', 'method' => 'post', 'hidden' => 'hidden', 'action' => '#url'],
             'input' => ['type' => 'hidden', 'name' => '_method', 'value' => 'POST'],
             '/form',
-            'a' => ['href' => '#', 'onclick', 'class' => 'text-decoration-none', 'title' => 'Title'],
+            'a' => ['href' => '#', 'class' => 'text-decoration-none', 'onclick', 'title' => 'Title'],
             'i' => ['class' => 'bi bi-home'],
             '/i',
             'Title',
             '/a',
         ];
+
+        /**
+         * @todo to be removed when CakePHP is >= 5.4
+         */
+        if (version_compare(Configure::version(), '5.4', '<')) {
+            $expected['form'] = ['name', 'method' => 'post', 'style' => 'display:none;', 'action' => '#url'];
+            $expected['a'] = ['href' => '#', 'onclick', 'class' => 'text-decoration-none', 'title' => 'Title'];
+        }
+
         $result = $this->Form->postLink(title: 'Title', url: '#url', options: ['icon' => 'home']);
         $this->assertHtml($expected, $result);
     }
