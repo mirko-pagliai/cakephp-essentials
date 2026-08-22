@@ -15,8 +15,7 @@
     "cakephp/cakephp": "^5.2",
     "axllent/jquery": "~3.7|~4.0",
     "friendsofcake/bootstrap-ui": "^5.1.3",
-    "twbs/bootstrap": "~5.3",
-    "symfony/filesystem": "^7.3"
+    "twbs/bootstrap": "~5.3"
   },
   "require-dev": {
     "cakephp/authentication": "^3.2",
