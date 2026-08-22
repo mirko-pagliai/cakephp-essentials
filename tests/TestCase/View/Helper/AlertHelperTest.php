@@ -26,9 +26,6 @@ class AlertHelperTest extends TestCase
 {
     protected AlertHelper $Alert;
 
-    /**
-     * @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper
-     */
     protected HtmlHelper $Html;
 
     /**
@@ -38,9 +35,7 @@ class AlertHelperTest extends TestCase
     {
         $View = new View();
 
-        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
-        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$View]);
-        $this->Html = $HtmlHelper;
+        $this->Html = new HtmlHelper($View);
 
         $this->Alert = new AlertHelper($View);
         $this->Alert->getView()->helpers()->set('Html', $this->Html);
@@ -204,10 +199,15 @@ class AlertHelperTest extends TestCase
     #[Test]
     public function testLink(): void
     {
-        $this->Html
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
+        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$this->Alert->getView()]);
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->with('Title', '#example', ['class' => 'custom-class alert-link'])
             ->once();
+
+        $this->Alert->getView()->helpers()->set('Html', $HtmlHelper);
 
         $this->Alert->link('Title', '#example', ['class' => 'custom-class']);
     }
@@ -218,14 +218,19 @@ class AlertHelperTest extends TestCase
     #[Test]
     public function testLinkFromPath(): void
     {
-        $this->Html
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
+        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$this->Alert->getView()]);
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
                 'Title',
                 ['_path' => 'Users::view', '?' => ['k' => 'v']],
                 ['class' => 'custom-class alert-link'],
-            )
+            );
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
@@ -233,6 +238,8 @@ class AlertHelperTest extends TestCase
                 ['_path' => 'Users::view', 1],
                 ['class' => 'custom-class alert-link'],
             );
+
+        $this->Alert->getView()->helpers()->set('Html', $HtmlHelper);
 
         $this->Alert->linkFromPath(
             title: 'Title',

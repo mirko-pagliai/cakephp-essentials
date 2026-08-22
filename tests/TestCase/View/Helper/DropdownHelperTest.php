@@ -108,14 +108,19 @@ class DropdownHelperTest extends TestCase
     #[Test]
     public function testLinkFromPath(): void
     {
-        $this->Html
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
+        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$this->Dropdown->getView()]);
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
                 'My link from path',
                 ['_path' => 'Users::index', '?' => ['k' => 'v']],
                 ['class' => 'my-custom-class dropdown-item'],
-            )
+            );
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
@@ -123,6 +128,8 @@ class DropdownHelperTest extends TestCase
                 ['_path' => 'Users::index', 1],
                 ['class' => 'my-custom-class dropdown-item'],
             );
+
+        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
 
         $result = $this->Dropdown->linkFromPath(
             title: 'My link from path',
