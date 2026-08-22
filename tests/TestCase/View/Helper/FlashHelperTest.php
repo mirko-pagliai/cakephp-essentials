@@ -137,7 +137,7 @@ class FlashHelperTest extends TestCase
     public function testRenderWithInvalidKey(): void
     {
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Value for flash setting key "invalidKey" must be an array');
+        $this->expectExceptionMessageIs('Value for flash setting key "invalidKey" must be an array');
         $this->Flash->getView()->getRequest()->getSession()->write('Flash', ['invalidKey' => 'invalid']);
         $this->Flash->render('invalidKey');
     }

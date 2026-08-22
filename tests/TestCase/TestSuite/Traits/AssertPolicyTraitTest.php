@@ -83,7 +83,7 @@ class AssertPolicyTraitTest extends TestCase
         };
 
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessage('`edit()` method has returned `false`');
+        $this->expectExceptionMessageIs('`edit()` method has returned `false`');
         $TestCase->assertPolicyResult(expectedResult: true, method: 'edit', Identity: $this->User, Entity: $this->Article);
     }
 

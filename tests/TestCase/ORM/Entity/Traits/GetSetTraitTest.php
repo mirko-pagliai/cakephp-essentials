@@ -51,7 +51,7 @@ class GetSetTraitTest extends TestCase
     public function testMagicCallGetMethodsWithNoExistingProperty(): void
     {
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Method `' . $this->Entity::class . '::noExistingMethod()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.');
+        $this->expectExceptionMessageIs('Method `' . $this->Entity::class . '::noExistingMethod()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.');
         // @phpstan-ignore-next-line
         $this->Entity->noExistingMethod();
     }
@@ -77,7 +77,7 @@ class GetSetTraitTest extends TestCase
         $this->Entity->set('null_property');
 
         $this->expectException(MissingPropertyException::class);
-        $this->expectExceptionMessage('Property `' . $nullableOrNoExistingProperty . '` does not exist for the entity `' . $this->Entity::class . '`');
+        $this->expectExceptionMessageIs('Property `' . $nullableOrNoExistingProperty . '` does not exist for the entity `' . $this->Entity::class . '`');
         $this->Entity->getOrFail($nullableOrNoExistingProperty);
     }
 
@@ -95,7 +95,7 @@ class GetSetTraitTest extends TestCase
         $this->assertNull($this->Entity->get('nullable_virtual_field'));
 
         $this->expectException(MissingPropertyException::class);
-        $this->expectExceptionMessage('Property `nullable_virtual_field` does not exist for the entity `' . $this->Entity::class . '`');
+        $this->expectExceptionMessageIs('Property `nullable_virtual_field` does not exist for the entity `' . $this->Entity::class . '`');
         $this->Entity->getOrFail('nullable_virtual_field');
     }
 

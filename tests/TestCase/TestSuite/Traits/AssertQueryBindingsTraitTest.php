@@ -89,7 +89,7 @@ class AssertQueryBindingsTraitTest extends TestCase
         };
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage('Failed asserting that an array has the key \':c2\'.');
+        $this->expectExceptionMessageIs('Failed asserting that an array has the key \':c2\'.');
         $TestCase->assertBindingsContains([':c2' => 'badKey'], self::$Query);
     }
 
@@ -104,7 +104,7 @@ class AssertQueryBindingsTraitTest extends TestCase
         };
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage('Failed asserting that two strings are equal.');
+        $this->expectExceptionMessageIs('Failed asserting that two strings are equal.');
         $TestCase->assertBindingsContains([':c1' => 'badValue'], self::$Query);
     }
 

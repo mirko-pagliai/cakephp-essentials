@@ -21,7 +21,7 @@ class IpAddressNotAllowedExceptionTest extends TestCase
     public function testConstruct(): void
     {
         $this->expectExceptionCode(403);
-        $this->expectExceptionMessage('IP address not allowed for this operation');
+        $this->expectExceptionMessageIs('IP address not allowed for this operation');
         throw new IpAddressNotAllowedException();
     }
 
@@ -33,7 +33,7 @@ class IpAddressNotAllowedExceptionTest extends TestCase
     {
         $message = 'A custom message';
         $this->expectExceptionCode(403);
-        $this->expectExceptionMessage($message);
+        $this->expectExceptionMessageIs($message);
         throw new IpAddressNotAllowedException($message);
     }
 }

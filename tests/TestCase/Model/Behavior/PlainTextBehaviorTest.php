@@ -71,7 +71,7 @@ class PlainTextBehaviorTest extends TestCase
         $this->PlainTextBehavior->setConfig('originField', 'no_existing_origin_field');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing `no_existing_origin_field` column on `' . $this->PlainTextBehavior->table()->getTable() . '` table');
+        $this->expectExceptionMessageIs('Missing `no_existing_origin_field` column on `' . $this->PlainTextBehavior->table()->getTable() . '` table');
         $this->PlainTextBehavior->setTargetField($this->Table->newEmptyEntity());
     }
 
@@ -81,7 +81,7 @@ class PlainTextBehaviorTest extends TestCase
         $this->PlainTextBehavior->setConfig('targetField', 'no_existing_target_field');
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing `no_existing_target_field` column on `' . $this->PlainTextBehavior->table()->getTable() . '` table');
+        $this->expectExceptionMessageIs('Missing `no_existing_target_field` column on `' . $this->PlainTextBehavior->table()->getTable() . '` table');
         $this->PlainTextBehavior->setTargetField($this->Table->newEmptyEntity());
     }
 }

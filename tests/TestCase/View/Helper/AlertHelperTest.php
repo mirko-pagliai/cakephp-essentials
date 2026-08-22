@@ -80,7 +80,7 @@ class AlertHelperTest extends TestCase
     public function testMagicCallMethodTooManyArguments(): void
     {
         $this->expectException(ArgumentCountError::class);
-        $this->expectExceptionMessage('Too many arguments for `' . $this->Alert::class . '::success()`, 3 passed and at most 2 expected.');
+        $this->expectExceptionMessageIs('Too many arguments for `' . $this->Alert::class . '::success()`, 3 passed and at most 2 expected.');
         // @phpstan-ignore-next-line
         $this->Alert->success('Text', [], 'Third');
     }
@@ -92,7 +92,7 @@ class AlertHelperTest extends TestCase
     public function testMagicCallMethodWithANoExistingMethod(): void
     {
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Method `' . $this->Alert::class . '::noExistingMethod()` does not exist.');
+        $this->expectExceptionMessageIs('Method `' . $this->Alert::class . '::noExistingMethod()` does not exist.');
         // @phpstan-ignore-next-line
         $this->Alert->noExistingMethod();
     }

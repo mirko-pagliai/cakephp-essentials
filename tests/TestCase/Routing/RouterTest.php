@@ -34,7 +34,7 @@ class RouterTest extends TestCase
     #[Test]
     public function testGetRequestOrFailWithNoRequest(): void
     {
-        $this->expectExceptionMessage('Request is not an instance of `' . ServerRequest::class . '`');
+        $this->expectExceptionMessageIs('Request is not an instance of `' . ServerRequest::class . '`');
         Router::getRequestOrFail();
     }
 }
