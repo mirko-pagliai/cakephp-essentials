@@ -22,7 +22,7 @@
     "cakephp/authorization": "^3.0",
     "cakephp/cakephp-codesniffer": "^5.3.2",
     "cakedc/cakephp-phpstan": "^4.0",
-    "phpunit/phpunit": "^12.5.8 || ^13.0",
+    "phpunit/phpunit": "^13.2",
     "mockery/mockery": "^1.6"
   },
   "autoload": {
