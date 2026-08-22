@@ -25,9 +25,6 @@
     "phpunit/phpunit": "^12.5.8 || ^13.0",
     "mockery/mockery": "^1.6"
   },
-  "suggest": {
-    "twbs/bootstrap-icons": "Bootstrap icons"
-  },
   "autoload": {
     "psr-4": {
       "Cake\\Essentials\\": "src"
