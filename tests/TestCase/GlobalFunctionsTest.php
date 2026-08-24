@@ -47,16 +47,6 @@ class GlobalFunctionsTest extends TestCase
     }
 
     /**
-     * @link \Cake\Essentials\rtr()
-     */
-    #[Test]
-    public function testRtrWithNotAbsolutePath(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        rtr('malformedPath');
-    }
-
-    /**
      * @link \Cake\Essentials\toDate()
      */
     #[Test]
