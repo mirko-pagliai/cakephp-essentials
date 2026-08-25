@@ -21,7 +21,7 @@ class InvalidTokenExceptionTest extends TestCase
     public function testConstruct(): void
     {
         $this->expectExceptionCode(403);
-        $this->expectExceptionMessage('Invalid token or request expired');
+        $this->expectExceptionMessageIs('Invalid token or request expired');
         throw new InvalidTokenException();
     }
 
@@ -33,7 +33,7 @@ class InvalidTokenExceptionTest extends TestCase
     {
         $message = 'A custom message';
         $this->expectExceptionCode(403);
-        $this->expectExceptionMessage($message);
+        $this->expectExceptionMessageIs($message);
         throw new InvalidTokenException($message);
     }
 }

@@ -107,7 +107,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testCallMagicMethodTooFewArguments(): void
     {
-        $this->expectExceptionMessage('Too few arguments for `' . $this->Html::class . '::h1()`, 0 passed and at least 1 expected');
+        $this->expectExceptionMessageIs('Too few arguments for `' . $this->Html::class . '::h1()`, 0 passed and at least 1 expected');
         $this->Html->h1();
     }
 
@@ -117,7 +117,7 @@ class HtmlHelperTest extends TestCase
     #[Test]
     public function testCallMagicMethodTooManyArguments(): void
     {
-        $this->expectExceptionMessage('Too many arguments for `' . $this->Html::class . '::h1()`, 3 passed and at most 2 expected');
+        $this->expectExceptionMessageIs('Too many arguments for `' . $this->Html::class . '::h1()`, 3 passed and at most 2 expected');
         // @phpstan-ignore-next-line
         $this->Html->h1('My text', [], 'noExistingArgument');
     }
@@ -149,7 +149,7 @@ class HtmlHelperTest extends TestCase
     public function testBuildIconWithMissingName(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Missing icon `name` value');
+        $this->expectExceptionMessageIs('Missing icon `name` value');
         $this->Html->buildIcon(['icon' => ['size' => 'lg']]);
     }
 
@@ -403,7 +403,7 @@ class HtmlHelperTest extends TestCase
     public function testLinkWithTitleAsArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('`$title` as array is not supported');
+        $this->expectExceptionMessageIs('`$title` as array is not supported');
         $this->Html->link(['controller' => 'Pages', 'action' => 'index']);
     }
 

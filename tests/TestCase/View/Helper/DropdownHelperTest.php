@@ -108,14 +108,19 @@ class DropdownHelperTest extends TestCase
     #[Test]
     public function testLinkFromPath(): void
     {
-        $this->Html
+        /** @var \Mockery\MockInterface&\Cake\Essentials\View\Helper\HtmlHelper $HtmlHelper */
+        $HtmlHelper = Mockery::mock(HtmlHelper::class . '[link]', [$this->Dropdown->getView()]);
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
                 'My link from path',
                 ['_path' => 'Users::index', '?' => ['k' => 'v']],
                 ['class' => 'my-custom-class dropdown-item'],
-            )
+            );
+
+        $HtmlHelper
             ->shouldReceive('link')
             ->once()
             ->with(
@@ -123,6 +128,8 @@ class DropdownHelperTest extends TestCase
                 ['_path' => 'Users::index', 1],
                 ['class' => 'my-custom-class dropdown-item'],
             );
+
+        $this->Dropdown->getView()->helpers()->set('Html', $HtmlHelper);
 
         $result = $this->Dropdown->linkFromPath(
             title: 'My link from path',
@@ -238,7 +245,7 @@ class DropdownHelperTest extends TestCase
     public function testRenderWithoutHavingCalledTheCreateMethod(): void
     {
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('The opening link has not been set, probably the `create()` method was not called previously.');
+        $this->expectExceptionMessageIs('The opening link has not been set, probably the `create()` method was not called previously.');
         $this->Dropdown->render();
     }
 
@@ -252,7 +259,7 @@ class DropdownHelperTest extends TestCase
         $Dropdown->create(title: 'My dropdown');
 
         $this->expectException(BadMethodCallException::class);
-        $this->expectExceptionMessage('Dropdown links have not been set');
+        $this->expectExceptionMessageIs('Dropdown links have not been set');
         $Dropdown->render();
     }
 

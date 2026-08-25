@@ -7,8 +7,8 @@ form .form-label {
 }
 
 /* Labels for required inputs */
-form .required .form-label:after,
-form .required .col-form-label:after {
+form .required .form-label::after,
+form .required .col-form-label::after {
     color: #e32;
     content: ' *';
 }

@@ -73,6 +73,8 @@ class AssertPolicyTraitTest extends TestCase
     }
 
     /**
+     * Tests for the `assertPolicyResult()` method on failure.
+     *
      * @link \Cake\Essentials\TestSuite\Traits\AssertPolicyTrait::assertPolicyResult()
      */
     #[Test]
@@ -83,7 +85,7 @@ class AssertPolicyTraitTest extends TestCase
         };
 
         $this->expectException(ExpectationFailedException::class);
-        $this->expectExceptionMessage('`edit()` method has returned `false`');
+        $this->expectExceptionMessageIsOrContains('`edit()` method has returned `false`');
         $TestCase->assertPolicyResult(expectedResult: true, method: 'edit', Identity: $this->User, Entity: $this->Article);
     }
 

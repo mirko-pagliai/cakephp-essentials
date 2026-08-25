@@ -15,7 +15,9 @@ Various classes and useful utilities for various CakePHP projects.
 
 
 ## Global functions
+
 ### rtr()
+
 `rtr()` is an acronym for "relative to root."
 
 Returns a path relative to `ROOT`, useful for some output (e.g., commands).
@@ -30,6 +32,7 @@ The function preserves any trailing slashes and throws exceptions for invalid pa
 absolute).
 
 ### toDate() and toDateTime()
+
 These two functions ensure they always return a valid `Date` or `DateTime` instance.
 
 They are useful when a variable may already be a valid instance or an argument to create an instance and allow you to
@@ -53,10 +56,12 @@ $date = toDate($date);
 ```
 
 ## Request detectors
+
 This plugin provides several very useful 
 [request detectors](https://book.cakephp.org/5.x/controllers/request-response.html#checking-request-conditions).
 
 ### is('action') detector
+
 Checks if `$action` matches the current action.
 
 The `$action` argument can be a string or an array of strings. In the second case, it is enough that the action matches
@@ -85,6 +90,7 @@ $this->getRequest()->is('delete')
 returns `true` if the current action is `delete`, otherwise `false`.
 
 ### is('ip') detector
+
 Checks whether the current client IP matches the IP or one of the IPs passed as an argument.
 
 Example:
@@ -100,11 +106,13 @@ $this->getRequest()->isAction('ip', ['99.99.99.99', '11.11.11.11']);
 returns `true` if the current client IP is `99.99.99.99` or `11.11.11.11`, otherwise `false`.
 
 ### is('localhost') detector
+
 This is a quick alias for `is('ip')` detector.
 
 Returns `true` if the current client IP matches localhost.
 
 ### is('trustedClient') detector
+
 This is a quick alias for `is('ip')` detector.
 
 Returns `true` if it is a trusted client.
@@ -123,6 +131,7 @@ $this->getRequest()->isAction('trustedClient')
 returns `true` if the current client IP matches one of these.
 
 ## Extends the View
+
 ```php
 use Cake\Essentials\View\View;
 
@@ -150,22 +159,26 @@ class AppView extends View
 ```
 
 ## Using Tooltips and Popovers
+
 Several helper methods support tooltips and popovers and can generate them automatically.
 
 Please refer to the Bootstrap documentation before using them ([here](https://getbootstrap.com/docs/5.3/components/popovers) and [here](https://getbootstrap.com/docs/5.3/components/tooltips)).
 
 Keep in mind that:
+
 1) both depend on the third-party library _Popper_, which you need to include, or you can use `bootstrap.bundle.min.js`
 which contains _Popper_;
 2) you will need to initialize both, as indicated in the documentation.  
 You can include `webroot/js/enable-popovers.js` and `webroot/js/enable-tooltips.js` files in yourt layout, which
 will do it automatically:
+
 ```php
 echo $this->Html->script('/cake/essentials/js/enable-popovers.js');
 echo $this->Html->script('/cake/essentials/js/enable-tooltips.js');
 ```
 
 ## How to use Bake templates
+
 In your `config/bootstrap.php` file:
 ```php
 Configure::write('Bake.theme', 'Cake/Essentials');
@@ -177,4 +190,4 @@ Example:
 bin/cake bake template ServiceStops -t Cake/Essentials -f
 ```
 
-See also [CakePHP Bake 2.x Cookbook](https://book.cakephp.org/bake/2/en/development.html#creating-a-bake-theme).
+See also [CakePHP Bake 3.x Cookbook](https://book.cakephp.org/bake/3/development.html#creating-a-bake-theme).

@@ -44,7 +44,10 @@ trait GetSetTrait
             return $this->isOrFail(property: Inflector::underscore(substr(string: $name, offset: 2)));
         }
 
-        throw new BadMethodCallException(sprintf('Method `%s::%s()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.', $this::class, $name));
+        throw new BadMethodCallException(sprintf(
+            "Method `%s::$name()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.",
+            $this::class,
+        ));
     }
 
     /**

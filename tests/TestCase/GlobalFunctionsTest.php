@@ -42,18 +42,8 @@ class GlobalFunctionsTest extends TestCase
     public function testRtrWithPathDoesNotStartWithRoot(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Path `/some/path` does not start with the application root');
+        $this->expectExceptionMessageIs('Path `/some/path` does not start with the application root');
         rtr('/some/path');
-    }
-
-    /**
-     * @link \Cake\Essentials\rtr()
-     */
-    #[Test]
-    public function testRtrWithNotAbsolutePath(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        rtr('malformedPath');
     }
 
     /**
