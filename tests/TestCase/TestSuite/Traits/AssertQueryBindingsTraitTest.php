@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Cake\Essentials\Test\TestCase\TestSuite\Traits;
 
+use Cake\Database\ValueBinder;
 use Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait;
 use Cake\I18n\DateTime;
 use Cake\ORM\Query\SelectQuery;
@@ -29,6 +30,14 @@ class AssertQueryBindingsTraitTest extends TestCase
         self::$Query = new class extends SelectQuery {
             public function __construct()
             {
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function sql(?ValueBinder $binder = null): string
+            {
+                return '';
             }
         };
         self::$Query->getValueBinder()->bind(':c0', 1, 'integer');
@@ -59,6 +68,45 @@ class AssertQueryBindingsTraitTest extends TestCase
         ];
         $result = $TestCase->extractBindingValues($Query);
         $this->assertSame($expected, $result);
+    }
+
+    /**
+     * Bindings are generated only when the query is compiled, so the query must be compiled by the assertions.
+     *
+     * @link \Cake\Essentials\TestSuite\Traits\AssertQueryBindingsTrait::extractBindingValues()
+     */
+    #[Test]
+    public function testExtractBindingValuesCompilesTheQuery(): void
+    {
+        $TestCase = new class ('MyTest') extends TestCase {
+            use AssertQueryBindingsTrait;
+        };
+
+        $Query = new class extends SelectQuery {
+            public function __construct()
+            {
+            }
+
+            /**
+             * @inheritDoc
+             */
+            public function sql(?ValueBinder $binder = null): string
+            {
+                $this->getValueBinder()->bind(':c0', 1, 'integer');
+
+                return '';
+            }
+        };
+
+        $this->assertSame([], $Query->getValueBinder()->bindings());
+
+        $TestCase->assertBindingsSame([':c0' => 1], $Query);
+        $TestCase->assertBindingsEquals([':c0' => 1], $Query);
+        $TestCase->assertBindingsContains([':c0' => 1], $Query);
+
+        // The query has been compiled, so empty bindings are no longer a false positive
+        $this->expectException(AssertionFailedError::class);
+        $TestCase->assertBindingsSame([], $Query);
     }
 
     /**
