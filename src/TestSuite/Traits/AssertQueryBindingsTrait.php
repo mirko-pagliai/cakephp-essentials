@@ -7,11 +7,17 @@ use Cake\ORM\Query\SelectQuery;
 
 /**
  * Provides utility methods for testing query bindings in select queries.
+ *
+ * @mixin \PHPUnit\Framework\TestCase
+ * @phpstan-require-extends \PHPUnit\Framework\TestCase
  */
 trait AssertQueryBindingsTrait
 {
     /**
      * Internal method to extract the binding values from the provided `SelectQuery` object.
+     *
+     * The bindings are generated only when the query is compiled, so the query is always compiled first:
+     * without it, a query that has not been compiled yet would have no bindings at all.
      *
      * Example, from:
      * ```
@@ -28,6 +34,9 @@ trait AssertQueryBindingsTrait
      */
     private function extractBindingValues(SelectQuery $Query): array
     {
+        // Compiling the query is idempotent: the same placeholders are bound again with the same values
+        $Query->sql();
+
         return array_map(
             callback: fn(array $v): mixed => $v['value'],
             array: $Query->getValueBinder()->bindings(),
