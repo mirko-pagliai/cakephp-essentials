@@ -597,6 +597,9 @@ class ValidatorTest extends TestCase
     #[TestWith(['Title: subtitle 2025'])]
     #[TestWith(['Élite 2025 / chapter (1)'])]
     #[TestWith(['Title, with-apostrophe\'s and (round brackets)'])]
+    #[TestWith(['Title. Subtitle 2025'])]
+    #[TestWith(['Version 1.2.3'])]
+    #[TestWith(['Title.'])]
     public function testTitle(string $goodTitle): void
     {
         $this->Validator->title('my_field');
@@ -622,6 +625,7 @@ class ValidatorTest extends TestCase
     #[TestWith([['title' => 'It must be a valid title'], 'Title!'])]
     #[TestWith([['title' => 'It must be a valid title'], 'Title?'])]
     #[TestWith([['title' => 'It must be a valid title'], 'Title; subtitle 2025'])]
+    #[TestWith([['title' => 'It must be a valid title'], "Title\u{00A0}"])]
     #[TestWith([['title' => 'You cannot use a bad title'], 'Title?', 'You cannot use a bad title'])]
     public function testTitleOnError(array $expectedErrorMessage, string $badTitle, string $customMessage = ''): void
     {
