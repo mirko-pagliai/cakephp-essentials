@@ -414,8 +414,8 @@ class Validator extends CakeValidator
             )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
             ->add(field: $field, name: 'title', rule: $extra + [
-                /** @see https://chatgpt.com/share/685b2675-5178-800c-9106-649bdd9079ac */
-                'rule' => ['custom', '/^\s*([\p{L}\p{N}\/, \'()\-:](?:[\p{L}\p{N}\/, \'()\-: ]*[\p{L}\p{N}\/, \'()\-:])?)\s*$/u'],
+                // Only letters, numbers, spaces and the characters `/`, `,`, `'`, `(`, `)`, `:`, `.` and `-` are allowed.
+                'rule' => ['custom', '/^[\p{L}\p{N} \/,\'():.\-]+$/u'],
             ]);
     }
 
