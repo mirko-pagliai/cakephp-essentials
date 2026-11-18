@@ -76,6 +76,10 @@ msgstr "Deve contenere almeno una lettera minuscola"
 msgid "It must begin with a capital letter"
 msgstr "Deve cominciare con una lettera maiuscola"
 
+#: ./home/mirko/Libs/Plugins/cakephp-essentials/src/Validation/Validator.php:415
+msgid "It must begin with a capital letter or a number"
+msgstr "Deve cominciare con una lettera maiuscola o un numero"
+
 msgid "It must be greater than `{0}`"
 msgstr "Deve essere maggiore di `{0}`"
 
