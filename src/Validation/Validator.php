@@ -391,6 +391,14 @@ class Validator extends CakeValidator
     /**
      * Validates that the specified field is a valid title.
      *
+     * A valid title:
+     * - has no spaces at the beginning or at the end;
+     * - is at least 3 characters long;
+     * - begins with a capital letter or a number;
+     * - contains only letters, numbers, punctuation marks, currency and mathematical symbols, the degree sign (`°`)
+     *   and ordinary spaces. The characters `<` and `>`, control and invisible characters, non-standard spaces and
+     *   any other symbol (such as emojis) are not allowed.
+     *
      * @param string $field The name of the field to be validated.
      * @param string|null $message An optional custom validation failure message.
      * @param \Closure|string|null $when Conditions specifying when this rule should be applied.
@@ -402,6 +410,10 @@ class Validator extends CakeValidator
             'on' => $when,
             'message' => $message ?: __d('cake/essentials', 'It must be a valid title'),
         ]);
+        $startExtra = array_filter([
+            'on' => $when,
+            'message' => $message ?: __d('cake/essentials', 'It must begin with a capital letter or a number'),
+        ]);
 
         return $this
             ->setStopOnFailure()
@@ -412,10 +424,12 @@ class Validator extends CakeValidator
                 message: $message ?: __d('cake/essentials', 'It must be at least {0} characters long', 3),
                 when: $when,
             )
-            ->firstLetterCapitalized(field: $field, message: $message, when: $when)
+            ->add(field: $field, name: 'startsWithCapitalLetterOrNumber', rule: $startExtra + [
+                'rule' => ['custom', '/^[\p{Lu}\p{N}]/u'],
+            ])
             ->add(field: $field, name: 'title', rule: $extra + [
-                // Only letters, numbers, spaces and the characters `/`, `,`, `'`, `(`, `)`, `:`, `.` and `-` are allowed.
-                'rule' => ['custom', '/^[\p{L}\p{N} \/,\'():.\-]+$/u'],
+                // Letters, numbers, punctuation, currency and mathematical symbols, `°` and spaces, but not `<` or `>`
+                'rule' => ['custom', '/^(?!.*[<>])[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+$/u'],
             ]);
     }
 
