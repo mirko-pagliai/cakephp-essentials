@@ -13,6 +13,7 @@ use Mockery;
 use PHPUnit\Framework\Attributes\CoversTrait;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\TestWith;
+use UnexpectedValueException;
 
 /**
  * UserMethodsTraitTest.
@@ -63,6 +64,21 @@ class UserMethodsTraitTest extends TestCase
         $User = new User(['users_group' => $UsersGroup]);
 
         $this->assertSame($expectedIsGroup, $User->isGroup(...$groups));
+    }
+
+    /**
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isGroup()
+     */
+    #[Test]
+    public function testIsGroupOnUsersGroupNotAnEntity(): void
+    {
+        $User = new User(['users_group' => ['name' => 'admin']]);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessageIs(
+            'The `users_group` property must be an instance of `' . EntityWithGetSetInterface::class . '`',
+        );
+        $User->isGroup('admin');
     }
 
     /**

@@ -6,6 +6,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
 use SensitiveParameter;
+use UnexpectedValueException;
 
 /**
  * This trait implements some generic methods for the `User` entity.
@@ -67,13 +68,20 @@ trait UserMethodsTrait
      *
      * @param string ...$name Group names
      * @return bool
+     * @throws \Cake\Datasource\Exception\MissingPropertyException When the `users_group` property or the group `name`
+     *   does not exist or is `null`
+     * @throws \UnexpectedValueException If the `users_group` property is not an entity with the `getOrFail()` method
      */
     public function isGroup(string ...$name): bool
     {
-        /** @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $UsersGroup */
         $UsersGroup = $this->getOrFail('users_group');
+        if (!$UsersGroup instanceof EntityWithGetSetInterface) {
+            throw new UnexpectedValueException(
+                'The `users_group` property must be an instance of `' . EntityWithGetSetInterface::class . '`',
+            );
+        }
 
-        return in_array($UsersGroup->getOrFail('name'), $name);
+        return in_array(needle: $UsersGroup->getOrFail('name'), haystack: $name, strict: true);
     }
 
     /**
