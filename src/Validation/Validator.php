@@ -395,6 +395,7 @@ class Validator extends CakeValidator
      * - has no spaces at the beginning or at the end;
      * - is at least 3 characters long;
      * - begins with a capital letter or a number;
+     * - contains at least one letter;
      * - contains only letters, numbers, punctuation marks, currency and mathematical symbols, the degree sign (`°`)
      *   and ordinary spaces. The characters `<` and `>`, control and invisible characters, non-standard spaces and
      *   any other symbol (such as emojis) are not allowed.
@@ -427,9 +428,12 @@ class Validator extends CakeValidator
             ->add(field: $field, name: 'startsWithCapitalLetterOrNumber', rule: $startExtra + [
                 'rule' => ['custom', '/^[\p{Lu}\p{N}]/u'],
             ])
+            /**
+             * At least one letter, then letters, numbers, punctuation, currency and mathematical symbols, `°` and
+             * spaces, but not `<` or `>`
+             */
             ->add(field: $field, name: 'title', rule: $extra + [
-                // Letters, numbers, punctuation, currency and mathematical symbols, `°` and spaces, but not `<` or `>`
-                'rule' => ['custom', '/^(?!.*[<>])[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+$/u'],
+                'rule' => ['custom', '/^(?!.*[<>])(?=.*\p{L})[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+$/u'],
             ]);
     }
 

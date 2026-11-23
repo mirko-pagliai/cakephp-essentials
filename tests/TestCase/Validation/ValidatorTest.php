@@ -610,6 +610,8 @@ class ValidatorTest extends TestCase
     #[TestWith(['Price 5 € or 5 $, 2 + 2 = 4'])]
     #[TestWith(['Is it a title? Yes! Really; ok'])]
     #[TestWith(['Don’t panic – “quoted” title'])]
+    #[TestWith(['Catch-22'])]
+    #[TestWith(['1984 (novel)'])]
     public function testTitle(string $goodTitle): void
     {
         $this->Validator->title('my_field');
@@ -642,6 +644,12 @@ class ValidatorTest extends TestCase
     #[TestWith([['title' => 'It must be a valid title'], "Title\nsubtitle"])]
     #[TestWith([['title' => 'It must be a valid title'], "Title\u{200B}subtitle"])]
     #[TestWith([['title' => 'It must be a valid title'], "Title\u{00A0}"])]
+    #[TestWith([['title' => 'It must be a valid title'], '000'])]
+    #[TestWith([['title' => 'It must be a valid title'], '007'])]
+    #[TestWith([['title' => 'It must be a valid title'], '2025'])]
+    #[TestWith([['title' => 'It must be a valid title'], '1.2.3'])]
+    #[TestWith([['title' => 'It must be a valid title'], '12/11/2026'])]
+    #[TestWith([['title' => 'It must be a valid title'], '100%'])]
     #[TestWith([['title' => 'You cannot use a bad title'], 'Title <b>', 'You cannot use a bad title'])]
     public function testTitleOnError(array $expectedErrorMessage, string $badTitle, string $customMessage = ''): void
     {
