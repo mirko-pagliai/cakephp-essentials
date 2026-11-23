@@ -20,10 +20,13 @@ const WWW_ROOT = APP . 'webroot' . DS;
 define('TMP', sys_get_temp_dir() . DS . 'cakephp-essentials' . DS);
 const LOGS = TMP . 'logs' . DS;
 
-// phpcs:disable
-@mkdir(TMP, 0777, true);
-@mkdir(LOGS, 0777, true);
-// phpcs:enable
+foreach ([TMP, LOGS] as $directory) {
+    if (is_dir($directory)) {
+        continue;
+    }
+
+    mkdir($directory, 0777, true);
+}
 
 putenv('APP_DEFAULT_LOCALE=en_US');
 
