@@ -395,9 +395,10 @@ class Validator extends CakeValidator
      * - has no spaces at the beginning or at the end;
      * - is at least 3 characters long;
      * - begins with a capital letter or a number;
-     * - contains at least one letter;
+     * - contains at least two letters (the ordinal indicators `ª` and `º` are not counted as letters);
+     * - does not end with a period;
      * - contains only letters, numbers, punctuation marks, currency and mathematical symbols, the degree sign (`°`)
-     *   and ordinary spaces. The characters `<` and `>`, control and invisible characters, non-standard spaces and
+     *   and ordinary spaces. The character `<`, control and invisible characters, non-standard spaces and
      *   any other symbol (such as emojis) are not allowed.
      *
      * @param string $field The name of the field to be validated.
@@ -429,11 +430,11 @@ class Validator extends CakeValidator
                 'rule' => ['custom', '/^[\p{Lu}\p{N}]/u'],
             ])
             /**
-             * At least one letter, then letters, numbers, punctuation, currency and mathematical symbols, `°` and
-             * spaces, but not `<` or `>`
+             * At least two letters (`ª` and `º` excluded), then letters, numbers, punctuation, currency and
+             * mathematical symbols, `°` and spaces, but not `<` and not ending with a period
              */
             ->add(field: $field, name: 'title', rule: $extra + [
-                'rule' => ['custom', '/^(?!.*[<>])(?=.*\p{L})[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+$/u'],
+                'rule' => ['custom', '/^(?!.*<)(?=(?:.*?(?![ªº])\p{L}){2})[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+(?<!\.)\z/u'],
             ]);
     }
 

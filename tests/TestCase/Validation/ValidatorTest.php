@@ -599,7 +599,6 @@ class ValidatorTest extends TestCase
     #[TestWith(['Title, with-apostrophe\'s and (round brackets)'])]
     #[TestWith(['Title. Subtitle 2025'])]
     #[TestWith(['Version 1.2.3'])]
-    #[TestWith(['Title.'])]
     #[TestWith(['13° Convention'])]
     #[TestWith(['Report n° 3, 38.5°C'])]
     #[TestWith(['2025 Title'])]
@@ -612,6 +611,11 @@ class ValidatorTest extends TestCase
     #[TestWith(['Don’t panic – “quoted” title'])]
     #[TestWith(['Catch-22'])]
     #[TestWith(['1984 (novel)'])]
+    #[TestWith(['A1B'])]
+    #[TestWith(['Vitamin B12'])]
+    #[TestWith(['1º Premio'])]
+    #[TestWith(['Title > subtitle'])]
+    #[TestWith(['Menu > Settings > Profile'])]
     public function testTitle(string $goodTitle): void
     {
         $this->Validator->title('my_field');
@@ -637,7 +641,6 @@ class ValidatorTest extends TestCase
     #[TestWith([['startsWithCapitalLetterOrNumber' => 'It must begin with a capital letter or a number'], '°13 Title'])]
     #[TestWith([['startsWithCapitalLetterOrNumber' => 'You cannot use a bad title'], 'uppercase title', 'You cannot use a bad title'])]
     #[TestWith([['title' => 'It must be a valid title'], 'Title <b>'])]
-    #[TestWith([['title' => 'It must be a valid title'], 'Title > subtitle'])]
     #[TestWith([['title' => 'It must be a valid title'], 'Title 😀'])]
     #[TestWith([['title' => 'It must be a valid title'], 'Title ©'])]
     #[TestWith([['title' => 'It must be a valid title'], "Title\tsubtitle"])]
@@ -650,6 +653,20 @@ class ValidatorTest extends TestCase
     #[TestWith([['title' => 'It must be a valid title'], '1.2.3'])]
     #[TestWith([['title' => 'It must be a valid title'], '12/11/2026'])]
     #[TestWith([['title' => 'It must be a valid title'], '100%'])]
+    #[TestWith([['title' => 'It must be a valid title'], '000a'])]
+    #[TestWith([['title' => 'It must be a valid title'], '0x0'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'A00'])]
+    #[TestWith([['title' => 'It must be a valid title'], '000 A'])]
+    #[TestWith([['title' => 'It must be a valid title'], '123º'])]
+    #[TestWith([['title' => 'It must be a valid title'], '000ª'])]
+    #[TestWith([['title' => 'It must be a valid title'], '1º 2ª 3'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title.'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title...'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Version 1.2.3.'])]
+    #[TestWith([['title' => 'It must be a valid title'], 'Title > subtitle.'])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], "Title\n"])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], "\nTitle"])]
+    #[TestWith([['noStartOrEndSpace' => 'It cannot contain spaces at the beginning or at the end'], "000\n"])]
     #[TestWith([['title' => 'You cannot use a bad title'], 'Title <b>', 'You cannot use a bad title'])]
     public function testTitleOnError(array $expectedErrorMessage, string $badTitle, string $customMessage = ''): void
     {
