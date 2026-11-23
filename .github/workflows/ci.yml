@@ -135,3 +135,6 @@ jobs:
 
       - name: Run phpstan
         run: vendor/bin/phpstan analyse --memory-limit=1G --error-format=github
+
+      - name: Run Mago
+        run: vendor/bin/mago lint --reporting-format=github --minimum-fail-level=note
