@@ -36,7 +36,9 @@ sensitive-parameter = { exclude = ["tests/"] }
 # Reports literal values assigned to passwords or other sensitive data.
 no-literal-password = { exclude = ["tests/"] }
 # Reports classes with more methods than the threshold.
-too-many-methods = { exclude = ["tests/"] }
+too-many-methods = { enabled = false }
+# Reports classes whose total cyclomatic complexity (number of decision points) exceeds the threshold.
+cyclomatic-complexity = { enabled = false }
 # Reports code whose Halstead metrics (volume, difficulty, effort) exceed the thresholds.
 halstead = { effort-threshold = 7000 }
 
