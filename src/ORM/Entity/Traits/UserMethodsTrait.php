@@ -111,11 +111,16 @@ trait UserMethodsTrait
      *
      * @param \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $Entity
      * @return bool
+     * @throws \Cake\Datasource\Exception\MissingPropertyException When the `user_id` property does not exist or is
+     *   `null`
+     * @throws \UnexpectedValueException If the `user_id` property is not a positive integer
      */
     public function isOwnerOf(EntityWithGetSetInterface $Entity): bool
     {
-        /** @var int $entityOwnerId */
         $entityOwnerId = $Entity->getOrFail('user_id');
+        if (!is_int($entityOwnerId) || $entityOwnerId < 1) {
+            throw new UnexpectedValueException('The `user_id` property must be a positive integer');
+        }
 
         return $this->isId($entityOwnerId);
     }

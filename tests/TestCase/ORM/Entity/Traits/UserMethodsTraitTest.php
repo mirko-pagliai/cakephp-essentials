@@ -134,10 +134,34 @@ class UserMethodsTraitTest extends TestCase
     #[TestWith([false, 3])]
     public function testIsOwnerOf(bool $expectedIsOwner, int $userId): void
     {
-        $Article = new class (['user_id' => 4]) extends Entity implements EntityWithGetSetInterface {
+        $Article = new class extends Entity implements EntityWithGetSetInterface {
             use GetSetTrait;
         };
+        $Article->set('user_id', 4);
         $User = new User(['id' => $userId]);
         $this->assertSame($expectedIsOwner, $User->isOwnerOf($Article));
+    }
+
+    /**
+     * Tests for the `isOwnerOf()` method when an error occurs.
+     *
+     * @link \Cake\Essentials\ORM\Entity\Traits\UserMethodsTrait::isOwnerOf()
+     */
+    #[Test]
+    #[TestWith(['4'])]
+    #[TestWith([4.0])]
+    #[TestWith([0])]
+    #[TestWith([-1])]
+    public function testIsOwnerOfOnError(mixed $userId): void
+    {
+        $Article = new class extends Entity implements EntityWithGetSetInterface {
+            use GetSetTrait;
+        };
+        $Article->set('user_id', $userId);
+        $User = new User(['id' => 4]);
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessageIs('The `user_id` property must be a positive integer');
+        $User->isOwnerOf($Article);
     }
 }
