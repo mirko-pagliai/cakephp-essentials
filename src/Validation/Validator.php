@@ -367,12 +367,16 @@ class Validator extends CakeValidator
             /**
              * Each word must start with a capital letter followed by lowercase letters only (so `MArk` is rejected).
              * Words can be separated by a single space, apostrophe or hyphen (e.g. `De La Cruz`, `D'Alessandria`,
-             * `Jean-Paul`) and the name cannot end with a separator. The lookahead requires at least two letters
-             * overall. Only the letters `A-Z`, `a-z` and the accented `À È É Ì Ò Ù`, `à è é ì ò ù` are allowed, and
-             * the `u` modifier makes the pattern UTF-8 aware.
+             * `Jean-Paul`) and the name cannot end with a separator. The only exception is a leading `O'`, which can
+             * be followed by a space (e.g. `O' Neill`). The lookahead requires at least two letters overall. Only the
+             * letters `A-Z`, `a-z` and the accented `À È É Ì Ò Ù`, `à è é ì ò ù` are allowed, and the `u` modifier
+             * makes the pattern UTF-8 aware.
              */
             ->add(field: $field, name: 'personName', rule: $extra + [
-                'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
+                'rule' => [
+                    'custom',
+                    '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})(?:O\' ?)?[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u',
+                ],
             ]);
     }
 

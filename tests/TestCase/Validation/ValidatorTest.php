@@ -512,6 +512,20 @@ class ValidatorTest extends TestCase
     #[TestWith(['Lo Monaco'])]
     #[TestWith(['O\'Neill'])]
     #[TestWith(['Jean-Paul'])]
+    #[TestWith(['Èlia'])]
+    #[TestWith(['Émile'])]
+    #[TestWith(['Ìlaria'])]
+    #[TestWith(['Òscar'])]
+    #[TestWith(['Ùgo'])]
+    #[TestWith(['Marià'])]
+    #[TestWith(['Andrè'])]
+    #[TestWith(['René'])]
+    #[TestWith(['Perì'])]
+    #[TestWith(['Nicolò'])]
+    #[TestWith(['Gesù'])]
+    #[TestWith(['Dall\'Olio'])]
+    #[TestWith(['Maria Rossi-D\'Angelo'])]
+    #[TestWith(['O\' Neill'])]
     public function testPersonName(string $goodName): void
     {
         $this->Validator->personName('name');
@@ -542,6 +556,17 @@ class ValidatorTest extends TestCase
     #[TestWith([['personName' => 'It must be a valid person name'], 'M1rk'])]
     #[TestWith([['personName' => 'It must be a valid person name'], 'Mark red'])]
     #[TestWith([['personName' => 'It must be a valid person name'], 'Jean - Paul'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'D\'alessandria'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Jean-paul'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Jean-PAul'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'De LA Cruz'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'De-\'Luca'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Jean- Paul'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'D\' Angelo'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Dell\' Acqua'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'O\'  Neill'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'O\' neill'])]
+    #[TestWith([['personName' => 'It must be a valid person name'], 'Mary O\' Neill'])]
     #[TestWith([['personName' => 'You cannot use a bad person name'], 'Mark red', 'You cannot use a bad person name'])]
     public function testPersonNameOnError(array $expectedErrorMessage, string $badName, string $customMessage = ''): void
     {
