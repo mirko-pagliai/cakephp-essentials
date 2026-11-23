@@ -5,6 +5,7 @@ namespace Cake\Essentials\ORM\Entity\Traits;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
+use SensitiveParameter;
 
 /**
  * This trait implements some generic methods for the `User` entity.
@@ -28,7 +29,7 @@ trait UserMethodsTrait
      *
      * @see https://book.cakephp.org/authentication/3/en/index.html#adding-password-hashing
      */
-    protected function _setPassword(string $password): string
+    protected function _setPassword(#[SensitiveParameter] string $password): string
     {
         return new DefaultPasswordHasher()->hash($password);
     }
