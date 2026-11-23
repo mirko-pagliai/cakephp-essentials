@@ -112,7 +112,7 @@ class AlertHelper extends Helper
         }
 
         //Adds some classes to the wrapper
-        $options = $this->addClass(options: $options, class: "'alert alert-{$type} border-0'");
+        $options = $this->addClass(options: $options, class: "alert alert-{$type} border-0");
 
         if ($options['icon']) {
             //Adds other some classes to wrapper
