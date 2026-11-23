@@ -13,6 +13,7 @@ use function Cake\I18n\__d as __d;
 
 try {
     $hasPages = $this->Paginator->hasPage();
+    // @phpstan-ignore catch.neverThrown
 } catch (CakeException) {
     $hasPages = false;
 }

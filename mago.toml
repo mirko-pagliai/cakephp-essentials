@@ -33,6 +33,10 @@ explicit-octal = { enabled = false }
 readable-literal = { enabled = false }
 # Requires parameters that may hold sensitive data to use `#[SensitiveParameter]`.
 sensitive-parameter = { exclude = ["tests/"] }
+# Reports literal values assigned to passwords or other sensitive data.
+no-literal-password = { exclude = ["tests/"] }
+# Reports classes with more methods than the threshold.
+too-many-methods = { exclude = ["tests/"] }
 # Reports code whose Halstead metrics (volume, difficulty, effort) exceed the thresholds.
 halstead = { effort-threshold = 7000 }
 

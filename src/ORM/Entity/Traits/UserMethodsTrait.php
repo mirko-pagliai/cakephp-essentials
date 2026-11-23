@@ -50,7 +50,7 @@ trait UserMethodsTrait
      */
     public function isId(int ...$id): bool
     {
-        return in_array(needle: $this->getOrFail('id'), haystack: $id);
+        return in_array(needle: $this->getOrFail('id'), haystack: $id, strict: true);
     }
 
     /**
