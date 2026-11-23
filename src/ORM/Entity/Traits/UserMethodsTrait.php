@@ -5,6 +5,8 @@ namespace Cake\Essentials\ORM\Entity\Traits;
 
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Essentials\ORM\Entity\EntityWithGetSetInterface;
+use SensitiveParameter;
+use UnexpectedValueException;
 
 /**
  * This trait implements some generic methods for the `User` entity.
@@ -28,7 +30,7 @@ trait UserMethodsTrait
      *
      * @see https://book.cakephp.org/authentication/3/en/index.html#adding-password-hashing
      */
-    protected function _setPassword(string $password): string
+    protected function _setPassword(#[SensitiveParameter] string $password): string
     {
         return new DefaultPasswordHasher()->hash($password);
     }
@@ -48,7 +50,7 @@ trait UserMethodsTrait
      */
     public function isId(int ...$id): bool
     {
-        return in_array(needle: $this->getOrFail('id'), haystack: $id);
+        return in_array(needle: $this->getOrFail('id'), haystack: $id, strict: true);
     }
 
     /**
@@ -66,13 +68,20 @@ trait UserMethodsTrait
      *
      * @param string ...$name Group names
      * @return bool
+     * @throws \Cake\Datasource\Exception\MissingPropertyException When the `users_group` property or the group `name`
+     *   does not exist or is `null`
+     * @throws \UnexpectedValueException If the `users_group` property is not an entity with the `getOrFail()` method
      */
     public function isGroup(string ...$name): bool
     {
-        /** @var \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $UsersGroup */
         $UsersGroup = $this->getOrFail('users_group');
+        if (!$UsersGroup instanceof EntityWithGetSetInterface) {
+            throw new UnexpectedValueException(
+                'The `users_group` property must be an instance of `' . EntityWithGetSetInterface::class . '`',
+            );
+        }
 
-        return in_array($UsersGroup->getOrFail('name'), $name);
+        return in_array(needle: $UsersGroup->getOrFail('name'), haystack: $name, strict: true);
     }
 
     /**
@@ -102,11 +111,16 @@ trait UserMethodsTrait
      *
      * @param \Cake\Essentials\ORM\Entity\EntityWithGetSetInterface $Entity
      * @return bool
+     * @throws \Cake\Datasource\Exception\MissingPropertyException When the `user_id` property does not exist or is
+     *   `null`
+     * @throws \UnexpectedValueException If the `user_id` property is not a positive integer
      */
     public function isOwnerOf(EntityWithGetSetInterface $Entity): bool
     {
-        /** @var int $entityOwnerId */
         $entityOwnerId = $Entity->getOrFail('user_id');
+        if (!is_int($entityOwnerId) || $entityOwnerId < 1) {
+            throw new UnexpectedValueException('The `user_id` property must be a positive integer');
+        }
 
         return $this->isId($entityOwnerId);
     }

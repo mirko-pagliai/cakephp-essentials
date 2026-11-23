@@ -38,7 +38,7 @@ trait AssertQueryBindingsTrait
         $Query->sql();
 
         return array_map(
-            callback: fn(array $v): mixed => $v['value'],
+            callback: static fn(array $v): mixed => $v['value'],
             array: $Query->getValueBinder()->bindings(),
         );
     }

@@ -2,6 +2,15 @@
 declare(strict_types=1);
 
 /**
+ * Pagination element.
+ *
+ * It renders the pagination links, in the full version on large screens and in a compact version (previous page,
+ * current page of total pages, next page) on small screens, followed by a counter with the current page and the number
+ * of items.
+ *
+ * Nothing is rendered if the view has no paginated result set. The links are not rendered if there is only one page,
+ * while the counter is rendered anyway.
+ *
  * @var \App\View\AppView $this
  *
  * @see https://github.com/FriendsOfCake/bootstrap-ui/blob/master/README.md#pagination
@@ -13,6 +22,7 @@ use function Cake\I18n\__d as __d;
 
 try {
     $hasPages = $this->Paginator->hasPage();
+    // @phpstan-ignore catch.neverThrown
 } catch (CakeException) {
     $hasPages = false;
 }

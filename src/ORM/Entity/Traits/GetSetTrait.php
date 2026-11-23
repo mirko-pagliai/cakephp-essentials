@@ -40,12 +40,14 @@ trait GetSetTrait
     {
         if (str_starts_with($name, 'get')) {
             return $this->getOrFail(property: Inflector::underscore(substr(string: $name, offset: 3)));
-        } elseif (str_starts_with($name, 'is')) {
+        }
+
+        if (str_starts_with($name, 'is')) {
             return $this->isOrFail(property: Inflector::underscore(substr(string: $name, offset: 2)));
         }
 
         throw new BadMethodCallException(sprintf(
-            "Method `%s::$name()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.",
+            "Method `%s::{$name}()` does not exist. `get{PropertyName}()`/`is{PropertyName}()` expected.",
             $this::class,
         ));
     }
@@ -56,7 +58,7 @@ trait GetSetTrait
     public function getOrFail(string $property): mixed
     {
         if (!isset($this->{$property})) {
-            throw new MissingPropertyException(['property' => $property, 'entity' => $this::class]);
+            throw new MissingPropertyException(compact('property') + ['entity' => $this::class]);
         }
 
         return $this->{$property};

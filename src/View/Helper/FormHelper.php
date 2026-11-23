@@ -64,7 +64,7 @@ class FormHelper extends BootstrapUIFormHelper
 
         $type = $options['type'] ?: $this->_inputType(fieldName: $fieldName, options: $options);
 
-        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['default'] === 'now') {
+        if (in_array(needle: $type, haystack: ['date', 'datetime'], strict: true) && $options['default'] === 'now') {
             /**
              * If type is `date`/`datetime` and if `default` is `now` string, correctly set to the current
              *  date or (adjusting the seconds) datetime.
@@ -90,7 +90,7 @@ class FormHelper extends BootstrapUIFormHelper
          *
          * @link webroot/js/current-local-datetime.min.js
          */
-        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
+        if (in_array(needle: $type, haystack: ['date', 'datetime'], strict: true) && $options['appendNowButton']) {
             $text = __d('cake/essentials', 'Now');
             $onclick = 'event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();';
 
@@ -110,10 +110,13 @@ class FormHelper extends BootstrapUIFormHelper
          * This allows the `help` option to be an array
          */
         if (!empty($options['help']) && is_array($options['help'])) {
-            $options['help'] = implode(separator: '', array: array_map(
-                callback: fn(string $help): string => "<div>$help</div>",
-                array: $options['help'],
-            ));
+            $options['help'] = implode(
+                separator: '',
+                array: array_map(
+                    callback: static fn(string $help): string => "<div>{$help}</div>",
+                    array: $options['help'],
+                ),
+            );
         }
 
         /**
@@ -195,7 +198,9 @@ class FormHelper extends BootstrapUIFormHelper
          * Set `empty` to `false` or `null` to disable it.
          */
         if (empty($attributes['default']) && empty($attributes['value']) && empty($attributes['multiple'])) {
-            $attributes += ['empty' => '-- ' . __d('cake/essentials', 'select an option') . ' --'];
+            $attributes += [
+                'empty' => sprintf('-- %s --', __d('cake/essentials', 'select an option')),
+            ];
         }
 
         return parent::select(fieldName: $fieldName, options: $options, attributes: $attributes);

@@ -39,13 +39,13 @@ class FlashHelper extends Helper
      */
     public function render(string $key = 'flash', array $options = []): ?string
     {
-        $stack = $this->getView()->getRequest()->getSession()->consume("Flash.$key");
+        $stack = $this->getView()->getRequest()->getSession()->consume("Flash.{$key}");
         if ($stack === null) {
             return null;
         }
 
         if (!is_array($stack)) {
-            throw new UnexpectedValueException("Value for flash setting key \"$key\" must be an array");
+            throw new UnexpectedValueException("Value for flash setting key \"{$key}\" must be an array");
         }
 
         if (isset($stack['element'])) {
