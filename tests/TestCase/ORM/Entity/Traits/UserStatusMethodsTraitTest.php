@@ -35,7 +35,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Active`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Active,
+            callback: static fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Active,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -61,7 +61,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Disabled,
+            callback: static fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::Disabled,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -94,7 +94,10 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `$pendingStatus`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn(UserStatus $UserStatus): bool => !in_array(needle: $UserStatus, haystack: $pendingStatus),
+            callback: static fn(UserStatus $UserStatus): bool => !in_array(
+                needle: $UserStatus,
+                haystack: $pendingStatus,
+            ),
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -120,7 +123,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresAdminActivation,
+            callback: static fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresAdminActivation,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];
@@ -146,7 +149,7 @@ class UserStatusMethodsTraitTest extends TestCase
         // All other cases except `Disabled`
         $otherCases = array_filter(
             array: UserStatus::cases(),
-            callback: fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresUserActivation,
+            callback: static fn(UserStatus $UserStatus): bool => $UserStatus !== UserStatus::RequiresUserActivation,
         );
         foreach ($otherCases as $UserStatus) {
             yield [false, $UserStatus];

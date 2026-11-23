@@ -25,6 +25,8 @@ integrations = ["phpunit"]
 [linter.rules]
 ambiguous-function-call = { enabled = false }
 literal-named-argument = { enabled = false }
+explicit-octal = { enabled = false }
+readable-literal = { enabled = false }
 halstead = { effort-threshold = 7000 }
 
 [analyzer]
