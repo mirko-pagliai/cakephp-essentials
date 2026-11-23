@@ -23,11 +23,17 @@ use-tabs = false
 integrations = ["phpunit"]
 
 [linter.rules]
+# Requires explicit function calls inside a namespace instead of unqualified ones.
 ambiguous-function-call = { enabled = false }
+# Requires literal arguments to be passed as named arguments.
 literal-named-argument = { enabled = false }
+# Requires explicit octal notation.
 explicit-octal = { enabled = false }
+# Requires underscore separators in long numeric literals.
 readable-literal = { enabled = false }
+# Requires parameters that may hold sensitive data to use `#[SensitiveParameter]`.
 sensitive-parameter = { exclude = ["tests/"] }
+# Reports code whose Halstead metrics (volume, difficulty, effort) exceed the thresholds.
 halstead = { effort-threshold = 7000 }
 
 [analyzer]

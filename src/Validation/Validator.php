@@ -364,8 +364,14 @@ class Validator extends CakeValidator
                 when: $when,
             )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
+            /**
+             * Each word must start with a capital letter followed by lowercase letters only (so `MArk` is rejected).
+             * Words can be separated by a single space, apostrophe or hyphen (e.g. `De La Cruz`, `D'Alessandria`,
+             * `Jean-Paul`) and the name cannot end with a separator. The lookahead requires at least two letters
+             * overall. Only the letters `A-Z`, `a-z` and the accented `À È É Ì Ò Ù`, `à è é ì ò ù` are allowed, and
+             * the `u` modifier makes the pattern UTF-8 aware.
+             */
             ->add(field: $field, name: 'personName', rule: $extra + [
-                /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
                 'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
             ]);
     }
