@@ -73,17 +73,17 @@ class AlertHelper extends Helper
             !in_array(
                 needle: $name,
                 haystack: ['danger', 'dark', 'info', 'light', 'primary', 'secondary', 'success', 'warning'],
+                strict: true,
             )
         ) {
-            throw new BadMethodCallException(sprintf('Method `%s::%s()` does not exist.', $this::class, $name));
+            throw new BadMethodCallException(sprintf("Method `%s::{$name}()` does not exist.", $this::class));
         }
 
-        if (count($arguments) > 2) {
+        $argumentsCount = count($arguments);
+        if ($argumentsCount > 2) {
             throw new ArgumentCountError(sprintf(
-                'Too many arguments for `%s::%s()`, %s passed and at most 2 expected.',
+                "Too many arguments for `%s::{$name}()`, {$argumentsCount} passed and at most 2 expected.",
                 $this::class,
-                $name,
-                count($arguments),
             ));
         }
 
@@ -103,7 +103,7 @@ class AlertHelper extends Helper
     public function alert(string $type, array|string $text, array $options = []): string
     {
         $options += [
-            'icon' => $this->getConfig('icon.' . $type),
+            'icon' => $this->getConfig("icon.{$type}"),
             'role' => 'alert',
         ];
 
@@ -112,7 +112,7 @@ class AlertHelper extends Helper
         }
 
         //Adds some classes to the wrapper
-        $options = $this->addClass(options: $options, class: 'alert alert-' . $type . ' border-0');
+        $options = $this->addClass(options: $options, class: "'alert alert-{$type} border-0'");
 
         if ($options['icon']) {
             //Adds other some classes to wrapper

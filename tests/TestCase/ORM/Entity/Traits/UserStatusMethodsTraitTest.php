@@ -97,6 +97,7 @@ class UserStatusMethodsTraitTest extends TestCase
             callback: static fn(UserStatus $UserStatus): bool => !in_array(
                 needle: $UserStatus,
                 haystack: $pendingStatus,
+                strict: true,
             ),
         );
         foreach ($otherCases as $UserStatus) {

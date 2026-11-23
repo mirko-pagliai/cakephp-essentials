@@ -64,7 +64,7 @@ class FormHelper extends BootstrapUIFormHelper
 
         $type = $options['type'] ?: $this->_inputType(fieldName: $fieldName, options: $options);
 
-        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['default'] === 'now') {
+        if (in_array(needle: $type, haystack: ['date', 'datetime'], strict: true) && $options['default'] === 'now') {
             /**
              * If type is `date`/`datetime` and if `default` is `now` string, correctly set to the current
              *  date or (adjusting the seconds) datetime.
@@ -90,7 +90,7 @@ class FormHelper extends BootstrapUIFormHelper
          *
          * @link webroot/js/current-local-datetime.min.js
          */
-        if (in_array(needle: $type, haystack: ['date', 'datetime']) && $options['appendNowButton']) {
+        if (in_array(needle: $type, haystack: ['date', 'datetime'], strict: true) && $options['appendNowButton']) {
             $text = __d('cake/essentials', 'Now');
             $onclick = 'event.preventDefault(); this.previousElementSibling.value = currentLocalDatetime();';
 

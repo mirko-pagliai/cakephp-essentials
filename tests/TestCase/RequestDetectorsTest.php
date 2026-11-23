@@ -49,7 +49,7 @@ class RequestDetectorsTest extends TestCase
 
             // `$actionsToTest` will now contain all other actions
             $actionsToTest = $allActions;
-            $key = array_search(needle: $action, haystack: $actionsToTest);
+            $key = array_search(needle: $action, haystack: $actionsToTest, strict: true);
             unset($actionsToTest[$key]);
 
             foreach ($actionsToTest as $actionToTest) {
@@ -60,8 +60,11 @@ class RequestDetectorsTest extends TestCase
 
     #[Test]
     #[DataProvider('providerTestOtherActionDetectors')]
-    public function testOtherActionDetectors(bool $expectedIsDetector, string $detectorAction, string $currentAction): void
-    {
+    public function testOtherActionDetectors(
+        bool $expectedIsDetector,
+        string $detectorAction,
+        string $currentAction,
+    ): void {
         $Request = new ServerRequest(['params' => ['action' => $currentAction]]);
         $this->assertSame($expectedIsDetector, $Request->is($detectorAction));
     }
