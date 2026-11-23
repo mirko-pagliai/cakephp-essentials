@@ -89,11 +89,14 @@ class CollapsibleHelper extends Helper
             $closeIcon = $this->Html->buildIcon(['icon' => $closeIconArgs]);
 
             // Updates title, appending a span that will contain the toggle icons and attributes for replacing them
-            $title .= $this->Html->span(text: $this->alreadyOpen ? $openIcon : $closeIcon, options: [
-                'class' => 'd-print-none toggle-icon',
-                'data-open-icon' => $openIcon,
-                'data-close-icon' => $closeIcon,
-            ]);
+            $title .= $this->Html->span(
+                text: $this->alreadyOpen ? $openIcon : $closeIcon,
+                options: [
+                    'class' => 'd-print-none toggle-icon',
+                    'data-open-icon' => $openIcon,
+                    'data-close-icon' => $closeIcon,
+                ],
+            );
 
             // Adds some options to the link
             if (!$this->alreadyOpen) {
@@ -108,7 +111,7 @@ class CollapsibleHelper extends Helper
             options: [
                 'aria-controls' => $this->collapsibleId,
                 'aria-expanded' => $this->alreadyOpen ? 'true' : 'false',
-                'data-bs-target' => '#' . $this->collapsibleId,
+                'data-bs-target' => "#{$this->collapsibleId}",
                 'data-bs-toggle' => 'collapse',
             ] + $options,
         );
@@ -141,7 +144,8 @@ class CollapsibleHelper extends Helper
         $result = $this->Html->div(text: $content, options: ['id' => $this->collapsibleId] + $options);
 
         // Reset properties. This prevents consecutive method calls
-        $this->alreadyOpen = $this->collapsibleId = null;
+        $this->alreadyOpen = null;
+        $this->collapsibleId = null;
 
         return $result;
     }
