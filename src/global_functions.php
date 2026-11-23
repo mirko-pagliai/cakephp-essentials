@@ -29,7 +29,7 @@ if (!function_exists('Cake\Essentials\rtr')) {
     {
         $root = rtrim(ROOT, DS) . DS;
         if (!str_starts_with($path, $root)) {
-            throw new InvalidArgumentException("Path `$path` does not start with the application root");
+            throw new InvalidArgumentException("Path `{$path}` does not start with the application root");
         }
 
         return substr($path, strlen($root));

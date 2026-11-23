@@ -110,10 +110,13 @@ class FormHelper extends BootstrapUIFormHelper
          * This allows the `help` option to be an array
          */
         if (!empty($options['help']) && is_array($options['help'])) {
-            $options['help'] = implode(separator: '', array: array_map(
-                callback: fn(string $help): string => "<div>$help</div>",
-                array: $options['help'],
-            ));
+            $options['help'] = implode(
+                separator: '',
+                array: array_map(
+                    callback: static fn(string $help): string => "<div>{$help}</div>",
+                    array: $options['help'],
+                ),
+            );
         }
 
         /**
@@ -195,7 +198,9 @@ class FormHelper extends BootstrapUIFormHelper
          * Set `empty` to `false` or `null` to disable it.
          */
         if (empty($attributes['default']) && empty($attributes['value']) && empty($attributes['multiple'])) {
-            $attributes += ['empty' => '-- ' . __d('cake/essentials', 'select an option') . ' --'];
+            $attributes += [
+                'empty' => sprintf('-- %s --', __d('cake/essentials', 'select an option')),
+            ];
         }
 
         return parent::select(fieldName: $fieldName, options: $options, attributes: $attributes);
