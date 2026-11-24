@@ -23,6 +23,20 @@ use function Cake\Essentials\toDatetime;
 class GlobalFunctionsTest extends TestCase
 {
     /**
+     * Tests that including the file again does not redeclare its functions.
+     */
+    #[Test]
+    public function testIncludeAgainDoesNotRedeclareFunctions(): void
+    {
+        /**
+         * The `function_exists()` checks run only when the file is loaded, so the file is included again to run them
+         * while the code coverage is being collected
+         */
+        $result = include ROOT . 'src' . DS . 'global_functions.php';
+        $this->assertSame(1, $result);
+    }
+
+    /**
      * @link \Cake\Essentials\rtr()
      */
     #[Test]
@@ -55,8 +69,9 @@ class GlobalFunctionsTest extends TestCase
     #[TestWith([new DateTimeImmutable('today')])]
     public function testToDate(Date|DateTimeImmutable|string $date): void
     {
+        $expected = new Date('today');
         $result = toDate($date);
-        $this->assertEquals(Date::today(), $result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -79,8 +94,9 @@ class GlobalFunctionsTest extends TestCase
     #[TestWith([1750860000])]
     public function testToDatetime(DateTime|DateTimeImmutable|string|int $datetime): void
     {
+        $expected = new DateTime('2025-06-25 14:00:00');
         $result = toDatetime($datetime);
-        $this->assertEquals(new DateTime('2025-06-25 14:00:00'), $result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
