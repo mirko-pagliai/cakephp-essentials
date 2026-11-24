@@ -110,7 +110,7 @@ class Validator extends CakeValidator
         $defaultProvider = $this->getProvider('default');
 
         return $this->add(field: $field, name: 'dateOrDateTime', rule: $extra + [
-            'rule' => fn(string $value): bool => $defaultProvider::date($value) || $defaultProvider::dateTime($value),
+            'rule' => static fn(string $value): bool => $defaultProvider::date($value) || $defaultProvider::dateTime($value),
         ]);
     }
 
@@ -154,7 +154,7 @@ class Validator extends CakeValidator
             field: $field,
             name: 'greaterThanDateTimeField',
             rule: $extra + [
-                'rule' => function (DateTime|Date|string $dateTime, array $context) use ($secondField, $message): true|string {
+                'rule' => static function (DateTime|Date|string $dateTime, array $context) use ($secondField, $message): true|string {
                     if (empty($context['data'][$secondField])) {
                         return true;
                     }
@@ -200,7 +200,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanDateTime', rule: $extra + [
-            'rule' => fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThan(toDateTime($comparisonValue)),
+            'rule' => static fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThan(toDateTime($comparisonValue)),
         ]);
     }
 
@@ -230,7 +230,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'greaterThanOrEqualsDateTime', rule: $extra + [
-            'rule' => fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals(toDateTime($comparisonValue)),
+            'rule' => static fn(DateTime|Date|string $dateTime): bool => toDateTime($dateTime)->greaterThanOrEquals(toDateTime($comparisonValue)),
         ]);
     }
 
@@ -253,7 +253,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'noStartOrEndSpace', rule: $extra + [
-            'rule' => fn(string $value): bool => $value === trim($value),
+            'rule' => static fn(string $value): bool => $value === trim($value),
         ]);
     }
 
@@ -273,7 +273,7 @@ class Validator extends CakeValidator
         $extra = array_filter(['on' => $when]);
 
         return $this->add(field: $field, name: 'notContainsReservedWords', rule: $extra + [
-            'rule' => function (string $value) use ($message): bool|string {
+            'rule' => static function (string $value) use ($message): bool|string {
                 $result = preg_match(
                     pattern: '/(' . implode('|', array_map('preg_quote', self::RESERVED_WORDS)) . ')/i',
                     subject: $value,
@@ -309,7 +309,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notFutureDateTime', rule: $extra + [
-            'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
+            'rule' => static fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isFuture(),
         ]);
     }
 
@@ -329,7 +329,7 @@ class Validator extends CakeValidator
         ]);
 
         return $this->add(field: $field, name: 'notPastDateTime', rule: $extra + [
-            'rule' => fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isPast(),
+            'rule' => static fn(DateTime|Date|string $dateTime): bool => !toDateTime($dateTime)->isPast(),
         ]);
     }
 
@@ -364,9 +364,19 @@ class Validator extends CakeValidator
                 when: $when,
             )
             ->firstLetterCapitalized(field: $field, message: $message, when: $when)
+            /**
+             * Each word must start with a capital letter followed by lowercase letters only (so `MArk` is rejected).
+             * Words can be separated by a single space, apostrophe or hyphen (e.g. `De La Cruz`, `D'Alessandria`,
+             * `Jean-Paul`) and the name cannot end with a separator. The only exception is a leading `O'`, which can
+             * be followed by a space (e.g. `O' Neill`). The lookahead requires at least two letters overall. Only the
+             * letters `A-Z`, `a-z` and the accented `À È É Ì Ò Ù`, `à è é ì ò ù` are allowed, and the `u` modifier
+             * makes the pattern UTF-8 aware.
+             */
             ->add(field: $field, name: 'personName', rule: $extra + [
-                /** @see https://chatgpt.com/share/685ace35-de4c-800c-8788-07b4b36764bc */
-                'rule' => ['custom', '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u'],
+                'rule' => [
+                    'custom',
+                    '/^(?=(?:.*[A-ZÀÈÉÌÒÙa-zàèéìòù]){2,})(?:O\' ?)?[A-ZÀÈÉÌÒÙ][a-zàèéìòù]*(?:[ \'\-][A-ZÀÈÉÌÒÙ][a-zàèéìòù]*)*$/u',
+                ],
             ]);
     }
 
@@ -395,8 +405,10 @@ class Validator extends CakeValidator
      * - has no spaces at the beginning or at the end;
      * - is at least 3 characters long;
      * - begins with a capital letter or a number;
+     * - contains at least two letters (the ordinal indicators `ª` and `º` are not counted as letters);
+     * - does not end with a period;
      * - contains only letters, numbers, punctuation marks, currency and mathematical symbols, the degree sign (`°`)
-     *   and ordinary spaces. The characters `<` and `>`, control and invisible characters, non-standard spaces and
+     *   and ordinary spaces. The character `<`, control and invisible characters, non-standard spaces and
      *   any other symbol (such as emojis) are not allowed.
      *
      * @param string $field The name of the field to be validated.
@@ -427,9 +439,12 @@ class Validator extends CakeValidator
             ->add(field: $field, name: 'startsWithCapitalLetterOrNumber', rule: $startExtra + [
                 'rule' => ['custom', '/^[\p{Lu}\p{N}]/u'],
             ])
+            /**
+             * At least two letters (`ª` and `º` excluded), then letters, numbers, punctuation, currency and
+             * mathematical symbols, `°` and spaces, but not `<` and not ending with a period
+             */
             ->add(field: $field, name: 'title', rule: $extra + [
-                // Letters, numbers, punctuation, currency and mathematical symbols, `°` and spaces, but not `<` or `>`
-                'rule' => ['custom', '/^(?!.*[<>])[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+$/u'],
+                'rule' => ['custom', '/^(?!.*<)(?=(?:.*?(?![ªº])\p{L}){2})[\p{L}\p{N}\p{P}\p{Sc}\p{Sm}° ]+(?<!\.)\z/u'],
             ]);
     }
 

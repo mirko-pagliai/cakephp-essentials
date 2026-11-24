@@ -85,7 +85,7 @@ class GetSetTraitTest extends TestCase
 
         $this->expectException(MissingPropertyException::class);
         $this->expectExceptionMessageIs(
-            "Property `$nullableOrNoExistingProperty` does not exist for the entity `" . $this->Entity::class . '`.',
+            "Property `{$nullableOrNoExistingProperty}` does not exist for the entity `" . $this->Entity::class . '`.',
         );
         $this->Entity->getOrFail($nullableOrNoExistingProperty);
     }

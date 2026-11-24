@@ -113,7 +113,7 @@ class BeautifierHelper extends Helper
      * @param array<string, mixed> $options
      * @return string
      */
-    protected function _questionPopoverAndTooltip(array $options = []): string
+    protected function questionPopoverAndTooltip(array $options = []): string
     {
         $options += [
             'class' => null,
@@ -138,7 +138,7 @@ class BeautifierHelper extends Helper
      */
     public function questionPopover(string|array $popover, array $options = []): string
     {
-        return $this->_questionPopoverAndTooltip(options: compact('popover') + $options);
+        return $this->questionPopoverAndTooltip(options: compact('popover') + $options);
     }
 
     /**
@@ -150,7 +150,7 @@ class BeautifierHelper extends Helper
      */
     public function questionTooltip(string|array $tooltip, array $options = []): string
     {
-        return $this->_questionPopoverAndTooltip(options: compact('tooltip') + $options);
+        return $this->questionPopoverAndTooltip(options: compact('tooltip') + $options);
     }
 
     /**

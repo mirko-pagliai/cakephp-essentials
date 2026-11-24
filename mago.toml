@@ -1,0 +1,65 @@
+#:schema https://mago.carthage.software/1.60.2/schema.json
+# Welcome to Mago!
+# For full documentation, see https://mago.carthage.software/1.60.2/en/tools/overview/
+extends = "vendor/cakephp/mago-rules/cakephp.mago.toml"
+version = "1"
+php-version = "8.4.0"
+
+[source]
+workspace = "."
+paths = ["src", "tests"]
+includes = ["vendor"]
+excludes = []
+
+[source.glob]
+literal-separator = true
+
+[formatter]
+print-width = 120
+tab-width = 4
+use-tabs = false
+
+[linter]
+integrations = ["phpunit"]
+
+[linter.rules]
+# Requires explicit function calls inside a namespace instead of unqualified ones.
+ambiguous-function-call = { enabled = false }
+# Requires literal arguments to be passed as named arguments.
+literal-named-argument = { enabled = false }
+# Requires explicit octal notation.
+explicit-octal = { enabled = false }
+# Requires underscore separators in long numeric literals.
+readable-literal = { enabled = false }
+# Requires parameters that may hold sensitive data to use `#[SensitiveParameter]`.
+sensitive-parameter = { exclude = ["tests/"] }
+# Reports literal values assigned to passwords or other sensitive data.
+no-literal-password = { exclude = ["tests/"] }
+# Reports classes with more methods than the threshold.
+too-many-methods = { enabled = false }
+# Reports classes whose total cyclomatic complexity (number of decision points) exceeds the threshold.
+cyclomatic-complexity = { enabled = false }
+# Reports code whose Halstead metrics (volume, difficulty, effort) exceed the thresholds.
+halstead = { effort-threshold = 7000 }
+
+[analyzer]
+plugins = []
+find-unused-definitions = true
+find-unused-expressions = false
+analyze-dead-code = false
+memoize-properties = true
+allow-possibly-undefined-array-keys = true
+check-throws = false
+check-dead-catch = false
+check-throw-type-covariance = false
+unchecked-exceptions = ["Error", "LogicException"]
+unchecked-exception-classes = []
+check-missing-override = false
+find-unused-parameters = false
+strict-list-index-checks = false
+strict-array-index-existence = false
+allow-array-truthy-operand = false
+allow-operator-overloading = false
+no-boolean-literal-comparison = false
+check-missing-type-hints = false
+register-super-globals = true
