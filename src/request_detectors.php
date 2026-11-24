@@ -110,11 +110,6 @@ ServerRequest::addDetector(
  */
 ServerRequest::addDetector(
     name: 'trustedClient',
-    detector: static function (ServerRequest $Request): bool {
-        if ($Request->is('localhost')) {
-            return true;
-        }
-
-        return $Request->is('ip', ...(array)Configure::readOrFail('trustedIpAddress'));
-    },
+    detector: static fn(ServerRequest $Request): bool => $Request->is('localhost')
+        || $Request->is('ip', ...(array)Configure::readOrFail('trustedIpAddress')),
 );
